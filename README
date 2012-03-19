@@ -1,3 +1,7 @@
+Adds RESTFull API to your Yii application.
+
+Installation: 
+
 Place restfullyii into your protected/modules directory
 
 You will need to add the routes below to your main.php They should be added to the beginning of the rules array.
