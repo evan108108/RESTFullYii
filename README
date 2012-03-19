@@ -58,6 +58,7 @@ Sample Requests: Verbs (GET, PUT, POST, DELETE) GET List curl -i -H "Accept: app
 
   Delete
       curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -H "X-HTTP-Method-Override: DELETE" -X DELETE http://yii-tester.local/api/sample/175
+
 You may also optionally create custom REST methods in your controllers.
 
 You must prefix your method with doCustomRest & the verb.
