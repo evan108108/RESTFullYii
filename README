@@ -12,6 +12,7 @@ array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>/<id:\w+>', 've
 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
 '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+
 You may also choose to use the included routes.php.
 Then your main.php config for `urlManager' should look like this:
 
@@ -19,6 +20,7 @@ Then your main.php config for `urlManager' should look like this:
 'urlFormat'=>'path',
 'rules'=>require(dirname(__FILE__).'/../modules/restfullyii/config/routes.php'),
 ),
+
 Setting up the controller: (This applies to controllers for which you you would like to add RESTFull routes) Change your controller class so that it extends ERestController:
 class PostController extends ERestController{..}
 You will need to merge your fileters & accessRules methods with the parent methods here. To do that you simply change the name of these methods by prepending an underscore ("_"). So in your controller you will need to change the following:
