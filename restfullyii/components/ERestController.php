@@ -296,8 +296,8 @@ class ERestController extends Controller
    */ 
   protected function renderJson($data)
   {
-    $this->layout = 'application.modules.restfullyii.views.layouts.json';
-    $this->render('application.modules.restfullyii.views.api.output', array('data'=>$data));
+    $this->layout = 'ext.restfullyii.views.layouts.json';
+    $this->render('ext.restfullyii.views.api.output', array('data'=>$data));
   }
 
 
