@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Update Version 1.1 has been refactored to be used as an extension (not module).
 
 Adds RESTFul API to your Yii application.
@@ -42,6 +43,15 @@ import'=>array(
 
 You will need to add the routes below to your main.php They should be added to the beginning of the rules array.
 
+=======
+Adds RESTFull API to your Yii application.
+
+Installation: 
+
+Place restfullyii into your protected/modules directory
+
+You will need to add the routes below to your main.php They should be added to the beginning of the rules array.
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
 'api/<controller:\w+>'=>array('<controller>/restList', 'verb'=>'GET'),
 'api/<controller:\w+>/<id:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
 'api/<controller:\w+>/<id:\w+>/<var:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
@@ -53,6 +63,7 @@ array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>/<id:\w+>', 've
 '<controller:\w+>/<id:\d+>'=>'<controller>/view',
 '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+<<<<<<< HEAD
 You may also choose to use the included routes.php.
 
 hen your main.php config for `urlManager' should look like this:
@@ -66,6 +77,19 @@ Setting up the controller: (This applies to controllers for which you you would 
 
 class PostController extends ERestController{..}
 
+=======
+
+You may also choose to use the included routes.php.
+Then your main.php config for `urlManager' should look like this:
+
+'urlManager'=>array(
+'urlFormat'=>'path',
+'rules'=>require(dirname(__FILE__).'/../modules/restfullyii/config/routes.php'),
+),
+
+Setting up the controller: (This applies to controllers for which you you would like to add RESTFull routes) Change your controller class so that it extends ERestController:
+class PostController extends ERestController{..}
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
 You will need to merge your fileters & accessRules methods with the parent methods here. To do that you simply change the name of these methods by prepending an underscore ("_"). So in your controller you will need to change the following:
 
 `public function filters()'
@@ -78,6 +102,7 @@ You will need to merge your fileters & accessRules methods with the parent metho
 -becomes-
 `public function _accessRules()'
 
+<<<<<<< HEAD
 Security
 
 The 'username' and 'password' are currently hardcoded as Const's in `ERestController'.
@@ -87,6 +112,8 @@ Const PASSWORD = 'admin@Access'
 
 At a minimum you will want change these values. To create a more secure Auth system you will want to modify the 'filterRestAccessRules' method in 'ERestController'. This should be straight forward.
 
+=======
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
 Usage 
 
 Sample Requests: Verbs (GET, PUT, POST, DELETE) GET List curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/
@@ -110,6 +137,10 @@ Sample Requests: Verbs (GET, PUT, POST, DELETE) GET List curl -i -H "Accept: app
 
   Delete
       curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -H "X-HTTP-Method-Override: DELETE" -X DELETE http://yii-tester.local/api/sample/175
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
 You may also optionally create custom REST methods in your controllers.
 
 You must prefix your method with doCustomRest & the verb.
@@ -120,11 +151,15 @@ For GET request you use doCustomRestGet: EG public function doCustomRestGetOrder
    curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order
 
    curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order/2
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
 Similarly you can POST' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')
 
 EG `public function doCustomRestPostOrder($data)`
   POST
+<<<<<<< HEAD
     curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"2","order":"French Fries"}' http://yii-tester.local/api/sample/order
 
 To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
@@ -242,3 +277,6 @@ To change behavior of default RESTFul actions you can simply override any of the
   {
     $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));    
   }
+=======
+    curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"2","order":"French Fries"}' http://yii-tester.local/api/sample/order
+>>>>>>> 1e3016bdd12b12a4f8d394f970e4e60a410c6e60
