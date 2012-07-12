@@ -306,7 +306,16 @@ class ERestController extends Controller
    */ 
   public function data()
   {
-    return json_decode(file_get_contents("php://input"), true);
+	if ($input = file_get_contents("php://input")){
+		//test for json
+		if ($json_post = json_decode($input,true)){
+			return $json_post;
+		}else{
+			parse_str($input,$variables);
+			return $variables;
+		}
+	}
+	return false;
   }
 
   /**
