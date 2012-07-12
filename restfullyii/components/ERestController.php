@@ -462,13 +462,14 @@ class ERestController extends Controller
   {
     $criteria = new CDbCriteria();
     
-    if(isset($var[1]))
+    if(is_array($var))						
     {
-      $criteria->limit = $var[0];// . ", " . $var[1];
+      $criteria->limit = $var[0];
       $criteria->offset = $var[1];
     }
-    else
+    else {
       $criteria->limit = $var;
+	}
 
     $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
   }
