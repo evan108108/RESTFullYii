@@ -480,7 +480,7 @@ class ERestController extends Controller
    */ 
   public function doCustomRestGetCount($var=null, $remote=true)
   {
-    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=>count($this->getModel()->findAll()))));
+    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=> $this->getModel()->count() )));
   }
 
   /**
