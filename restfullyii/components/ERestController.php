@@ -337,6 +337,13 @@ class ERestController extends Controller
   }
   
   /**
+   * Helper for loading a single model
+   */
+  private function loadModel($id) {
+	return $this->getModel()->findByPk($id);
+  }
+  
+  /**
    * Helper for saving single/mutliple models 
    */ 
   private function saveModel($model, $data)
