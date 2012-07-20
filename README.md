@@ -36,31 +36,19 @@ Yii 1.8 or above
 Installation
 ------------
 
-Place restfullyii into your protected/extensions directory
-In your main.php config be sure to include 'ext.restfullyii.components.*' in your `import' array.
-import'=>array(
-    'ext.restfullyii.components.*',
-),
-You will need to add the routes below to your main.php They should be added to the beginning of the rules array.
-'api/<controller:\w+>'=>array('<controller>/restList', 'verb'=>'GET'),
-'api/<controller:\w+>/<id:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
-'api/<controller:\w+>/<id:\w+>/<var:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
-array('<controller>/restUpdate', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
-array('<controller>/restDelete', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
-array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>', 'verb'=>'POST'),
-array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>/<id:\w+>', 'verb'=>'POST'),
- 
-'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+1. Place restfullyii into your protected/extensions directory 
+2. In your main.php config import the extension as follows:
 
-Alternatively you can choose to use the included routes.php.
-Then your main.php config for `urlManager' should look like this:
+	'import'=>array(
+		'ext.restfullyii.components.*',
+	),
 
-'urlManager'=>array(
-'urlFormat'=>'path',
-'rules'=>require(dirname(__FILE__).'/../extensions/restfullyii/config/routes.php'),
-),
+3. Include the routes
+
+	'urlManager'=>array(
+		'urlFormat'=>'path',
+		'rules'=>require(dirname(__FILE__).'/../extensions/restfullyii/config/routes.php'),
+	),
 
 Another alternative is to use the custom rule class. 
 To use this method you will need to set the 'restControllers' parameter to the array of controllers you would like to use with RestFullYii
