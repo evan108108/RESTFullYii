@@ -258,21 +258,6 @@ class ERestController extends Controller
 	}
 
 	/**
-	 * Sets the model attributes and checks for errors
-	 */ 
-	private function setModelAttributes($model, $data) {
-		foreach($data as $var=>$value) {
-			if($model->hasAttribute($var)) {
-				$model->$var = $value;
-			}
-			else
-				throw new CHttpException(406, 'Parameter is not allowed for model');
-	 	 }
-
-		return $model;
-	}
-
-	/**
 	* Helper for loading a single model
 	*/
 	private function loadModel($id) {
@@ -281,14 +266,17 @@ class ERestController extends Controller
 	
 	/**
 	 * Helper for saving single/mutliple models 
+	 * TODO Multiple models broken (getModel() does not create new objects any more)
 	 */ 
 	private function saveModel($model, $data) {
 		if(!isset($data[0])) {
-			$models[] = $this->setModelAttributes($model, $data);
+			$model->attributes = $data;
+			$models[] = $model;
 		}
 		else {
 			for($i=0; $i<count($data); $i++) {
-				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
+				$models[$i] = $this->getModel();
+				$models[$i]->attributes = $data[$i];
 				if(!$models[$i]->validate())
 					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
 			}

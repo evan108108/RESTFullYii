@@ -1,15 +1,25 @@
 <?php
 class ERestControllerTest extends CDbTestCase {
 
+	/**
+	 * @expectedException CHttpException
+	 */
+	public function testShould_fail_if_model_does_not_validate() {
+		$modelMock = $this->mockModel();
+		$modelMock->expects($this->once())->method('save')->will($this->returnValue(false));
+		$result = $this->request($this->mockRequest(), $modelMock, 'create');
+	}
+
 	public function testShould_be_able_to_create_new_entry() {
-		$requestMock = $this->mockRequest(array(
+		$postData = array(
 			'username' => 'support@foogile.com',
 			'password' => 'hardpassword'
-		));
+		);
+		$requestMock = $this->mockRequest($postData);
 
-		$modelMock = $this->mockModel(array('username', 'password'));
+		$modelMock = $this->mockModel(array('username', 'password'), array('setAttributes'));
+		$modelMock->expects($this->once())->method('setAttributes')->with($postData);
 		$modelMock->expects($this->once())->method('save')->will($this->returnValue(true));
-		$modelMock->id = 2;
 
 		$result = $this->request($requestMock, $modelMock, 'create');
 		$this->assertEquals($result->success, true);
@@ -27,7 +37,7 @@ class ERestControllerTest extends CDbTestCase {
 		return json_decode(ob_get_clean());
 	}
 
-	protected function mockRequest($request) {
+	protected function mockRequest($request = array()) {
 		$requestJson = json_encode($request);
 		$mock = $this->getMock('ERequestReader', array('getContents'));
 		$mock->expects($this->once())
@@ -36,11 +46,10 @@ class ERestControllerTest extends CDbTestCase {
 		return $mock;
 	}
 
-	protected function mockModel($attributes) {
+	protected function mockModel($attributes = array(), $extraMethods = array()) {
 		$callback = new HasAttributeCallack($attributes);
-		$mock = $this->getMock('stdClass', array('save', 'hasAttribute', 'findByPk', 'delete'));
-		$mock->expects($this->any())->method('hasAttribute')
-			->will($this->returnCallback(array($callback, 'hasAttribute')));
+		$methods = array('attributeNames', 'save', 'delete', 'findByPk', 'getId');
+		$mock = $this->getMock('CModel', array_merge($methods, $extraMethods));
 		$mock->expects($this->any())->method('findByPk')->will($this->returnValue($mock));
 		return $mock;
 	}
@@ -69,5 +78,9 @@ class HasAttributeCallack {
 
 	public function hasAttribute($key) {
 		return array_search($key, $this->attributes) !== false;
+	}
+
+	public function attributeNames() {
+		return $attributes;
 	}
 }
