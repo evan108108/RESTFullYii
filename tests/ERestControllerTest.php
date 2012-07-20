@@ -1,6 +1,32 @@
 <?php
 class ERestControllerTest extends CDbTestCase {
 
+	public function testShould_be_able_to_create_new_entry() {
+		$requestMock = $this->mockRequest(array(
+			'username' => 'support@foogile.com',
+			'password' => 'hardpassword'
+		));
+
+		$modelMock = $this->mockModel(array('username', 'password'));
+		$modelMock->expects($this->once())->method('save')->will($this->returnValue(true));
+		$modelMock->id = 2;
+
+		$result = $this->request($requestMock, $modelMock, 'create');
+		$this->assertEquals($result->success, true);
+	}
+
+	/*
+	 * Helper methods
+	 */
+
+	protected function request($postData, $model, $action, $params = array()) {
+		ob_start();
+		$controller = $this->getController($postData, $model);
+		$methodName = 'actionRest' . ucfirst($action);
+		call_user_func_array(array($controller, $methodName), $params);
+		return json_decode(ob_get_clean());
+	}
+
 	protected function mockRequest($request) {
 		$requestJson = json_encode($request);
 		$mock = $this->getMock('ERequestReader', array('getContents'));
@@ -10,47 +36,29 @@ class ERestControllerTest extends CDbTestCase {
 		return $mock;
 	}
 
-	public function mockModel($attributes) {
+	protected function mockModel($attributes) {
 		$callback = new HasAttributeCallack($attributes);
-		$mock = $this->getMock('stdClass', array('save', 'hasAttribute'));
+		$mock = $this->getMock('stdClass', array('save', 'hasAttribute', 'findByPk', 'delete'));
 		$mock->expects($this->any())->method('hasAttribute')
 			->will($this->returnCallback(array($callback, 'hasAttribute')));
+		$mock->expects($this->any())->method('findByPk')->will($this->returnValue($mock));
 		return $mock;
 	}
 
-	public function getController($request, $model) {
+	protected function getController($request, $model) {
 		$controller = new ERestController('User');
 		$controller->requestReader = $request;
 		$controller->model = $model;
 		return $controller;
 	}
 
-	public function testShould_be_able_to_create_new_entry() {
 
-		// Request
 
-		$requestMock = $this->mockRequest(array(
-			'username' => 'support@foogile.com',
-			'password' => 'hardpassword'
-		));
-
-		// Model
-
-		$modelMock = $this->mockModel(array('username', 'password'));
-		$modelMock->expects($this->once())->method('save')->will($this->returnValue(true));
-		$modelMock->id = 2;
-
-		// Make request
-
-		ob_start();
-
-		$this->getController($requestMock, $modelMock)->actionRestCreate();
-		$result = json_decode(ob_get_contents());
-		$this->assertEquals($result->success, true);
-
-		ob_clean();
-	}
 }
+
+/*
+ * Helper classes
+ */
 
 class HasAttributeCallack {
 	protected $attributes = null;
