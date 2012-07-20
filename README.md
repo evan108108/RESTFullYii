@@ -1,14 +1,10 @@
 Adds RESTFul API to your Yii application.
-=========================================
 
-Lets say you have a controller named `PostController'. Your standard routes will
-look as they always do, ie /post/actionName .
+Lets say you have a controller named `PostController'. Your standard routes will look as they always do, ie /post/actionName .
 
-RESTFullYii adds a new set of RESTFul routes to your standard routes, but
-prepends `/api' .
+RESTFullYii adds a new set of RESTFul routes to your standard routes, but prepends `/api' .
 
-So if you apply RESTFullYii to the `PostController' you will get the following
-new routes by default (You can override their behavior in your controller).
+So if you apply RESTFullYii to the `PostController' you will get the following new routes by default (You can override their behavior in your controller).
 
 [GET] http://yoursite.com/api/post/ (returns all posts)
 
@@ -29,26 +25,36 @@ new routes by default (You can override their behavior in your controller).
 [DELETE] http://yoursite.com/api/post/1 (delete post with PK=1)
 
 Requirements 
-------------
 
 Yii 1.8 or above
 
 Installation
-------------
 
-1. Place restfullyii into your protected/extensions directory 
-2. In your main.php config import the extension as follows:
+Place restfullyii into your protected/extensions directory
+In your main.php config be sure to include 'ext.restfullyii.components.*' in your `import' array.
+import'=>array(
+    'ext.restfullyii.components.*',
+),
+You will need to add the routes below to your main.php They should be added to the beginning of the rules array.
+'api/<controller:\w+>'=>array('<controller>/restList', 'verb'=>'GET'),
+'api/<controller:\w+>/<id:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
+'api/<controller:\w+>/<id:\w+>/<var:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
+array('<controller>/restUpdate', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
+array('<controller>/restDelete', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
+array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>', 'verb'=>'POST'),
+array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>/<id:\w+>', 'verb'=>'POST'),
+ 
+'<controller:\w+>/<id:\d+>'=>'<controller>/view',
+'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
+'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 
-	'import'=>array(
-		'ext.restfullyii.components.*',
-	),
+Alternatively you can choose to use the included routes.php.
+Then your main.php config for `urlManager' should look like this:
 
-3. Include the routes
-
-	'urlManager'=>array(
-		'urlFormat'=>'path',
-		'rules'=>require(dirname(__FILE__).'/../extensions/restfullyii/config/routes.php'),
-	),
+'urlManager'=>array(
+'urlFormat'=>'path',
+'rules'=>require(dirname(__FILE__).'/../extensions/restfullyii/config/routes.php'),
+),
 
 Another alternative is to use the custom rule class. 
 To use this method you will need to set the 'restControllers' parameter to the array of controllers you would like to use with RestFullYii
@@ -85,7 +91,6 @@ You will need to merge your fileters & accessRules methods with the parent metho
 `public function _accessRules()'
 
 Security
---------
 
 The 'username' and 'password' are currently hardcoded as Const's in `ERestController'.
 
@@ -94,9 +99,8 @@ Const PASSWORD = 'admin@Access'
 At a minimum you will want change these values. To create a more secure Auth system modify the 'filterRestAccessRules' method in 'ERestController'. This should be straight forward.
 
 Usage 
------
 
-### Sample Requests:
+Sample Requests:
 
 Verbs (GET, PUT, POST, DELETE)
 
@@ -131,7 +135,6 @@ GET
   Delete
 
       curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -H "X-HTTP-Method-Override: DELETE" -X DELETE http://yii-tester.local/api/sample/175
-
 You may also optionally create custom REST methods in your controllers.
 
 You must prefix your method with doCustomRest & the verb.
@@ -142,15 +145,12 @@ For GET request you use doCustomRestGet: EG public function doCustomRestGetOrder
    curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order
 
    curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order/2
-
-Similarly you can POST' to a custom function. You must prefix your method
-withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')
+Similarly you can POST' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')
 
 EG `public function doCustomRestPostOrder($data)`
   POST
     curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"2","order":"French Fries"}' http://yii-tester.local/api/sample/order
-
-### To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
+To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
 
 /**
    * Over ride this function if your model uses a non Numeric PK.

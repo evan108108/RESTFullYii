@@ -1,81 +1,4 @@
 <?php
-/**
- * ERestController Created by Evan Frohlich evan.frohlich@controlgroup.com
- * Controller is the customized base controller class.
- * All controller classes that require RESTFull services should extend from this base class.
- *
- *
- * Installation:
- *	 Place restfullyii into your protected/modules directory
- *
- *	 You will need to add the routes below to your main.php
- *	 They should be added to the begining of the rules array.
- *		 'api/<controller:\w+>'=>array('<controller>/restList', 'verb'=>'GET'),
- *		 'api/<controller:\w+>/<id:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
- *		 'api/<controller:\w+>/<id:\w+>/<var:\w+>'=>array('<controller>/restView', 'verb'=>'GET'),
- *
- *		 array('<controller>/restUpdate', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'PUT'),
- *		 array('<controller>/restDelete', 'pattern'=>'api/<controller:\w+>/<id:\d+>', 'verb'=>'DELETE'),
- *		 array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>', 'verb'=>'POST'),
- *		 array('<controller>/restCreate', 'pattern'=>'api/<controller:\w+>/<id:\w+>', 'verb'=>'POST'),
- *
- *			'<controller:\w+>/<id:\d+>'=>'<controller>/view',
- *			'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
- *		'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
- *
- *	 You may also choose to use the included routes.php. 
- *	 Then your main.php config for `urlManager' should look like this:
- *		 'urlManager'=>array(
- *			 'urlFormat'=>'path',
- *			 'rules'=>require(dirname(__FILE__).'/../modules/restfullyii/config/routes.php'),
- *		), 
- *
- *
- *	 Setting up the controller:
- *		(This applies to controllers for which you you would like to add RESTFull routes)
- *		Change your controller class so that it extends ERestController:
- *		 class PostController extends ERestController{..} 
- *		You will need to merge your `fileters` & `accessRules` methods with the parent methods here.
- *		To do that you simply change the name of these methods by preppeding an underscore ("_")
- *		So in your controller you will need to change the following:
- *			`public function filters()' becomes `public function _filters()'
- *			`public function accessRules()' becomes `public function _accessRules()'
- *		
- *
- * Sample Requests:
- *		Verbs (GET, PUT, POST, DELETE)
- *		GET
- *		List
- *			curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/
- *			curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/limit/1
- *			curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/limit/10/5 (limit/offeset)
- *		View
- *			curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/174
- *		PUT
- *		Update
- *			curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -H "X-HTTP-Method-Override: PUT" -X PUT -d '{"id":"174","name":"Five.1 Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}' http://yii-tester.local/api/sample/174
- *		POST
- *		Create
- *			curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"175","name":"Six Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}' http://yii-tester.local/api/sample
- *			curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '[{"id":"175","name":"Six Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"},{"id":"176","name":"First.3 one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}]' http://yii-tester.local/api/sample
- *		Delete
- *			curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -H "X-HTTP-Method-Override: DELETE" -X DELETE http://yii-tester.local/api/sample/175		 
- *
- *	You may also optionaly create custom methods
- *	You must prefix your method with `doCustomRestGet`
- *	EG `public function doCustomRestGetOrder($var=null)`
- *		GET
- *		 curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order
- *		 curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order/2
- *	
- *	Similarly you can post to a custom function
- *	You must prefix your method with `doCustomRestPost` (same is true for PUT `doCustomRestPutOrder($data)')
- *	EG `public function doCustomRestPostOrder($data)`
- *		POST
- *		curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"2","order":"French Fries"}' http://yii-tester.local/api/sample/order		
- *
- */
-
 class ERestController extends Controller
 {
 	Const APPLICATION_ID = 'REST';
@@ -238,20 +161,21 @@ class ERestController extends Controller
 	/**
 	 * Updated record
 	 */ 
-	public function actionRestUpdate($id, $var=false) {
+	public function actionRestUpdate($id, $var=false)
+	{
 		$this->HTTPStatus = $this->getHttpStatus('201');
 
-		if(!$var) {
+		if(!$var)
 			$this->doRestUpdate($id, $this->data());
-		}
-		else {
+		else
+		{
 			$var = 'doCustomRestPut' . ucfirst($var);
 			if(method_exists($this, $var))
-			$this->$var($id, $this->data());
+				$this->$var($id, $this->data());
 			else if($this->isPk($var))
-			$this->doRestUpdate($id, $this->data());
+				$this->doRestUpdate($id, $this->data());
 			else
-			throw new CHttpException(500, 'Method does not exist.');
+				throw new CHttpException(500, 'Method does not exist.');
 		}
 	}
 
@@ -306,7 +230,16 @@ class ERestController extends Controller
 	 * Get data submited by the client
 	 */ 
 	public function data() {
-		return json_decode($this->inputStream->getContents(), true);
+	if ($input = file_get_contents("php://input")){
+		//test for json
+		if ($json_post = json_decode($input,true)){
+			return $json_post;
+		}else{
+			parse_str($input,$variables);
+			return $variables;
+		}
+	}
+	return false;
 	}
 
 	/**
@@ -332,6 +265,13 @@ class ERestController extends Controller
 	 	 }
 
 		return $model;
+	}
+
+	/**
+	* Helper for loading a single model
+	*/
+	private function loadModel($id) {
+		return $this->getModel()->findByPk($id);
 	}
 	
 	/**
@@ -435,34 +375,32 @@ class ERestController extends Controller
 	}
 
 
-	/**
-	 * Provides the ability to Limit and offset results
-	 * http://example.local/api/sample/limit/1/2
-	 * The above example would limit results to 1
-	 * and offest them by 2
-	 */ 
-	public function doCustomRestGetLimit($var)
-	{
-	$criteria = new CDbCriteria();
-	
-	if(isset($var[1]))
-	{
-		$criteria->limit = $var[0];// . ", " . $var[1];
-		$criteria->offset = $var[1];
-	}
-	else
-		$criteria->limit = $var;
+  /**
+   * Provides the ability to Limit and offset results
+   * http://example.local/api/sample/limit/1/2
+   * The above example would limit results to 1
+   * and offest them by 2
+   */ 
+	public function doCustomRestGetLimit($var) {
+		$criteria = new CDbCriteria();
+		
+		if(is_array($var)){
+	  	  $criteria->limit = $var[0];
+	  	  $criteria->offset = $var[1];
+		}
+		else {
+	  	  $criteria->limit = $var;
+		}
 
-	$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
+		$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
 	}
 
 	/**
 	 * Returns the current record count
 	 * http://example.local/api/sample/count
 	 */ 
-	public function doCustomRestGetCount($var=null, $remote=true)
-	{
-	$this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=>count($this->getModel()->findAll()))));
+	public function doCustomRestGetCount($var=null, $remote=true) {
+    	$this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=> $this->getModel()->count() )));
 	}
 
 	/**
