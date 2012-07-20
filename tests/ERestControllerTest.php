@@ -1,20 +1,33 @@
 <?php
 class ERestControllerTest extends CDbTestCase {
+
 	public function testShould_be_able_to_create_new_user() {
 
-		// Mock input stream
+		// Request
 
-		$mock = $this->getMock('EInputStream');
-		$mock->expects($this->once())
+		$requestJson = json_encode(array(
+			'username' => 'support@foogile.com',
+			'password' => 'hardpassword'
+		));
+
+		$requestReaderMock = $this->getMock('ERequestReader', array('getContents'));
+		$requestReaderMock->expects($this->once())
 			->method('getContents')
-			->will($this->returnValue(
-				'{ "username": "stianl@gil.com", "password": "mypass" }'
-			));
+			->will($this->returnValue($requestJson)); 
 
-		// Initiate controller
+		// Model
+
+		$modelCallback = new HasAttributeCallack(array('username', 'password'));
+		$modelMock = $this->getMock('stdClass', array('save', 'hasAttribute'));
+		$modelMock->expects($this->once())->method('save')->will($this->returnValue(true));
+		$modelMock->expects($this->any())->method('hasAttribute')->will($this->returnCallback(array($modelCallback, 'hasAttribute')));
+		$modelMock->id = 2;
+
+		// Controller
 
 		$controller = new ERestController('User');
-		$controller->inputStream = $mock;
+		$controller->requestReader = $requestReaderMock;
+		$controller->model = $modelMock;
 
 		// Make request
 
@@ -25,5 +38,17 @@ class ERestControllerTest extends CDbTestCase {
 		$this->assertEquals($result->success, true);
 
 		ob_clean();
+	}
+}
+
+class HasAttributeCallack {
+	protected $attributes = null;
+
+	public function __construct($attributes) {
+		$this->attributes = $attributes;
+	}
+
+	public function hasAttribute($key) {
+		return array_search($key, $this->attributes) !== false;
 	}
 }

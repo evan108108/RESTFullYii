@@ -13,11 +13,12 @@ class ERestController extends Controller
 
 	public $HTTPStatus = 'HTTP/1.1 200 OK';
 
-	protected $inputStream;
+	protected $requestReader;
+	protected $model = null;
 
 	public function __construct($id, $module = null) {
 		parent::__construct($id, $module);
-		$this->inputStream = new EInputStream('php://input');
+		$this->requestReader = new ERequestReader('php://input');
 	}
 
 	public function filters() {
@@ -230,16 +231,17 @@ class ERestController extends Controller
 	 * Get data submited by the client
 	 */ 
 	public function data() {
-	if ($input = file_get_contents("php://input")){
-		//test for json
-		if ($json_post = json_decode($input,true)){
-			return $json_post;
-		}else{
-			parse_str($input,$variables);
-			return $variables;
+		$request = $this->requestReader->getContents();
+		if ($request) {
+			//test for json
+			if ($json_post = json_decode($request,true)){
+				return $json_post;
+			}else{
+				parse_str($request,$variables);
+				return $variables;
+			}
 		}
-	}
-	return false;
+		return false;
 	}
 
 	/**
@@ -248,8 +250,11 @@ class ERestController extends Controller
 	 * If this is not the case you should override this method in your controller
 	 */ 
 	public function getModel() {
-		$modelName = ucfirst($this->uniqueid);
-		return new $modelName;
+		if ($this->model === null) {
+			$modelName = ucfirst($this->uniqueid);
+			$this->model = new $modelName;
+		}
+		return $this->model;
 	}
 
 	/**
@@ -258,10 +263,10 @@ class ERestController extends Controller
 	private function setModelAttributes($model, $data) {
 		foreach($data as $var=>$value) {
 			if($model->hasAttribute($var)) {
-			$model->$var = $value;
+				$model->$var = $value;
 			}
 			else
-			throw new CHttpException(406, 'Parameter is not allowed for model');
+				throw new CHttpException(406, 'Parameter is not allowed for model');
 	 	 }
 
 		return $model;
@@ -277,28 +282,25 @@ class ERestController extends Controller
 	/**
 	 * Helper for saving single/mutliple models 
 	 */ 
-	private function saveModel($model, $data)
-	{
-	if(!isset($data[0]))
-		$models[] = $this->setModelAttributes($model, $data);
-	else
-	{
-		for($i=0; $i<count($data); $i++)
-		{
-		$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
-		if(!$models[$i]->validate())
-			throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+	private function saveModel($model, $data) {
+		if(!isset($data[0])) {
+			$models[] = $this->setModelAttributes($model, $data);
 		}
-	}
-	
-	for($cnt=0;$cnt<count($models);$cnt++)
-	{
-		if(!$models[$cnt]->save())
-		throw new CHttpException(406, 'Model could not be saved');
-		else
-		$ids[] = $models[$cnt]->id;
-	}
-	return $ids;
+		else {
+			for($i=0; $i<count($data); $i++) {
+				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
+				if(!$models[$i]->validate())
+					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+			}
+		}
+		
+		for($cnt=0;$cnt<count($models);$cnt++) {
+			if(!$models[$cnt]->save())
+				throw new CHttpException(406, 'Model could not be saved');
+			else
+				$ids[] = $models[$cnt]->id;
+		}
+		return $ids;
 	} 
 
 
@@ -414,8 +416,12 @@ class ERestController extends Controller
 	$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));		
 	}
 
-	public function setInputStream($inputStream) {
-		$this->inputStream = $inputStream;
+	public function setRequestReader($requestReader) {
+		$this->requestReader = $requestReader;
+	}
+
+	public function setModel($model) {
+		$this->model = $model;
 	}
 }
 

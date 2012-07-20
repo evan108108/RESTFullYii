@@ -1,5 +1,5 @@
 <?php
-	class EInputStream {
+	class ERequestReader {
 		protected $filename;
 
 		public function __construct($filename = 'php://input') {
