@@ -306,7 +306,16 @@ class ERestController extends Controller
    */ 
   public function data()
   {
-    return json_decode(file_get_contents("php://input"), true);
+	if ($input = file_get_contents("php://input")){
+		//test for json
+		if ($json_post = json_decode($input,true)){
+			return $json_post;
+		}else{
+			parse_str($input,$variables);
+			return $variables;
+		}
+	}
+	return false;
   }
 
   /**
@@ -334,6 +343,13 @@ class ERestController extends Controller
      }
 
     return $model;
+  }
+  
+  /**
+   * Helper for loading a single model
+   */
+  private function loadModel($id) {
+	return $this->getModel()->findByPk($id);
   }
   
   /**
@@ -455,13 +471,14 @@ class ERestController extends Controller
   {
     $criteria = new CDbCriteria();
     
-    if(isset($var[1]))
+    if(is_array($var))						
     {
-      $criteria->limit = $var[0];// . ", " . $var[1];
+      $criteria->limit = $var[0];
       $criteria->offset = $var[1];
     }
-    else
+    else {
       $criteria->limit = $var;
+	}
 
     $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
   }
@@ -472,7 +489,7 @@ class ERestController extends Controller
    */ 
   public function doCustomRestGetCount($var=null, $remote=true)
   {
-    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=>count($this->getModel()->findAll()))));
+    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=> $this->getModel()->count() )));
   }
 
   /**
