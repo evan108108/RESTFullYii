@@ -47,45 +47,52 @@ class ERestController extends Controller
 	 * Controls access to restfull requests
 	 */ 
 	public function filterRestAccessRules( $c )
-	{
-	Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';
+  {
+    Yii::app()->clientScript->reset(); //Remove any scripts registered by Controller Class
 
-	if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
-		// Error: Unauthorized
-		throw new CHttpException(401, 'You are not authorized to proform this action.');
-	}
-	$username = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
-	$password = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
-	// Find the user
-	if($username != self::USERNAME)
-	{
-		// Error: Unauthorized
-		throw new CHttpException(401, 'Error: User Name is invalid');
-	} 
-	else if($password != self::PASSWORD) 
-	{
-		// Error: Unauthorized
-		throw new CHttpException(401, 'Error: User Password is invalid');
-	} 
-	// This tells the filter chain $c to keep processing. 
-	$c->run(); 
-	}	 
+    //For requests from JS check that a user is loged in and throw validateUser
+    //validateUser can/should be overridden in your controller.
+    if(!Yii::app()->user->isGuest && $this->validateAjaxUser($this->action->id)) 
+      $c->run(); 
+    else 
+    {
+      Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';
+
+      if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
+        // Error: Unauthorized
+        throw new CHttpException(401, 'You are not authorized to proform this action.');
+      }
+      $username = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
+      $password = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
+      // Find the user
+      if($username != self::USERNAME)
+      {
+        // Error: Unauthorized
+        throw new CHttpException(401, 'Error: User Name is invalid');
+      } 
+      else if($password != self::PASSWORD) 
+      {
+        // Error: Unauthorized
+        throw new CHttpException(401, 'Error: User Password is invalid');
+      } 
+      // This tells the filter chain $c to keep processing.
+      $c->run(); 
+    }
+  }	
+
 
 	/**
 	 * Custom error handler for restfull Errors
 	 */ 
 	public function actionError()
 	{
-	if($error=Yii::app()->errorHandler->error)
-	{
-		if(Yii::app()->request->isAjaxRequest)
-		echo $error['message'];
-		else
-		{
-		$this->HTTPStatus = $this->getHttpStatus($error['code'], 'C500INTERNALSERVERERROR');
-		$this->renderJson(array('success' => false, 'message' => $error['message'], 'data' => array('errorCode'=>$error['code'])));
-		}
-	}
+    if($error=Yii::app()->errorHandler->error)
+    {
+      if(!Yii::app()->request->isAjaxRequest)
+        $this->HTTPStatus = $this->getHttpStatus($error['code'], 'C500INTERNALSERVERERROR');
+
+      $this->renderJson(array('success' => false, 'message' => $error['message'], 'data' => array('errorCode'=>$error['code'])));
+    }
 	}
 
 	/**
@@ -131,8 +138,8 @@ class ERestController extends Controller
 	/**
 	 * Renders list of data assosiated with controller as json
 	 */
-	public function actionRestList() {
-	$this->doRestList();
+  public function actionRestList() {
+	  $this->doRestList();
 	}
 	
 	/**
@@ -231,10 +238,9 @@ class ERestController extends Controller
 	 * Get data submited by the client
 	 */ 
 	public function data() {
-		$request = $this->requestReader->getContents();
+    $request = $this->requestReader->getContents();
 		if ($request) {
-			//test for json
-			if ($json_post = json_decode($request,true)){
+      if ($json_post = CJSON::decode($request)){
 				return $json_post;
 			}else{
 				parse_str($request,$variables);
@@ -249,10 +255,10 @@ class ERestController extends Controller
 	 * The assumption is that the model name matches your controller name
 	 * If this is not the case you should override this method in your controller
 	 */ 
-	public function getModel() {
+  public function getModel() {
 		if ($this->model === null) {
-			$modelName = ucfirst($this->uniqueid);
-			$this->model = new $modelName;
+      $modelName = str_replace('Controller', '', get_class($this)); 
+      $this->model = new $modelName;
 		}
 		return $this->model;
 	}
@@ -260,33 +266,36 @@ class ERestController extends Controller
 	/**
 	* Helper for loading a single model
 	*/
-	private function loadModel($id) {
+	protected function loadModel($id) {
 		return $this->getModel()->findByPk($id);
 	}
 	
 	/**
 	 * Helper for saving single/mutliple models 
-	 * TODO Multiple models broken (getModel() does not create new objects any more)
+	 * Multiple models now working
 	 */ 
-	private function saveModel($model, $data) {
+  private function saveModel($model, $data) {
 		if(!isset($data[0])) {
 			$model->attributes = $data;
 			$models[] = $model;
 		}
-		else {
+    else {
 			for($i=0; $i<count($data); $i++) {
 				$models[$i] = $this->getModel();
 				$models[$i]->attributes = $data[$i];
 				if(!$models[$i]->validate())
-					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+          throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+        $this->model = null; //Unsetting model to null to force create new model object.
 			}
 		}
-		
-		for($cnt=0;$cnt<count($models);$cnt++) {
-			if(!$models[$cnt]->save())
+
+    for($cnt=0;$cnt<count($models);$cnt++) {
+      $temp = $models[$cnt];
+			if(!$temp->save())
 				throw new CHttpException(406, 'Model could not be saved');
 			else
-				$ids[] = $models[$cnt]->id;
+        $ids[] = $temp->id;
+      unset($temp);
 		}
 		return $ids;
 	} 
@@ -305,7 +314,16 @@ class ERestController extends Controller
 	 */
 	public function isPk($pk) {
 		return filter_var($pk, FILTER_VALIDATE_INT) !== false;
-	} 
+  } 
+
+  /**
+   * You should override this method to provide stronger access control 
+   * to specifc restfull actions via AJAX
+   */ 
+  public function validateAjaxUser($action)
+  {
+    return false;
+  }
 
 	/**
 	 * This is broken out as a sperate method from actionRestList 
