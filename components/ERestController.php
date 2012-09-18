@@ -11,15 +11,30 @@ class ERestController extends Controller
 	Const USERNAME = 'admin@restuser';
 	Const PASSWORD = 'admin@Access';
 
-	public $HTTPStatus = 'HTTP/1.1 200 OK';
+  public $HTTPStatus = 'HTTP/1.1 200 OK';
+  public $restrictedProperties = array();
 
 	protected $requestReader;
 	protected $model = null;
 
 	public function __construct($id, $module = null) {
 		parent::__construct($id, $module);
-		$this->requestReader = new ERequestReader('php://input');
-	}
+    $this->requestReader = new ERequestReader('php://input');
+    /*$handler = function($event){
+      $controler = new ERestController('error');
+      $controler->renderJson(array('success' => false, 'message' => $event, 'data' => array('errorCode'=>500)));
+      $event->handled = true;
+      return false;
+    };*/
+
+    Yii::app()->onException = array($this, 'onException');
+  }
+
+  public function onException($event)
+  {
+    $this->renderJson(array('success' => false, 'message' => $event->exception->getMessage(), 'data' => array('errorCode'=>500)));
+    $event->handled = true;
+  }
 
 	public function filters() {
 		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
@@ -27,8 +42,9 @@ class ERestController extends Controller
 			return CMap::mergeArray($restFilters, $this->_filters());
 		else
 			return $restFilters;
-	} 
+  } 
 
+ 
 	public function accessRules()
 	{
 	$restAccessRules = array(
@@ -85,15 +101,16 @@ class ERestController extends Controller
 	 * Custom error handler for restfull Errors
 	 */ 
 	public function actionError()
-	{
+  {
     if($error=Yii::app()->errorHandler->error)
     {
+      //print_r($error); exit();
       if(!Yii::app()->request->isAjaxRequest)
         $this->HTTPStatus = $this->getHttpStatus($error['code'], 'C500INTERNALSERVERERROR');
 
       $this->renderJson(array('success' => false, 'message' => $error['message'], 'data' => array('errorCode'=>$error['code'])));
     }
-	}
+  }
 
 	/**
 	 * Get HTTP Status Headers From code
@@ -259,6 +276,7 @@ class ERestController extends Controller
 		if ($this->model === null) {
       $modelName = str_replace('Controller', '', get_class($this)); 
       $this->model = new $modelName;
+      //$this->model->on("error", function($event) { echo 'dude'; exit(); } );
 		}
 		return $this->model;
 	}
@@ -269,12 +287,64 @@ class ERestController extends Controller
 	protected function loadModel($id) {
 		return $this->getModel()->findByPk($id);
 	}
-	
+
+  
+  //Updated setModelAttributes to allow for related data to be set.
+  private function setModelAttributes($model, $data)
+  {
+    foreach($data as $var=>$value) {
+      if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $this->restrictedProperties)) {
+        $model->$var = $value;
+      }
+      else
+        throw new CHttpException(406, 'Parameter \'' . $var . '\' is not allowed for model');
+     }
+
+    return $model;
+  }
+  
+  /**
+   * Helper for saving single/mutliple models 
+   */ 
+  private function saveModel($model, $data)
+  {
+    if(!isset($data[0]))
+      $models[] = $this->setModelAttributes($model, $data);
+    else
+    {
+      for($i=0; $i<count($data); $i++)
+      {
+        $models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
+        if(!$models[$i]->validate())
+          throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+        $this->model = null;
+      }
+    }
+    
+    for($cnt=0;$cnt<count($models);$cnt++)
+    {
+      $this->_attachBehaviors($models[$cnt]);
+      if(!$models[$cnt]->save())
+        throw new CHttpException(406, 'Model could not be saved');
+      else
+        $ids[] = $models[$cnt]->id;
+    }
+    return $models;
+  } 
+
+  public function _attachBehaviors($model)
+  {
+    if(!array_key_exists('EActiveRecordRelationBehavior', $model->behaviors()))
+      $model->attachBehavior('EActiveRecordRelationBehavior', new EActiveRecordRelationBehavior());
+    return true;
+  }
+
+
 	/**
 	 * Helper for saving single/mutliple models 
 	 * Multiple models now working
 	 */ 
-  private function saveModel($model, $data) {
+  /*private function saveModel($model, $data) {
 		if(!isset($data[0])) {
 			$model->attributes = $data;
 			$models[] = $model;
@@ -298,7 +368,7 @@ class ERestController extends Controller
       unset($temp);
 		}
 		return $ids;
-	} 
+  }*/
 
 
 	/**
@@ -352,7 +422,7 @@ class ERestController extends Controller
 	 */ 
 	public function doRestUpdate($id, $data) {		
 		$model = $this->saveModel($this->loadModel($id), $data);
-		$this->renderJson(array('success'=>true, 'message'=>'Record Updated', 'data'=>array('id'=>$id)));
+		$this->renderJson(array('success'=>true, 'message'=>'Record Updated', 'data'=>array($model)));
 	}
 	
 	/**
@@ -361,9 +431,8 @@ class ERestController extends Controller
 	 * and to alow for easy unit testing
 	 */ 
 	public function doRestCreate($data) {
-		$model = $this->getModel();
-		$ids = $this->saveModel($model, $data);
-		$this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array('id'=>$ids)));
+		$models = $this->saveModel($this->getModel(), $data);
+		$this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array($models)));
 	}
 	
 	/**
