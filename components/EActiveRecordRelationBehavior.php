@@ -47,7 +47,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	public function events()
 	{
 		return array(
-			'onBeforeValidate'=>'beforeValidate',
+			//'onBeforeValidate'=>'beforeValidate',
 			'onBeforeSave'=>'beforeSave',
 			'onAfterSave'=>'afterSave',
 //			'onBeforeDelete'=>'beforeDelete',
@@ -56,11 +56,19 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	}
 
 	/**
-	 * Responds to {@link CModel::onBeforeValidate} event.
-	 * @throws CDbException
+	 * Responds to {@link CActiveRecord::onBeforeSave} event.
 	 * @param CModelEvent $event event parameter
-   */
-  
+	 */
+	public function beforeSave($event)
+  {
+		// ensure transactions
+		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null)
+      $this->_transaction=$this->owner->dbConnection->beginTransaction();
+
+    $this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
+    $this->validateBelongsTo();
+	}
+
 	public function validateBelongsTo()
   {
 		foreach($this->owner->relations() as $name => $relation)
@@ -97,6 +105,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		}
   }
 
+  //Takes Model and nested relations (Models or Arrays) and returns array.
   public function _composeModelData($model)
   { 
     $modelData = $model->attributes;
@@ -124,30 +133,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
     }
     return $modelData;
   }
-  
-  /**
-   * Method to catch Models not initialized with the toArray behavior.
-   * 
-   * @param	Model	$model	Model instance.
-   * @param	array	$options	
-   * @return	array.
-   */
-  public function _toArray($model,$options)
-  {
-    try
-    {
-      $result = $model->toArray($options);
-      
-    }
-    catch(CException $e)
-    {
-      $model->attachBehavior('MorrayBehavior', new MorrayBehavior());
-      $result = $model->toArray($options);
-    }
-    
-    return $result;
-  }
-
+   
   
   public function setModelAttrs($model, $results, $firstCall=true)
   {
@@ -187,21 +173,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
     }
     return $model;
   }
-   
-
-	/**
-	 * Responds to {@link CActiveRecord::onBeforeSave} event.
-	 * @param CModelEvent $event event parameter
-	 */
-	public function beforeSave($event)
-  {
-    $this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
-    $this->validateBelongsTo();
-
-		// ensure transactions
-		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null)
-			$this->_transaction=$this->owner->dbConnection->beginTransaction();
-	}
+   	
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterSave} event.
@@ -209,8 +181,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	 * @param CModelEvent $event event parameter
 	 */
 	public function afterSave($event)
-	{
-		try {
+  {
+    try {
 			/** @var CDbCommandBuilder $commandBuilder */
 			$commandBuilder=$this->owner->dbConnection->commandBuilder;
 
@@ -246,7 +218,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 
 						// 2. add new entries to relation table
 						// @todo add support for composite primary keys
-						$oldPKs=$this->getOldManyManyPks($name);
+            $oldPKs=$this->getOldManyManyPks($name);
+
 						foreach($newPKs as $fk) {
 							if (!in_array($fk, $oldPKs)) {
 								$commandBuilder->createInsertCommand($relationTable, array(
@@ -421,8 +394,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	 * @return array
 	 */
 	protected function getOldManyManyPks($relationName)
-	{
-		// @todo improve performance by doing simple select query instead of using AR
+  {
+    // @todo improve performance by doing simple select query instead of using AR
 		$tmpAr=CActiveRecord::model(get_class($this->owner))->findByPk($this->owner->getPrimaryKey());
 		return $this->objectsToPrimaryKeys($tmpAr->getRelated($relationName, true));
 	}

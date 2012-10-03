@@ -13,29 +13,51 @@ class ERestController extends Controller
 
   public $HTTPStatus = 'HTTP/1.1 200 OK';
   public $restrictedProperties = array();
+  public $restFilter = array(); 
+  public $restSort = array();
+  public $restLimit = 100; // Default limit
+  public $restOffset = 0; //Default Offset
+
+  //Auto will include all relations 
+  //FALSE will include no relations in response
+  //You may also pass an array of relations IE array('posts', 'comments', etc..)
+  //Override $nestedModels in your controller as needed
+  public $nestedModels = 'auto'; 
 
 	protected $requestReader;
 	protected $model = null;
 
-	public function __construct($id, $module = null) {
-		parent::__construct($id, $module);
+  public function __construct($id, $module = null) {
+    parent::__construct($id, $module);
     $this->requestReader = new ERequestReader('php://input');
-    /*$handler = function($event){
-      $controler = new ERestController('error');
-      $controler->renderJson(array('success' => false, 'message' => $event, 'data' => array('errorCode'=>500)));
-      $event->handled = true;
-      return false;
-    };*/
-
-    Yii::app()->onException = array($this, 'onException');
   }
 
+  public function beforeAction($event)
+  {
+    if(isset($_GET['filter']))
+      $this->restFilter = $_GET['filter'];
+
+    if(isset($_GET['sort']))
+      $this->restSort = $_GET['sort'];
+
+    if(isset($_GET['limit']))
+      $this->restLimit = $_GET['limit'];
+
+    if(isset($_GET['offset']))
+      $this->restOffset = $_GET['offset'];
+
+    return parent::beforeAction($event);
+  }
   public function onException($event)
   {
-    $this->renderJson(array('success' => false, 'message' => $event->exception->getMessage(), 'data' => array('errorCode'=>500)));
+    $message = $event->exception->getMessage();
+    if($tempMessage = CJSON::decode($message))
+      $message = $tempMessage;
+
+    $this->renderJson(array('success' => false, 'message' => $message, 'data' => array('errorCode'=>500)));
     $event->handled = true;
   }
-
+ 
 	public function filters() {
 		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
 		if(method_exists($this, '_filters'))
@@ -65,7 +87,7 @@ class ERestController extends Controller
 	public function filterRestAccessRules( $c )
   {
     Yii::app()->clientScript->reset(); //Remove any scripts registered by Controller Class
-
+    Yii::app()->onException = array($this, 'onException'); //Register Custom Exception
     //For requests from JS check that a user is loged in and throw validateUser
     //validateUser can/should be overridden in your controller.
     if(!Yii::app()->user->isGuest && $this->validateAjaxUser($this->action->id)) 
@@ -117,29 +139,48 @@ class ERestController extends Controller
 	 */ 
 	public function getHttpStatus($statusCode, $default='C200OK')
 	{
-	switch ($statusCode) {
-		case '200':
-		return self::C200OK;
-		break;
-		case '201':
-		return self::C201CREATED;
-		break;
-		case '401':
-		return self::C401UNAUTHORIZED;
-		break;
-		case '404':
-		return self::C404NOTFOUND;
-		break;
-		case '406':
-		return self::C406NOTACCEPTABLE;
-		break;
-		case '500':
-		return self::C500INTERNALSERVERERROR;
-		break;
-		default:
-		return self::$default;
-	}
-	}
+    switch ($statusCode) 
+    {
+      case '200':
+      return self::C200OK;
+      break;
+      case '201':
+      return self::C201CREATED;
+      break;
+      case '401':
+      return self::C401UNAUTHORIZED;
+      break;
+      case '404':
+      return self::C404NOTFOUND;
+      break;
+      case '406':
+      return self::C406NOTACCEPTABLE;
+      break;
+      case '500':
+      return self::C500INTERNALSERVERERROR;
+      break;
+      default:
+      return self::$default;
+    }
+  }
+
+  protected function getNestedRelations()
+  {
+    $nestedRelations = array();
+    if(!is_array($this->nestedModels) && $this->nestedModels == 'auto')
+    {
+      foreach($this->model->metadata->relations as $rel=>$val)
+        $nestedRelations[] = $rel;
+
+      return $nestedRelations;
+    }
+    else if(!is_array($this->nestedModels) && $this->nestedModels === false)
+      return $nestedRelations;
+    else if(is_array($this->nestedModels))
+      return $this->nestedModels;
+      
+    return $nestedRelations;
+  } 
 
  /**
 	****************************************************************************************** 
@@ -277,15 +318,16 @@ class ERestController extends Controller
       $modelName = str_replace('Controller', '', get_class($this)); 
       $this->model = new $modelName;
       //$this->model->on("error", function($event) { echo 'dude'; exit(); } );
-		}
+    }
+    $this->_attachBehaviors($this->model);
 		return $this->model;
 	}
 
 	/**
 	* Helper for loading a single model
 	*/
-	protected function loadModel($id) {
-		return $this->getModel()->findByPk($id);
+	protected function loadOneModel($id) {
+		return $this->getModel()->with($this->nestedRelations)->findByPk($id);
 	}
 
   
@@ -332,44 +374,45 @@ class ERestController extends Controller
     return $models;
   } 
 
+  //Attach helper behaviors
   public function _attachBehaviors($model)
   {
+    //Attach this behavior to help saving nested models
     if(!array_key_exists('EActiveRecordRelationBehavior', $model->behaviors()))
       $model->attachBehavior('EActiveRecordRelationBehavior', new EActiveRecordRelationBehavior());
+
+    //Attach this behavior to help outputting models and their relations as arrays
+    if(!array_key_exists('MorrayBehavior', $model->behaviors()))
+      $model->attachBehavior('MorrayBehavior', new MorrayBehavior());
+
+    if(!array_key_exists('ERestHelperScopes', $model->behaviors()))
+      $model->attachBehavior('ERestHelperScopes', new ERestHelperScopes());
+
     return true;
   }
 
 
-	/**
-	 * Helper for saving single/mutliple models 
-	 * Multiple models now working
-	 */ 
-  /*private function saveModel($model, $data) {
-		if(!isset($data[0])) {
-			$model->attributes = $data;
-			$models[] = $model;
-		}
-    else {
-			for($i=0; $i<count($data); $i++) {
-				$models[$i] = $this->getModel();
-				$models[$i]->attributes = $data[$i];
-				if(!$models[$i]->validate())
-          throw new CHttpException(406, 'Model could not be saved as vildation failed.');
-        $this->model = null; //Unsetting model to null to force create new model object.
-			}
-		}
 
-    for($cnt=0;$cnt<count($models);$cnt++) {
-      $temp = $models[$cnt];
-			if(!$temp->save())
-				throw new CHttpException(406, 'Model could not be saved');
-			else
-        $ids[] = $temp->id;
-      unset($temp);
-		}
-		return $ids;
-  }*/
-
+  public function allToArray($models, $options=array('relname'=>''))
+  {
+    if(is_array($models))
+    {
+      $results = array();
+      foreach($models as $model)
+      {
+        $this->_attachBehaviors($model);
+        $results[] = $model->toArray($options);
+      }
+        return $results;
+    }
+    else if($models != null)
+    {
+      $this->_attachBehaviors($models);
+      return $models->toArray($options);
+    }
+    else
+      return array();
+  }
 
 	/**
 	****************************************************************************************** 
@@ -395,14 +438,23 @@ class ERestController extends Controller
     return false;
   }
 
+  public function outputHelper($message, $results, $totalCount=1)
+  {
+    $this->renderJson(array('success'=>true, 'message'=>$message, 'data'=>array('totalCount'=>$totalCount, lcfirst(get_class($this->model))=>$this->allToArray($results))));
+  }
+
 	/**
 	 * This is broken out as a sperate method from actionRestList 
 	 * To allow for easy overriding in the controller
 	 * and to allow for easy unit testing
 	 */ 
 	public function doRestList()
-	{
-	$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll()));
+  {
+    $this->outputHelper( 
+      'Records Retrieved Successfully', 
+      $this->getModel()->with($this->nestedRelations)->filter($this->restFilter)->orderBy($this->restSort)->limit($this->restLimit)->offset($this->restOffset)->findAll(),
+      $this->getModel()->with($this->nestedRelations)->filter($this->restFilter)->count()
+    );
 	}
 
 	 /**
@@ -411,8 +463,12 @@ class ERestController extends Controller
 	 * adn to allow for easy unit testing
 	 */ 
 	public function doRestView($id)
-	{
-	$this->renderJson(array('success'=>true, 'message'=>'Record Retrieved Successfully', 'data'=>$this->loadModel($id)));
+  {
+    $this->outputHelper(
+      'Record Retrieved Successfully', 
+      $this->loadOneModel($id),
+      1
+    );
 	}
 
 	/**
@@ -421,8 +477,12 @@ class ERestController extends Controller
 	 * and to allow for easy unit testing
 	 */ 
 	public function doRestUpdate($id, $data) {		
-		$model = $this->saveModel($this->loadModel($id), $data);
-		$this->renderJson(array('success'=>true, 'message'=>'Record Updated', 'data'=>array($model)));
+		$model = $this->saveModel($this->loadOneModel($id), $data);
+    $this->outputHelper(
+      'Record Updated',
+      $model,
+      1
+    );
 	}
 	
 	/**
@@ -432,7 +492,12 @@ class ERestController extends Controller
 	 */ 
 	public function doRestCreate($data) {
 		$models = $this->saveModel($this->getModel(), $data);
-		$this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array($models)));
+    //$this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array($models)));
+    $this->outputHelper(
+      'Record(s) Created',
+      $models,
+      count($models)
+    );
 	}
 	
 	/**
@@ -442,13 +507,13 @@ class ERestController extends Controller
 	 */ 
 	public function doRestDelete($id)
 	{
-	$model = $this->loadModel($id);
-	if($model->delete())
-		$data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array('id'=>$id));
-	else
-		throw new CHttpException(406, 'Could not delete model with ID: ' . $id);
+    $model = $this->loadModel($id);
+    if($model->delete())
+      $data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array('id'=>$id));
+    else
+      throw new CHttpException(406, 'Could not delete model with ID: ' . $id);
 
-	$this->renderJson($data);
+    $this->renderJson($data);
 	}
 
 
@@ -469,7 +534,12 @@ class ERestController extends Controller
 	  	  $criteria->limit = $var;
 		}
 
-		$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
+    //$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
+    $this->outputHelper( 
+      'Records Retrieved Successfully', 
+      $this->getModel()->with($this->nestedRelations)->findAll($criteria),
+      $this->getModel()->with($this->nestedRelations)->count()
+    );
 	}
 
 	/**
@@ -477,7 +547,7 @@ class ERestController extends Controller
 	 * http://example.local/api/sample/count
 	 */ 
 	public function doCustomRestGetCount($var=null, $remote=true) {
-    	$this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=> $this->getModel()->count() )));
+    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('totalCount'=> $this->getModel()->count() )));
 	}
 
 	/**
@@ -487,8 +557,13 @@ class ERestController extends Controller
 	 * POST = {'id':'6', 'name':'evan'}
 	 */ 
 	public function doCustomRestPostSearch($data)
-	{
-	$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));		
+  {
+    //$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));	
+    $this->outputHelper( 
+      'Records Retrieved Successfully', 
+      $this->getModel()->with($this->nestedRelations)->filter($data)->orderBy($this->restSort)->limit($this->restLimit)->offset($this->restOffset)->findAll(),
+      $this->getModel()->with($this->nestedRelations)->filter($data)->count()
+    );  
 	}
 
 	public function setRequestReader($requestReader) {
