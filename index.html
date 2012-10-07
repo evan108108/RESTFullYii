@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <title>Restfullyii by evan108108</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Restfullyii</h1>
+        <h2>Adds RESTFull API to your Yii application</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/evan108108/RESTFullYii/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/evan108108/RESTFullYii/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/evan108108/RESTFullYii" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1>RESTFullYii</h1>
+
+<p>Adds RESTFul API to your Yii application.</p>
+
+<p>Lets say you have a controller named 'PostController'. Your standard routes will look as they always do, ie /post/actionName .</p>
+
+<p>RESTFullYii adds a new set of RESTFul routes to your standard routes, but prepends '/api' .</p>
+
+<p>So if you apply RESTFullYii to the 'PostController' you will get the following new routes by default (You can override their behavior in your controller).</p>
+
+<pre><code>[GET] http://yoursite.com/api/post/ (returns all posts)
+[GET] http://yoursite.com/api/post/1 (returns post with PK=1)
+[GET] http://yoursite.com/api/post/count (returns total count of posts)
+[GET] http://yoursite.com/api/post/limit/x (returns x number of posts)
+[GET] http://yoursite.com/api/post/limit/x/y (returns x number of posts with offset y)
+[POST] http://yoursite.com/api/post/ (create new post)
+[POST] http://yoursite.com/api/post/search (returns posts matching post attributes)
+[PUT] http://yoursite.com/api/post/1 (update post with PK=1)
+[DELETE] http://yoursite.com/api/post/1 (delete post with PK=1)
+</code></pre>
+
+<h2>Requirements</h2>
+
+<p>Yii 1.8 or above</p>
+
+<h2>NEW</h2>
+
+<ul>
+<li>Use with javascript (See validateAjaxUser in ERestController)</li>
+<li>Record count now included in JSON output </li>
+<li>Query String filter/sort/limit/offset :</li>
+</ul><div class="highlight"><pre>/api/post/?limit<span class="o">=</span>2&amp;offset<span class="o">=</span>1&amp;sort<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>,<span class="s1">'direction'</span>:<span class="s1">'ASC'</span><span class="o">}]</span>&amp;filter<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>, <span class="s1">'value'</span>:<span class="s1">'some value'</span><span class="o">}</span>,<span class="o">{</span><span class="s1">'property'</span>:<span class="s1">'comment'</span>, <span class="s1">'value'</span>:<span class="s1">'You need a REST'</span><span class="o">}]</span>
+</pre></div>
+
+<ul>
+<li>Save and display nested data sets:</li>
+</ul><div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">"data"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"presentation"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="nt">"id"</span><span class="p">:</span> <span class="s2">"41"</span><span class="p">,</span> 
+                <span class="nt">"author_email"</span><span class="p">:</span> <span class="s2">"john.smith@somesite.com"</span><span class="p">,</span> 
+                <span class="nt">"author_name"</span><span class="p">:</span> <span class="s2">"JSmith"</span><span class="p">,</span> 
+                <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"this is a great presentation"</span><span class="p">,</span> 
+                <span class="nt">"password"</span><span class="p">:</span> <span class="s2">"12345"</span><span class="p">,</span> 
+                <span class="nt">"slides"</span><span class="p">:</span> <span class="p">[</span>
+                    <span class="p">{</span>
+                        <span class="nt">"id"</span><span class="p">:</span> <span class="s2">"17"</span><span class="p">,</span>
+                        <span class="nt">"content"</span><span class="p">:</span> <span class="s2">"c4"</span><span class="p">,</span> 
+                        <span class="nt">"created"</span><span class="p">:</span> <span class="s2">"1347972285"</span><span class="p">,</span> 
+                        <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"d3"</span><span class="p">,</span> 
+                        <span class="nt">"image_id"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> 
+                        <span class="nt">"options"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> 
+                        <span class="nt">"title"</span><span class="p">:</span> <span class="s2">"t35795"</span><span class="p">,</span> 
+                        <span class="nt">"updated"</span><span class="p">:</span> <span class="s2">"1347972285"</span>
+                    <span class="p">},</span> 
+                    <span class="p">{</span>
+                        <span class="nt">"id"</span><span class="p">:</span> <span class="s2">"18"</span><span class="p">,</span> 
+                        <span class="nt">"content"</span><span class="p">:</span> <span class="s2">"c4"</span><span class="p">,</span> 
+                        <span class="nt">"created"</span><span class="p">:</span> <span class="s2">"1347972285"</span><span class="p">,</span> 
+                        <span class="nt">"description"</span><span class="p">:</span> <span class="s2">"d4"</span><span class="p">,</span> 
+                        <span class="nt">"image_id"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> 
+                        <span class="nt">"options"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> 
+                        <span class="nt">"title"</span><span class="p">:</span> <span class="s2">"t45795"</span><span class="p">,</span> 
+                        <span class="nt">"updated"</span><span class="p">:</span> <span class="s2">"1347972285"</span>
+                    <span class="p">}</span>
+                <span class="p">],</span> 
+                <span class="nt">"slug"</span><span class="p">:</span> <span class="s2">"shoot123"</span><span class="p">,</span> 
+                <span class="nt">"title"</span><span class="p">:</span> <span class="s2">"my present_test_2"</span><span class="p">,</span> 
+                <span class="nt">"updated"</span><span class="p">:</span> <span class="s2">"1349289196"</span>
+            <span class="p">}</span>
+        <span class="p">],</span> 
+        <span class="nt">"totalCount"</span><span class="p">:</span> <span class="s2">"2"</span>
+    <span class="p">},</span> 
+    <span class="nt">"message"</span><span class="p">:</span> <span class="s2">"Records Retrieved Successfully"</span><span class="p">,</span> 
+    <span class="nt">"success"</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>Installation</h2>
+
+<p>Place RESTFullYii into your 'protected/extensions' directory.</p>
+
+<p>Then, in your main.php config, add this code:</p>
+
+<div class="highlight"><pre><span class="s1">'import'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'ext.restfullyii.components.*'</span><span class="p">,</span>
+<span class="p">),</span>
+</pre></div>
+
+<p>You will need to add the routes below to your main.php. They should be added to the beginning of the rules array.</p>
+
+<div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'urlFormat'</span><span class="o">=&gt;</span><span class="s1">'path'</span><span class="p">,</span>
+  <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">'api/&lt;controller:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restList'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;/&lt;var:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restUpdate'</span><span class="p">,</span>
+      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'PUT'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restDelete'</span><span class="p">,</span>
+      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'DELETE'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span>
+      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;'</span><span class="p">,</span>
+      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span>
+      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;'</span><span class="p">,</span>
+      <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'POST'</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/view'</span><span class="p">,</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">),</span>
+</pre></div>
+
+<p>Alternatively you can choose to use the included routes.php. Then your main.php
+config for 'urlManager' should look like this:</p>
+
+<div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
+  <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">require</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="s1">'/../extensions/restfullyii/config/routes.php'</span><span class="p">),</span>
+<span class="p">),</span>
+</pre></div>
+
+<p>Another alternative is to use the custom rule class.  To use this method you
+will need to set the 'restControllers' parameter to the array of controllers you
+would like to use with RestFullYii. Your urlManager in main.php would look
+something like this:</p>
+
+<div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+  <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
+  <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="k">array</span><span class="p">(</span>
+      <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'application.extensions.restfullyii.components.RestUrlRule'</span><span class="p">,</span>
+      <span class="s1">'restControllers'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'YourController1'</span><span class="p">,</span> <span class="s1">'YourController2'</span><span class="p">,</span> <span class="s1">'...'</span><span class="p">),</span>
+    <span class="p">),</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/view'</span><span class="p">,</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
+    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">),</span>
+</pre></div>
+
+<p>Setting up the controller: (This applies to controllers for which you you would
+like to add RESTFull routes) Change your controller class so that it extends
+ERestController:</p>
+
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">PostController</span> <span class="k">extends</span> <span class="nx">ERestController</span> <span class="p">{</span>
+  <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>You will need to merge your filters &amp; accessRules methods with the parent methods here. To do
+that you simply change the name of these methods by prepending an underscore
+("_"). So in your controller you will need to change the following:</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">filters</span><span class="p">()</span>
+</pre></div>
+
+<p>becomes</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">_filters</span><span class="p">()</span>
+</pre></div>
+
+<p>and</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">accessRules</span><span class="p">()</span>
+</pre></div>
+
+<p>becomes</p>
+
+<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">_accessRules</span><span class="p">()</span>
+</pre></div>
+
+<h2>Security</h2>
+
+<p>The 'username' and 'password' are currently hardcoded as Const's in 'ERestController'.</p>
+
+<div class="highlight"><pre><span class="k">Const</span> <span class="no">USERNAME</span> <span class="o">=</span> <span class="s1">'admin@restuser'</span><span class="p">;</span>
+<span class="k">Const</span> <span class="no">PASSWORD</span> <span class="o">=</span> <span class="s1">'admin@Access'</span>
+</pre></div>
+
+<p>At a minimum you will want change these values. To create a more secure Auth
+system modify the 'filterRestAccessRules' method in 'ERestController'. This
+should be straight forward.</p>
+
+<h2>Usage</h2>
+
+<p>Sample Requests:</p>
+
+<h3>GET</h3>
+
+<div class="highlight"><pre><span class="c"># Listing</span>
+<span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/
+<span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/limit/1
+<span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/limit/10/5 <span class="o">(</span>limit/offeset<span class="o">)</span>
+
+<span class="c"># Viewing</span>
+<span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/174
+</pre></div>
+
+<h3>PUT</h3>
+
+<div class="highlight"><pre><span class="c"># Update</span>
+<span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -H <span class="s2">"X-HTTP-Method-Override: PUT"</span> -X PUT -d <span class="s1">'{"id":"174","name":"Five.1 Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}'</span> http://yii-tester.local/api/sample/174
+</pre></div>
+
+<h3>POST</h3>
+
+<div class="highlight"><pre><span class="c"># Create</span>
+<span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -X POST -d <span class="s1">'{"id":"175","name":"Six Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}'</span> http://yii-tester.local/api/sample
+<span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -X POST -d <span class="s1">'[{"id":"175","name":"Six Alive one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"},{"id":"176","name":"First.3 one ever Updated Again","desc":"It really is or should be at an honor","notes":"this is a note"}]'</span> http://yii-tester.local/api/sample
+</pre></div>
+
+<h3>Delete</h3>
+
+<div class="highlight"><pre><span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -H <span class="s2">"X-HTTP-Method-Override: DELETE"</span> -X DELETE http://yii-tester.local/api/sample/175
+</pre></div>
+
+<p>You may also optionally create custom REST methods in your controllers.</p>
+
+<p>You must prefix your method with doCustomRest &amp; the verb.</p>
+
+<p>For GET request you use doCustomRestGet: EG public function doCustomRestGetOrder($var=null)</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/order
+<span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/order/2
+</pre></div>
+
+<p>Similarly you can POST' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')</p>
+
+<p>EG 'public function doCustomRestPostOrder($data)'</p>
+
+<p><strong>POST</strong></p>
+
+<div class="highlight"><pre><span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -X POST -d <span class="s1">'{"id":"2","order":"French Fries"}'</span> http://yii-tester.local/api/sample/order
+</pre></div>
+
+<p>To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:</p>
+
+<div class="highlight"><pre> <span class="k">public</span> <span class="k">function</span> <span class="nf">isPk</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">validateAjaxUser</span><span class="p">(</span><span class="nv">$action</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestList</span><span class="p">()</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestView</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestUpdate</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestCreate</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestDelete</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestGetLimit</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestGetCount</span><span class="p">(</span><span class="nv">$var</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="nv">$remote</span><span class="o">=</span><span class="k">true</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestPostSearch</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
+</pre></div>
+      </section>
+    </div>
+
+    
+  </body>
+</html>
