@@ -40,29 +40,27 @@ Yii 1.8 or above
     "data": {
         "presentation": [
             {
-                "author_email": "yourmom@xxx.com", 
-                "author_name": "Me", 
-                "author_phone": "8787878787", 
-                "created": "1349289196", 
+            	"id": "41", 
+                "author_email": "john.smith@somesite.com", 
+                "author_name": "JSmith", 
                 "description": "this is a great presentation", 
-                "id": "41", 
                 "password": "12345", 
                 "slides": [
                     {
+                        "id": "17",
                         "content": "c4", 
                         "created": "1347972285", 
                         "description": "d3", 
-                        "id": "17", 
                         "image_id": null, 
                         "options": null, 
                         "title": "t35795", 
                         "updated": "1347972285"
                     }, 
                     {
+                    	"id": "18", 
                         "content": "c4", 
                         "created": "1347972285", 
                         "description": "d4", 
-                        "id": "18", 
                         "image_id": null, 
                         "options": null, 
                         "title": "t45795", 
@@ -70,7 +68,7 @@ Yii 1.8 or above
                     }
                 ], 
                 "slug": "shoot123", 
-                "title": "my present_evan_2", 
+                "title": "my present_test_2", 
                 "updated": "1349289196"
             }
         ], 
@@ -274,117 +272,23 @@ $ curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H 
 To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
 
 ```php
-/**
-  * Over ride this function if your model uses a non Numeric PK.
-  */
-  public function isPk($pk)
-  {
-    if(is_numeric($pk))
-      return true;
-    else
-      return false;
-  }
+ public function isPk($pk)
+ 
+ public function validateAjaxUser($action)
+ 
+ public function doRestList()
+ 
+ public function doRestView($id)
+  
+ public function doRestUpdate($id, $data)
+  
+ public function doRestCreate($data)
+  
+ public function doRestDelete($id)
 
-  /**
-   * This is broken out as a sperate method from actionRestList
-   * To allow for easy overriding in the controller
-   * and to allow for easy unit testing
-   */
-  public function doRestList()
-  {
-    $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll()));
-  }
-
-   /**
-   * This is broken out as a sperate method from actionRestView
-   * To allow for easy overriding in the controller
-   * adn to allow for easy unit testing
-   */
-  public function doRestView($id)
-  {
-    $this->renderJson(array('success'=>true, 'message'=>'Record Retrieved Successfully', 'data'=>$this->loadModel($id)));
-  }
-
-  /**
-   * This is broken out as a sperate method from actionResUpdate
-   * To allow for easy overriding in the controller
-   * and to allow for easy unit testing
-   */
-  public function doRestUpdate($id, $data)
-  {
-    $model = $this->saveModel($this->loadModel($id), $data);
-    $this->renderJson(array('success'=>true, 'message'=>'Record Updated', 'data'=>array('id'=>$id)));
-  }
-
-  /**
-   * This is broken out as a sperate method from actionRestCreate
-   * To allow for easy overriding in the controller
-   * and to alow for easy unit testing
-   */
-  public function doRestCreate($data)
-  {
-    $model = $this->getModel();
-
-    $ids = $this->saveModel($model, $data);
-
-    $this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array('id'=>$ids)));
-  }
-
-  /**
-   * This is broken out as a sperate method from actionRestDelete
-   * To allow for easy overridding in the controller
-   * and to alow for easy unit testing
-   */
-  public function doRestDelete($id)
-  {
-    $model = $this->loadModel($id);
-    if($model->delete())
-      $data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array('id'=>$id));
-    else
-      throw new CHttpException(406, 'Could not delete model with ID: ' . $id);
-
-    $this->renderJson($data);
-  }
-
-
-  /**
-   * Provides the ability to Limit and offset results
-   * http://example.local/api/sample/limit/1/2
-   * The above example would limit results to 1
-   * and offest them by 2
-   */
-  public function doCustomRestGetLimit($var)
-  {
-    $criteria = new CDbCriteria();
-
-    if(isset($var[1]))
-    {
-      $criteria->limit = $var[0];// . ", " . $var[1];
-      $criteria->offset = $var[1];
-    }
-    else
-      $criteria->limit = $var;
-
-    $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
-  }
-
-  /**
-   * Returns the current record count
-   * http://example.local/api/sample/count
-   */
-  public function doCustomRestGetCount($var=null, $remote=true)
-  {
-    $this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('count'=>count($this->getModel()->findAll()))));
-  }
-
-  /**
-   * Search by attribute
-   * Simply post a list of attributes and values you wish to search by
-   * http://example.local/api/sample/search
-   * POST = {'id':'6', 'name':'evan'}
-   */
-  public function doCustomRestPostSearch($data)
-  {
-    $this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));
-  }
+ public function doCustomRestGetLimit($var)
+  
+ public function doCustomRestGetCount($var=null, $remote=true)
+  
+ public function doCustomRestPostSearch($data)
 ```
