@@ -60,17 +60,17 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	 * @param CModelEvent $event event parameter
 	 */
 	public function beforeSave($event)
-  {
+	{
 		// ensure transactions
 		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null)
-      $this->_transaction=$this->owner->dbConnection->beginTransaction();
+			$this->_transaction=$this->owner->dbConnection->beginTransaction();
 
-    $this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
-    $this->validateBelongsTo();
+		$this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
+		$this->validateBelongsTo();
 	}
 
 	public function validateBelongsTo()
-  {
+	{
 		foreach($this->owner->relations() as $name => $relation)
 		{
 			switch($relation[0]) // relation type such as BELONGS_TO, HAS_ONE, HAS_MANY, MANY_MANY
@@ -83,13 +83,13 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 					if (!$this->owner->hasRelated($name) || !$this->isRelationSupported($relation))
 						break;
 
-          $pk=null;
+					$pk=null;
 					if (($related=$this->owner->getRelated($name, false))!==null) {
 						if (is_object($related)) {
-              /** @var CActiveRecord $related */
+							/** @var CActiveRecord $related */
 							if ($related->isNewRecord && is_null($related->id))
-                throw new CDbException('You can not save a record that has new related records!');
-              $pk=$related->getPrimaryKey(); 
+								throw new CDbException('You can not save a record that has new related records!');
+							$pk=$related->getPrimaryKey(); 
 						} else {
 							$pk=$related;
 						}
@@ -103,77 +103,80 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 				break;
 			}
 		}
-  }
+	}
 
-  //Takes Model and nested relations (Models or Arrays) and returns array.
-  public function _composeModelData($model)
-  { 
-    $modelData = $model->attributes;
-    if(empty($model->{$model->tableSchema->primaryKey}))
-      $model->{$model->tableSchema->primaryKey} = null;
-    foreach($model->metadata->relations as $key=>$value)
-    {
-      if($model->hasRelated($key))
-      {
-        if(is_object($model->{$key}))
-          $modelData[$key] = $this->_composeModelData($model->{$key});
-        else if(array_key_exists(0, $model->{$key}))
-        {
-          foreach($model->{$key} as $relatedData)
-          {
-            if(is_object($relatedData))
-              $modelData[$key][] = $this->_composeModelData($relatedData);
-            else 
-              $modelData[$key][] = $relatedData;
-          }
-        }
-        else
-          $modelData[$key] = $relatedData;
-      }
-    }
-    return $modelData;
-  }
-   
-  
-  public function setModelAttrs($model, $results, $firstCall=true)
-  {
-    foreach($results as $key=>$val)
-    {
-      if(is_array($val))
-      {
-        $modelName = $model->metaData->relations[$key]->className;
-        $newVal = array();
-        for($i=0; $i<count($val); $i++)
-        { 
-          if(isset($val[$i]))
-            $newVal[] = $this->setModelAttrs(new $modelName(), $val[$i], false);
-          else
-          {
-            $newVal = $this->setModelAttrs(new $modelName(), $val, false);
-            break;
-          }
-        }
-        $val = $newVal;
-      }
-      if(is_bool($val) === true)
-        $val = (int) $val;
-  
-      if( $key == 'id' && $val === 0)
-        $val = NULL;
+	//Takes Model and nested relations (Models or Arrays) and returns array.
+	public function _composeModelData($model)
+	{ 
+		$modelData = $model->attributes;
+		if(is_array(($pk = $model->tableSchema->primaryKey)))
+			throw new CHttpException('500', 'Compound Pks are not supported');
 
-      $model->$key = $val;
-    }
-    
-    if(!$firstCall && $model->id == NULL)
-    {
-      if(!$model->save())
-        throw new CHttpException(500, 'Could not save Record in Model: ' . get_class($model) . ' : ' . CJSON::encode($model->errors));
-      else
-        $model->refresh();
-    }
-    return $model;
-  }
-   	
+		if(empty($model->{$pk}))
+			$model->{$pk} = null;
+		foreach($model->metadata->relations as $key=>$value)
+		{
+			if($model->hasRelated($key))
+			{
+				if(is_object($model->{$key}))
+					$modelData[$key] = $this->_composeModelData($model->{$key});
+				else if(array_key_exists(0, $model->{$key}))
+				{
+					foreach($model->{$key} as $relatedData)
+					{
+						if(is_object($relatedData))
+							$modelData[$key][] = $this->_composeModelData($relatedData);
+						else 
+							$modelData[$key][] = $relatedData;
+					}
+				}
+				else
+					@$modelData[$key] = $relatedData;
+			}
+		}
+		return $modelData;
+	}
+	 
+	
+	public function setModelAttrs($model, $results, $firstCall=true)
+	{
+		foreach($results as $key=>$val)
+		{
+			if(is_array($val))
+			{
+				$modelName = $model->metaData->relations[$key]->className;
+				$newVal = array();
+				for($i=0; $i<count($val); $i++)
+				{ 
+					if(isset($val[$i]))
+						$newVal[] = $this->setModelAttrs(new $modelName(), $val[$i], false);
+					else
+					{
+						$newVal = $this->setModelAttrs(new $modelName(), $val, false);
+						break;
+					}
+				}
+				$val = $newVal;
+			}
+			if(is_bool($val) === true)
+				$val = (int) $val;
+	
+			if( $key == 'id' && $val === 0)
+				$val = NULL;
+
+			$model->$key = $val;
+		}
+		
+		if(!$firstCall && $model->id == NULL)
+		{
+			if(!$model->save())
+				throw new CHttpException(500, 'Could not save Record in Model: ' . get_class($model) . ' : ' . CJSON::encode($model->errors));
+			else
+				$model->refresh();
+		}
+		return $model;
+	}
+		
 
 	/**
 	 * Responds to {@link CActiveRecord::onAfterSave} event.
@@ -181,8 +184,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	 * @param CModelEvent $event event parameter
 	 */
 	public function afterSave($event)
-  {
-    try {
+	{
+		try {
 			/** @var CDbCommandBuilder $commandBuilder */
 			$commandBuilder=$this->owner->dbConnection->commandBuilder;
 
@@ -218,15 +221,15 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 
 						// 2. add new entries to relation table
 						// @todo add support for composite primary keys
-            $oldPKs=$this->getOldManyManyPks($name);
+						$oldPKs=$this->getOldManyManyPks($name);
 
 						foreach($newPKs as $fk) {
 							if (!in_array($fk, $oldPKs)) {
 								$commandBuilder->createInsertCommand($relationTable, array(
 									$fks[0] => $this->owner->getPrimaryKey(),
-                  $fks[1] => $fk,
-                  'crt_dtm' => new CDbExpression('NOW()'),
-                  'lud_dtm' => new CDbExpression('NOW()'),
+									$fks[1] => $fk,
+									'crt_dtm' => new CDbExpression('NOW()'),
+									'lud_dtm' => new CDbExpression('NOW()'),
 								))->execute();
 							}
 						}
@@ -255,8 +258,11 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 						$newRelatedRecords=$this->owner->getRelated($name, false);
 
 						if ($relation[0]==CActiveRecord::HAS_MANY && !is_array($newRelatedRecords))
-							throw new CDbException('A HAS_MANY relation needs to be an array of records or primary keys!');
-
+						{
+							if(!is_null($newRelatedRecords))
+								throw new CDbException('A HAS_MANY relation needs to be an array of records or primary keys!');
+							break;
+						}
 						// HAS_ONE is special case of HAS_MANY, so we have array with one or no element
 						if ($relation[0]==CActiveRecord::HAS_ONE) {
 							if ($newRelatedRecords===null)
@@ -315,14 +321,14 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	{
 		// @todo not sure about 'together', also check for joinType
 		return !isset($relation['on']) &&
-			   !isset($relation['through']) &&
-			   !isset($relation['condition']) &&
-			   !isset($relation['group']) &&
-			   !isset($relation['join']) &&
-			   !isset($relation['having']) &&
-			   !isset($relation['limit']) && // @todo not sure what to do if limit/offset is set
-			   !isset($relation['offset']) &&
-			   !isset($relation['scopes']);
+				 !isset($relation['through']) &&
+				 !isset($relation['condition']) &&
+				 !isset($relation['group']) &&
+				 !isset($relation['join']) &&
+				 !isset($relation['having']) &&
+				 !isset($relation['limit']) && // @todo not sure what to do if limit/offset is set
+				 !isset($relation['offset']) &&
+				 !isset($relation['scopes']);
 	}
 
 	/**
@@ -394,8 +400,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	 * @return array
 	 */
 	protected function getOldManyManyPks($relationName)
-  {
-    // @todo improve performance by doing simple select query instead of using AR
+	{
+		// @todo improve performance by doing simple select query instead of using AR
 		$tmpAr=CActiveRecord::model(get_class($this->owner))->findByPk($this->owner->getPrimaryKey());
 		return $this->objectsToPrimaryKeys($tmpAr->getRelated($relationName, true));
 	}
@@ -497,6 +503,5 @@ class ECompositeDbCriteria extends CDbCriteria
 		}
 
 		return '(('.implode(') OR (',$sql1).'))';
-  }
+	}
 }
-
