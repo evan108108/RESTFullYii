@@ -438,7 +438,7 @@ class ERestController extends Controller
     return false;
   }
 
-  public function outputHelper($message, $results, $totalCount=1)
+  public function outputHelper($message, $results, $totalCount=0)
   {
     $this->renderJson(array('success'=>true, 'message'=>$message, 'data'=>array('totalCount'=>$totalCount, lcfirst(get_class($this->model))=>$this->allToArray($results))));
   }
