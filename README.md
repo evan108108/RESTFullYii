@@ -228,7 +228,7 @@ EG 'public function doCustomRestPostOrder($data)'
 $ curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"id":"2","order":"French Fries"}' http://yii-tester.local/api/sample/order
 
 ```
-**<a name="Sub-Resources"/>Sub-Resources</a>**
+**<a name="Sub-Resource"/>Sub-Resources</a>**
   
 When working with 'many to many' relations you now have the ability to treat them as sub-resources.  
 
