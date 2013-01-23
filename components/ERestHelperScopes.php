@@ -101,6 +101,6 @@ class ERestHelperScopes extends CActiveRecordBehavior
   private function getSortSQL($field, $dir='ASC')
   {
     return $this->Owner->getTableAlias(false, false) . ".$field $dir";
-  }
+	}	
 
 }

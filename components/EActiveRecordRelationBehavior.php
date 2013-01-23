@@ -109,6 +109,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	public function _composeModelData($model)
 	{ 
 		$modelData = $model->attributes;
+		//echo $model->tableName() . ": ";
+		//print_r($model->tableSchema->primaryKey);
 		if(is_array(($pk = $model->tableSchema->primaryKey)))
 			throw new CHttpException('500', 'Compound Pks are not supported');
 
@@ -118,7 +120,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		{
 			if($model->hasRelated($key))
 			{
-				if(is_object($model->{$key}))
+				if(is_object($model->{$key}))	
 					$modelData[$key] = $this->_composeModelData($model->{$key});
 				else if(array_key_exists(0, $model->{$key}))
 				{
@@ -198,8 +200,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 					 *            relationships, as most DBMS do not support many-to-many relationship directly.
 					 */
 					case CActiveRecord::MANY_MANY:
-
-						if (!$this->owner->hasRelated($name) || !$this->isRelationSupported($relation))
+							break;
+						if(!is_array($this->owner->$name))
 							break;
 
 						Yii::trace('updating MANY_MANY table for relation '.get_class($this->owner).'.'.$name,'system.db.ar.CActiveRecord');
@@ -208,6 +210,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 						list($relationTable, $fks)=$this->parseManyManyFk($name, $relation);
 
 						// get pks of the currently related records
+
 						$newPKs=$this->getNewManyManyPks($name);
 
 
@@ -228,8 +231,6 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 								$commandBuilder->createInsertCommand($relationTable, array(
 									$fks[0] => $this->owner->getPrimaryKey(),
 									$fks[1] => $fk,
-									'crt_dtm' => new CDbExpression('NOW()'),
-									'lud_dtm' => new CDbExpression('NOW()'),
 								))->execute();
 							}
 						}
@@ -505,3 +506,4 @@ class ECompositeDbCriteria extends CDbCriteria
 		return '(('.implode(') OR (',$sql1).'))';
 	}
 }
+

@@ -28,7 +28,8 @@ class ERestController extends Controller
 	protected $requestReader;
 	protected $model = null;
 
-	public function __construct($id, $module = null) {
+	public function __construct($id, $module = null) 
+	{
 		parent::__construct($id, $module);
 		$this->requestReader = new ERequestReader('php://input');
 	}
@@ -52,7 +53,7 @@ class ERestController extends Controller
 
 	public function onException($event)
 	{
-		if(!$this->developmentFlag)
+		if(!$this->developmentFlag && ($event->exception->statusCode == 500 || is_null($event->exception->statusCode)))
 			$message = "Internal Server Error";
 		else
 		{
@@ -61,11 +62,14 @@ class ERestController extends Controller
 				$message = $tempMessage;
 		}
 
-		$this->renderJson(array('success' => false, 'message' => $message, 'data' => array('errorCode'=>500)));
+		$errorCode = is_null($event->exception->statusCode)? 500: $event->exception->statusCode;
+		
+		$this->renderJson(array('success' => false, 'message' => $message, 'data' => array('errorCode'=>$errorCode)));
 		$event->handled = true;
 	}
  
-	public function filters() {
+	public function filters() 
+	{
 		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
 		if(method_exists($this, '_filters'))
 			return CMap::mergeArray($restFilters, $this->_filters());
@@ -76,16 +80,18 @@ class ERestController extends Controller
  
 	public function accessRules()
 	{
-	$restAccessRules = array(
-		array('allow',	// allow all users to perform 'index' and 'view' actions
+		$restAccessRules = array(
+			array(
+				'allow',	// allow all users to perform 'index' and 'view' actions
 				'actions'=>array('restList', 'restView', 'restCreate', 'restUpdate', 'restDelete', 'error'),
 				'users'=>array('*'),
-		));
+			)
+		);
 
-	if(method_exists($this, '_accessRules'))
-		return CMap::mergeArray($restAccessRules, $this->_accessRules());
-	else
-		return $restAccessRules;
+		if(method_exists($this, '_accessRules'))
+			return CMap::mergeArray($restAccessRules, $this->_accessRules());
+		else
+			return $restAccessRules;
 	}	
 
 	/**
@@ -154,25 +160,25 @@ class ERestController extends Controller
 		switch ($statusCode) 
 		{
 			case '200':
-			return self::C200OK;
-			break;
+				return self::C200OK;
+				break;
 			case '201':
-			return self::C201CREATED;
-			break;
+				return self::C201CREATED;
+				break;
 			case '401':
-			return self::C401UNAUTHORIZED;
-			break;
+				return self::C401UNAUTHORIZED;
+				break;
 			case '404':
-			return self::C404NOTFOUND;
-			break;
+				return self::C404NOTFOUND;
+				break;
 			case '406':
-			return self::C406NOTACCEPTABLE;
-			break;
+				return self::C406NOTACCEPTABLE;
+				break;
 			case '500':
-			return self::C500INTERNALSERVERERROR;
-			break;
+				return self::C500INTERNALSERVERERROR;
+				break;
 			default:
-			return self::$default;
+				return self::$default;
 		}
 	}
 
@@ -182,8 +188,11 @@ class ERestController extends Controller
 		if(!is_array($this->nestedModels) && $this->nestedModels == 'auto')
 		{
 			foreach($this->model->metadata->relations as $rel=>$val)
-				$nestedRelations[] = $rel;
-
+			{
+				$className = $val->className;
+				if(!is_array($className::model()->tableSchema->primaryKey))
+					$nestedRelations[] = $rel;
+			}
 			return $nestedRelations;
 		}
 		else if(!is_array($this->nestedModels) && $this->nestedModels === false)
@@ -208,7 +217,8 @@ class ERestController extends Controller
 	/**
 	 * Renders list of data assosiated with controller as json
 	 */
-	public function actionRestList() {
+	public function actionRestList() 
+	{
 		$this->doRestList();
 	}
 	
@@ -218,73 +228,108 @@ class ERestController extends Controller
 	 */ 
 	public function actionRestView($id, $var=null, $var2=null)
 	{
-		//If the value is numeric we can assume we have a record ID
-		if($this->isPk($id))
+		if($this->isPk($id) && is_null($var))
 			$this->doRestView($id);
 		else
 		{
-			//if the $id is not numeric 
-			//we are assume that the client is attempting to call a custom method
-			//There may optionaly be a second param `$var` passed in the url
-			if(isset($var) && isset($var2))
-			$var = array($var, $var2);
-			$id = 'doCustomRestGet' . ucfirst($id);
-			if(method_exists($this, $id))
-			$this->$id($var);
+			if($this->isPk($id) && !is_null($var) && is_null($var2))
+			{
+				if($this->validateSubResource($var))
+					$this->doRestViewSubResource($id, $var);
+				else
+					$this->triggerCustomRestGet(ucFirst($var), array($id));
+			}
+			else if($this->isPk($id) && !is_null($var) && !is_null($var2))
+			{
+				if($this->validateSubResource($var))
+					$this->doRestViewSubResource($id, $var, $var2);
+				else
+					$this->triggerCustomRestGet(ucFirst($var), array($id, $var2));
+			}
 			else
-			throw new CHttpException(500, 'Method does not exist.');
+			{
+				//if the $id is not numeric and var + var2 are not set
+				//we are assume that the client is attempting to call a custom method
+				//There may optionaly be a second param `$var` passed in the url
+				$this->triggerCustomRestGet(ucFirst($id), array($var, $var2));
+			}
 		}
 	}
 
 	/**
 	 * Updated record
 	 */ 
-	public function actionRestUpdate($id, $var=false)
+	public function actionRestUpdate($id, $var=null, $var2=null)
 	{
-		$this->HTTPStatus = $this->getHttpStatus('201');
-
-		if(!$var)
-			$this->doRestUpdate($id, $this->data());
-		else
+		$this->HTTPStatus = $this->getHttpStatus('200');
+			
+		if($this->isPk($id))
 		{
-			$var = 'doCustomRestPut' . ucfirst($var);
-			if(method_exists($this, $var))
-				$this->$var($id, $this->data());
-			else if($this->isPk($var))
+			if(is_null($var))
 				$this->doRestUpdate($id, $this->data());
-			else
-				throw new CHttpException(500, 'Method does not exist.');
+			else if (is_null($var2))
+				$this->triggerCustomRestPut($var, array($id));
+			else if(!is_null($var2))
+			{
+				if($this->validateSubResource($var))
+					$this->doRestUpdateSubResource($id, $var, $var2);
+				else
+					$this->triggerCustomRestPut($var, array($id, $var2));
+			} 
 		}
+		else
+			$this->triggerCustomRestPut($id, array($var, $var2));
 	}
+	
 
 	/**
 	 * Creates new record
 	 */ 
-	public function actionRestCreate($id=null) {
+	public function actionRestCreate($id=null, $var=null) 
+	{
 		$this->HTTPStatus = $this->getHttpStatus('201');
 
-		if(!$id) {
+		if(!$id) 
+		{
 			$this->doRestCreate($this->data());
 		}
 		else
 		{
-			//we can assume if $id is set the user is trying to call a custom method
-			$id = 'doCustomRestPost' . ucfirst($id);
-			if(method_exists($this, $id))
-				$this->$id($this->data());
+			//we can assume if $id is set and var is not a subresource
+			//then the user is trying to call a custom method
+			$var = 'doCustomRestPost' . ucfirst($id);
+			if(method_exists($this, $var))
+				$this->$var($this->data());
 			else if($this->isPk($var))
 				$this->doRestCreate($this->data());
 			else
-				throw new CHttpException(500, 'Method does not exist.');
+				throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
 		}
 	}
 
 	/**
 	 * Deletes record
 	 */ 
-	public function actionRestDelete($id)
+	public function actionRestDelete($id, $var=null, $var2=null)
 	{
-	$this->doRestDelete($id);
+		if($this->isPk($id))
+		{
+			if(is_null($var))
+				$this->doRestDelete($id);
+			else if(!is_null($var2))
+			{
+				if($this->validateSubResource($var, $var2))
+					$this->doRestDeleteSubResource($id, $var, $var2); //Looks like we are trying to delete a subResource
+				else
+					$this->triggerCustomDelete($var, array($id, $var2));
+			}
+			else 
+				$this->triggerCustomDelete($var, array($id));
+		}
+		else
+		{
+			$this->triggerCustomDelete($id, array($var, $var2));
+		}
 	}
 
 	 /**
@@ -307,7 +352,8 @@ class ERestController extends Controller
 	/**
 	 * Get data submited by the client
 	 */ 
-	public function data() {
+	public function data() 
+	{
 		$request = $this->requestReader->getContents();
 		if ($request) {
 			if ($json_post = CJSON::decode($request)){
@@ -325,11 +371,12 @@ class ERestController extends Controller
 	 * The assumption is that the model name matches your controller name
 	 * If this is not the case you should override this method in your controller
 	 */ 
-	public function getModel() {
-		if ($this->model === null) {
+	public function getModel() 
+	{
+		if ($this->model === null) 
+		{
 			$modelName = str_replace('Controller', '', get_class($this)); 
 			$this->model = new $modelName;
-			//$this->model->on("error", function($event) { echo 'dude'; exit(); } );
 		}
 		$this->_attachBehaviors($this->model);
 		return $this->model;
@@ -338,7 +385,8 @@ class ERestController extends Controller
 	/**
 	* Helper for loading a single model
 	*/
-	protected function loadOneModel($id) {
+	protected function loadOneModel($id) 
+	{
 		return $this->getModel()->with($this->nestedRelations)->findByPk($id);
 	}
 
@@ -346,14 +394,13 @@ class ERestController extends Controller
 	//Updated setModelAttributes to allow for related data to be set.
 	private function setModelAttributes($model, $data)
 	{
-		foreach($data as $var=>$value) {
-			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $this->restrictedProperties)) {
+		foreach($data as $var=>$value) 
+		{
+			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $this->restrictedProperties)) 
 				$model->$var = $value;
-			}
 			else
 				throw new CHttpException(406, 'Parameter \'' . $var . '\' is not allowed for model');
 		 }
-
 		return $model;
 	}
 	
@@ -404,7 +451,9 @@ class ERestController extends Controller
 	}
 
 
-
+	/**
+	 *  Convert list of models or single model to array
+	 */ 
 	public function allToArray($models, $options=array('relname'=>''))
 	{
 		if(is_array($models))
@@ -426,6 +475,58 @@ class ERestController extends Controller
 			return array();
 	}
 
+	public function triggerCustomRestGet($id, $vars=array())
+	{
+		$method = 'doCustomRestGet' . ucfirst($id);
+		if(method_exists($this, $method))
+			$this->$method($vars);
+		else
+			throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
+	}
+
+	public function triggerCustomRestPut($method, $vars=array())
+	{
+		$method = 'doCustomRestPut' . ucfirst($method);
+		
+		if(method_exists($this, $method))
+		{
+			if(count($vars) > 0)
+				$this->$method($this->data(), $vars);
+			else
+				$this->$method($this->data());
+		}
+		throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
+	}
+
+	public function triggerCustomDelete($methodName, $vars=array())
+	{
+		$method = 'doCustomRestDelete' . ucfirst($methodName);
+		if(method_exists($this, $method))
+			$this->$method($vars);
+		else
+			throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
+	}
+
+	public function validateSubResource($subResourceName, $subResourceID=null)
+	{
+		if(is_null($relations = $this->getModel()->relations()))
+			return false;
+		if(!isset($relations[$subResourceName]))
+			return false;
+		if($relations[$subResourceName][0] != CActiveRecord::MANY_MANY)
+			return false;
+		if(!is_null($subResourceID))
+			return filter_var($subResourceID, FILTER_VALIDATE_INT) !== false;
+
+		return true;
+	}
+
+	public function getSubResource($subResourceName)
+	{
+		$relations = $this->getModel()->relations();
+		return $this->getModel()->parseManyManyFk($subResourceName, $relations[$subResourceName]);
+	}
+
 	/**
 	****************************************************************************************** 
 	******************************************************************************************
@@ -437,7 +538,8 @@ class ERestController extends Controller
 	/**
 	 * Override this function if your model uses a non Numeric PK.
 	 */
-	public function isPk($pk) {
+	public function isPk($pk) 
+	{
 		return filter_var($pk, FILTER_VALIDATE_INT) !== false;
 	} 
 
@@ -450,9 +552,21 @@ class ERestController extends Controller
 		return false;
 	}
 
-	public function outputHelper($message, $results, $totalCount=0)
+	public function outputHelper($message, $results, $totalCount=0, $model=null)
 	{
-		$this->renderJson(array('success'=>true, 'message'=>$message, 'data'=>array('totalCount'=>$totalCount, lcfirst(get_class($this->model))=>$this->allToArray($results))));
+		if(is_null($model))
+			$model = lcfirst(get_class($this->model));
+		else
+			$model = lcfirst($model);	
+		
+		$this->renderJson(array(
+			'success'=>true, 
+			'message'=>$message, 
+			'data'=>array(
+				'totalCount'=>$totalCount, 
+				$model=>$this->allToArray($results)
+			)
+		));
 	}
 
 	/**
@@ -464,9 +578,73 @@ class ERestController extends Controller
 	{
 		$this->outputHelper( 
 			'Records Retrieved Successfully', 
-			$this->getModel()->with($this->nestedRelations)->filter($this->restFilter)->orderBy($this->restSort)->limit($this->restLimit)->offset($this->restOffset)->findAll(),
-			$this->getModel()->with($this->nestedRelations)->filter($this->restFilter)->count()
+			$this->getModel()->with($this->nestedRelations)
+				->filter($this->restFilter)->orderBy($this->restSort)
+				->limit($this->restLimit)->offset($this->restOffset)
+			->findAll(),
+			$this->getModel()
+				->with($this->nestedRelations)
+				->filter($this->restFilter)
+			->count()
 		);
+	}
+	
+	/**
+	 * This is broken out as a sperate method from actionRestView
+	 * To allow for easy overriding in the controller
+	 * adn to allow for easy unit testing
+	 */ 
+	public function doRestViewSubResource($id, $subResource, $subResourceID=null)
+	{
+		$subResourceRelation = $this->getModel()->getActiveRelation($subResource);
+		$subResourceModel = new $subResourceRelation->className;
+		$this->_attachBehaviors($subResourceModel);
+
+		if(is_null($subResourceID))
+		{
+			$modelName = get_class($this->model);
+			$newRelationName = "_" . $subResourceRelation->className . "Count";
+			$this->getModel()->metaData->addRelation($newRelationName, array(
+        $modelName::STAT, $subResourceRelation->className, $subResourceRelation->foreignKey
+			));
+
+			$model = $this->getModel()->with($newRelationName)->findByPk($id);
+			$count = $model->$newRelationName;
+
+			$results = $this->getModel()
+				->with($subResource)
+				->limit($this->restLimit)
+				->offset($this->restOffset)
+			->findByPk($id, array('together'=>true));
+
+			$results = $results->$subResource;
+
+			$this->outputHelper(
+				'Records Retrieved Successfully', 
+				$results,
+				$count,
+				$subResourceRelation->className
+			);
+		}
+		else
+		{		
+			$results = $this->getModel()
+				->with($subResource)
+				->findByPk($id, array('condition'=>"$subResource.id=$subResourceID"));
+
+			if(is_null($results))
+			{
+				$this->HTTPStatus = 404;
+				throw new CHttpException('404', 'Record Not Found');
+			}
+
+			$this->outputHelper(
+				'Record Retrieved Successfully', 
+				$results->$subResource,
+				1,
+				$subResourceRelation->className
+			);
+		}
 	}
 
 	 /**
@@ -479,18 +657,14 @@ class ERestController extends Controller
 		$model = $this->loadOneModel($id);
 		if(is_null($model))
 		{
-			$message = 'Record not found';
-			$count = 0;
+			$this->HTTPStatus = 404;
+				throw new CHttpException('404', 'Record Not Found');
 		}
-		else
-		{
-			$message = 'Record Retrieved Successfully';
-			$count = 1;
-		}
+	
 		$this->outputHelper(
-			$message, 
+			'Record Retrieved Successfully', 
 			$model,
-			$count
+			1
 		);
 	}
 
@@ -499,7 +673,8 @@ class ERestController extends Controller
 	 * To allow for easy overriding in the controller
 	 * and to allow for easy unit testing
 	 */ 
-	public function doRestUpdate($id, $data) {		
+	public function doRestUpdate($id, $data) 
+	{		
 		$model = $this->saveModel($this->loadOneModel($id), $data);
 		$this->outputHelper(
 			'Record Updated',
@@ -513,7 +688,8 @@ class ERestController extends Controller
 	 * To allow for easy overriding in the controller
 	 * and to alow for easy unit testing
 	 */ 
-	public function doRestCreate($data) {
+	public function doRestCreate($data) 
+	{
 		$models = $this->saveModel($this->getModel(), $data);
 		//$this->renderJson(array('success'=>true, 'message'=>'Record(s) Created', 'data'=>array($models)));
 		$this->outputHelper(
@@ -521,6 +697,36 @@ class ERestController extends Controller
 			$models,
 			count($models)
 		);
+	}
+
+	/**
+	 * This is broken out as a sperate method from actionRestCreate 
+	 * To allow for easy overriding in the controller
+	 * and to alow for easy unit testing
+	 */
+	public function doRestUpdateSubResource($id, $subResource, $subResourceID)
+	{
+		list($relationTable, $fks) = $this->getSubResource($subResource);
+		if($this->saveSubResource($id, $subResourceID, $relationTable, $fks) > 0)
+		{
+			$this->renderJson(
+				array('success'=>true, 'message'=>'Sub-Resource Added', 'data'=>array(
+					$fks[0] => $id,
+					$fks[1] => $subResourceID,
+				))
+			);
+		}
+		else
+			throw new CHttpException('500', 'Could not save Sub-Resource');
+		
+	}
+
+	public function saveSubResource($pk, $fk, $relationTable, $fks)
+	{
+		return $this->getModel()->dbConnection->commandBuilder->createInsertCommand($relationTable, array(
+			$fks[0] => $pk,
+			$fks[1] => $fk,
+		))->execute();
 	}
 	
 	/**
@@ -530,7 +736,7 @@ class ERestController extends Controller
 	 */ 
 	public function doRestDelete($id)
 	{
-		$model = $this->loadModel($id);
+		$model = $this->loadOneModel($id);
 		if($model->delete())
 			$data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array('id'=>$id));
 		else
@@ -538,62 +744,46 @@ class ERestController extends Controller
 
 		$this->renderJson($data);
 	}
-
-
+	
 	/**
-	 * Provides the ability to Limit and offset results
-	 * http://example.local/api/sample/limit/1/2
-	 * The above example would limit results to 1
-	 * and offest them by 2
+	 * This is broken out as a sperate method from actionRestDelete 
+	 * To allow for easy overridding in the controller
+	 * and to alow for easy unit testing
 	 */ 
-	public function doCustomRestGetLimit($var) {
-		$criteria = new CDbCriteria();
-		
-		if(is_array($var)){
-				$criteria->limit = $var[0];
-				$criteria->offset = $var[1];
-		}
-		else {
-				$criteria->limit = $var;
-		}
-
-		//$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAll($criteria)));
-		$this->outputHelper( 
-			'Records Retrieved Successfully', 
-			$this->getModel()->with($this->nestedRelations)->findAll($criteria),
-			$this->getModel()->with($this->nestedRelations)->count()
-		);
-	}
-
-	/**
-	 * Returns the current record count
-	 * http://example.local/api/sample/count
-	 */ 
-	public function doCustomRestGetCount($var=null, $remote=true) {
-		$this->renderJson(array('success'=>true, 'message'=>'Record Count Retrieved Successfully', 'data'=>array('totalCount'=> $this->getModel()->count() )));
-	}
-
-	/**
-	 * Search by attribute
-	 * Simply post a list of attributes and values you wish to search by
-	 * http://example.local/api/sample/search
-	 * POST = {'id':'6', 'name':'evan'}
-	 */ 
-	public function doCustomRestPostSearch($data)
+	public function doRestDeleteSubResource($id, $subResource, $subResourceID)
 	{
-		//$this->renderJson(array('success'=>true, 'message'=>'Records Retrieved Successfully', 'data'=>$this->getModel()->findAllByAttributes($data)));	
-		$this->outputHelper( 
-			'Records Retrieved Successfully', 
-			$this->getModel()->with($this->nestedRelations)->filter($data)->orderBy($this->restSort)->limit($this->restLimit)->offset($this->restOffset)->findAll(),
-			$this->getModel()->with($this->nestedRelations)->filter($data)->count()
-		);  
+		list($relationTable, $fks) = $this->getSubResource($subResource);
+		$criteria=new CDbCriteria();
+		$criteria->addColumnCondition(array(
+			$fks[0]=>$id,
+			$fks[1]=>$subResourceID
+		));
+		if($this->getModel()->dbConnection->commandBuilder->createDeleteCommand($relationTable, $criteria)->execute())
+		{
+			$data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array(
+				$fks[0]=>$id,
+				$fks[1]=>$subResourceID
+			));
+		}
+		else
+		{
+			throw new CHttpException(406, 'Could not delete model with ID: ' . array(
+				$fks[0]=>$id,
+				$fks[1]=>$subResourceID
+			));
+		}
+		
+		$this->renderJson($data);
 	}
 
-	public function setRequestReader($requestReader) {
+	public function setRequestReader($requestReader) 
+	{
 		$this->requestReader = $requestReader;
 	}
 
-	public function setModel($model) {
+	public function setModel($model) 
+	{
 		$this->model = $model;
 	}
 }
+
