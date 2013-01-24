@@ -234,27 +234,29 @@ When working with 'many to many' relations you now have the ability to treat the
 
 Consider:  
 ```
+URL Format: http://mysite.com/api/<controller>/<id>/<many_many_relation>/<many_many_relation_id>
+
 Getting player 3 who is on team 1  
 or simply checking whether player 3 is on that team (200 vs. 404)  
-GET /teams/1/players/3  
+GET /team/1/players/3  
 
 getting player 3 who is also on team 3  
-GET /teams/3/players/3  
+GET /team/3/players/3  
 
 Adding player 3 also to team 2  
-PUT /teams/2/players/3  
+PUT /team/2/players/3  
 
 Getting all teams of player 3  
-GET /players/3/teams  
+GET /player/3/teams  
 
 Remove player 3 from team 1 (Injury)
-DELETE /teams/1/players/3  
+DELETE /team/1/players/3  
 
 Team 1 found a replacement, who is not registered in league yet  
-POST /players  
+POST /player  
 
 From payload you get back the id, now place it officially to team 1  
-PUT /teams/1/players/44  
+PUT /team/1/players/44  
 ```
 
 
