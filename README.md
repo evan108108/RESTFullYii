@@ -222,7 +222,7 @@ Similarly you can POST, PUT, DELETE' to a custom function. You must prefix your 
 
 EG [POST] 'public function doCustomRestPostOrder($data)'  
 EG [PUT]  'public function doCustomRestPutOrder($data, $vars=array())'  
-EG [DELETE]  'public function doCustomRestPutOrder($data, $vars=array())'  
+EG [DELETE]  'public function doCustomRestDeleteOrder($data, $vars=array())'  
 
 **POST**
 
