@@ -240,25 +240,25 @@ URL Format: http://mysite.com/api/<controller>/<id>/<many_many_relation>/<many_m
 
 Getting player 3 who is on team 1  
 or simply checking whether player 3 is on that team (200 vs. 404)  
-GET /team/1/players/3  
+GET /api/team/1/players/3  
 
 getting player 3 who is also on team 3  
-GET /team/3/players/3  
+GET /api/team/3/players/3  
 
 Adding player 3 also to team 2  
-PUT /team/2/players/3  
+PUT /api/team/2/players/3  
 
 Getting all teams of player 3  
-GET /player/3/teams  
+GET /api/player/3/teams  
 
 Remove player 3 from team 1 (Injury)
-DELETE /team/1/players/3  
+DELETE /api/team/1/players/3  
 
 Team 1 found a replacement, who is not registered in league yet  
-POST /player  
+POST /api/player  
 
 From payload you get back the id, now place it officially to team 1  
-PUT /team/1/players/44  
+PUT /api/team/1/players/44  
 ```
 
 
