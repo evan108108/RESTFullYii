@@ -51,11 +51,7 @@
 
 <pre><code>[GET] http://yoursite.com/api/post/ (returns all posts)
 [GET] http://yoursite.com/api/post/1 (returns post with PK=1)
-[GET] http://yoursite.com/api/post/count (returns total count of posts)
-[GET] http://yoursite.com/api/post/limit/x (returns x number of posts)
-[GET] http://yoursite.com/api/post/limit/x/y (returns x number of posts with offset y)
 [POST] http://yoursite.com/api/post/ (create new post)
-[POST] http://yoursite.com/api/post/search (returns posts matching post attributes)
 [PUT] http://yoursite.com/api/post/1 (update post with PK=1)
 [DELETE] http://yoursite.com/api/post/1 (delete post with PK=1)
 </code></pre>
@@ -67,10 +63,12 @@
 <h2>NEW</h2>
 
 <ul>
+<li>Now you can <a href="#Sub-Resource">Sub-Resource</a> your 'many to many' Joins.</li>
 <li>Use with javascript (See validateAjaxUser in ERestController)</li>
 <li>Record count now included in JSON output </li>
 <li>Query String filter/sort/limit/offset :</li>
-</ul><div class="highlight"><pre>/api/post/?limit<span class="o">=</span>2&amp;offset<span class="o">=</span>1&amp;sort<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>,<span class="s1">'direction'</span>:<span class="s1">'ASC'</span><span class="o">}]</span>&amp;filter<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>, <span class="s1">'value'</span>:<span class="s1">'some value'</span><span class="o">}</span>,<span class="o">{</span><span class="s1">'property'</span>:<span class="s1">'comment'</span>, <span class="s1">'value'</span>:<span class="s1">'You need a REST'</span><span class="o">}]</span>
+</ul><div class="highlight"><pre>/api/post/?
+<span class="nv">limit</span><span class="o">=</span>2&amp;offset<span class="o">=</span>1&amp;sort<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>,<span class="s1">'direction'</span>:<span class="s1">'ASC'</span><span class="o">}]</span>&amp;filter<span class="o">=[{</span><span class="s1">'property'</span>:<span class="s1">'title'</span>, <span class="s1">'value'</span>:<span class="s1">'some value'</span><span class="o">}</span>,<span class="o">{</span><span class="s1">'property'</span>:<span class="s1">'comment'</span>, <span class="s1">'value'</span>:<span class="s1">'You need a REST'</span><span class="o">}]</span>
 </pre></div>
 
 <ul>
@@ -131,46 +129,27 @@
 
 <p>You will need to add the routes below to your main.php. They should be added to the beginning of the rules array.</p>
 
-<div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s1">'urlFormat'</span><span class="o">=&gt;</span><span class="s1">'path'</span><span class="p">,</span>
-  <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s1">'api/&lt;controller:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restList'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;/&lt;var:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'GET'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restUpdate'</span><span class="p">,</span>
-      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'PUT'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restDelete'</span><span class="p">,</span>
-      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'DELETE'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span>
-      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;'</span><span class="p">,</span>
-      <span class="s1">'verb'</span> <span class="o">=&gt;</span> <span class="s1">'POST'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span>
-      <span class="s1">'pattern'</span> <span class="o">=&gt;</span> <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;'</span><span class="p">,</span>
-      <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'POST'</span><span class="p">,</span>
-    <span class="p">),</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/view'</span><span class="p">,</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
-  <span class="p">),</span>
-<span class="p">),</span>
+<div class="highlight"><pre>    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'api/&lt;controller:\w+&gt;'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restList'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'GET'</span><span class="p">),</span>
+        <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'GET'</span><span class="p">),</span>
+        <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'GET'</span><span class="p">),</span>
+        <span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;/&lt;var2:\w*&gt;'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restView'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'GET'</span><span class="p">),</span>
+
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restUpdate'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'PUT'</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restUpdate'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'PUT'</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restUpdate'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w*&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;/&lt;var2:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'PUT'</span><span class="p">),</span>   
+
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restDelete'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'DELETE'</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restDelete'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'DELETE'</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restDelete'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w*&gt;/&lt;var:\w*&gt;/&lt;var2:\w*&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'DELETE'</span><span class="p">),</span>
+
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'POST'</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">'&lt;controller&gt;/restCreate'</span><span class="p">,</span> <span class="s1">'pattern'</span><span class="o">=&gt;</span><span class="s1">'api/&lt;controller:\w+&gt;/&lt;id:\w+&gt;'</span><span class="p">,</span> <span class="s1">'verb'</span><span class="o">=&gt;</span><span class="s1">'POST'</span><span class="p">),</span>
+
+        <span class="s1">'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span><span class="o">=&gt;</span><span class="s1">'&lt;controller&gt;/view'</span><span class="p">,</span>
+        <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'</span><span class="o">=&gt;</span><span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
+        <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'</span><span class="o">=&gt;</span><span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>  
+    <span class="p">);</span>
 </pre></div>
 
 <p>Alternatively you can choose to use the included routes.php. Then your main.php
@@ -179,25 +158,6 @@ config for 'urlManager' should look like this:</p>
 <div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
   <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
   <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">require</span><span class="p">(</span><span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="s1">'/../extensions/restfullyii/config/routes.php'</span><span class="p">),</span>
-<span class="p">),</span>
-</pre></div>
-
-<p>Another alternative is to use the custom rule class.  To use this method you
-will need to set the 'restControllers' parameter to the array of controllers you
-would like to use with RestFullYii. Your urlManager in main.php would look
-something like this:</p>
-
-<div class="highlight"><pre><span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-  <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
-  <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-    <span class="k">array</span><span class="p">(</span>
-      <span class="s1">'class'</span> <span class="o">=&gt;</span> <span class="s1">'application.extensions.restfullyii.components.RestUrlRule'</span><span class="p">,</span>
-      <span class="s1">'restControllers'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">'YourController1'</span><span class="p">,</span> <span class="s1">'YourController2'</span><span class="p">,</span> <span class="s1">'...'</span><span class="p">),</span>
-    <span class="p">),</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/view'</span><span class="p">,</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;/&lt;id:\d+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
-    <span class="s1">'&lt;controller:\w+&gt;/&lt;action:\w+&gt;'</span> <span class="o">=&gt;</span> <span class="s1">'&lt;controller&gt;/&lt;action&gt;'</span><span class="p">,</span>
-  <span class="p">),</span>
 <span class="p">),</span>
 </pre></div>
 
@@ -244,6 +204,8 @@ that you simply change the name of these methods by prepending an underscore
 system modify the 'filterRestAccessRules' method in 'ERestController'. This
 should be straight forward.</p>
 
+<p>To use with Javascript you simply need to override the 'validateAjaxUser' method in ERestController with custom logic.</p>
+
 <h2>Usage</h2>
 
 <p>Sample Requests:</p>
@@ -252,8 +214,6 @@ should be straight forward.</p>
 
 <div class="highlight"><pre><span class="c"># Listing</span>
 <span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/
-<span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/limit/1
-<span class="nv">$ </span>curl -i -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/limit/10/5 <span class="o">(</span>limit/offeset<span class="o">)</span>
 
 <span class="c"># Viewing</span>
 <span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/174
@@ -294,9 +254,42 @@ should be straight forward.</p>
 <p><strong>POST</strong></p>
 
 <div class="highlight"><pre><span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> -X POST -d <span class="s1">'{"id":"2","order":"French Fries"}'</span> http://yii-tester.local/api/sample/order
+
 </pre></div>
 
-<p>To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:</p>
+<p><strong><a name="Sub-Resource"></a>Sub-Resources</strong></p>
+
+<p>When working with 'many to many' relations you now have the ability to treat them as sub-resources.  </p>
+
+<p>Consider:  </p>
+
+<pre><code>URL Format: http://mysite.com/api/&lt;controller&gt;/&lt;id&gt;/&lt;many_many_relation&gt;/&lt;many_many_relation_id&gt;
+
+Getting player 3 who is on team 1  
+or simply checking whether player 3 is on that team (200 vs. 404)  
+GET /team/1/players/3  
+
+getting player 3 who is also on team 3  
+GET /team/3/players/3  
+
+Adding player 3 also to team 2  
+PUT /team/2/players/3  
+
+Getting all teams of player 3  
+GET /player/3/teams  
+
+Remove player 3 from team 1 (Injury)
+DELETE /team/1/players/3  
+
+Team 1 found a replacement, who is not registered in league yet  
+POST /player  
+
+From payload you get back the id, now place it officially to team 1  
+PUT /team/1/players/44  
+</code></pre>
+
+<p><strong>Changing Default RestFullYii Behavior</strong><br>
+To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:</p>
 
 <div class="highlight"><pre> <span class="k">public</span> <span class="k">function</span> <span class="nf">isPk</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span>
 
@@ -306,17 +299,17 @@ should be straight forward.</p>
 
  <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestView</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
 
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestViewSubResource</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subResource</span><span class="p">,</span> <span class="nv">$subResourceID</span><span class="o">=</span><span class="k">null</span><span class="p">)</span>
+
  <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestUpdate</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$data</span><span class="p">)</span>
+
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestUpdateSubResource</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subResource</span><span class="p">,</span> <span class="nv">$subResourceID</span><span class="p">)</span>
 
  <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestCreate</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
 
  <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestDelete</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
 
- <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestGetLimit</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span>
-
- <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestGetCount</span><span class="p">(</span><span class="nv">$var</span><span class="o">=</span><span class="k">null</span><span class="p">,</span> <span class="nv">$remote</span><span class="o">=</span><span class="k">true</span><span class="p">)</span>
-
- <span class="k">public</span> <span class="k">function</span> <span class="nf">doCustomRestPostSearch</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">doRestDeleteSubResource</span><span class="p">(</span><span class="nv">$id</span><span class="p">,</span> <span class="nv">$subResource</span><span class="p">,</span> <span class="nv">$subResourceID</span><span class="p">)</span>
 </pre></div>
       </section>
       <footer>
