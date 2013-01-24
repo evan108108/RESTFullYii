@@ -247,9 +247,11 @@ should be straight forward.</p>
 <span class="nv">$ </span>curl -l -H <span class="s2">"Accept: application/json"</span> -H <span class="s2">"X_REST_USERNAME: admin@restuser"</span> -H <span class="s2">"X_REST_PASSWORD: admin@Access"</span> http://yii-tester.local/api/sample/order/2
 </pre></div>
 
-<p>Similarly you can POST' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')</p>
+<p>Similarly you can POST, PUT, DELETE' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')</p>
 
-<p>EG 'public function doCustomRestPostOrder($data)'</p>
+<p>EG [POST] 'public function doCustomRestPostOrder($data)'<br>
+EG [PUT]  'public function doCustomRestPutOrder($data, $vars=array())'<br>
+EG [DELETE]  'public function doCustomRestDeleteOrder($data, $vars=array())'  </p>
 
 <p><strong>POST</strong></p>
 
@@ -267,25 +269,25 @@ should be straight forward.</p>
 
 Getting player 3 who is on team 1  
 or simply checking whether player 3 is on that team (200 vs. 404)  
-GET /team/1/players/3  
+GET /api/team/1/players/3  
 
 getting player 3 who is also on team 3  
-GET /team/3/players/3  
+GET /api/team/3/players/3  
 
 Adding player 3 also to team 2  
-PUT /team/2/players/3  
+PUT /api/team/2/players/3  
 
 Getting all teams of player 3  
-GET /player/3/teams  
+GET /api/player/3/teams  
 
 Remove player 3 from team 1 (Injury)
-DELETE /team/1/players/3  
+DELETE /api/team/1/players/3  
 
 Team 1 found a replacement, who is not registered in league yet  
-POST /player  
+POST /api/player  
 
 From payload you get back the id, now place it officially to team 1  
-PUT /team/1/players/44  
+PUT /api/team/1/players/44  
 </code></pre>
 
 <p><strong>Changing Default RestFullYii Behavior</strong><br>
