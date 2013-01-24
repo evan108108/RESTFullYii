@@ -218,9 +218,11 @@ $ curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H 
 $ curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://yii-tester.local/api/sample/order/2
 ```
 
-Similarly you can POST' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')
+Similarly you can POST, PUT, DELETE' to a custom function. You must prefix your method withdoCustomRestPost(same is true for PUTdoCustomRestPutOrder($data)')
 
-EG 'public function doCustomRestPostOrder($data)'
+EG [POST] 'public function doCustomRestPostOrder($data)'  
+EG [PUT]  'public function doCustomRestPutOrder($data, $vars=array())'  
+EG [DELETE]  'public function doCustomRestPutOrder($data, $vars=array())'  
 
 **POST**
 
