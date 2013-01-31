@@ -428,7 +428,7 @@ class ERestController extends Controller
 			if(!$models[$cnt]->save())
 				throw new CHttpException(406, 'Model could not be saved');
 			else
-				$ids[] = $models[$cnt]->id;
+				$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
 		}
 		return $models;
 	} 
