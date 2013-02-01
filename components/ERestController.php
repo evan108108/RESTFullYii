@@ -62,7 +62,7 @@ class ERestController extends Controller
 				$message = $tempMessage;
 		}
 
-		$errorCode = is_null($event->exception->statusCode)? 500: $event->exception->statusCode;
+		$errorCode = (!isset($event->exception->statusCode) || is_null($event->exception->statusCode))? 500: $event->exception->statusCode;
 		
 		$this->renderJson(array('success' => false, 'message' => $message, 'data' => array('errorCode'=>$errorCode)));
 		$event->handled = true;
