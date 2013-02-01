@@ -122,7 +122,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 			{
 				if(is_object($model->{$key}))	
 					$modelData[$key] = $this->_composeModelData($model->{$key});
-				else if(array_key_exists(0, $model->{$key}))
+				else if(is_array($model->{$key}) && array_key_exists(0, $model->{$key}))
 				{
 					foreach($model->{$key} as $relatedData)
 					{
