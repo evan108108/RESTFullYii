@@ -678,7 +678,7 @@ class ERestController extends Controller
 		$model = $this->saveModel($this->loadOneModel($id), $data);
 		$this->outputHelper(
 			'Record Updated',
-			$model,
+			$this->loadOneModel($id),
 			1
 		);
 	}
