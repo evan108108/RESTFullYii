@@ -107,7 +107,8 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 
 	//Takes Model and nested relations (Models or Arrays) and returns array.
 	public function _composeModelData($model)
-	{ 
+	{ 	//initializing related data as an array to avoid undefined errors
+		$relatedData = array();
 		$modelData = $model->attributes;
 		//echo $model->tableName() . ": ";
 		//print_r($model->tableSchema->primaryKey);
