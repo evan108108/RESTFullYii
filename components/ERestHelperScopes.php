@@ -64,7 +64,7 @@ class ERestHelperScopes extends CActiveRecordBehavior {
                 $cType = $this->getFilterCType($field);
 
                 if (array_key_exists('operator', $filterItem) || is_array($value)) {
-                    if (is_array($value)) {
+                    if (!array_key_exists('operator', $filterItem)) {
                         $operator = 'in';
                     } else {
                         $operator = strtolower($filterItem['operator']);
@@ -74,9 +74,10 @@ class ERestHelperScopes extends CActiveRecordBehavior {
                         case 'in':
                             $paramsStr = '';
                             foreach ((array) $value as $index => $item) {
+                                $paramsStr.= (empty($paramsStr)) ? '' : ', ';
                                 $params[(":" . $prop . '_' . $index)] = $item;
+                                $paramsStr.= (":" . $prop . '_' . $index);
                             }
-                            $paramsStr = implode(', ', array_keys($params));
 
                             $compare = " " . strtoupper($operator) . " ({$paramsStr})";
                             break;
