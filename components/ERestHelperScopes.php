@@ -70,13 +70,15 @@ class ERestHelperScopes extends CActiveRecordBehavior {
                         $operator = strtolower($filterItem['operator']);
                     }
                     switch ($operator) {
+                        case 'not in':
                         case 'in':
                             $paramsStr = '';
-                            foreach ($value as $index => $item) {
+                            foreach ((array) $value as $index => $item) {
                                 $params[(":" . $prop . '_' . $index)] = $item;
                             }
-                            $paramsStr = implode(',', array_keys($params));
-                            $compare = " IN ({$paramsStr})";
+                            $paramsStr = implode(', ', array_keys($params));
+
+                            $compare = " " . strtoupper($operator) . " ({$paramsStr})";
                             break;
                         case 'like':
                             $compare = " LIKE :" . $prop;
@@ -88,6 +90,11 @@ class ERestHelperScopes extends CActiveRecordBehavior {
                         case '>' :
                         case '>=':
                             $compare = " $operator :" . $prop;
+                            $params[(":" . $prop)] = $value;
+                            break;
+                        case '!=':
+                        case '<>':
+                            $compare = " <> :" . $prop;
                             $params[(":" . $prop)] = $value;
                             break;
                         default :
