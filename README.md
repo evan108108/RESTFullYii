@@ -263,8 +263,8 @@ PUT /api/team/1/players/44
 
 **Query String Operations**  
 You can add filter, sort, limit and offset properties to your get request URL's. 
-   
-**<a name="#filter">Filter</a>**
+
+**<a name="filter">Filter</a>**
 ```
 [GET] /api/post/?filter = [
   {"property": "id", "value" : 50, "operator": ">="}
@@ -276,7 +276,7 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 ]
 ```
 
-**<a name="#sort">Sort</a>**
+**<a name="sort">Sort</a>**
 ```
 [GET] /api/post/?sort = [
 [
@@ -285,12 +285,12 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 ]
 ```
 
-**<a name="#limit">Limit</a>**
+**<a name="limit">Limit</a>**
 ```
 [GET] /api/post/?limit=10
 ```
 
-**<a name="#offset">Offset</a>**
+**<a name="offset">Offset</a>**
 ```
 [GET] /api/post/?limit=10&offset=20  
 ```
