@@ -24,7 +24,7 @@ Yii 1.8 or above
 * Now you can [Sub-Resource](#Sub-Resource) your 'many to many' Joins.
 * Use with javascript (See validateAjaxUser in ERestController)
 * Record count now included in JSON output 
-* Query String  -> [sort](#query-string-sort-operators), [limit](#query-string-limit-operators), [offset](#query-string-offset-operators), [filter](#query-string-filter-operators) (now with operators):
+* Query String  -> [sort](#sort), [limit](#limit), [offset](#offset), [filter](#filter) (now with operators):
 
 ```shell
 /api/post/?
@@ -264,7 +264,7 @@ PUT /api/team/1/players/44
 **Query String Operations**  
 You can add filter, sort, limit and offset properties to your get request URL's. 
    
-**<a name="#query-string-filter-operators">Filter</a>**
+**<a name="#filter">Filter</a>**
 ```
 [GET] /api/post/?filter = [
   {"property": "id", "value" : 50, "operator": ">="}
@@ -276,7 +276,7 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 ]
 ```
 
-**<a name="#query-string-sort-operators">Sort</a>**
+**<a name="#sort">Sort</a>**
 ```
 [GET] /api/post/?sort = [
 [
@@ -285,12 +285,12 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 ]
 ```
 
-**<a name="#query-string-limit-operators">Limit</a>**
+**<a name="#limit">Limit</a>**
 ```
 [GET] /api/post/?limit=10
 ```
 
-**<a name="#query-string-offset-operators">Offset</a>**
+**<a name="#offset">Offset</a>**
 ```
 [GET] /api/post/?limit=10&offset=20  
 ```
