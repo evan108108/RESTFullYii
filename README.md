@@ -24,7 +24,7 @@ Yii 1.8 or above
 * Now you can [Sub-Resource](#Sub-Resource) your 'many to many' Joins.
 * Use with javascript (See validateAjaxUser in ERestController)
 * Record count now included in JSON output 
-* Query String filter/sort/limit/offset :
+* Query String  -> [sort](#query-string-sort-operators), [limit](#query-string-limit-operators), [offset](#query-string-offset-operators), [filter](#query-string-filter-operators) (now with operators):
 
 ```shell
 /api/post/?
@@ -261,7 +261,41 @@ From payload you get back the id, now place it officially to team 1
 PUT /api/team/1/players/44  
 ```
 
+**Query String Operations**  
+You can add filter, sort, limit and offset properties to your get request URL's. 
+   
+**<a name="#query-string-filter-operators">Filter</a>**
+```
+[GET] /api/post/?filter = [
+  {"property": "id", "value" : 50, "operator": ">="}
+, {"property": "user_id", "value" : [1, 5, 10, 14], "operator": "in"}
+, {"property": "state", "value" : ["save", "deleted"], "operator": "not in"}
+, {"property": "date", "value" : "2013-01-01", "operator": ">="}
+, {"property": "date", "value" : "2013-01-31", "operator": "<="}
+, {"property": "type", "value" : 2, "operator": "!="}
+]
+```
 
+**<a name="#query-string-sort-operators">Sort</a>**
+```
+[GET] /api/post/?sort = [
+[
+   {'property':'title','direction':'ASC'}
+ , {'property':'lud_dtm','direction':'DESC'}
+]
+```
+
+**<a name="#query-string-limit-operators">Limit</a>**
+```
+[GET] /api/post/?limit=10
+```
+
+**<a name="#query-string-offset-operators">Offset</a>**
+```
+[GET] /api/post/?limit=10&offset=20  
+```
+  
+  
 **Changing Default RestFullYii Behavior**  
 To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
 
