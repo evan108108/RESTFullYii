@@ -10,7 +10,6 @@ class ERestController extends Controller
 	Const C500INTERNALSERVERERROR = 'HTTP/1.1 500 Internal Server Error';
 	Const USERNAME = 'admin@restuser';
 	Const PASSWORD = 'admin@Access';
-
 	public $HTTPStatus = 'HTTP/1.1 200 OK';
 	public $restrictedProperties = array();
 	public $restFilter = array(); 
@@ -18,7 +17,7 @@ class ERestController extends Controller
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
 	public $developmentFlag = true; //When set to `false' 500 erros will not return detailed messages.
-
+	protected $httpsOnly= TRUE; // Setting this variable to tru allows the service to be used only via https
 	//Auto will include all relations 
 	//FALSE will include no relations in response
 	//You may also pass an array of relations IE array('posts', 'comments', etc..)
@@ -70,14 +69,14 @@ class ERestController extends Controller
  
 	public function filters() 
 	{
-		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
+		$restFilters = array('HttpsOnly','restAccessRules+ restList restView restCreate restUpdate restDelete');
 		if(method_exists($this, '_filters'))
 			return CMap::mergeArray($restFilters, $this->_filters());
 		else
 			return $restFilters;
 	} 
 
- 
+ 	
 	public function accessRules()
 	{
 		$restAccessRules = array(
@@ -93,7 +92,24 @@ class ERestController extends Controller
 		else
 			return $restAccessRules;
 	}	
-
+	/**
+	 * @author Romina Suarez
+	 *
+	 * allows users to block any nonHttps request if they want their service to be safe
+	 * If the attribute $httpsOnly is set in one of the controllers that extend ERestController,
+	 * you can avoid a specific model from being using witouth a secure connection.
+	 */
+	public function filterHttpsOnly($c){			
+		if ($this->httpsOnly){
+			if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS']!='on'){
+				Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';	
+				throw new CHttpException(401, "You must use a secure connection");						
+			}	
+		}else{
+			$this->authenticationPrefixServer = "HTTPS";
+		}
+		$c->run();
+	}
 	/**
 	 * Controls access to restfull requests
 	 */ 
@@ -108,7 +124,6 @@ class ERestController extends Controller
 		else 
 		{
 			Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';
-
 			if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
 				// Error: Unauthorized
 				throw new CHttpException(401, 'You are not authorized to preform this action.');
@@ -298,7 +313,7 @@ class ERestController extends Controller
 	public function actionRestCreate($id=null, $var=null) 
 	{
 		$this->HTTPStatus = $this->getHttpStatus('201');
-
+		
 		if(!$id) 
 		{
 			$this->doRestCreate($this->data());
