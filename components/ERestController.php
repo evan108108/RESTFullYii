@@ -10,7 +10,6 @@ class ERestController extends Controller
 	Const C500INTERNALSERVERERROR = 'HTTP/1.1 500 Internal Server Error';
 	Const USERNAME = 'admin@restuser';
 	Const PASSWORD = 'admin@Access';
-
 	public $HTTPStatus = 'HTTP/1.1 200 OK';
 	public $restrictedProperties = array();
 	public $restFilter = array(); 
@@ -18,7 +17,7 @@ class ERestController extends Controller
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
 	public $developmentFlag = true; //When set to `false' 500 erros will not return detailed messages.
-
+	protected $httpsOnly= TRUE; // Setting this variable to tru allows the service to be used only via https
 	//Auto will include all relations 
 	//FALSE will include no relations in response
 	//You may also pass an array of relations IE array('posts', 'comments', etc..)
@@ -70,14 +69,14 @@ class ERestController extends Controller
  
 	public function filters() 
 	{
-		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
+		$restFilters = array('HttpsOnly','restAccessRules+ restList restView restCreate restUpdate restDelete');
 		if(method_exists($this, '_filters'))
 			return CMap::mergeArray($restFilters, $this->_filters());
 		else
 			return $restFilters;
 	} 
 
- 
+ 	
 	public function accessRules()
 	{
 		$restAccessRules = array(
@@ -93,7 +92,22 @@ class ERestController extends Controller
 		else
 			return $restAccessRules;
 	}	
-
+	/**
+	 * @author Romina Suarez
+	 *
+	 * allows users to block any nonHttps request if they want their service to be safe
+	 * If the attribute $httpsOnly is set in one of the controllers that extend ERestController,
+	 * you can avoid a specific model from being using witouth a secure connection.
+	 */
+	public function filterHttpsOnly($c){			
+		if ($this->httpsOnly){
+			if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS']!='on'){
+				Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';	
+				throw new CHttpException(401, "You must use a secure connection");						
+			}	
+		}
+		$c->run();
+	}
 	/**
 	 * Controls access to restfull requests
 	 */ 
@@ -108,7 +122,6 @@ class ERestController extends Controller
 		else 
 		{
 			Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';
-
 			if(!(isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']) and isset($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']))) {
 				// Error: Unauthorized
 				throw new CHttpException(401, 'You are not authorized to preform this action.');
@@ -219,9 +232,19 @@ class ERestController extends Controller
 	 */
 	public function actionRestList() 
 	{
-		$this->doRestList();
+		if (count($_GET)>0){
+			/**
+			* @author Romina Suarez 
+			* @return a list of data according to the parameters sent by the client
+			* @example api/user?name="John" will return all users whos name is John. 
+		 	*/			
+			$this->doRestListWithParams($_GET);
+		}else{
+			$this->doRestList();	
+		}
+		
 	}
-	
+	 
 	/**
 	 * Renders View of record as json
 	 * Or Custom method
@@ -288,7 +311,7 @@ class ERestController extends Controller
 	public function actionRestCreate($id=null, $var=null) 
 	{
 		$this->HTTPStatus = $this->getHttpStatus('201');
-
+		
 		if(!$id) 
 		{
 			$this->doRestCreate($this->data());
@@ -407,28 +430,25 @@ class ERestController extends Controller
 	/**
 	 * Helper for saving single/mutliple models 
 	 */ 
-	private function saveModel($model, $data)
-	{
-		if(!isset($data[0]))
+	private function saveModel($model, $data){
+		if(!isset($data[0])){
 			$models[] = $this->setModelAttributes($model, $data);
-		else
-		{
-			for($i=0; $i<count($data); $i++)
-			{
+		}else{
+			for($i=0; $i<count($data); $i++){
 				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
 				if(!$models[$i]->validate())
-					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+					throw new CHttpException(406, 'Model could not be saved as validation failed.');
 				$this->model = null;
 			}
 		}
 		
-		for($cnt=0;$cnt<count($models);$cnt++)
-		{
+		for($cnt=0;$cnt<count($models);$cnt++){
 			$this->_attachBehaviors($models[$cnt]);
 			if(!$models[$cnt]->save())
-				throw new CHttpException(406, 'Model could not be saved');
-			else
-				$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+				throw new CHttpException(406, !$this->developmentFlag?'Model could not be saved':var_export($models[$cnt]->errors));
+			
+			$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+			
 		}
 		return $models;
 	} 
@@ -588,7 +608,51 @@ class ERestController extends Controller
 			->count()
 		);
 	}
+	/**
+	 * @author Romina Suarez
+	 * This is broken out as a sperate method from actionRestList 
+	 * To allow for easy overriding in the controller
+	 * and to allow for easy unit testing {Following the extension author style }
+	*/ 
+	public function doRestListWithParams($params=array()){
+		$model = $this->getModel();
+		if(is_null($model)){
+			$this->HTTPStatus = 404;
+			throw new CHttpException('404', 'Record Not Found');
+		}
 	
+		/**
+		 * First we iterate trough the params, validating each one against the model 
+		 * attributes in case some are not valid. 
+		 */
+		$modelAttributes = array();
+		foreach ($params as $key => $value) {
+			if ($model->hasAttribute($key)){
+				$modelAttributes[$key]=$value;
+			}
+		}
+		/**
+		 * After we validate the attributes we proceed to use findAllByAttributes to search for the 
+		 * requested items and return them with the outputHelper
+		 */
+		 if (!empty($modelAttributes)){
+			$model = $model->with($this->nestedRelations)->filter($this->restFilter)->orderBy($this->restSort)
+				->limit($this->restLimit)->offset($this->restOffset)->findAllByAttributes($modelAttributes);
+			$this->outputHelper(
+					'Records retrieved successs	fully', 
+					$model,
+					count($model)				
+				);		 	
+		 }else{
+			$this->outputHelper(
+					'No attributes matched the model attributes ', 
+					$modelAttributes,
+					count($modelAttributes)
+				
+				);		 	
+		 	
+		 }
+	}
 	/**
 	 * This is broken out as a sperate method from actionRestView
 	 * To allow for easy overriding in the controller
