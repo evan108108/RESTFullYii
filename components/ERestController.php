@@ -105,8 +105,6 @@ class ERestController extends Controller
 				Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';	
 				throw new CHttpException(401, "You must use a secure connection");						
 			}	
-		}else{
-			$this->authenticationPrefixServer = "HTTPS";
 		}
 		$c->run();
 	}
