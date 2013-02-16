@@ -1,5 +1,5 @@
-	<?php
-	return array(
+<?php
+return array(
 		'api/<controller:\w+>?<\w+:\w*>'=>array('<controller>/restListWithParams', 'verb'=>'GET'),		
 		'api/<controller:\w+>'=>array('<controller>/restList', 'verb'=>'GET'),
 		'api/<controller:\w+>/<id:\w*>'=>array('<controller>/restView', 'verb'=>'GET'),
@@ -20,4 +20,4 @@
 		'<controller:\w+>/<id:\d+>'=>'<controller>/view',
 		'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 		'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',  
-	);
+);

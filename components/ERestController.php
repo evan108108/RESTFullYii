@@ -219,19 +219,18 @@ class ERestController extends Controller
 	 */
 	public function actionRestList() 
 	{
-		$this->doRestList();
+		if (count($_GET)>0){
+			/**
+			* @author Romina Suarez 
+			* @return a list of data according to the parameters sent by the client
+			* @example api/user?name="John" will return all users whos name is John. 
+		 	*/			
+			$this->doRestListWithParams($_GET);
+		}else{
+			$this->doRestList();	
+		}
+		
 	}
-	/**
-	* Renders a list of data according to the parameters sent by the client
-	* @example api/users?name="John" will return all users whos name is John. 
- 	*/
-	public function actionRestListWithParams(){
-		/**
-		 * we get all the data sent by $_GET and return the associated results 
-		 */
-		$params = $_GET;
-		$this->doRestListWithParams($params);
-	} 
 	 
 	/**
 	 * Renders View of record as json
@@ -419,25 +418,24 @@ class ERestController extends Controller
 	 * Helper for saving single/mutliple models 
 	 */ 
 	private function saveModel($model, $data){
-		
 		if(!isset($data[0])){
 			$models[] = $this->setModelAttributes($model, $data);
 		}else{
 			for($i=0; $i<count($data); $i++){
 				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
 				if(!$models[$i]->validate())
-					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
+					throw new CHttpException(406, 'Model could not be saved as validation failed.');
 				$this->model = null;
 			}
 		}
 		
 		for($cnt=0;$cnt<count($models);$cnt++){
 			$this->_attachBehaviors($models[$cnt]);
-			if(!$models[$cnt]->save()){
-				throw new CHttpException(406, 'Model could not be saved');
-			}elsẹ {
-				$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
-			}
+			if(!$models[$cnt]->save())
+				throw new CHttpException(406, !$this->developmentFlag?'Model could not be saved':var_export($models[$cnt]->errors));
+			
+			$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+			
 		}
 		return $models;
 	} 
@@ -624,13 +622,23 @@ class ERestController extends Controller
 		 * After we validate the attributes we proceed to use findAllByAttributes to search for the 
 		 * requested items and return them with the outputHelper
 		 */
-		$model = $this->getModel()->findAllByAttributes($modelAttributes);
-		$this->outputHelper(
-				'Records retrieved successfully', 
-				$model,
-				count($model),
-				$model->className
-			);
+		 if (!empty($modelAttributes)){
+			$model = $model->with($this->nestedRelations)->filter($this->restFilter)->orderBy($this->restSort)
+				->limit($this->restLimit)->offset($this->restOffset)->findAllByAttributes($modelAttributes);
+			$this->outputHelper(
+					'Records retrieved successs	fully', 
+					$model,
+					count($model)				
+				);		 	
+		 }else{
+			$this->outputHelper(
+					'No attributes matched the model attributes ', 
+					$modelAttributes,
+					count($modelAttributes)
+				
+				);		 	
+		 	
+		 }
 	}
 	/**
 	 * This is broken out as a sperate method from actionRestView
