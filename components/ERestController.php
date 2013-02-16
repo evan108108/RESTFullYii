@@ -221,7 +221,18 @@ class ERestController extends Controller
 	{
 		$this->doRestList();
 	}
-	
+	/**
+	* Renders a list of data according to the parameters sent by the client
+	* @example api/users?name="John" will return all users whos name is John. 
+ 	*/
+	public function actionRestListWithParams(){
+		/**
+		 * we get all the data sent by $_GET and return the associated results 
+		 */
+		$params = $_GET;
+		$this->doRestListWithParams($params);
+	} 
+	 
 	/**
 	 * Renders View of record as json
 	 * Or Custom method
@@ -407,14 +418,12 @@ class ERestController extends Controller
 	/**
 	 * Helper for saving single/mutliple models 
 	 */ 
-	private function saveModel($model, $data)
-	{
-		if(!isset($data[0]))
+	private function saveModel($model, $data){
+		
+		if(!isset($data[0])){
 			$models[] = $this->setModelAttributes($model, $data);
-		else
-		{
-			for($i=0; $i<count($data); $i++)
-			{
+		}else{
+			for($i=0; $i<count($data); $i++){
 				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
 				if(!$models[$i]->validate())
 					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
@@ -422,13 +431,13 @@ class ERestController extends Controller
 			}
 		}
 		
-		for($cnt=0;$cnt<count($models);$cnt++)
-		{
+		for($cnt=0;$cnt<count($models);$cnt++){
 			$this->_attachBehaviors($models[$cnt]);
-			if(!$models[$cnt]->save())
+			if(!$models[$cnt]->save()){
 				throw new CHttpException(406, 'Model could not be saved');
-			else
+			}elsẹ {
 				$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+			}
 		}
 		return $models;
 	} 
@@ -588,7 +597,41 @@ class ERestController extends Controller
 			->count()
 		);
 	}
+	/**
+	 * @author Romina Suarez
+	 * This is broken out as a sperate method from actionRestList 
+	 * To allow for easy overriding in the controller
+	 * and to allow for easy unit testing {Following the extension author style }
+	*/ 
+	public function doRestListWithParams($params=array()){
+		$model = $this->getModel();
+		if(is_null($model)){
+			$this->HTTPStatus = 404;
+			throw new CHttpException('404', 'Record Not Found');
+		}
 	
+		/**
+		 * First we iterate trough the params, validating each one against the model 
+		 * attributes in case some are not valid. 
+		 */
+		$modelAttributes = array();
+		foreach ($params as $key => $value) {
+			if ($model->hasAttribute($key)){
+				$modelAttributes[$key]=$value;
+			}
+		}
+		/**
+		 * After we validate the attributes we proceed to use findAllByAttributes to search for the 
+		 * requested items and return them with the outputHelper
+		 */
+		$model = $this->getModel()->findAllByAttributes($modelAttributes);
+		$this->outputHelper(
+				'Records retrieved successfully', 
+				$model,
+				count($model),
+				$model->className
+			);
+	}
 	/**
 	 * This is broken out as a sperate method from actionRestView
 	 * To allow for easy overriding in the controller
