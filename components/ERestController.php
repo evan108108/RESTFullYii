@@ -18,7 +18,7 @@ class ERestController extends Controller
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
 	public $developmentFlag = true; //When set to `false' 500 erros will not return detailed messages.
-
+	protected $httpsOnly= TRUE; // Setting this variable to tru allows the service to be used only via https
 	//Auto will include all relations 
 	//FALSE will include no relations in response
 	//You may also pass an array of relations IE array('posts', 'comments', etc..)
@@ -70,14 +70,29 @@ class ERestController extends Controller
  
 	public function filters() 
 	{
-		$restFilters = array('restAccessRules+ restList restView restCreate restUpdate restDelete');
+		$restFilters = array('HttpsOnly','restAccessRules+ restList restView restCreate restUpdate restDelete');
 		if(method_exists($this, '_filters'))
 			return CMap::mergeArray($restFilters, $this->_filters());
 		else
 			return $restFilters;
 	} 
 
- 
+ 	/**
+	 * @author Romina Suarez
+	 *
+	 * allows users to block any nonHttps request if they want their service to be safe
+	 * If the attribute $httpsOnly is set in one of the controllers that extend ERestController,
+	 * you can avoid a specific model from being using witouth a secure connection.
+	 */
+	public function filterHttpsOnly($c){			
+		if ($this->httpsOnly){
+			if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS']!='on'){
+				Yii::app()->errorHandler->errorAction = '/' . $this->uniqueid . '/error';	
+				throw new CHttpException(401, "You must use a secure connection");						
+			}	
+		}
+		$c->run();
+	}
 	public function accessRules()
 	{
 		$restAccessRules = array(
