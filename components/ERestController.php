@@ -8,8 +8,6 @@ class ERestController extends Controller
 	Const C201CREATED = 'HTTP/1.1 201 Created';
 	Const C200OK = 'HTTP/1.1 200 OK';
 	Const C500INTERNALSERVERERROR = 'HTTP/1.1 500 Internal Server Error';
-	Const USERNAME = 'admin@restuser';
-	Const PASSWORD = 'admin@Access';
 
 	public $HTTPStatus = 'HTTP/1.1 200 OK';
 	public $restrictedProperties = array();
@@ -131,12 +129,12 @@ class ERestController extends Controller
 			$username = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
 			$password = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
 			// Find the user
-			if($username != self::USERNAME)
+			if($username != Yii::app()->params['RESTusername'])
 			{
 				// Error: Unauthorized
 				throw new CHttpException(401, 'Error: User Name is invalid');
 			} 
-			else if($password != self::PASSWORD) 
+			else if($password != Yii::app()->params['RESTpassword']) 
 			{
 				// Error: Unauthorized
 				throw new CHttpException(401, 'Error: User Password is invalid');
