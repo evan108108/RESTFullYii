@@ -87,6 +87,11 @@ Then, in your main.php config, add this code:
 'import' => array(
   'ext.restfullyii.components.*',
 ),
+...
+'params'=>array(
+    'RESTusername' => 'admin@restuser',
+    'RESTpassword' => 'admin@Access',
+),
 ```
 
 You will need to add the routes below to your main.php. They should be added to the beginning of the rules array.
@@ -161,11 +166,13 @@ public function _accessRules()
 ```
 ## Security
 
-The 'username' and 'password' are currently hardcoded as Const's in 'ERestController'.
+The 'username' and 'password' are hardcoded as Const's in your 'Yii::app()->params'.
 
 ```php
-Const USERNAME = 'admin@restuser';
-Const PASSWORD = 'admin@Access'
+'params'=>array(
+    'RESTusername' => 'admin@restuser',
+    'RESTpassword' => 'admin@Access',
+),
 ```
 At a minimum you will want change these values. To create a more secure Auth
 system modify the 'filterRestAccessRules' method in 'ERestController'. This
