@@ -420,33 +420,41 @@ class ERestController extends Controller
 	/**
 	 * Helper for saving single/mutliple models 
 	 */ 
-	private function saveModel($model, $data)
-	{
-		if(!isset($data[0]))
-			$models[] = $this->setModelAttributes($model, $data);
-		else
-		{
-			for($i=0; $i<count($data); $i++)
-			{
-				$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
-				if(!$models[$i]->validate())
-					throw new CHttpException(406, 'Model could not be saved as vildation failed.');
-				$this->model = null;
-			}
-		}
-		
-		for($cnt=0;$cnt<count($models);$cnt++)
-		{
-			$this->_attachBehaviors($models[$cnt]);
-			if(!$models[$cnt]->save())
-				throw new CHttpException(406, 'Model could not be saved');
-			else
-				$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
-		}
-		return $models;
-	} 
+	protected function saveModel($model, $data) {
+        if (empty($data)) {
+            $this->HTTPStatus = $this->getHttpStatus(406);
+            throw new CHttpException(406, 'Model could not be saved as empty data.');
+        }
 
-	//Attach helper behaviors
+        if (!isset($data[0]))
+            $models[] = $this->setModelAttributes($model, $data);
+        else {
+            for ($i = 0; $i < count($data); $i++) {
+                $models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
+                $this->model = null;
+            }
+        }
+
+        for ($cnt = 0; $cnt < count($models); $cnt++) {
+            $this->_attachBehaviors($models[$cnt]);
+            if ($models[$cnt]->validate()) {
+                if (!$models[$cnt]->save()) {
+                    $this->HTTPStatus = $this->getHttpStatus(406);
+                    throw new CHttpException(406, 'Model could not be saved');
+                }else
+                    $ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+            }else {
+                $message = CJSON::encode(array('error' => 'Model could not be saved as validation failed.',
+                            'validation' => $models[$cnt]->getErrors()));
+
+                $this->HTTPStatus = $this->getHttpStatus(406);
+                throw new CHttpException(406, $message);
+            }
+        }
+        return $models;
+    }
+
+    //Attach helper behaviors
 	public function _attachBehaviors($model)
 	{
 		//Attach this behavior to help saving nested models
@@ -686,15 +694,18 @@ class ERestController extends Controller
 	 * To allow for easy overriding in the controller
 	 * and to allow for easy unit testing
 	 */ 
-	public function doRestUpdate($id, $data) 
-	{		
-		$model = $this->saveModel($this->loadOneModel($id), $data);
-		$this->outputHelper(
-			'Record Updated',
-			$this->loadOneModel($id),
-			1
-		);
-	}
+    public function doRestUpdate($id, $data) {
+        $model = $this->loadOneModel($id);
+        if (is_null($model)) {
+            $this->HTTPStatus = $this->getHttpStatus(404);
+            throw new CHttpException(404, 'Record Not Found');
+        }else{
+            $model = $this->saveModel($model, $data);
+			$this->outputHelper(
+						'Record Updated', $model, 1
+			);
+		}
+    }
 	
 	/**
 	 * This is broken out as a sperate method from actionRestCreate 
@@ -747,16 +758,21 @@ class ERestController extends Controller
 	 * To allow for easy overridding in the controller
 	 * and to alow for easy unit testing
 	 */ 
-	public function doRestDelete($id)
-	{
-		$model = $this->loadOneModel($id);
-		if($model->delete())
-			$data = array('success'=>true, 'message'=>'Record Deleted', 'data'=>array('id'=>$id));
-		else
-			throw new CHttpException(406, 'Could not delete model with ID: ' . $id);
-
-		$this->renderJson($data);
-	}
+	public function doRestDelete($id) {
+        $model = $this->loadOneModel($id);
+        if (is_null($model)) {
+            $this->HTTPStatus = $this->getHttpStatus(404);
+            throw new CHttpException(404, 'Record Not Found');
+        } else {
+            if ($model->delete())
+                $data = array('success' => true, 'message' => 'Record Deleted', 'data' => array('id' => $id));
+            else {
+                $this->HTTPStatus = $this->getHttpStatus(406);
+                throw new CHttpException(406, 'Could not delete model with ID: ' . $id);
+            }
+            $this->renderJson($data);
+        }
+    }
 	
 	/**
 	 * This is broken out as a sperate method from actionRestDelete 
