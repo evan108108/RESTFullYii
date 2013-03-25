@@ -398,9 +398,12 @@ class ERestController extends Controller
 	/**
 	* Helper for loading a single model
 	*/
-	protected function loadOneModel($id) 
+	protected function loadOneModel($id, $nested=true) 
 	{
-		return $this->getModel()->with($this->nestedRelations)->findByPk($id);
+		if($nested)
+			return $this->getModel()->with($this->nestedRelations)->findByPk($id);
+		else
+			return $this->getModel()->findByPk($id);
 	}
 
 	
@@ -698,16 +701,16 @@ class ERestController extends Controller
 	 * and to allow for easy unit testing
 	 */ 
     public function doRestUpdate($id, $data) {
-        $model = $this->loadOneModel($id);
-        if (is_null($model)) {
-            $this->HTTPStatus = $this->getHttpStatus(404);
-            throw new CHttpException(404, 'Record Not Found');
-        }else{
-            $model = $this->saveModel($model, $data);
-			$this->outputHelper(
+			$model = $this->loadOneModel($id);
+			if (is_null($model)) {
+					$this->HTTPStatus = $this->getHttpStatus(404);
+					throw new CHttpException(404, 'Record Not Found');
+			} else {
+					$model = $this->saveModel($this->loadOneModel($id,false), $data);
+					$this->outputHelper(
 						'Record Updated', $model, 1
-			);
-		}
+					);
+			}
     }
 	
 	/**
