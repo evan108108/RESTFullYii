@@ -516,7 +516,10 @@ class ERestController extends Controller
 			else
 				$this->$method($this->data());
 		}
-		throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
+		else
+    		{
+        		throw new CHttpException(500, 'Method or Sub-Resource does not exist.');
+    		}	
 	}
 
 	public function triggerCustomDelete($methodName, $vars=array())
