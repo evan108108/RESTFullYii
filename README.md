@@ -328,3 +328,20 @@ To change behavior of default RESTFul actions you can simply override any of the
  public function doRestDeleteSubResource($id, $subResource, $subResourceID)
 ```
 
+**Scenarios**
+
+You can use a scenario to specify which fields you want to include during each request.
+To do this, add a validation rule to your model and supply the name of the scenario (default is 'rest') 
+
+    class User extends CActiveRecord
+    {
+      public function rules() {
+        return array(
+          array('id, username, created', 'safe', 'on' => 'rest')
+        );
+      }
+    }
+
+You can also include virtual attributes. For more info about validation rules and scenarios, see the Yii documentation.
+
+

@@ -23,6 +23,9 @@ class ERestController extends Controller
 	//Override $nestedModels in your controller as needed
 	public $nestedModels = 'auto';
 
+	//By supplying a scenario you can determine which fields are included in a request
+	public $scenario = 'rest';
+
 	protected $requestReader;
 	protected $model = null;
 
@@ -478,8 +481,10 @@ class ERestController extends Controller
 	/**
 	 *  Convert list of models or single model to array
 	 */ 
-	public function allToArray($models, $options=array('relname'=>''))
+	public function allToArray($models)
 	{
+		$options = array('scenario' => $this->scenario);
+		
 		if(is_array($models))
 		{
 			$results = array();
