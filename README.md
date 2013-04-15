@@ -21,6 +21,7 @@ So if you apply RESTFullYii to the 'PostController' you will get the following n
 Yii 1.8 or above
 
 ## NEW
+* Control which fields are returned in your GET requests with [scenarios](#scenarios).
 * Now you can [Sub-Resource](#Sub-Resource) your 'many to many' Joins.
 * Use with javascript (See validateAjaxUser in ERestController)
 * Record count now included in JSON output 
@@ -328,11 +329,11 @@ To change behavior of default RESTFul actions you can simply override any of the
  public function doRestDeleteSubResource($id, $subResource, $subResourceID)
 ```
 
-**Scenarios**
+**<a name="scenarios">Scenarios</a>**
 
 You can use a scenario to specify which fields you want to include during each request.
 To do this, add a validation rule to your model and supply the name of the scenario (default is 'rest') 
-
+```php
     class User extends CActiveRecord
     {
       public function rules() {
@@ -341,7 +342,7 @@ To do this, add a validation rule to your model and supply the name of the scena
         );
       }
     }
-
+```
 You can also include virtual attributes. For more info about validation rules and scenarios, see the Yii documentation.
 
 
