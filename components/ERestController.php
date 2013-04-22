@@ -372,12 +372,7 @@ class ERestController extends Controller
 	{
 		$request = $this->requestReader->getContents();
 		if ($request) {
-			if ($json_post = CJSON::decode($request)){
-				return $json_post;
-			}else{
-				parse_str($request,$variables);
-				return $variables;
-			}
+			return CJSON::decode($request);
 		}
 		return false;
 	}
@@ -415,11 +410,15 @@ class ERestController extends Controller
 	{
 		foreach($data as $var=>$value) 
 		{
-			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $this->restrictedProperties)) 
+			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $this->restrictedProperties)) {
 				$model->$var = $value;
-			else
-				throw new CHttpException(406, 'Parameter \'' . $var . '\' is not allowed for model');
-		 }
+			}
+			else {
+				throw new CHttpException(406, 'Parameter \'' . $var . '\' is not allowed for model (' . get_class($model) . ')');
+				
+			}
+		}
+		
 		return $model;
 	}
 	
@@ -427,38 +426,47 @@ class ERestController extends Controller
 	 * Helper for saving single/mutliple models 
 	 */ 
 	protected function saveModel($model, $data) {
-        if (empty($data)) {
-            $this->HTTPStatus = $this->getHttpStatus(406);
-            throw new CHttpException(406, 'Model could not be saved as empty data.');
-        }
+		$return_array = true;
+		if (empty($data)) {
+				$this->HTTPStatus = $this->getHttpStatus(406);
+				throw new CHttpException(406, 'Model could not be saved as empty data.');
+		}
 
-        if (!isset($data[0]))
-            $models[] = $this->setModelAttributes($model, $data);
-        else {
-            for ($i = 0; $i < count($data); $i++) {
-                $models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
-                $this->model = null;
-            }
-        }
+		if (!isset($data[0])) {
+			$models[] = $this->setModelAttributes($model, $data);
+			$return_array = false;
+		}
+		else {
+				for ($i = 0; $i < count($data); $i++) {
+						$models[$i] = $this->setModelAttributes($this->getModel(), $data[$i]);
+						$this->model = null;
+				}
+		}
 
-        for ($cnt = 0; $cnt < count($models); $cnt++) {
-            $this->_attachBehaviors($models[$cnt]);
-            if ($models[$cnt]->validate()) {
-                if (!$models[$cnt]->save()) {
-                    $this->HTTPStatus = $this->getHttpStatus(406);
-                    throw new CHttpException(406, 'Model could not be saved');
-                }else
-                    $ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
-            }else {
-                $message = CJSON::encode(array('error' => 'Model could not be saved as validation failed.',
-                            'validation' => $models[$cnt]->getErrors()));
+		for ($cnt = 0; $cnt < count($models); $cnt++) {
+				$this->_attachBehaviors($models[$cnt]);
+				if ($models[$cnt]->validate()) {
+						if (!$models[$cnt]->save()) {
+								$this->HTTPStatus = $this->getHttpStatus(406);
+								throw new CHttpException(406, 'Model could not be saved');
+						}
+						else {
+							$ids[] = $models[$cnt]->{$models[$cnt]->tableSchema->primaryKey};
+						}
+				}else {
+						$message = CJSON::encode(array('error' => 'Model could not be saved as validation failed.',
+												'validation' => $models[$cnt]->getErrors()));
 
-                $this->HTTPStatus = $this->getHttpStatus(406);
-                throw new CHttpException(406, $message);
-            }
-        }
-        return $models;
-    }
+						$this->HTTPStatus = $this->getHttpStatus(406);
+						throw new CHttpException(406, $message);
+				}
+		}
+		if($return_array) {
+			return $this->getModel()->with($this->getNestedRelations())->findAllByPk($ids);
+		}
+		else
+			return $this->getModel()->with($this->getNestedRelations())->findAllByPk($ids[0]);
+	}
 
     //Attach helper behaviors
 	public function _attachBehaviors($model)
@@ -590,7 +598,7 @@ class ERestController extends Controller
 			$model = lcfirst(get_class($this->model));
 		else
 			$model = lcfirst($model);	
-		
+
 		$this->renderJson(array(
 			'success'=>true, 
 			'message'=>$message, 
@@ -711,7 +719,7 @@ class ERestController extends Controller
 					$this->HTTPStatus = $this->getHttpStatus(404);
 					throw new CHttpException(404, 'Record Not Found');
 			} else {
-					$model = $this->saveModel($this->loadOneModel($id,false), $data);
+					$model = $this->saveModel($this->loadOneModel($id,true), $data);
 					$this->outputHelper(
 						'Record Updated', $model, 1
 					);
