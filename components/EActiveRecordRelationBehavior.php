@@ -109,8 +109,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	public function _composeModelData($model)
 	{ 
 		$modelData = $model->attributes;
-		//echo $model->tableName() . ": ";
-		//print_r($model->tableSchema->primaryKey);
+
 		if(is_array(($pk = $model->tableSchema->primaryKey)))
 			throw new CHttpException('500', 'Compound Pks are not supported');
 
@@ -132,8 +131,9 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 							$modelData[$key][] = $relatedData;
 					}
 				}
-				else
-					@$modelData[$key] = $relatedData;
+				else {
+					$modelData[$key] = (isset($relatedData))? $relatedData : $this->owner->$key;
+				}
 			}
 		}
 		return $modelData;
