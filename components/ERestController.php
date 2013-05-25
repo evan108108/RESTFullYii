@@ -15,7 +15,7 @@ class ERestController extends Controller
 	public $restSort = array();
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
-	public $developmentFlag = true; //When set to `false' 500 erros will not return detailed messages.
+	public $developmentFlag = YII_DEBUG; //When set to `false' 500 erros will not return detailed messages.
 	protected $httpsOnly= FALSE; // Setting this variable to true allows the service to be used only via https
 	//Auto will include all relations 
 	//FALSE will include no relations in response
