@@ -117,7 +117,7 @@ class ERestController extends Controller
 	{
 		Yii::app()->clientScript->reset(); //Remove any scripts registered by Controller Class
 		Yii::app()->onException = array($this, 'onException'); //Register Custom Exception
-		//For requests from JS check that a user is loged in and call validateUser
+		//For requests from JS check that a user is logged in and call validateUser
 		//validateUser can/should be overridden in your controller.
 		if(!Yii::app()->user->isGuest && $this->validateAjaxUser($this->action->id)) 
 			$c->run(); 
@@ -222,16 +222,16 @@ class ERestController extends Controller
  /**
 	****************************************************************************************** 
 	******************************************************************************************
-	* Actions that are tiggered by RESTFull requests
-	* To change their default behavoir 
-	* you should overide "doRest..." Methods in the controller 
+	* Actions that are triggered by RESTFull requests
+	* To change their default behavior 
+	* you should override "doRest..." Methods in the controller 
 	* and leave these actions as is
 	******************************************************************************************
 	******************************************************************************************
 	 */
 
 	/**
-	 * Renders list of data assosiated with controller as json
+	 * Renders list of data associated with controller as json
 	 */
 	public function actionRestList() 
 	{
@@ -378,7 +378,7 @@ class ERestController extends Controller
 	}
 
 	/**
-	 * Returns the model assosiated with this controller.
+	 * Returns the model associated with this controller.
 	 * The assumption is that the model name matches your controller name
 	 * If this is not the case you should override this method in your controller
 	 */ 
@@ -423,7 +423,7 @@ class ERestController extends Controller
 	}
 	
 	/**
-	 * Helper for saving single/mutliple models 
+	 * Helper for saving single/multiple models 
 	 */ 
 	protected function saveModel($model, $data) {
 		$return_array = true;
@@ -570,7 +570,7 @@ class ERestController extends Controller
 	/**
 	****************************************************************************************** 
 	******************************************************************************************
-	* OVERIDE THE METHODS BELOW IN YOUR CONTROLLER TO REMOVE/ALTER DEFAULT FUNCTIONALITY
+	* OVERRIDE THE METHODS BELOW IN YOUR CONTROLLER TO REMOVE/ALTER DEFAULT FUNCTIONALITY
 	******************************************************************************************
 	******************************************************************************************
 	 */
@@ -585,7 +585,7 @@ class ERestController extends Controller
 
 	/**
 	 * You should override this method to provide stronger access control 
-	 * to specifc restfull actions via AJAX
+	 * to specific restfull actions via AJAX
 	 */ 
 	public function validateAjaxUser($action)
 	{
@@ -610,7 +610,7 @@ class ERestController extends Controller
 	}
 
 	/**
-	 * This is broken out as a sperate method from actionRestList 
+	 * This is broken out as a separate method from actionRestList 
 	 * To allow for easy overriding in the controller
 	 * and to allow for easy unit testing
 	 */ 
@@ -630,7 +630,7 @@ class ERestController extends Controller
 	}
 	
 	/**
-	 * This is broken out as a sperate method from actionRestView
+	 * This is broken out as a separate method from actionRestView
 	 * To allow for easy overriding in the controller
 	 * adn to allow for easy unit testing
 	 */ 
@@ -688,7 +688,7 @@ class ERestController extends Controller
 	}
 
 	 /**
-	 * This is broken out as a sperate method from actionRestView
+	 * This is broken out as a separate method from actionRestView
 	 * To allow for easy overriding in the controller
 	 * adn to allow for easy unit testing
 	 */ 
@@ -709,7 +709,7 @@ class ERestController extends Controller
 	}
 
 	/**
-	 * This is broken out as a sperate method from actionResUpdate 
+	 * This is broken out as a separate method from actionResUpdate 
 	 * To allow for easy overriding in the controller
 	 * and to allow for easy unit testing
 	 */ 
@@ -727,9 +727,9 @@ class ERestController extends Controller
     }
 	
 	/**
-	 * This is broken out as a sperate method from actionRestCreate 
+	 * This is broken out as a separate method from actionRestCreate 
 	 * To allow for easy overriding in the controller
-	 * and to alow for easy unit testing
+	 * and to allow for easy unit testing
 	 */ 
 	public function doRestCreate($data) 
 	{
@@ -743,9 +743,9 @@ class ERestController extends Controller
 	}
 
 	/**
-	 * This is broken out as a sperate method from actionRestCreate 
+	 * This is broken out as a separate method from actionRestCreate 
 	 * To allow for easy overriding in the controller
-	 * and to alow for easy unit testing
+	 * and to allow for easy unit testing
 	 */
 	public function doRestUpdateSubResource($id, $subResource, $subResourceID)
 	{
@@ -773,9 +773,9 @@ class ERestController extends Controller
 	}
 	
 	/**
-	 * This is broken out as a sperate method from actionRestDelete 
-	 * To allow for easy overridding in the controller
-	 * and to alow for easy unit testing
+	 * This is broken out as a separate method from actionRestDelete 
+	 * To allow for easy overriding in the controller
+	 * and to allow for easy unit testing
 	 */ 
 	public function doRestDelete($id) {
         $model = $this->loadOneModel($id);
@@ -794,9 +794,9 @@ class ERestController extends Controller
     }
 	
 	/**
-	 * This is broken out as a sperate method from actionRestDelete 
-	 * To allow for easy overridding in the controller
-	 * and to alow for easy unit testing
+	 * This is broken out as a separate method from actionRestDelete 
+	 * To allow for easy overriding in the controller
+	 * and to allow for easy unit testing
 	 */ 
 	public function doRestDeleteSubResource($id, $subResource, $subResourceID)
 	{
