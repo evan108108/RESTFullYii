@@ -26,13 +26,15 @@ class ERestController extends Controller
 	//By supplying a scenario you can determine which fields are included in a request
 	public $scenario = 'rest';
 
+	public static $staticRequestReader;
 	protected $requestReader;
 	protected $model = null;
 
 	public function __construct($id, $module = null) 
 	{
 		parent::__construct($id, $module);
-		$this->requestReader = new ERequestReader('php://input');
+		self::$staticRequestReader instanceof ERequestReader || self::$staticRequestReader = new ERequestReader('php://input');
+		$this->requestReader = self::$staticRequestReader;
 	}
 
 	public function beforeAction($event)
