@@ -368,7 +368,7 @@ class ERestController extends Controller
 
 
 	/**
-	 * Get data submited by the client
+	 * Get data submitted by the client
 	 */ 
 	public function data() 
 	{
