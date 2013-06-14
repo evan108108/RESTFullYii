@@ -65,7 +65,6 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null)
 			$this->_transaction=$this->owner->dbConnection->beginTransaction();
 
-		error_log(CJSON::encode($this->_composeModelData($this->owner)));
 		$this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
 		$this->validateBelongsTo();
 	}
@@ -147,7 +146,6 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		{
 			if(is_array($val))
 			{
-				error_log(CJSON::encode($model->relations()[$key]));
 				$modelName = $model->metaData->relations[$key]->className;
 				$relationType = $this->getRealationType($model, $key);
 				
