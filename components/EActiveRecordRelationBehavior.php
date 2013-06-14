@@ -65,6 +65,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null)
 			$this->_transaction=$this->owner->dbConnection->beginTransaction();
 
+		error_log(CJSON::encode($this->_composeModelData($this->owner)));
 		$this->setModelAttrs($this->owner, $this->_composeModelData($this->owner));
 		$this->validateBelongsTo();
 	}
@@ -146,10 +147,15 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		{
 			if(is_array($val))
 			{
+				error_log(CJSON::encode($model->relations()[$key]));
 				$modelName = $model->metaData->relations[$key]->className;
+				$relationType = $this->getRealationType($model, $key);
+				
 				$newVal = array();
 				for($i=0; $i<count($val); $i++)
-				{ 
+				{
+					$this->applyForeignKeyValues($model, $key, $val, $i);
+
 					if(isset($val[$i]))
 						$newVal[] = $this->setModelAttrs(new $modelName(), $val[$i], false);
 					else
@@ -177,6 +183,42 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 				$model->refresh();
 		}
 		return $model;
+	}
+
+	private function applyForeignKeyValues($model, $key, &$val, $i)
+	{
+		$relationType = $this->getRealationType($model, $key);
+
+		if($relationType == 'CHasManyRelation' || $relationType == 'CHasOneRelation') {
+
+			if(isset($val[$i])) {
+				$submit_value = $val[$i];
+			} else {
+				$submit_value = $val;
+			}
+			
+			$owner_pk = $model->getPrimaryKey();
+			$submit_value[($model->metaData->relations[$key]->foreignKey)] = $owner_pk;
+		
+
+			if(isset($val[$i])) {
+				$val[$i] = $submit_value;
+			} else {
+				$val = $submit_value;
+			}
+
+		}
+
+		return true;
+	}
+
+	private function getRealationType($model, $key)
+	{
+		$relations = $model->relations();
+		if(isset($relations[$key])) {
+			return $relations[$key][0];
+		} 
+		return false;
 	}
 		
 
@@ -290,7 +332,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 						/** @var CActiveRecord $record */
 						foreach($newRelatedRecords as $record) {
 							// only save if relation did not exist
-							// @todo add support for composite primary keys
+							// @todo add support for composite primary keys	
 							if ($record->{$relation[2]}===null || $record->{$relation[2]} !=  $this->owner->getPrimaryKey()) {
 								$record->saveAttributes(array($relation[2] => $this->owner->getPrimaryKey()));
 							}
