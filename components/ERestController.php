@@ -15,7 +15,7 @@ class ERestController extends Controller
 	public $restSort = array();
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
-	public $developmentFlag = YII_DEBUG; //When set to `false' 500 erros will not return detailed messages.
+	public $developmentFlag = YII_DEBUG; //When set to `false' 500 errors will not return detailed messages.
 	protected $httpsOnly= FALSE; // Setting this variable to true allows the service to be used only via https
 	//Auto will include all relations 
 	//FALSE will include no relations in response
@@ -83,7 +83,7 @@ class ERestController extends Controller
 	 *
 	 * allows users to block any nonHttps request if they want their service to be safe
 	 * If the attribute $httpsOnly is set in one of the controllers that extend ERestController,
-	 * you can avoid a specific model from being using witouth a secure connection.
+	 * you can avoid a specific model from being using without a secure connection.
 	 */
 	public function filterHttpsOnly($c){			
 		if ($this->httpsOnly){
@@ -173,28 +173,33 @@ class ERestController extends Controller
 	 */ 
 	public function getHttpStatus($statusCode, $default='C200OK')
 	{
-		switch ($statusCode) 
-		{
-			case '200':
-				return self::C200OK;
-				break;
-			case '201':
-				return self::C201CREATED;
-				break;
-			case '401':
-				return self::C401UNAUTHORIZED;
-				break;
-			case '404':
-				return self::C404NOTFOUND;
-				break;
-			case '406':
-				return self::C406NOTACCEPTABLE;
-				break;
-			case '500':
-				return self::C500INTERNALSERVERERROR;
-				break;
-			default:
-				return self::$default;
+		$httpStatus = new EHttpStatus($statusCode);
+		if ($httpStatus->message) {
+			return $httpStatus->__toString();
+		} else { //Backward compatibility.
+			switch ($statusCode)
+			{
+				case '200':
+					return self::C200OK;
+					break;
+				case '201':
+					return self::C201CREATED;
+					break;
+				case '401':
+					return self::C401UNAUTHORIZED;
+					break;
+				case '404':
+					return self::C404NOTFOUND;
+					break;
+				case '406':
+					return self::C406NOTACCEPTABLE;
+					break;
+				case '500':
+					return self::C500INTERNALSERVERERROR;
+					break;
+				default:
+					return self::$default;
+			}
 		}
 	}
 
