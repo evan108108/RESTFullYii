@@ -13,6 +13,7 @@ class ERestController extends Controller
 	public $restrictedProperties = array();
 	public $restFilter = array(); 
 	public $restSort = array();
+	public $restScenario = null;
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
 	public $developmentFlag = YII_DEBUG; //When set to `false' 500 errors will not return detailed messages.
@@ -48,6 +49,9 @@ class ERestController extends Controller
 
 		if(isset($_GET['offset']))
 			$this->restOffset = $_GET['offset'];
+
+		if(isset($_GET['scenario']))
+			$this->restScenario = $_GET['scenario'];
 
 		return parent::beforeAction($event);
 	}
@@ -395,6 +399,11 @@ class ERestController extends Controller
 			$this->model = new $modelName;
 		}
 		$this->_attachBehaviors($this->model);
+
+		if(!is_null($this->restScenario)) {
+			$this->model->scenario = $this->restScenario;
+		}
+
 		return $this->model;
 	}
 
@@ -700,6 +709,7 @@ class ERestController extends Controller
 	public function doRestView($id)
 	{
 		$model = $this->loadOneModel($id);
+		
 		if(is_null($model))
 		{
 			$this->HTTPStatus = 404;
