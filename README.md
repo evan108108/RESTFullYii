@@ -25,7 +25,7 @@ Yii 1.8 or above
 * Now you can [Sub-Resource](#Sub-Resource) your 'many to many' Joins.
 * Use with javascript (See validateAjaxUser in ERestController)
 * Record count now included in JSON output 
-* Query String  -> [sort](#sort), [limit](#limit), [offset](#offset), [filter](#filter) (now with operators):
+* Query String  -> [sort](#sort), [limit](#limit), [offset](#offset), [scenario](#scenario) (NEW), [filter](#filter) (now with operators):
 
 ```shell
 /api/post/?
@@ -303,6 +303,13 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 [GET] /api/post/?limit=10&offset=20  
 ```
   
+
+**<a name="scenario">scenario</a>**
+Set the Yii model scenario
+```
+[GET] /api/post/?scenario=search
+```
+
   
 **Changing Default RestFullYii Behavior**  
 To change behavior of default RESTFul actions you can simply override any of the following methods in your controller:
