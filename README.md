@@ -308,6 +308,8 @@ You can add filter, sort, limit and offset properties to your get request URL's.
 Set the Yii model scenario
 ```
 [GET] /api/post/?scenario=search
+
+[GET] /api/post/1?scenario=search
 ```
 
   
