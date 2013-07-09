@@ -729,12 +729,12 @@ class ERestController extends Controller
 	 * and to allow for easy unit testing
 	 */ 
     public function doRestUpdate($id, $data) {
-			$model = $this->loadOneModel($id);
+			$model = $this->loadOneModel($id, false);
 			if (is_null($model)) {
 					$this->HTTPStatus = $this->getHttpStatus(404);
 					throw new CHttpException(404, 'Record Not Found');
 			} else {
-					$model = $this->saveModel($this->loadOneModel($id,true), $data);
+					$model = $this->saveModel($this->loadOneModel($id,false), $data);
 					$this->outputHelper(
 						'Record Updated', $this->loadOneModel($id), 1
 					);
