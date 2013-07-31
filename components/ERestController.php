@@ -571,7 +571,7 @@ class ERestController extends Controller
 		if($relations[$subResourceName][0] != CActiveRecord::MANY_MANY)
 			return false;
 		if(!is_null($subResourceID))
-			return filter_var($subResourceID, FILTER_VALIDATE_INT) !== false;
+			return $subResourceID === '0' || preg_match('/^-?[1-9][0-9]*$/', $subResourceID) === 1;
 
 		return true;
 	}
@@ -595,7 +595,7 @@ class ERestController extends Controller
 	 */
 	public function isPk($pk) 
 	{
-		return filter_var($pk, FILTER_VALIDATE_INT) !== false;
+		return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
 	} 
 
 	/**
