@@ -610,9 +610,9 @@ class ERestController extends Controller
 	public function outputHelper($message, $results, $totalCount=0, $model=null)
 	{
 		if(is_null($model))
-			$model = lcfirst(get_class($this->model));
-		else
-			$model = lcfirst($model);	
+			$model = get_class($this->model);
+
+		$model = strtolower(substr($model,0,1)).substr($model,1);
 
 		$this->renderJson(array(
 			'success'=>true, 
