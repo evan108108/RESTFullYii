@@ -215,7 +215,8 @@ class ERestController extends Controller
 			foreach($this->model->metadata->relations as $rel=>$val)
 			{
 				$className = $val->className;
-				if(!is_array($className::model()->tableSchema->primaryKey))
+				$model = call_user_func(array($className, 'model'));
+				if(!is_array($model->tableSchema->primaryKey))
 					$nestedRelations[] = $rel;
 			}
 			return $nestedRelations;
@@ -570,7 +571,7 @@ class ERestController extends Controller
 		if($relations[$subResourceName][0] != CActiveRecord::MANY_MANY)
 			return false;
 		if(!is_null($subResourceID))
-			return filter_var($subResourceID, FILTER_VALIDATE_INT) !== false;
+			return $subResourceID === '0' || preg_match('/^-?[1-9][0-9]*$/', $subResourceID) === 1;
 
 		return true;
 	}
@@ -594,7 +595,7 @@ class ERestController extends Controller
 	 */
 	public function isPk($pk) 
 	{
-		return filter_var($pk, FILTER_VALIDATE_INT) !== false;
+		return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
 	} 
 
 	/**
@@ -609,9 +610,9 @@ class ERestController extends Controller
 	public function outputHelper($message, $results, $totalCount=0, $model=null)
 	{
 		if(is_null($model))
-			$model = lcfirst(get_class($this->model));
-		else
-			$model = lcfirst($model);	
+			$model = get_class($this->model);
+
+		$model = strtolower(substr($model,0,1)).substr($model,1);
 
 		$this->renderJson(array(
 			'success'=>true, 
@@ -659,7 +660,7 @@ class ERestController extends Controller
 			$modelName = get_class($this->model);
 			$newRelationName = "_" . $subResourceRelation->className . "Count";
 			$this->getModel()->metaData->addRelation($newRelationName, array(
-        $modelName::STAT, $subResourceRelation->className, $subResourceRelation->foreignKey
+				constant($modelName.'::STAT'), $subResourceRelation->className, $subResourceRelation->foreignKey
 			));
 
 			$model = $this->getModel()->with($newRelationName)->findByPk($id);
