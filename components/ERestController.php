@@ -215,7 +215,8 @@ class ERestController extends Controller
 			foreach($this->model->metadata->relations as $rel=>$val)
 			{
 				$className = $val->className;
-				if(!is_array($className::model()->tableSchema->primaryKey))
+				$model = call_user_func(array($className, 'model'));
+				if(!is_array($model->tableSchema->primaryKey))
 					$nestedRelations[] = $rel;
 			}
 			return $nestedRelations;
@@ -659,7 +660,7 @@ class ERestController extends Controller
 			$modelName = get_class($this->model);
 			$newRelationName = "_" . $subResourceRelation->className . "Count";
 			$this->getModel()->metaData->addRelation($newRelationName, array(
-        $modelName::STAT, $subResourceRelation->className, $subResourceRelation->foreignKey
+				constant($modelName.'::STAT'), $subResourceRelation->className, $subResourceRelation->foreignKey
 			));
 
 			$model = $this->getModel()->with($newRelationName)->findByPk($id);
