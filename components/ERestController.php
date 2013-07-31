@@ -133,24 +133,33 @@ class ERestController extends Controller
 				// Error: Unauthorized
 				throw new CHttpException(401, 'You are not authorized to preform this action.');
 			}
-			$username = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME'];
-			$password = $_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD'];
-			// Find the user
-			if($username != Yii::app()->params['RESTusername'])
-			{
-				// Error: Unauthorized
-				throw new CHttpException(401, 'Error: User Name is invalid');
-			} 
-			else if($password != Yii::app()->params['RESTpassword']) 
-			{
-				// Error: Unauthorized
-				throw new CHttpException(401, 'Error: User Password is invalid');
-			} 
+			$username = trim($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_USERNAME']);
+			$password = trim($_SERVER['HTTP_X_'.self::APPLICATION_ID.'_PASSWORD']);
+
+			$this->checkCredentials($username, $password);
+
 			// This tells the filter chain $c to keep processing.
 			$c->run(); 
 		}
 	}	
 
+	/**
+	 * Check user credentials
+	 */
+	public function checkCredentials($username, $password)
+	{
+		// Find the user
+		if($username != Yii::app()->params['RESTusername'])
+		{
+			// Error: Unauthorized
+			throw new CHttpException(401, 'Error: User Name is invalid');
+		}
+		else if($password != Yii::app()->params['RESTpassword'])
+		{
+			// Error: Unauthorized
+			throw new CHttpException(401, 'Error: User Password is invalid');
+		}
+	}
 
 	/**
 	 * Custom error handler for restfull Errors
