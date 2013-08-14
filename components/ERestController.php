@@ -361,8 +361,8 @@ class ERestController extends Controller
 	 * Takes array and renders Json String
 	 */ 
 	protected function renderJson($data) {
-		$this->layout = 'ext.restfullyii.views.layouts.json';
-		$this->render('ext.restfullyii.views.api.output', array('data'=>$data));
+		$this->layout = realpath(dirname(__FILE__).'/../views/layouts/json.php');
+		$this->renderFile(realpath(dirname(__FILE__).'/../views/api/output.php'), array('data'=>$data));
 	}
 
 
