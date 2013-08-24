@@ -13,7 +13,9 @@ class ERestController extends Controller
 	public $restrictedProperties = array();
 	public $restFilter = array(); 
 	public $restSort = array();
-	public $restScenario = null;
+
+    //By supplying a scenario you can determine which fields are included in a request
+	public $restScenario = 'rest';
 	public $restLimit = 100; // Default limit
 	public $restOffset = 0; //Default Offset
 	public $developmentFlag = YII_DEBUG; //When set to `false' 500 errors will not return detailed messages.
@@ -24,8 +26,7 @@ class ERestController extends Controller
 	//Override $nestedModels in your controller as needed
 	public $nestedModels = 'auto';
 
-	//By supplying a scenario you can determine which fields are included in a request
-	public $scenario = 'rest';
+
 
 	protected $requestReader;
 	protected $model = null;
@@ -497,7 +498,7 @@ class ERestController extends Controller
 	 */ 
 	public function allToArray($models)
 	{
-		$options = array('scenario' => $this->scenario);
+		$options = array('scenario' => $this->restScenario);
 		
 		if(is_array($models))
 		{
