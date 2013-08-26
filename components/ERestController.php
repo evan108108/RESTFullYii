@@ -268,7 +268,7 @@ class ERestController extends Controller
 				//if the $id is not numeric and var + var2 are not set
 				//we are assume that the client is attempting to call a custom method
 				//There may optionaly be a second param `$var` passed in the url
-				$this->triggerCustomRestGet(ucFirst($id), array($var, $var2));
+				$this->triggerCustomRestGet(ucFirst($id), array($var, $var2, 'emptyParent' => true));
 			}
 		}
 	}
@@ -295,7 +295,7 @@ class ERestController extends Controller
 			} 
 		}
 		else
-			$this->triggerCustomRestPut($id, array($var, $var2));
+			$this->triggerCustomRestPut($id, array($var, $var2, 'emptyParent' => true));
 	}
 	
 
@@ -345,7 +345,7 @@ class ERestController extends Controller
 		}
 		else
 		{
-			$this->triggerCustomDelete($id, array($var, $var2));
+			$this->triggerCustomDelete($id, array($var, $var2, 'emptyParent' => true));
 		}
 	}
 
