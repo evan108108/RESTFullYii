@@ -1,0 +1,224 @@
+<?php
+Yii::import('ext.starship.Restfullyii.ARBehaviors.ERestHelperScopes');
+
+/**
+ * ERestHelperScopesUnitTest
+ *
+ * Tests ERestHelperScopes
+ *
+ * @category   PHP
+ * @package    Starship
+ * @subpackage Restfullyii/Tests
+ * @copyright  Copyright (c) 2013 Evan Frohlich (https://github.com/evan108108)
+ * @license    https://github.com/evan108108   OSS
+ * @version    Release: 1.2.0
+ */
+class ERestHelperScopesUnitTest extends ERestTestCase
+{
+	/**
+	 * getERestHelperScopes
+	 * 
+	 * Gets the ERestHelperScopes Object
+	 *
+	 * @return (Object) ERestHelperScopes
+	 */ 
+	protected function getERestHelperScopes()
+	{
+		$model = new Category();
+		$model->attachBehavior('ERestHelperScopes', new ERestHelperScopes());
+		$ERHS = $model->asa('ERestHelperScopes');
+		$this->assertInstanceOf('ERestHelperScopes', $ERHS);
+		return $ERHS;
+	}
+
+	/**
+	 * limit
+	 *
+	 * tests ERestHelperScopes->limit()
+	 */ 
+	public function testLimit()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->limit(10);
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals(10, $result->getDbCriteria()->limit);
+	}
+
+	/**
+	 * offset
+	 *
+	 * tests ERestHelperScopes->offset()
+	 */
+	public function testOffset()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->offset(10);
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals(10, $result->getDbCriteria()->offset);
+	}
+
+	/**
+	 * orderBy
+	 *
+	 * tests ERestHelperScopes->orderBy()
+	 */
+	public function testOrderBy()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->orderBy('name', 'DESC');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('t.name DESC', $result->getDbCriteria()->order);
+	}
+
+	/**
+	 * orderBy
+	 *
+	 * tests orderBy with JSON as param ERestHelperScopes->orderBy()
+	 */
+	public function testOrderByWithJSON()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->orderBy('[{"property":"name", "direction":"ASC"}, {"property":"id", "direction":"DESC"}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('t.name ASC, t.id DESC', $result->getDbCriteria()->order);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property":"name", "value":"cat1"}]') default
+	 */ 
+	public function testFilter()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property":"name", "value":"cat1"}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.name LIKE :name0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":name0"=>"%cat1%"], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property":"id", "value":"[1,2,3], "operator": "in"}]')
+	 */ 
+	public function testFilterInOperator()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property":"id", "value":[1,2,3], "operator": "in"}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id IN (:id0_0, :id0_1, :id0_2))', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0_0" => 1, ":id0_1" => 2, ":id0_2" => 3], $result->getDbCriteria()->params);
+	}
+
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 50, "operator": ">="}]')
+	 */ 
+	public function testFilterGTOrEqualToOperator()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property": "id", "value" : 50, "operator": ">="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id >= :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => 50], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : "50", "operator": "<="}]')
+	 */ 
+	public function testFilterLTOrEqualToOperator()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property": "id", "value" : 50, "operator": "<="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id <= :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => 50], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property":"id", "value":"[1,2,3], "operator": "not in"}]')
+	 */ 
+	public function testFilterNotInOperator()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property":"id", "value":[1,2,3], "operator": "not in"}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id NOT IN (:id0_0, :id0_1, :id0_2))', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0_0" => 1, ":id0_1" => 2, ":id0_2" => 3], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "!="}]')
+	 */ 
+	public function testFilterNotEqualOperator()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property": "id", "value" : 2, "operator": "!="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id <> :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => 2], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "!="}]')
+	 */ 
+	public function testFilterMultiFilter()
+	{
+		$ERHS = $this->getERestHelperScopes();
+		$result = $ERHS->filter('[{"property": "id", "value" : 2, "operator": "!="}, {"property":"id", "value":[1,2,3], "operator": "not in"}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id <> :id0 AND t.id NOT IN (:id1_0, :id1_1, :id1_2))', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => 2, ":id1_0" => 1, ":id1_1" => 2, ":id1_2" => 3], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * getFilterCType
+	 *
+	 * tests ERestHelperScopes->getFilterCType()
+	 */ 
+	public function testGetFilterCType()
+	{
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterCType', ['id']);
+		$this->assertEquals('integer', $result);
+
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterCType', ['name']);
+		$this->assertEquals('string', $result);
+
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterCType', ['THIS_PROP_DOES_NOT_EXIST']);
+		$this->assertEquals('text', $result);
+	}
+
+	/**
+	 * getFilterAlias
+	 *
+	 * tests ERestHelperScopes->getFilterAlias()
+	 */ 
+	public function testGetFilterAlias()
+	{
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterAlias', ['id']);
+		$this->assertEquals('t', $result);
+	}
+
+	/**
+	 * getSortSQL
+	 *
+	 * tests ERestHelperScopes->getSortSQL()
+	 */ 
+	public function testGetSortSQL()
+	{
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getSortSQL', ['id', 'DESC']);
+		$this->assertEquals('t.id DESC', $result);
+	}
+
+}

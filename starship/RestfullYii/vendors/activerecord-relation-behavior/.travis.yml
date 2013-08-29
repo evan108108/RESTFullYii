@@ -1,0 +1,22 @@
+language: php
+php:
+#  - 5.2
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  - DB=mysql
+  - DB=pgsql
+  - DB=sqlite
+
+# execute any number of scripts before the test run, custom env's are available as variables
+before_script:
+  - git clone --depth=1 https://github.com/yiisoft/yii.git yii
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "CREATE DATABASE test;" -U postgres; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot; fi
+
+script: phpunit --colors EActiveRecordRelationBehaviorTest.php
+
+notifications:
+   email: "mail@cebe.cc"

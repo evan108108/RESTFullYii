@@ -1,0 +1,18 @@
+{
+    "name": "yiiext/activerecord-relation-behavior",
+    "description": "Inspired by and put together the awesomeness of many yii extensions that aim to improve saving of related records. Comes with 100% test coverage and well structured and clean code so it can savely be used in enterprise production enviroment.",
+    "keywords": ["yii", "extension", "active-record"],
+    "homepage": "https://github.com/yiiext/activerecord-relation-behavior",
+    "type": "yii-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Carsten Brandt",
+            "email": "mail@cebe.cc"
+        }
+    ],
+    "require": {
+        "php": ">=5.1.0",
+        "yiisoft/yii": ">=1.1.6"
+    }
+}
