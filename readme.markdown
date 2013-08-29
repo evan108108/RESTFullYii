@@ -112,8 +112,8 @@ JavaScript:
 
 CURL:
 ```shell
-curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://my-site.com/api/work
-
+curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\ 
+http://my-site.com/api/work
 ```
 
 Response:
@@ -164,8 +164,8 @@ JavaScript:
 
 CURL:
 ```shell
-curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://my-site.com/api/work/1
-
+curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+http://my-site.com/api/work/1
 ```
 
 Response:
@@ -208,8 +208,8 @@ JavaScript:
 
 CURL:
 ```shell
-curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://my-site.com/api/work?limit=10&offset=30
-
+curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+http://my-site.com/api/work?limit=10&offset=30
 ```
 
 Response:
@@ -261,8 +261,8 @@ JavaScript:
 
 CURL:
 ```shell
-curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direction%22%3A%22DESC%22%7D%2C+%7B%22property%22%3A%22create_time%22%2C+%22direction%22%3A%22ASC%22%7D%5D
-
+curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direction%22%3A%22DESC%22%7D%2C+%7B%22property%22%3A%22create_time%22%2C+%22direction%22%3A%22ASC%22%7D%5D
 ```
 
 Response:
@@ -354,7 +354,8 @@ var postData = {
 
 CURL:
 ```shell
-curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X POST -d '{"title": "title31", "author_id": "31", "content": "content31", "create_time": "2013-08-20 09:23:14"}' http://my-site.com/api/work
+curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+-X POST -d '{"title": "title31", "author_id": "31", "content": "content31", "create_time": "2013-08-20 09:23:14"}' http://my-site.com/api/work
 ```
 
 Response:
@@ -405,7 +406,8 @@ var postData = {
 
 CURL:
 ```shell
-curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" -X PUT -d '{"id": "31", "title": "title31", "author_id": "31", "content": "content31", "create_time": "2013-08-20 09:23:14"}' http://my-site.com/api/work/31
+curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+-X PUT -d '{"id": "31", "title": "title31", "author_id": "31", "content": "content31", "create_time": "2013-08-20 09:23:14"}' http://my-site.com/api/work/31
 ```
 
 Response:
@@ -447,7 +449,8 @@ JavaScript:
 
 CURL:
 ```shell
-curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access" "X-HTTP-Method-Override: DELETE" -X DELETE http://my-site.com/api/work/1
+curl -l -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
+"X-HTTP-Method-Override: DELETE" -X DELETE http://my-site.com/api/work/1
 
 ```
 
