@@ -51,8 +51,8 @@ return array(
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=restfullyii_test',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => '108108108',
+			'username' => 'restfulyiiuser',
+			'password' => '',
 			'charset' => 'utf8',
 		),
 		'errorHandler'=>array(
