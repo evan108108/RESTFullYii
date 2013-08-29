@@ -26,7 +26,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 
 
 
- _For older versions of PHP (< 5.4) checkout [v1.5](https://github.com/evan108108/RESTFullYii/tree/v1.5)_
+ _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
 
 ## Installation
 1. Download and place the 'starship' directory in your Yii extension directory.
