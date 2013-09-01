@@ -1,6 +1,6 @@
 # _Starship / RestfullYii_
 
-Makes quickly adding a RESTFul API to your Yii project easy. ResfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the abuilty to read and manipulate related data with ease.
+Makes quickly adding a RESTFul API to your Yii project easy. RestfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.
 
 RestfullYii has been lovingly rebuilt from the metal and is now 100% test covered! The new event based architecture allows for clean and unlimited customization.
 
@@ -31,7 +31,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 ## Installation
 1. Download and place the 'starship' directory in your Yii extension directory.
 
-2. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
+2. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.
 ```php
 'components'=>array(
 		'urlManager'=>array(
@@ -53,7 +53,7 @@ public function filters()
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			array(
-				'ext.starship.RestfullYii.filters.ERestFilter + 
+				'ext.starship.RestfullYii.filters.ERestFilter +
 			 	REST.GET, REST.PUT, REST.POST, REST.DELETE'
 			),
 		);
@@ -67,7 +67,7 @@ public function actions()
 		return array(
 			'REST.'=>'ext.starship.RestfullYii.actions.ERestActionProvider',
 		);
-}	
+}
 ```
 
 3. If you are using the accessControl filter you need to make sure that access is allowed on all RESTFul routes.
@@ -86,7 +86,7 @@ public function accessRules()
 ```
 
 ## Making Requests
-To understand how to make RestfullYii API requests its best to look at a few examples. Code examples will be shown first in JavaScript* as an AJAX user* and then using CURL.  
+To understand how to make RestfullYii API requests its best to look at a few examples. Code examples will be shown first in JavaScript* as an AJAX user* and then using CURL.
 
 _* JS examples use jQuery_
 
@@ -106,13 +106,13 @@ JavaScript:
     },
     error:function (xhr, ajaxOptions, thrownError){
       console.log(xhr.responseText);
-    } 
-  }); 
+    }
+  });
 ```
 
 CURL:
 ```shell
-curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\ 
+curl -i -H "Accept: application/json" -H "X_REST_USERNAME: admin@restuser" -H "X_REST_PASSWORD: admin@Access"\
 http://my-site.com/api/work
 ```
 
@@ -141,7 +141,7 @@ Response:
 			. . .,
 		]
 	}
-}	
+}
 
 ```
 
@@ -157,8 +157,8 @@ JavaScript:
     },
     error:function (xhr, ajaxOptions, thrownError){
       console.log(xhr.responseText);
-    } 
-  }); 
+    }
+  });
 ```
 
 
@@ -185,7 +185,7 @@ Response:
 			}
 		]
 	}
-}	
+}
 ```
 
 ### GET Request: Limit & Offset (WorkController)
@@ -202,8 +202,8 @@ JavaScript:
     },
     error:function (xhr, ajaxOptions, thrownError){
       console.log(xhr.responseText);
-    } 
-  }); 
+    }
+  });
 ```
 
 CURL:
@@ -237,7 +237,7 @@ Response:
 			. . .,
 		]
 	}
-}	
+}
 
 ```
 
@@ -255,8 +255,8 @@ JavaScript:
     },
     error:function (xhr, ajaxOptions, thrownError){
       console.log(xhr.responseText);
-    } 
-  }); 
+    }
+  });
 ```
 
 CURL:
@@ -297,7 +297,7 @@ Response:
 			. . .,
 		]
 	}
-}	
+}
 
 ```
 
@@ -348,8 +348,8 @@ var postData = {
 	},
 	error:function (xhr, ajaxOptions, thrownError){
 		console.log(xhr.responseText);
-	} 
-}); 
+	}
+});
 ```
 
 CURL:
@@ -375,7 +375,7 @@ Response:
 			}
 		]
 	}
-}	
+}
 ```
 
 ###PUT Requests (Updating existing resources)
@@ -400,8 +400,8 @@ var postData = {
 	},
 	error:function (xhr, ajaxOptions, thrownError){
 		console.log(xhr.responseText);
-	} 
-}); 
+	}
+});
 ```
 
 CURL:
@@ -427,7 +427,7 @@ Response:
 			}
 		]
 	}
-}	
+}
 ```
 
 ### DELETE Requests (Delete a resource)
@@ -442,8 +442,8 @@ JavaScript:
     },
     error:function (xhr, ajaxOptions, thrownError){
       console.log(xhr.responseText);
-    } 
-  }); 
+    }
+  });
 ```
 
 
@@ -471,38 +471,38 @@ Response:
 			}
 		]
 	}
-}	
+}
 ```
 
 ### Sub-Resources
-  
-When working with 'many to many' relations you now have the ability to treat them as sub-resources.  
 
-Consider:  
+When working with 'many to many' relations you now have the ability to treat them as sub-resources.
+
+Consider:
 ```
 URL Format: http://mysite.com/api/<controller>/<id>/<many_many_relation>/<many_many_relation_id>
 
-Getting player 3 who is on team 1  
-or simply checking whether player 3 is on that team (200 vs. 404)  
-GET /api/team/1/players/3  
+Getting player 3 who is on team 1
+or simply checking whether player 3 is on that team (200 vs. 404)
+GET /api/team/1/players/3
 
-getting player 3 who is also on team 3  
-GET /api/team/3/players/3  
+getting player 3 who is also on team 3
+GET /api/team/3/players/3
 
-Adding player 3 also to team 2  
-PUT /api/team/2/players/3  
+Adding player 3 also to team 2
+PUT /api/team/2/players/3
 
-Getting all teams of player 3  
-GET /api/player/3/teams  
+Getting all teams of player 3
+GET /api/player/3/teams
 
 Remove player 3 from team 1 (Injury)
-DELETE /api/team/1/players/3  
+DELETE /api/team/1/players/3
 
-Team 1 found a replacement, who is not registered in league yet  
-POST /api/player  
+Team 1 found a replacement, who is not registered in league yet
+POST /api/player
 
-From payload you get back the id, now place it officially to team 1  
-PUT /api/team/1/players/44  
+From payload you get back the id, now place it officially to team 1
+PUT /api/team/1/players/44
 ```
 
 ## Customization & Configuration
@@ -510,7 +510,7 @@ RestfullYii's default behaviors can be easily customized though the built-in eve
 
 To understand how to do this, lets create a scenario that requires some customization and see how we might accomplish it.
 
-Lets say we have two controllers in our API, WorkController and CategoryController. We would like outr API to function in the following ways:
+Lets say we have two controllers in our API, WorkController and CategoryController. We would like our API to function in the following ways:
 
 1. The API should be accessible to JavaScript via AJAX.
 2. The API should not be accessible to any external client.
@@ -550,7 +550,7 @@ Now we are ready modify the output of event handler 'req.auth.ajax.user', but th
 class WorkController extends Controller
 {
 	.. .
-	
+
 	public function restEvents()
 	{
 		$this->onRest('post.filter.req.auth.ajax.user', function($validation) {
@@ -573,7 +573,7 @@ class WorkController extends Controller
 			}
 		});
 	}
-	
+
 	.. .
 }
 ```
@@ -584,7 +584,7 @@ Cool! That just leaves feature 7, disallowing create, update, delete on category
 class CategoryController extends Controller
 {
 	.. .
-	
+
 	public function restEvents()
 	{
 		$this->onRest('post.filter.req.auth.ajax.user', function($validation) {
@@ -594,20 +594,20 @@ class CategoryController extends Controller
 			return ($this->getAction()->getId() == 'REST.GET');
 		});
 	}
-	
+
 	.. .
 }
 
 ```
 
-We now have all features implemented! 
+We now have all features implemented!
 
 ## Defining Custom Routes
 Custom routes are very simple to define as all you really need to do is create an event handler for your route and http verb combination (event name = 'req.\<verb>.\<route_name>.render').  Lets take a look at some examples.
 
 Here is the list of routes we would like to add to our api:
 
-1. [GET] /api/category/active 
+1. [GET] /api/category/active
 
 2. [GET] /api/work/special/\<param1>
 
@@ -648,23 +648,23 @@ These routes all involve the Work controller. So that is where we will add our e
 class WorkController extends Controller
 {
 	.. .
-	
+
 	public function restEvents()
 	{
 		$this->emitRest('req.get.special.render', function($param1) {
 			echo CJSON::encode(['param1'=>$param1]);
 		});
-		
+
 		$this->emitRest('req.put.special.render', function($data, $param1, $param2) {
 			//$data is the data sent in the PUT
 			echo CJSON::encode(['data'=>$data, $param1, $param2]);
 		});
-		
+
 		$this->emitRest('req.post.special.render', function($data, $param1) {
 			//$data is the data sent in the POST
 			echo CJSON::encode(['data'=>$data, 'param1'=>$param1, 'param2'=>$param2]);
 		});
-		
+
 		$this->emitRest('req.delete.special.render', function($param1, $param2) {
 			echo CJSON::encode(['param1'=>$param1, 'param2'=>$param2]);
 		});
@@ -799,7 +799,7 @@ $this->onRest('post.filter.config.dev.flag', function($flag) {
 * @param (String) (category) the log category
 * @param (Array) (ignore) Events to ignore logging
 *
-* @return (Array) the pramas sent into the event
+* @return (Array) the params sent into the event
 */
 $this->onRest('req.event.logger', function($event, $category='application',$ignore=[]) {
 	if(!isset($ignore[$event])) {
@@ -824,7 +824,7 @@ $this->onRest('req.event.logger', function($event, $category='application',$igno
  * false to allow http or https
  *
  * @return (bool) default is false
- */ 
+ */
 $this->onRest('req.auth.https.only', function() {
 	return false;
 });
@@ -856,7 +856,7 @@ $this->onRest('post.filter.req.auth.https.only', function($https_only) {
  * At a minimum you should change this value
  *
  * @return (String) the username
- */ 
+ */
 $this->onRest('req.auth.username', function(){
 	return 'admin@restuser';
 });
@@ -888,7 +888,7 @@ $this->onRest('post.filter.req.auth.username', function($username) {
  * At a minimum you should change this value
  *
  * @return (String) the password
- */ 
+ */
 $this->onRest('req.auth.password', function(){
 	return 'admin@Access';
 });
@@ -923,7 +923,7 @@ $this->onRest('post.filter.req.auth.password', function($password) {
  * @param (String) (password) the password defined in req.auth.password
  *
  * @return (Bool) true to grant access; false to deny access
- */ 
+ */
 $this->onRest('req.auth.user', function($application_id, $username, $password) {
 	if(!isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) || !isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
 				return false;
@@ -967,7 +967,7 @@ $this->onRest('post.filter.req.auth.user', function($validation) {
  * You should most likely over ride this
  *
  * @return (Bool) return true to grant access; false to deny access
- */ 
+ */
 $this->onRest('req.auth.ajax.user', function() {
 	if(Yii::app()->user->isGuest) {
 		return false;
@@ -1000,7 +1000,7 @@ $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
  *
  * Called after the request has been fulfilled
  * By default it has no behavior
- */ 
+ */
 $this->onRest('req.after.action', function($filterChain) {
 	//Logic being applied after the action is executed
 });
@@ -1029,7 +1029,7 @@ $this->onRest('post.filter.after.action', function($result=null) {
  * Called when attempting to validate a resources primary key
  * The default is an integer
  *
- * @return (bool) true to confirm primay key; false to deny
+ * @return (bool) true to confirm primary key; false to deny
  */
 $this->onRest('req.param.is.pk', function($pk) {
 	return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
@@ -1063,7 +1063,7 @@ $this->onRest('post.filter.req.param.is.pk', function($isPk) {
  * @param (String) this can be either a stream wrapper of a file path
  *
  * @return (Array) the JSON decoded array of data
- */ 
+ */
 $this->onRest('req.data.read', function($stream='php://input') {
 	$reader = new ERestRequestReader($stream);
 	return CJSON::decode($reader->getContents());
@@ -1164,7 +1164,7 @@ $this->onRest('pre.filter.req.get.resources.render, function($data, $model_name,
 ```php
 /**
  * req.put.resource.render
- * 
+ *
  * Called when a PUT request (update) is to be rendered
  *
  * @param (Object) (model) the updated model
@@ -1197,7 +1197,7 @@ $this->onRest('pre.filter.req.req.put.resource.render, function($model, $relatio
 ```php
 /**
  * req.post.resource.render
- * 
+ *
  * Called when a POST request (create) is to be rendered
  *
  * @param (Object) (model) the newly created model
@@ -1310,7 +1310,7 @@ $this->onRest('pre.filter.req.get.subresource.render', function($model, $subreso
  */
 $this->onRest('req.get.subresources.render', function($models, $subresource_name, $count) {
 	$this->setHttpStatus((($count > 0)? 200: 204));
-	
+
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> (($count > 0)? true: false),
@@ -1342,7 +1342,7 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
  *
  * @param (Object) (model) the model of the resource that owns the subresource
  * @param (String) (subresource_name) the name of the sub-resource
- * @param (Mixed/Int) (subresource_id) the primay key of the sub-resource
+ * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource
  */
 $this->onRest('req.put.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
@@ -1375,7 +1375,7 @@ $this->onRest('pre.filter.req.put.subresource.render', function($model, $subreso
  *
  * @param (Object) (model) this is the model object that owns the deleted sub-resource
  * @param (String) (subresource_name) the name of the deleted sub-resource
- * @param (Mixex/Int) (subresource_id) the primary key of the deleted sub-resource
+ * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource
  */
 $this->onRest('req.delete.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
@@ -1515,13 +1515,13 @@ $this->onRest('model.attach.behaviors', function($model) {
 	if(!array_key_exists('ERestActiveRecordRelationBehavior', $model->behaviors())) {
 		$model->attachBehavior('ERestActiveRecordRelationBehavior', new ERestActiveRecordRelationBehavior());
 	}
-	
+
 	if(!array_key_exists('ERestHelperScopes', $model->behaviors())) {
 		$model->attachBehavior('ERestHelperScopes', new ERestHelperScopes());
 	}
 	return $model;
 });
-```	
+```
 
 ####<a name="pre.filter.model.attach.behaviors">pre.filter.model.attach.behaviors</a>
 ```php
@@ -1731,9 +1731,9 @@ $this->onRest('post.filter.model.scenario', function($result)) {
  *
  * Called when attempting to apply a filter to apply to the records in a GET request
  * The default is 'NULL' or the value of the _GET param 'filter'
- * The format is JSON: 
+ * The format is JSON:
  * '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE"}]'
- * See documentation for additional opptions
+ * See documentation for additional options
  *
  * @return (JSON) the filter to apply
  */
@@ -1772,7 +1772,7 @@ $this->onRest('post.filter.model.filter', function($result)) {
  * [{"property":"SOME_PROPERTY", "direction":"DESC"}]
  *
  * @return (JSON) the sort to apply
- */ 
+ */
 $this->onRest('model.sort', function() {
 	return isset($_GET['sort'])? $_GET['sort']: null;
 });
@@ -2019,7 +2019,7 @@ $this->onRest('post.filter.model.subresource.count', function($result)) {
  *
  * Called on POST requests when attempting to apply posted data
  *
- * @param (Object) (model) the recource model to save data to
+ * @param (Object) (model) the resource model to save data to
  * @param (Array) (data) the data to save to the model
  * @param (Array) (restricted_properties) list of restricted properties
  *
@@ -2055,7 +2055,7 @@ $this->onRest('post.filter.model.apply.post.data', function($result)) {
  *
  * Called on PUT requests when attempting to apply PUT data
  *
- * @param (Object) (model) the recource model to save data to
+ * @param (Object) (model) the resource model to save data to
  * @param (Array) (data) the data to save to the model
  * @param (Array) (restricted_properties) list of restricted properties
  *
@@ -2167,7 +2167,7 @@ $this->onRest('post.filter.model.subresources.save', function($result)) {
  *
  * Called whenever a model resource needs deleting
  *
- * @param (Object) (model) the model resouce to be deleted
+ * @param (Object) (model) the model resource to be deleted
  */
 $this->onRest('model.delete', function($model) {
 	if(!$model->delete()) {
@@ -2199,7 +2199,7 @@ $this->onRest('post.filter.model.delete', function($result)) {
 /**
  * model.subresource.delete
  *
- * Called whenever a subresouce needs deleting
+ * Called whenever a subresource needs deleting
  *
  * @param (Object) (model) the owner of the sub-resource
  * @param (String) (subresource_name) the name of the subresource
@@ -2274,7 +2274,7 @@ Running the project's automated tests.
 
 ### Unit Tests
 
-1. Make sure you that you have the correct database and database user in the test config 
+1. Make sure you that you have the correct database and database user in the test config
 (/WEB_ROOT/protected/extensions/starship/RestfullYii/tests/testConfig.php).
 2. % cd /WEB_ROOT/protected/extensions/starship/RestfullYii/tests
 3. % phpunit unit/

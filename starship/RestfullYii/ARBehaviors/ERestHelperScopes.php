@@ -11,18 +11,18 @@
  * @license    https://github.com/evan108108   OSS
  * @version    Release: 1.2.0
  */
-class ERestHelperScopes extends CActiveRecordBehavior 
+class ERestHelperScopes extends CActiveRecordBehavior
 {
 	/**
 	 * limit
 	 *
 	 * sets the number of records to return
-	 * 
+	 *
 	 * @param (Int) (limit) the limit
 	 *
 	 * @return (Object) returns the model for chaining
-	 */ 
-	public function limit($limit) 
+	 */
+	public function limit($limit)
 	{
 		$this->Owner->getDbCriteria()->mergeWith([
 			'limit' => $limit
@@ -38,8 +38,8 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 * @param (Int) (offset) the offset
 	 *
 	 * @return (Object) returns the model for chaining
-	 */ 
-	public function offset($offset) 
+	 */
+	public function offset($offset)
 	{
 		$this->Owner->getDbCriteria()->mergeWith([
 			'offset' => $offset
@@ -57,7 +57,7 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 *
 	 * @return (Object) returns the model for chaining
 	 */
-	public function orderBy($field, $dir = 'ASC') 
+	public function orderBy($field, $dir = 'ASC')
 	{
 		if (empty($field)) {
 			return $this->Owner;
@@ -84,13 +84,13 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	/**
 	 * filter
 	 *
-	 * filter result set based on critiria
+	 * filter result set based on criteria
 	 *
 	 * @param (String) JSON string to filter by
 	 *
 	 * @return (Object) returns the model for chaining
 	 */
-	public function filter($filter) 
+	public function filter($filter)
 	{
 		if (empty($filter)) {
 			return $this->Owner;
@@ -192,8 +192,8 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 * @param (String) (property) the filter to get type of
 	 *
 	 * @return (String) the filter type
-	 */ 
-	private function getFilterCType($property) 
+	 */
+	private function getFilterCType($property)
 	{
 		if ($this->Owner->hasAttribute($property)) {
 			return $this->Owner->metaData->columns[$property]->type;
@@ -210,8 +210,8 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 * @todo remove property param as it is not used
 	 *
 	 * @return (String) the table alias
-	 */ 
-	private function getFilterAlias($property=null) 
+	 */
+	private function getFilterAlias($property=null)
 	{
 		return $this->Owner->getTableAlias(false, false);
 	}
@@ -225,8 +225,8 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 * #param (String) (dir) the direction to sor in
 	 *
 	 * @return (String) the sort SQL
-	 */ 
-	private function getSortSQL($field, $dir = 'ASC') 
+	 */
+	private function getSortSQL($field, $dir = 'ASC')
 	{
 		return $this->Owner->getTableAlias(false, false) . ".$field $dir";
 	}

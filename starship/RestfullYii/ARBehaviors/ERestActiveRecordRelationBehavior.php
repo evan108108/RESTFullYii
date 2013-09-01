@@ -5,7 +5,7 @@ Yii::import('ext.starship.RestfullYii.vendors.activerecord-relation-behavior.EAc
  * ERestActiveRecordRelationBehavior
  * Extends EActiveRecordRelationBehavior
  *
- * Adds additional abitlity to save/update related models
+ * Adds additional ability to save/update related models
  *
  * @category   PHP
  * @package    Starship
@@ -20,7 +20,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	 * events
 	 *
 	 * the Active record events to hook
-	 */ 
+	 */
 	public function events()
 	{
 		return [
@@ -37,16 +37,16 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	 * @param (Object) (event) the active record event
 	 *
 	 * @return (Bool) the result of calling the parent beforeSave($event)
-	 */ 
+	 */
 	public function beforeSave($event)
 	{
 		// ensure transactions
 		if ($this->useTransaction && $this->owner->dbConnection->currentTransaction===null) {
 			$this->setTransaction($this->owner->dbConnection->beginTransaction());
 		}
-		
+
 		$this->preSaveHelper($this->owner);
-		
+
 		return parent::beforeSave($event);
 	}
 
@@ -83,16 +83,16 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 				if(isset($attribute_cleaner($attributes)[($table->primaryKey)])) {
 					$relation_model->setPrimaryKey($attribute_cleaner($attributes)[($table->primaryKey)]);
 				}
-			}	
+			}
 
 			$relation_pk = $relation_model->getPrimaryKey();
-			
+
 			if( !empty($relation_pk) ) {
 				//$relation_model = $relation_model::model()->findByPk($relation_pk);
 				$relation_model->setIsNewRecord(false);
 			}
 
-			if($this->getRealationType($model, $relation_name) == 'CHasManyRelation' || $this->getRealationType($model, $relation_name) == 'CHasOneRelation') {
+			if($this->getRelationType($model, $relation_name) == 'CHasManyRelation' || $this->getRelationType($model, $relation_name) == 'CHasOneRelation') {
 				$relation_model->{$model->metaData->relations[$relation_name]->foreignKey} = $model->getPrimaryKey();
 			}
 
@@ -101,7 +101,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 				$relation_model->refresh();
 			}
 
-			if($this->getRealationType($model, $relation_name) == 'CBelongsToRelation') {
+			if($this->getRelationType($model, $relation_name) == 'CBelongsToRelation') {
 				$belongs_to_fk = $model->metaData->relations[$relation_name]->foreignKey;
 				if(empty($model->$belongs_to_fk)) {
 					$model->$belongs_to_fk = $relation_model->getPrimaryKey();
@@ -135,7 +135,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	}
 
 	/**
-	 * getRealationType
+	 * getRelationType
 	 *
 	 * Gets the type of a relation or returns false
 	 *
@@ -143,14 +143,14 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	 * @param (String) (key) the relation name
 	 *
 	 * @return (Mixed) returns the relation type (String) or false (Bool)
-	 */ 
-	private function getRealationType($model, $key)
+	 */
+	private function getRelationType($model, $key)
 	{
 		$relations = $model->relations();
 		if(isset($relations[$key])) {
 			return $relations[$key][0];
-		} 
+		}
 		return false;
 	}
-			
+
 }

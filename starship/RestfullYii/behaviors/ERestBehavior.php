@@ -7,7 +7,7 @@ Yii::import('ext.starship.RestfullYii.components.*');
 /**
  * ERestBehavior
  * Extends CBehavior
- * 
+ *
  *
  * Acts as the glue for RestfullYii and sets up basic functionality
  *
@@ -44,7 +44,7 @@ class ERestBehavior extends CBehavior
 		$this->http_status = New EHttpStatus();
 		$this->resource_helper = new ERestResourceHelper([$this, 'emitRest']);
 		$this->subresource_helper = new ERestSubrecourceHelper([$this, 'emitRest']);
-		
+
 		Yii::app()->clientScript->reset(); //Remove any scripts registered by Controller Class
 		Yii::app()->onException = array($this, 'onException');
 
@@ -96,7 +96,7 @@ class ERestBehavior extends CBehavior
 	 *
 	 * @param (String) (event) the name of the event
 	 * @param (Mixed/Array) params to pass to event listener
-	 */ 
+	 */
 	public function emitRest($event, $params=[])
 	{
 		$this->event->emit(ERestEvent::REQ_EVENT_LOGGER, ["pre.filter.$event"]);
@@ -124,11 +124,11 @@ class ERestBehavior extends CBehavior
 	 * @param (String) (event) the name of the event
 	 *
 	 * @return (Bool) true if event exists, false if not
-	 */ 
+	 */
 	public function eventExists($event)
 	{
 		return $this->event->eventExists($event);
-	}	
+	}
 
 	/**
 	 * getHttpStatus
@@ -136,7 +136,7 @@ class ERestBehavior extends CBehavior
 	 * Returns the http_status object
 	 *
 	 * @return (Object) (EHttpStatus) an instance of EHttpStatus
-	 */ 
+	 */
 	public function getHttpStatus()
 	{
 		return $this->http_status;
@@ -145,11 +145,11 @@ class ERestBehavior extends CBehavior
 	/**
 	 * setHttpStatus
 	 *
-	 * Set the http status of the currect request
+	 * Set the http status of the current request
 	 *
 	 * @param (Int) (code) the http response code
 	 * @param (String) (message) the http message to attach to request
-	 */ 
+	 */
 	public function setHttpStatus($code, $message=null)
 	{
 		return $this->http_status->set($code, $message);
@@ -161,7 +161,7 @@ class ERestBehavior extends CBehavior
 	 * returns an instance of ERestResourceHelper
 	 *
 	 * @return (Object) (ERestResourceHelper) instance of ERestResourceHelper
-	 */ 
+	 */
 	public function getResourceHelper()
 	{
 		return $this->resource_helper;
@@ -170,9 +170,9 @@ class ERestBehavior extends CBehavior
 	/**
 	 * getSubresourceHelper
 	 *
-	 * returns an instance of ERestSubrecourceHelper
+	 * returns an instance of ERestSubresourceHelper
 	 *
-	 * @return (Object) (ERestSubrecourceHelper) instance of ERestSubrecourceHelper
+	 * @return (Object) (ERestSubresourceHelper) instance of ERestSubresourceHelper
 	 */
 	public function getSubresourceHelper()
 	{
@@ -185,7 +185,7 @@ class ERestBehavior extends CBehavior
 	 * Exception event handler
 	 *
 	 * @param (Object) (event) instance of Exception
-	 */ 
+	 */
 	public function onException($event)
 	{
 		$message = null;
@@ -209,7 +209,7 @@ class ERestBehavior extends CBehavior
 	 * helper function for rendering json
 	 *
 	 * @param (Array) (params) list of params to send to the render
-	 */ 
+	 */
 	public function renderJSON($params)
 	{
 		if(isset($this->owner)) {
@@ -219,6 +219,6 @@ class ERestBehavior extends CBehavior
 		}
 		$controller->layout = 'ext.starship.restfullyii.views.layouts.json';
 		$controller->render('ext.starship.restfullyii.views.api.output', $params);
-	}	
+	}
 
 }

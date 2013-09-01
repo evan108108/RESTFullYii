@@ -46,14 +46,14 @@ class ERestBehaviorUnitTest extends ERestTestCase
 				$this->assertTrue($eventor->eventExists($event_name));
 			}
 		}
-		
+
 		$erb->owner->injectEvents(ERestEvent::CONFIG_APPLICATION_ID, function() {
 			return 'TEST_APPLICATION_ID';
 		});
 		$this->invokePrivateMethod($erb, 'registerEventListeners', []);
 		$eventor = $this->getPrivateProperty($erb, 'event');
 		$this->assertEquals('TEST_APPLICATION_ID', $eventor->emit(ERestEvent::CONFIG_APPLICATION_ID));
-		
+
 		Yii::app()->params['RestfullYii'] = [
 			ERestEvent::REQ_AUTH_USERNAME => function() {
 				return 'TEST_GLOBAL_USERNAME';
@@ -184,7 +184,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$expected = ['pre.filter.test.val.post.filter', 3, 14];
 		$this->assertArraysEqual($expected, $erb->emitRest('my.test.event', ['test.val', 1, 5]));
 	}
-	
+
 	/**
 	 * emitRest
 	 *
@@ -251,7 +251,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	 * getHttpStatus
 	 *
 	 * tests ERestBehavior->getHttpStatus()
-	 */ 
+	 */
 	public function testGetHttpStatus()
 	{
 		$erb = $this->getNewERestBehavior();
@@ -265,8 +265,8 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	 *
 	 * tests ERestBehavior->setHttpStatus()
 	 *
-	 */ 
-	public function testSetHttpSatus()
+	 */
+	public function testSetHttpStatus()
 	{
 		$erb = $this->getNewERestBehavior();
 		$erb->ERestInit();
@@ -278,10 +278,10 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * getresourceHelper
+	 * getResourceHelper
 	 *
 	 * tests ERestBehavior->getResourceHelper()
-	 */ 
+	 */
 	public function testGetResourceHelper()
 	{
 		$erb = $this->getNewERestBehavior();
@@ -294,13 +294,13 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	 * getSubresourceHelper
 	 *
 	 * tests ERestBehavior->getSubresourceHelper()
-	 */ 
+	 */
 	public function testGetSubresourceHelper()
 	{
 		$erb = $this->getNewERestBehavior();
 		$erb->ERestInit();
 
-		$this->assertInstanceOf('ERestSubrecourceHelper', $erb->getSubresourceHelper());
+		$this->assertInstanceOf('ERestSubresourceHelper', $erb->getSubresourceHelper());
 	}
 
 
@@ -325,7 +325,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	 * renderJSON
 	 *
 	 * tests ERestBehavior->renderJSON()
-	 */ 
+	 */
 	public function testRenderJSON()
 	{
 		$erb = $this->getNewERestBehavior();
@@ -348,7 +348,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 			]);
 		});
 		$this->assertJsonStringEqualsJsonString($render_rest, '{"success":"true","message":"Record Found","data":{"totalCount":"1","category":{"id":"1","name":"cat1"}}}');
-		
+
 		$render_error = $this->captureOB($erb, function() {
 			$this->renderJSON([
 				'type'			=> 'error',
@@ -359,13 +359,13 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		});
 		$this->assertJsonStringEqualsJsonString($render_error, '{"success":false,"message":"TEST ERROR","data":{"errorCode":500,"message":"TEST ERROR"}}');
 	}
-	
+
 
 	/**
 	 * getNewERestBehavior
 	 *
 	 * returns the ERestBehavior;
-	 */ 
+	 */
 	public function getNewERestBehavior()
 	{
 		$controller = $this->getController()->Category;
@@ -378,8 +378,8 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	/**
 	 * getEventList
 	 *
-	 * @retrun returns a list of all event names (CONST's) defined in ERestEvent
-	 */ 
+	 * @return returns a list of all event names (CONST's) defined in ERestEvent
+	 */
 	public function getEventList()
 	{
 		$refl = new ReflectionClass('ERestEvent');

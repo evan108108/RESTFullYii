@@ -4,7 +4,7 @@ Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
 
 /**
  * ERestSubresourceHelperUnitTest
- * 
+ *
  * tests ERestSubresourceHelperUnitTest
  *
  * @category   PHP
@@ -14,7 +14,7 @@ Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
  * @license    https://github.com/evan108108   OSS
  * @version    Release: 1.2.0
  */
-class ERestSubesourceHelperUnitTest extends ERestTestCase
+class ERestSubresourceHelperUnitTest extends ERestTestCase
 {
 	/**
 	 * __construct
@@ -28,8 +28,8 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 		$erb = $controller->asa('ERestBehavior');
 		$erb->ERestInit();
 
-		$esrh = new ERestSubrecourceHelper([$erb, 'emitRest']);
-		$this->assertEquals($this->getPrivateProperty($esrh, 'emitter'), [$erb, 'emitRest']);		
+		$esrh = new ERestSubresourceHelper([$erb, 'emitRest']);
+		$this->assertEquals($this->getPrivateProperty($esrh, 'emitter'), [$erb, 'emitRest']);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	{
 		$esrh = $this->getERestSubresourceHelper();
 		$esrh->setEmitter([$this, 'emitterForTesting']);
-		$this->assertEquals($this->getPrivateProperty($esrh, 'emitter'), [$this, 'emitterForTesting']);		
+		$this->assertEquals($this->getPrivateProperty($esrh, 'emitter'), [$this, 'emitterForTesting']);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * getSubresourceCount
 	 *
 	 * tests ERestSubresourceHelper->getSubresourceCount()
-	 */ 
+	 */
 	public function testGetSubresourceCount()
 	{
 		$model = $this->getModel('Post');
@@ -115,7 +115,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * getSubresource
 	 *
 	 * tests ERestSubresourceHelper->getSubresource()
-	 */ 
+	 */
 	public function testGetSubresource()
 	{
 		$model = $this->getModel('Post');
@@ -130,7 +130,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * getSubresourceMeta
 	 *
 	 * tests ERestSubresourceHelper->getSubresourceMeta()
-	 */ 
+	 */
 	public function testGetSubresourceMeta()
 	{
 		$model = $this->getModel('Post');
@@ -144,7 +144,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * putSubresourceHelper
 	 *
 	 * tests ERestSubresourceHelper->putSubresourceHelper()
-	 */ 
+	 */
 	public function testPutSubresourceHelper()
 	{
 		$esrh = $this->getERestSubresourceHelper();
@@ -167,7 +167,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * saveSubresource
 	 *
 	 * test ERestSubresourceHelper->saveSubresource
-	 */ 
+	 */
 	public function testSaveSubresource()
 	{
 		$esrh = $this->getERestSubresourceHelper();
@@ -196,7 +196,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 		$esrh = $erb->getSubresourceHelper();
 
 
-		$this->assertInstanceOf('ERestSubrecourceHelper', $esrh);
+		$this->assertInstanceOf('ERestSubresourceHelper', $esrh);
 		return $esrh;
 	}
 
@@ -215,7 +215,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * emitterForTesting
 	 *
 	 * this is used internally for testing
-	 */ 
+	 */
 	public function emitterForTesting()
 	{
 		return true;
@@ -225,7 +225,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 	 * attachBehaviorsForTesting
 	 *
 	 * this is used internally for testing
-	 */ 
+	 */
 	public function attachBehaviorsForTesting()
 	{
 		return true;

@@ -4,7 +4,7 @@ Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
 
 /**
  * ERestResourceHelperUnitTest
- * 
+ *
  * tests ERestResourceHelperUnitTest
  *
  * @category   PHP
@@ -29,7 +29,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		$erb->ERestInit();
 
 		$errh = new ERestResourceHelper([$erb, 'emitRest']);
-		$this->assertEquals($this->getPrivateProperty($errh, 'emitter'), [$erb, 'emitRest']);		
+		$this->assertEquals($this->getPrivateProperty($errh, 'emitter'), [$erb, 'emitRest']);
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	{
 		$errh = $this->getERestResourceHelper();
 		$errh->setEmitter([$this, 'emitterForTesting']);
-		$this->assertEquals($this->getPrivateProperty($errh, 'emitter'), [$this, 'emitterForTesting']);		
+		$this->assertEquals($this->getPrivateProperty($errh, 'emitter'), [$this, 'emitterForTesting']);
 	}
 
 	/**
@@ -54,26 +54,26 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		$errh = $this->getERestResourceHelper();
 		$this->assertEquals($this->getPrivateProperty($errh, 'emitter'), $errh->getEmitter());
 	}
-	
+
 	/**
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel(1)
-	 */ 
+	 */
 	public function testPrepareRestModelWithIDAndCountFalse()
 	{
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel(1);
 		$this->assertInstanceOf('Category', $model);
-		$compair_model = Category::model()->findByPk(1);
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findByPk(1);
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel(1, true)
-	 */ 
+	 */
 	public function testPrepareRestModelWithIDAndCountTrue()
 	{
 		$errh = $this->getERestResourceHelper();
@@ -85,33 +85,33 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel()
-	 */ 
+	 */
 	public function testPrepareRestModelWithIDNullAndCountFalse()
 	{
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll();
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll();
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel(null, 1)
-	 */ 
+	 */
 	public function testPrepareRestModelWithIDNullAndCountTrue()
 	{
 		$errh = $this->getERestResourceHelper();
 		$count = $errh->prepareRestModel(null, 1);
-		$compair_count = Category::model()->count();
-		$this->assertEquals($count, $compair_count);
+		$compare_count = Category::model()->count();
+		$this->assertEquals($count, $compare_count);
 	}
 
 	/**
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel(1) can turn off lazyLoadRelations
-	 */ 
+	 */
 	public function testPrepareRestModelWithLazyLoadRelationsOff()
 	{
 		Yii::app()->params['RestfullYii'] = [
@@ -128,7 +128,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel(1) can turn on lazyLoadRelations
-	 */ 
+	 */
 	public function testPrepareRestModelWithLazyLoadRelationsOn()
 	{
 		Yii::app()->params['RestfullYii'] = [
@@ -145,7 +145,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel() can set sort
-	 */ 
+	 */
 	public function testPrepareRestModelWithSort()
 	{
 		Yii::app()->params['RestfullYii'] = [
@@ -155,8 +155,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll(array('order'=>'name desc'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll(array('order'=>'name desc'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 
 		Yii::app()->params['RestfullYii'] = [
 			ERestEvent::MODEL_SORT => function() {
@@ -165,15 +165,15 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll(array('order'=>'name'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll(array('order'=>'name'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
 	 * prepareRestModel
 	 *
 	 * tests ERestResourceHelper->prepareRestModel() can filter
-	 */ 
+	 */
 	public function testPrepareRestModelWithFilter()
 	{
 		Yii::app()->params['RestfullYii'] = [
@@ -183,8 +183,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAllByAttributes(array('name'=>'cat2'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAllByAttributes(array('name'=>'cat2'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
@@ -241,7 +241,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 			'with',
 			true,
 		])->findByPk(1);
-		
+
 		$this->assertTrue($model->hasRelated('posts'));
 	}
 
@@ -295,7 +295,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	 * emitterForTesting
 	 *
 	 * this is used internally for testing
-	 */ 
+	 */
 	public function emitterForTesting()
 	{
 		return true;
@@ -305,7 +305,7 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	 * attachBehaviorsForTesting
 	 *
 	 * this is used internally for testing
-	 */ 
+	 */
 	public function attachBehaviorsForTesting()
 	{
 		return true;

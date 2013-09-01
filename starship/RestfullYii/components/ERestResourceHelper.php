@@ -3,7 +3,7 @@ Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
 
 /**
  * ERestResourceHelper
- * 
+ *
  * Helper methods for manipulating models used in request
  *
  * @category   PHP
@@ -12,11 +12,11 @@ Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
  * @copyright  Copyright (c) 2013 Evan Frohlich (https://github.com/evan108108)
  * @license    https://github.com/evan108108   OSS
  * @version    Release: 1.2.0
- * 
+ *
  * @property (Callable)		$emitter
  */
 class ERestResourceHelper implements iERestResourceHelper
-{	
+{
 	private $emitter;
 
 	/**
@@ -24,8 +24,8 @@ class ERestResourceHelper implements iERestResourceHelper
 	 *
 	 * Takes a callable dependency (emitter)
 	 *
-	 * @param (callable) (emitter) Callback used to emitt events
-	 */ 
+	 * @param (callable) (emitter) Callback used to emit events
+	 */
 	public function __construct(Callable $emitter)
 	{
 		$this->setEmitter($emitter);
@@ -49,7 +49,7 @@ class ERestResourceHelper implements iERestResourceHelper
 	 * gets the emitter callback
 	 *
 	 * @return (Callable) (emitter) the emitter callback
-	 */ 
+	 */
 	public function getEmitter()
 	{
 		return $this->emitter;
@@ -58,13 +58,13 @@ class ERestResourceHelper implements iERestResourceHelper
 	/**
 	 * prepareRestModel
 	 *
-	 * gets the model assosiated with the REST request ready for output
+	 * gets the model associated with the REST request ready for output
 	 *
 	 * @param (Mixed/Int) (id) the id of the model
 	 * @param (Bool) (count) if true then the count is returned; if false then the model is returned
 	 *
 	 * @return (Mixed) prepared model or count of models
-	 */ 
+	 */
 	public function prepareRestModel($id=null, $count=false)
 	{
 		$emitRest = $this->getEmitter();
@@ -76,7 +76,7 @@ class ERestResourceHelper implements iERestResourceHelper
 		if(!is_null($scenario) && $scenario !== false) {
 			$model->scenario = $scenario;
 		}
-		
+
 		if($emitRest(ERestEvent::MODEL_LAZY_LOAD_RELATIONS) === false) {
 			$model = $this->applyScope(ERestEvent::MODEL_WITH_RELATIONS, $model, 'with', true);
 		}
@@ -94,7 +94,7 @@ class ERestResourceHelper implements iERestResourceHelper
 
 		if($count) {
 			return $emitRest(ERestEvent::MODEL_COUNT, $model);
-		} 
+		}
 
 		$model = $this->applyScope(ERestEvent::MODEL_LIMIT, $model, 'limit', false);
 		$model = $this->applyScope(ERestEvent::MODEL_OFFSET, $model, 'offset', false);
@@ -145,8 +145,8 @@ class ERestResourceHelper implements iERestResourceHelper
 	public function setModelAttributes($model, $data, $restricted_properties)
 	{
 		foreach($data as $var=>$value) {
-			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $restricted_properties)) {	
-				$model->$var = $value;	
+			if(($model->hasAttribute($var) || isset($model->metadata->relations[$var])) && !in_array($var, $restricted_properties)) {
+				$model->$var = $value;
 			}
 			else {
 				throw new CHttpException(406, 'Parameter \'' . $var . '\' is not allowed for model (' . get_class($model) . ')');

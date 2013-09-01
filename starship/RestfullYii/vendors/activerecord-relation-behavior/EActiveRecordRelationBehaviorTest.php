@@ -205,7 +205,7 @@ class EActiveRecordRelationBehaviorTest extends \CTestCase
 
 	/**
 	 * test creation of AR and assigning a relation with HAS_ONE
-	 * this also tests the HAS_ONE oposite BELONGS_TO
+	 * this also tests the HAS_ONE opposite BELONGS_TO
 	 *
 	 * @dataProvider fkConfigurationProvider
 	 */

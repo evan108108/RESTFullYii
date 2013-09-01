@@ -9,7 +9,7 @@
  */
 
 /**
- * EActiveRecordRelationBehavior adds the possiblity to handle activerecord relations more intuitively
+ * EActiveRecordRelationBehavior adds the possibility to handle activerecord relations more intuitively
  *
  * This extension is inspired by and puts together the awesomeness of all the yii extensions
  * that aim to improve saving of related records.
@@ -59,7 +59,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 	{
 		return $_transaction;
 	}
-	
+
 	public function setTransaction($transaction)
 	{
 		$this->_transaction = $transaction;
@@ -147,7 +147,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 
 						if (!$this->owner->hasRelated($name) || !$this->isRelationSupported($relation))
 							break;
-						
+
 						Yii::trace('updating MANY_MANY table for relation '.get_class($this->owner).'.'.$name,'system.db.ar.CActiveRecord');
 
 						// get table and fk information
@@ -309,7 +309,7 @@ class EActiveRecordRelationBehavior extends CActiveRecordBehavior
 		foreach($records as $record) {
 			//if (is_object($record) && $record->isNewRecord)
 			//throw new CDbException('You can not save a record that has new related records!');
-			
+
 
 			$pks[]=is_object($record) ? $record->getPrimaryKey() : $record;
 		}
@@ -450,7 +450,7 @@ class ECompositeDbCriteria extends CDbCriteria
 				$operator
 			);
 		}
-		parent::addNotInCondition($column,$values,$operator);
+		return parent::addNotInCondition($column,$values,$operator);
 	}
 
 	private function createCompositeInCondition($columns,$values)

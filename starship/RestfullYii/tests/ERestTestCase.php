@@ -28,7 +28,7 @@ class ERestTestCase extends CTestCase
 
 	/**
 	 * migrate db down after testcase has run
-	 */ 
+	 */
 	/*function __destruct()
 	{
 		$this->migration->down();
@@ -51,10 +51,10 @@ class ERestTestCase extends CTestCase
 	 *
 	 * @param (Object) (my_obj) the class that contains the private method
 	 * @param (String) (method_name) name of the method to invoke
-	 * @param (Array) (args) list of arguments to pass to the method on invokation
+	 * @param (Array) (args) list of arguments to pass to the method on invocation
 	 *
 	 * @return (Mixed) result of the method
-	 */ 
+	 */
 	public function invokePrivateMethod($my_obj, $method_name, $args=[])
 	{
 		array_unshift($args, $my_obj);
@@ -70,10 +70,10 @@ class ERestTestCase extends CTestCase
 	 * Uses reflection to allow for the returning of private properties
 	 *
 	 * @param (Object) (my_obj) the class that contains the private property
-	 * @param (String) (property_name) name of the property whos value to return
+	 * @param (String) (property_name) name of the property whose value to return
 	 *
 	 * @return (Mixed) value of the private property
-	 */ 
+	 */
 	public function getPrivateProperty($my_obj, $property_name)
 	{
 		$reflectionClass = new ReflectionClass(get_class($my_obj));
@@ -115,12 +115,12 @@ class ERestTestCase extends CTestCase
 
 	/**
 	 * assertJSONFormat
-	 * 
+	 *
 	 * asserts JSON string has a specific format
 	 *
 	 * @param (String) (json) a json string
 	 * @param (Array) a list of properties that the JSON string must contain
-	 */ 
+	 */
 	protected function assertJSONFormat($json, $format=['success', 'message', 'data', 'data'=>['totalCount']])
 	{
 		$this->assertTrue(CJSON::decode($json) !== false);
@@ -141,7 +141,7 @@ class ERestTestCase extends CTestCase
 	 *
 	 * @param (String) (msg) the message that the error object must contain
 	 * @param (Object) (e) The exception object
-	 */ 
+	 */
 	protected function assertExceptionHasMessage($msg, Exception $e)
 	{
 		$this->assertContains($msg, CJSON::encode($e));
@@ -154,7 +154,7 @@ class ERestTestCase extends CTestCase
 	 *
 	 * @param (Object) (bind_class) the class to bind the callback
 	 * @param (Callable) (callback) the callback function
-	 */ 
+	 */
 	protected function captureOB($bind_class, Callable $callback)
 	{
 		$callback = $callback->bindTo($bind_class);
@@ -167,7 +167,7 @@ class ERestTestCase extends CTestCase
 			$output = $e;
 		}
 		if (ob_get_length() > 0 ) { @ob_end_clean(); }
-		
+
 		return $output;
 	}
 
