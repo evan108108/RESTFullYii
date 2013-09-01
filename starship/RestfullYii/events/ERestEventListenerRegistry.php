@@ -1,7 +1,7 @@
 <?php
 /**
  * ERestEventListenerRegistry
- * 
+ *
  * Initializes all event handlers / listeners
  *
  * @category   PHP
@@ -67,8 +67,8 @@ class ERestEventListenerRegistry
 		 * @param (String) (category) the log category
 		 * @param (Array) (ignore) Events to ignore logging
 		 *
-		 * @return (Array) the pramas sent into the event logger
-		 * 
+		 * @return (Array) the params sent into the event logger
+		 *
 		 */
 		$onRest(ERestEvent::REQ_EVENT_LOGGER, function($event, $category='application', $ignore=[]) {
 			if(!isset($ignore[$event])) {
@@ -105,7 +105,7 @@ class ERestEventListenerRegistry
 		 * You should most likely over ride this
 		 *
 		 * @return (Bool) return true to grant access; false to deny access
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AUTH_AJAX_USER, function() {
 			if(Yii::app()->user->isGuest) {
 				return false;
@@ -120,7 +120,7 @@ class ERestEventListenerRegistry
 		 * false to allow http or https
 		 *
 		 * @return (bool) default is false
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AUTH_HTTPS_ONLY, function() {
 			return false;
 		});
@@ -132,7 +132,7 @@ class ERestEventListenerRegistry
 		 * At a minimum you should change this value
 		 *
 		 * @return (String) the username
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AUTH_USERNAME, function(){
 			return 'admin@restuser';
 		});
@@ -144,7 +144,7 @@ class ERestEventListenerRegistry
 		 * At a minimum you should change this value
 		 *
 		 * @return (String) the password
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AUTH_PASSWORD, function(){
 			return 'admin@Access';
 		});
@@ -159,7 +159,7 @@ class ERestEventListenerRegistry
 		 * @param (String) (password) the password defined in req.auth.password
 		 *
 		 * @return (Bool) true to grant access; false to deny access
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AUTH_USER, function($application_id, $username, $password) {
 			if(!isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) || !isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
 				return false;
@@ -178,7 +178,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called after the request has been fulfilled
 		 * By default it has no behavior
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_AFTER_ACTION, function($filterChain) {
 			//Logic being applied after the action is executed
 		});
@@ -229,7 +229,7 @@ class ERestEventListenerRegistry
 				'data'				=> $data,
 			]);
 		});
-		
+
 		/**
 		 * req.get.subresources.render
 		 *
@@ -241,7 +241,7 @@ class ERestEventListenerRegistry
 		 */
 		$onRest(ERestEvent::REQ_GET_SUBRESOURCES_RENDER, function($models, $subresource_name, $count) {
 			$this->setHttpStatus((($count > 0)? 200: 204));
-			
+
 			$this->renderJSON([
 				'type'				=> 'rest',
 				'success'			=> (($count > 0)? true: false),
@@ -276,7 +276,7 @@ class ERestEventListenerRegistry
 
 		/**
 		 * req.post.resource.render
-		 * 
+		 *
 		 * Called when a POST request (create) is to be rendered
 		 *
 		 * @param (Object) (model) the newly created model
@@ -296,7 +296,7 @@ class ERestEventListenerRegistry
 
 		/**
 		 * req.put.resource.render
-		 * 
+		 *
 		 * Called when a PUT request (update) is to be rendered
 		 *
 		 * @param (Object) (model) the updated model
@@ -321,7 +321,7 @@ class ERestEventListenerRegistry
 		 *
 		 * @param (Object) (model) the model of the resource that owns the subresource
 		 * @param (String) (subresource_name) the name of the sub-resource
-		 * @param (Mixed/Int) (subresource_id) the primay key of the sub-resource
+		 * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource
 		 */
 		$onRest(ERestEvent::REQ_PUT_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id) {
 			$this->renderJSON([
@@ -361,7 +361,7 @@ class ERestEventListenerRegistry
 		 *
 		 * @param (Object) (model) this is the model object that owns the deleted sub-resource
 		 * @param (String) (subresource_name) the name of the deleted sub-resource
-		 * @param (Mixex/Int) (subresource_id) the primary key of the deleted sub-resource
+		 * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource
 		 */
 		$onRest(ERestEvent::REQ_DELETE_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id) {
 			$this->renderJSON([
@@ -429,7 +429,7 @@ class ERestEventListenerRegistry
 		 * Called when attempting to validate a resources primary key
 		 * The default is an integer
 		 *
-		 * @return (bool) true to confirm primay key; false to deny
+		 * @return (bool) true to confirm primary key; false to deny
 		 */
 		$onRest(ERestEvent::REQ_PARAM_IS_PK, function($pk) {
 			return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
@@ -463,7 +463,7 @@ class ERestEventListenerRegistry
 			if(!array_key_exists('ERestActiveRecordRelationBehavior', $model->behaviors())) {
 				$model->attachBehavior('ERestActiveRecordRelationBehavior', new ERestActiveRecordRelationBehavior());
 			}
-			
+
 			if(!array_key_exists('ERestHelperScopes', $model->behaviors())) {
 				$model->attachBehavior('ERestHelperScopes', new ERestHelperScopes());
 			}
@@ -512,9 +512,9 @@ class ERestEventListenerRegistry
 		 *
 		 * Called when attempting to apply a filter to apply to the records in a GET request
 		 * The default is 'NULL' or the value of the _GET param 'filter'
-		 * The format is JSON: 
+		 * The format is JSON:
 		 * '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE"}]'
-		 * See documentation for additional opptions
+		 * See documentation for additional options
 		 *
 		 * @return (JSON) the filter to apply
 		 */
@@ -531,7 +531,7 @@ class ERestEventListenerRegistry
 		 * [{"property":"SOME_PROPERTY", "direction":"DESC"}]
 		 *
 		 * @return (JSON) the sort to apply
-		 */ 
+		 */
 		$onRest(ERestEvent::MODEL_SORT, function() {
 			return isset($_GET['sort'])? $_GET['sort']: null;
 		});
@@ -620,7 +620,7 @@ class ERestEventListenerRegistry
 		 * @param (String) this can be either a stream wrapper of a file path
 		 *
 		 * @return (Array) the JSON decoded array of data
-		 */ 
+		 */
 		$onRest(ERestEvent::REQ_DATA_READ, function($stream='php://input') {
 			$reader = new ERestRequestReader($stream);
 			return CJSON::decode($reader->getContents());
@@ -646,7 +646,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called on POST requests when attempting to apply posted data
 		 *
-		 * @param (Object) (model) the recource model to save data to
+		 * @param (Object) (model) the resource model to save data to
 		 * @param (Array) (data) the data to save to the model
 		 * @param (Array) (restricted_properties) list of restricted properties
 		 *
@@ -661,7 +661,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called on PUT requests when attempting to apply PUT data
 		 *
-		 * @param (Object) (model) the recource model to save data to
+		 * @param (Object) (model) the resource model to save data to
 		 * @param (Array) (data) the data to save to the model
 		 * @param (Array) (restricted_properties) list of restricted properties
 		 *
@@ -724,7 +724,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called whenever a model resource needs deleting
 		 *
-		 * @param (Object) (model) the model resouce to be deleted
+		 * @param (Object) (model) the model resource to be deleted
 		 */
 		$onRest(ERestEvent::MODEL_DELETE, function($model) {
 			if(!$model->delete()) {
@@ -736,7 +736,7 @@ class ERestEventListenerRegistry
 		/**
 		 * model.subresource.delete
 		 *
-		 * Called whenever a subresouce needs deleting
+		 * Called whenever a subresource needs deleting
 		 *
 		 * @param (Object) (model) the owner of the sub-resource
 		 * @param (String) (subresource_name) the name of the subresource

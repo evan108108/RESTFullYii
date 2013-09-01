@@ -16,14 +16,14 @@ class ERestBaseAction extends CAction
 	/**
 	 * getRequestActionType
 	 *
-	 * Helps determin the action type
+	 * Helps determine the action type
 	 *
 	 * @param (Mixed/Int) (id) unique identifier of the resource
 	 * @param (Mixed) (param1) first param sent in the request; Often subresource name
 	 * @param (Mixed) (param2) Second param sent in the request: Often subresource ID
 	 *
 	 * @return (String) the action type
-	 */ 
+	 */
 	public function getRequestActionType($id=null, $param1=null, $param2=null, $verb='get')
 	{
 		$id_is_null = is_null($id);
@@ -70,9 +70,9 @@ class ERestBaseAction extends CAction
 	 * Helper that returns the count of models representing the requested resource
 	 *
 	 * @param (Mixed/Int) (id) unique identifier of the resource
-	 * 
+	 *
 	 * @return (Int) Count of found models
-	 */ 
+	 */
 	public function getModelCount($id=null)
 	{
 		return $this->controller->getResourceHelper()->prepareRestModel($id, true);
@@ -81,10 +81,10 @@ class ERestBaseAction extends CAction
 	/**
 	 * getModelName
 	 *
-	 * Helper that returns the name of the model assosiated with the requested resource
+	 * Helper that returns the name of the model associated with the requested resource
 	 *
 	 * @return (String) name of the model
-	 */ 
+	 */
 	public function getModelName()
 	{
 		return get_class($this->controller->emitRest(ERestEvent::MODEL_INSTANCE));
@@ -96,17 +96,17 @@ class ERestBaseAction extends CAction
 	 * Helper that returns the relations to include when the resource is rendered
 	 *
 	 * @return (Array) list of relations to include in output
-	 */ 
+	 */
 	public function getRelations()
 	{
-		return $this->controller->emitRest(ERestEvent::MODEL_WITH_RELATIONS, 
+		return $this->controller->emitRest(ERestEvent::MODEL_WITH_RELATIONS,
 			$this->controller->emitRest(ERestEvent::MODEL_INSTANCE)
 		);
 	}
 
 	/**
 	 * getSubresourceCount
-	 * 
+	 *
 	 * Helper that will return the count of subresources of the requested resource
 	 *
 	 * @param (Mixed/Int) (id) unique identifier of the resource
@@ -133,7 +133,7 @@ class ERestBaseAction extends CAction
 	 * @param (String) Name of subresource
 	 *
 	 * @return (String) Name of subresource class
-	 */ 
+	 */
 	public function getSubresourceClassName($param1)
 	{
 		return $this->controller->getSubresourceHelper()->getSubresourceClassName(
@@ -151,7 +151,7 @@ class ERestBaseAction extends CAction
 	 * @param (String) (param1) the name of the subresource
 	 *
 	 * @return (Array) Array of subresource object models
-	 */ 
+	 */
 	public function getSubresources($id, $param1)
 	{
 		return $this->controller->emitRest(ERestEvent::MODEL_SUBRESOURCES_FIND_ALL, [$this->getModel($id), $param1]);
@@ -171,5 +171,5 @@ class ERestBaseAction extends CAction
 	public function getSubresource($id, $param1, $param2)
 	{
 		return $this->controller->emitRest(ERestEvent::MODEL_SUBRESOURCE_FIND, [$this->getModel($id), $param1, $param2]);
-	}	
+	}
 }

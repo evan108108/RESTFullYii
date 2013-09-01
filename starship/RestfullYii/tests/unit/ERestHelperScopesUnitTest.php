@@ -17,29 +17,29 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 {
 	/**
 	 * getERestHelperScopes
-	 * 
+	 *
 	 * Gets the ERestHelperScopes Object
 	 *
 	 * @return (Object) ERestHelperScopes
-	 */ 
+	 */
 	protected function getERestHelperScopes()
 	{
 		$model = new Category();
 		$model->attachBehavior('ERestHelperScopes', new ERestHelperScopes());
-		$ERHS = $model->asa('ERestHelperScopes');
-		$this->assertInstanceOf('ERestHelperScopes', $ERHS);
-		return $ERHS;
+		$erhs = $model->asa('ERestHelperScopes');
+		$this->assertInstanceOf('ERestHelperScopes', $erhs);
+		return $erhs;
 	}
 
 	/**
 	 * limit
 	 *
 	 * tests ERestHelperScopes->limit()
-	 */ 
+	 */
 	public function testLimit()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->limit(10);
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->limit(10);
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals(10, $result->getDbCriteria()->limit);
 	}
@@ -51,8 +51,8 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 */
 	public function testOffset()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->offset(10);
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->offset(10);
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals(10, $result->getDbCriteria()->offset);
 	}
@@ -64,8 +64,8 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 */
 	public function testOrderBy()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->orderBy('name', 'DESC');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->orderBy('name', 'DESC');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('t.name DESC', $result->getDbCriteria()->order);
 	}
@@ -77,8 +77,8 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 */
 	public function testOrderByWithJSON()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->orderBy('[{"property":"name", "direction":"ASC"}, {"property":"id", "direction":"DESC"}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->orderBy('[{"property":"name", "direction":"ASC"}, {"property":"id", "direction":"DESC"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('t.name ASC, t.id DESC', $result->getDbCriteria()->order);
 	}
@@ -87,11 +87,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property":"name", "value":"cat1"}]') default
-	 */ 
+	 */
 	public function testFilter()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property":"name", "value":"cat1"}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property":"name", "value":"cat1"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.name LIKE :name0)', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":name0"=>"%cat1%"], $result->getDbCriteria()->params);
@@ -101,11 +101,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property":"id", "value":"[1,2,3], "operator": "in"}]')
-	 */ 
+	 */
 	public function testFilterInOperator()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property":"id", "value":[1,2,3], "operator": "in"}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property":"id", "value":[1,2,3], "operator": "in"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id IN (:id0_0, :id0_1, :id0_2))', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0_0" => 1, ":id0_1" => 2, ":id0_2" => 3], $result->getDbCriteria()->params);
@@ -116,11 +116,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 50, "operator": ">="}]')
-	 */ 
+	 */
 	public function testFilterGTOrEqualToOperator()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property": "id", "value" : 50, "operator": ">="}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : 50, "operator": ">="}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id >= :id0)', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0" => 50], $result->getDbCriteria()->params);
@@ -130,11 +130,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : "50", "operator": "<="}]')
-	 */ 
+	 */
 	public function testFilterLTOrEqualToOperator()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property": "id", "value" : 50, "operator": "<="}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : 50, "operator": "<="}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id <= :id0)', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0" => 50], $result->getDbCriteria()->params);
@@ -144,11 +144,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property":"id", "value":"[1,2,3], "operator": "not in"}]')
-	 */ 
+	 */
 	public function testFilterNotInOperator()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property":"id", "value":[1,2,3], "operator": "not in"}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property":"id", "value":[1,2,3], "operator": "not in"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id NOT IN (:id0_0, :id0_1, :id0_2))', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0_0" => 1, ":id0_1" => 2, ":id0_2" => 3], $result->getDbCriteria()->params);
@@ -158,11 +158,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "!="}]')
-	 */ 
+	 */
 	public function testFilterNotEqualOperator()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property": "id", "value" : 2, "operator": "!="}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : 2, "operator": "!="}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id <> :id0)', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0" => 2], $result->getDbCriteria()->params);
@@ -172,11 +172,11 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * filter
 	 *
 	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "!="}]')
-	 */ 
+	 */
 	public function testFilterMultiFilter()
 	{
-		$ERHS = $this->getERestHelperScopes();
-		$result = $ERHS->filter('[{"property": "id", "value" : 2, "operator": "!="}, {"property":"id", "value":[1,2,3], "operator": "not in"}]');
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : 2, "operator": "!="}, {"property":"id", "value":[1,2,3], "operator": "not in"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('(t.id <> :id0 AND t.id NOT IN (:id1_0, :id1_1, :id1_2))', $result->getDbCriteria()->condition);
 		$this->assertArraysEqual([":id0" => 2, ":id1_0" => 1, ":id1_1" => 2, ":id1_2" => 3], $result->getDbCriteria()->params);
@@ -186,7 +186,7 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * getFilterCType
 	 *
 	 * tests ERestHelperScopes->getFilterCType()
-	 */ 
+	 */
 	public function testGetFilterCType()
 	{
 		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterCType', ['id']);
@@ -203,7 +203,7 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * getFilterAlias
 	 *
 	 * tests ERestHelperScopes->getFilterAlias()
-	 */ 
+	 */
 	public function testGetFilterAlias()
 	{
 		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getFilterAlias', ['id']);
@@ -214,7 +214,7 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	 * getSortSQL
 	 *
 	 * tests ERestHelperScopes->getSortSQL()
-	 */ 
+	 */
 	public function testGetSortSQL()
 	{
 		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'getSortSQL', ['id', 'DESC']);

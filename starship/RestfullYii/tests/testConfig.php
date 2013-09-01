@@ -7,7 +7,7 @@
 //echo realpath(__DIR__ . '/../vendor'); exit();
 return array(
 	'basePath'=>dirname(__FILE__).'/../../../..',
-	'name'=>'RestfullYii Testging App',
+	'name'=>'RestfullYii Testing App',
 
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -24,7 +24,7 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		
+
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
 			'password'=>'Password1',
@@ -43,7 +43,7 @@ return array(
 				'class'=>'system.test.CDbFixtureManager',
 			),
 		// uncomment the following to enable URLs in path-format
-		
+
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>require(dirname(__FILE__).'/../config/routes.php'),

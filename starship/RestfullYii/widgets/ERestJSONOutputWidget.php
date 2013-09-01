@@ -34,7 +34,7 @@ class ERestJSONOutputWidget extends CWidget {
 	 * run
 	 *
 	 * called when widget is to be run
-	 * will trigger diffrent output based on $type
+	 * will trigger different output based on $type
 	 */
 	public function run()
 	{
@@ -65,7 +65,7 @@ class ERestJSONOutputWidget extends CWidget {
 	 *
 	 * when the output $type is 'error' $data JSON output will be formatted
 	 * with a specific error template
-	 */ 
+	 */
 	public function outputError()
 	{
 		echo CJSON::encode([
@@ -83,7 +83,7 @@ class ERestJSONOutputWidget extends CWidget {
 	 *
 	 * when $type is 'REST' $data JSON output will be formatted
 	 * with a specific rest template
-	 */ 
+	 */
 	public function outputRest()
 	{
 		echo CJSON::encode([
@@ -137,7 +137,7 @@ class ERestJSONOutputWidget extends CWidget {
 		});
 
 		return is_array($model)? $model_as_array: $model_as_array[0];
-	}	
+	}
 
 }
 

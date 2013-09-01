@@ -2,7 +2,7 @@
 /**
  * Interface for Eventor
  *
- * Interface for Eventor a generic event emiter class
+ * Interface for Eventor a generic event emitter class
  *
  * @category   PHP
  * @package    Starship
@@ -19,7 +19,7 @@ interface iEventor
 
 	public function getBoundObj();
 
-	public function setExlusiveEventEmit($exclusive_event_emmit);
+	public function setExclusiveEventEmit($exclusive_event_emmit);
 
 	public function getEventRegister();
 
@@ -31,7 +31,7 @@ interface iEventor
 
 	public function emit($event, $params=array());
 
-	public function removeListener($event_signiture);
+	public function removeListener($event_signature);
 
 	public function removeEvent($event);
 }

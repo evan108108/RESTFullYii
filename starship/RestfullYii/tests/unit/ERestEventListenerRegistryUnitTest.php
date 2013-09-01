@@ -22,7 +22,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	protected $event;
 	/**
 	 * setup
-	 */ 
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -36,7 +36,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 
 	/**
 	 * __construct
-	 * 
+	 *
 	 * tests ERestEventListenerRegistry->__construct()
 	 */
 	public function testConstruct()
@@ -57,7 +57,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$eventor = new Eventor($this, true);
 		$erelr = new ERestEventListenerRegistry([$eventor, 'on']);
 		$erelr->run();
-		
+
 		$this->assertTrue($eventor->eventExists(ERestEvent::CONFIG_DEV_FLAG), "Event " . ERestEvent::CONFIG_DEV_FLAG . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::CONFIG_APPLICATION_ID), "Event " . ERestEvent::CONFIG_APPLICATION_ID . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EVENT_LOGGER), "Event " . ERestEvent::REQ_EVENT_LOGGER . " is not registered");
@@ -141,14 +141,14 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * testEventReqException
 	 *
 	 * tests event req.exception
-	 */ 
+	 */
 	public function testEventReqException()
 	{
 		$exception_out = $this->captureOB($this->event, function() {
 			$this->emit(ERestEvent::REQ_EXCEPTION, [500, 'Internal Server Error']);
 		});
 		$this->assertJsonStringEqualsJsonString($exception_out, '{"success":false,"message":"Internal Server Error","data":{"errorCode":500,"message":"Internal Server Error"}}');
-		
+
 		$exception_out_2 = $this->captureOB($this->event, function() {
 			$this->emit(ERestEvent::REQ_EXCEPTION, [200]);
 		});
@@ -159,7 +159,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * testEventReqAuthAjaxUser
 	 *
 	 * tests event req.auth.ajax.user
-	 */ 
+	 */
 	public function testEventReqAuthAjaxUser()
 	{
 		$this->assertTrue(!$this->event->emit(ERestEvent::REQ_AUTH_AJAX_USER), "req.auth.ajax.user should return false");
@@ -208,7 +208,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	{
 		$_SERVER['HTTP_X_REST_USERNAME'] = 'admin@restuser';
 		$_SERVER['HTTP_X_REST_PASSWORD'] = 'admin@Access';
-		
+
 		$this->assertTrue($this->event->emit(
 			ERestEvent::REQ_AUTH_USER, [
 				'REST',
@@ -248,7 +248,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testReqGetResourceRender()
 	{
 		$expected_result = '{"success":true,"message":"Record Found","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}],"author":{"id":"1","username":"username1","password":"password1","email":"email@email1.com"}}}}';
-		
+
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_GET_RESOURCE_RENDER, [
 				Post::model()->findByPk(1),
@@ -275,7 +275,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testReqGetResourcseRender()
+	 * testReqGetResourcesRender()
 	 *
 	 * tests event req.get.resources.render
 	 *
@@ -312,7 +312,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * testReqGetSubresourcesRender
 	 *
 	 * tests event req.get.subresources.render
-	 */ 
+	 */
 	public function testReqGetSubresourcesRender()
 	{
 		$expected_result = '{"success":true,"message":"Record(s) Found","data":{"totalCount":2,"categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}';
@@ -343,7 +343,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * testReqGetSubresourceRender
 	 *
 	 * tests event req.get.subresource.render
-	 */ 
+	 */
 	public function testReqGetSubresourceRender()
 	{
 		$expected_result = '{"success":true,"message":"Record(s) Found","data":{"totalCount":1,"categories":{"id":"1","name":"cat1"}}}';
@@ -378,7 +378,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testReqPostResourceRender()
 	{
 		$expected_result = '{"success":"true","message":"Record Created","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
-		
+
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_POST_RESOURCE_RENDER, [
 				Post::model()->findByPk(1),
@@ -396,7 +396,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testReqPutResourceRender()
 	{
 		$expected_result = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
-		
+
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_PUT_RESOURCE_RENDER, [
 				Post::model()->findByPk(1),
@@ -433,7 +433,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testReqDeleteResourceRender()
 	{
 		$expected_result = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}}}';
-		
+
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_DELETE_RESOURCE_RENDER, [
 				Post::model()->findByPk(1)
@@ -476,7 +476,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertInstanceOf('Category', $event_result);
 		$this->assertEquals(1, $event_result->id);
 
-		//test no subresouce is found
+		//test no subresource is found
 		$event_result_2 = $this->event->emit(ERestEvent::MODEL_SUBRESOURCE_FIND, [
 			Post::model()->findByPk(1),
 			'categories',
@@ -498,7 +498,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 			Post::model()->findByPk(1),
 			'categories'
 		]);
-		
+
 		$this->assertJsonStringEqualsJsonString($expected_result, CJSON::encode($event_result));
 	}
 
@@ -610,7 +610,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * tests event model.with.relations
 	 */
 	public function testModelWithRelations()
-	{	
+	{
 		$expected_result = ['categories', 'author'];
 		$result = $this->event->emit(ERestEvent::MODEL_WITH_RELATIONS, [new Post()]);
 		$this->assertArraysEqual($expected_result, $result);
@@ -622,7 +622,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 * tests event model.lazy.load.relations
 	 */
 	public function testModelLazyLoadRelations()
-	{	
+	{
 		$result = $this->event->emit(ERestEvent::MODEL_LAZY_LOAD_RELATIONS);
 		$this->assertTrue($result);
 	}
@@ -658,7 +658,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	{
 		$expected_result = Post::model()->findAll();
 		$result = $this->event->emit(ERestEvent::MODEL_FIND_ALL, [new Post()]);
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($expected_result), CJSON::encode($result));		
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($expected_result), CJSON::encode($result));
 	}
 
 	/**
@@ -703,7 +703,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 			"test" => "someval",
 			"test2" => "secondval"
 		];
-		
+
 		$result = $this->captureOB($this, function() use ($data) {
 			$this->event->emit(ERestEvent::REQ_RENDER_JSON, [$data]);
 		});
@@ -734,7 +734,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		{
 			$this->assertEquals($result->$attr, $val);
 		}
-		
+
 		$result = $this->captureOB($this, function() use ($data, $model){
 			$this->event->emit(ERestEvent::MODEL_APPLY_POST_DATA, [
 				$model,
@@ -770,7 +770,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		{
 			$this->assertEquals($result->$attr, $val);
 		}
-		
+
 		$result = $this->captureOB($this, function() use ($data, $model){
 			$this->event->emit(ERestEvent::MODEL_APPLY_PUT_DATA, [
 				$model,

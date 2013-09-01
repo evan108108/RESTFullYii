@@ -26,7 +26,7 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 	 * events
 	 *
 	 * test ERestActiveRecordRelationBehavior->events()
-	 */ 
+	 */
 	public function testEvents()
 	{
 		$this->assertArraysEqual(
@@ -43,8 +43,8 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 	 *
 	 * test ERestActiveRecordRelationBehavior->beforeSave()
 	 * This will be tested implicitly many times
-	 * test here is only for existance
-	 */ 
+	 * test here is only for existence
+	 */
 	public function beforeSave()
 	{
 		$this->assertTrue(method_exists($this->ERestActiveRecordRelationBehavior, 'beforeSave'));
@@ -62,7 +62,7 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 		$user->posts = $user_data['posts'];
 		$user->profile = $user_data['profile'];
 		$this->ERestActiveRecordRelationBehavior->preSaveHelper($user);
-		
+
 		$this->assertTrue(is_object($user->profile));
 		$this->assertInstanceOf('Profile', $user->profile);
 		$this->assertArraysEqual($user_data['profile'], $user->profile->attributes);
@@ -77,7 +77,7 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 		$this->assertEquals($user->posts[1]->author_id, 1);
 		$this->assertEquals($user->posts[1]->content, "NEW CONTENT");
 		$this->assertEquals($user->posts[1]->create_time, "2013-08-07 10:09:42");
-		$this->assertEquals($user->posts[1]->title, "NEW TITLE");		
+		$this->assertEquals($user->posts[1]->title, "NEW TITLE");
 
 		$post = Post::model()->findByPk(1);
 		$post_data = $this->getPostData();
@@ -95,23 +95,23 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 		$this->assertArraysEqual($post->categories[0]->attributes, $post_data['categories'][0]);
 		$this->assertArraysEqual($post->categories[1]->attributes, $post_data['categories'][1]);
 	}
-	
+
 	/**
-	 * getRealationType
+	 * getRelationType
 	 *
-	 * tests ERestActiveRecordRelationBehavior->getRealationType()
-	 */ 
-	public function testGetRealationType()
+	 * tests ERestActiveRecordRelationBehavior->getRelationType()
+	 */
+	public function testGetRelationType()
 	{
 		$user = User::model()->with('posts')->findByPk(1);
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$user, 'posts']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$user, 'posts']);
 		$this->assertEquals('CHasManyRelation', $result);
 
 		$post = Post::model()->with('author')->findByPk(1);
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$post, 'author']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$post, 'author']);
 		$this->assertEquals('CBelongsToRelation', $result);
 
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$post, 'RELATION_THAT_DOES_NOT_EXIST']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$post, 'RELATION_THAT_DOES_NOT_EXIST']);
 		$this->assertEquals(false, $result);
 	}
 
@@ -167,7 +167,7 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 			"id" => 1,
 			"password" => "password1",
 			"posts" => [
-					[	
+					[
 							"author_id" => 1,
 							"content" => "content1",
 							"create_time" => "2013-08-07 10:09:41",

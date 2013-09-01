@@ -2,8 +2,8 @@
 Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
 
 /**
- * ERestSubesourceHelper
- * 
+ * ERestSubresourceHelper
+ *
  * Helper methods for manipulating subresource models used in request
  *
  * @category   PHP
@@ -15,17 +15,17 @@ Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
  *
  * @property (Callable)		$emitter
  */
-class ERestSubrecourceHelper implements iERestResourceHelper
+class ERestSubresourceHelper implements iERestResourceHelper
 {
 	private $emitter;
 
 	/**
 	 * __construct
-	 * 
+	 *
 	 * Takes a callable dependency (emitter)
 	 *
-	 * @param (callable) (emitter) Callback used to emitt events
-	 */ 
+	 * @param (callable) (emitter) Callback used to emit events
+	 */
 	public function __construct(Callable $emitter)
 	{
 		$this->setEmitter($emitter);
@@ -42,14 +42,14 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	{
 		$this->emitter = $emitter;
 	}
-	
+
 	/**
 	 * getEmitter
 	 *
 	 * gets the emitter callback
 	 *
 	 * @return (Callable) (emitter) the emitter callback
-	 */ 
+	 */
 	public function getEmitter()
 	{
 		return $this->emitter;
@@ -58,15 +58,15 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	/**
 	 * isSubresource
 	 *
-	 * Checks if resource is infact a subresource
+	 * Checks if resource is in fact a subresource
 	 *
 	 * @param (Object) (model) AR model
 	 * @param (String) (subresource_name) name of the subresource to check
 	 *
 	 * @return (Bool) true if this is a subresource; false if not
-	 */ 
+	 */
 	public function isSubresource($model, $subresource_name)
-	{	
+	{
 		if(!array_key_exists($subresource_name, $model->relations())) {
 			return false;
 		}
@@ -85,7 +85,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (String) (subresource_name) name of the subresource
 	 *
 	 * @return (String) subresource model name
-	 */ 
+	 */
 	public function getSubresourceClassName($model, $subresource_name)
 	{
 		return $model->getActiveRelation($subresource_name)->className;
@@ -101,7 +101,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (Mixed/Int) (subresource_pk) the primary key of the subresource
 	 *
 	 * @return (Int) the count of subresource items
-	 */ 
+	 */
 	public function getSubresourceCount($model, $subresource_name, $subresource_pk=null)
 	{
 		$pk = $model->id;
@@ -111,14 +111,14 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 			$new_relation_name = "_" . $subresourceAR->active_relation->className . "Count";
 			$model->metaData->addRelation($new_relation_name, [
 				constant($model_name.'::STAT'),
-				$subresourceAR->active_relation->className, 
+				$subresourceAR->active_relation->className,
 				$subresourceAR->active_relation->foreignKey
 			]);
-			$model = $model->with($new_relation_name)->findByPk($pk);	
+			$model = $model->with($new_relation_name)->findByPk($pk);
 			return $model->$new_relation_name;
-		} 
-		return !is_null( 
-			$model->with($subresource_name)->findByPk($pk, array('condition'=>"$subresource_name.id=$subresource_pk")) 
+		}
+		return !is_null(
+			$model->with($subresource_name)->findByPk($pk, array('condition'=>"$subresource_name.id=$subresource_pk"))
 		)? 1: 0;
 	}
 
@@ -131,9 +131,9 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (String) (subresource_name) name of the subresource
 	 *
 	 * @return (Object) subresource relation info
-	 */ 
+	 */
 	protected function getSubresourceAR($model, $subresource_name)
-	{	
+	{
 		$emitRest = $this->getEmitter();
 
 		$subresource_relation = $model->getActiveRelation($subresource_name);
@@ -153,11 +153,11 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (Mixed/Int) (subresource_pk) the primary key of the subresource
 	 *
 	 * @return (Array) an array containing the subresource AR models
-	 */ 
+	 */
 	public function getSubresource($model, $subresource_name, $subresource_pk=null)
 	{
-		$pk = $model->getPrimaryKey();	
-		$emitRest = $this->getEmitter();	
+		$pk = $model->getPrimaryKey();
+		$emitRest = $this->getEmitter();
 
 		if( is_null($subresource_pk) ) {
 			$model = $emitRest(ERestEvent::MODEL_ATTACH_BEHAVIORS, $model);
@@ -180,7 +180,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (Object) (model) AR model
 	 * @param (String) (subresource_name) name of the subresource
 	 *
-	 * @return (Array) returns an array containing an instance of the Table Schema Object 
+	 * @return (Array) returns an array containing an instance of the Table Schema Object
 	 * for the ManyMany Join Table
 	 */
 	public function getSubresourceMeta($model, $subresource_name)
@@ -222,7 +222,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (String) (relation_table) the name of the relation table
 	 * @param (Array) (fks) the names of the fields that comprise the foreign key
 	 *
-	 * return (Bool) true if save success; false if save unsuccessfull
+	 * return (Bool) true if save success; false if save unsuccessful
 	 */
 	public function saveSubresource($model, $subresource_id, $relation_table, $fks)
 	{
