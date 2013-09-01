@@ -1,0 +1,3 @@
+[submodule "starship/RestfullYii/vendors/activerecord-relation-behavior"]
+	path = starship/RestfullYii/vendors/activerecord-relation-behavior
+	url = https://github.com/yiiext/activerecord-relation-behavior.git
