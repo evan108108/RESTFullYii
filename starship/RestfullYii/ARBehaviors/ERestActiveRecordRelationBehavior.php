@@ -35,8 +35,6 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	 * Sets up the transaction and triggers relation parsing
 	 *
 	 * @param (Object) (event) the active record event
-	 *
-	 * @return (Bool) the result of calling the parent beforeSave($event)
 	 */
 	public function beforeSave($event)
 	{
@@ -47,7 +45,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 
 		$this->preSaveHelper($this->owner);
 
-		return parent::beforeSave($event);
+		parent::beforeSave($event);
 	}
 
 	/**
@@ -97,8 +95,8 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 			}
 
 			if(!$relation_model->save()) {
-				throw new CHttpException(500, 'Could not save Model: ' . get_class($relation_model) . ' : ' . CJSON::encode($relation_model->errors));
 				$relation_model->refresh();
+				throw new CHttpException(500, 'Could not save Model: ' . get_class($relation_model) . ' : ' . CJSON::encode($relation_model->errors));
 			}
 
 			if($this->getRelationType($model, $relation_name) == 'CBelongsToRelation') {
