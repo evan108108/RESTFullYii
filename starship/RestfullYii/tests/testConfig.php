@@ -7,7 +7,7 @@
 //echo realpath(__DIR__ . '/../vendor'); exit();
 return array(
 	'basePath'=>dirname(__FILE__).'/../../../..',
-	'name'=>'RestfullYii Testging App',
+	'name'=>'RestfullYii Testing App',
 
 	// preloading 'log' component
 	'preload'=>array('log'),

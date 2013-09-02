@@ -43,7 +43,7 @@ class ERestBehavior extends CBehavior
 		$this->listeners = New ERestEventListenerRegistry([$this, 'onRest']);
 		$this->http_status = New EHttpStatus();
 		$this->resource_helper = new ERestResourceHelper([$this, 'emitRest']);
-		$this->subresource_helper = new ERestSubrecourceHelper([$this, 'emitRest']);
+		$this->subresource_helper = new ERestSubresourceHelper([$this, 'emitRest']);
 		
 		Yii::app()->clientScript->reset(); //Remove any scripts registered by Controller Class
 		Yii::app()->onException = array($this, 'onException');
@@ -145,7 +145,7 @@ class ERestBehavior extends CBehavior
 	/**
 	 * setHttpStatus
 	 *
-	 * Set the http status of the currect request
+	 * Set the http status of the current request
 	 *
 	 * @param (Int) (code) the http response code
 	 * @param (String) (message) the http message to attach to request
@@ -170,9 +170,9 @@ class ERestBehavior extends CBehavior
 	/**
 	 * getSubresourceHelper
 	 *
-	 * returns an instance of ERestSubrecourceHelper
+	 * returns an instance of ERestSubresourceHelper
 	 *
-	 * @return (Object) (ERestSubrecourceHelper) instance of ERestSubrecourceHelper
+	 * @return (Object) (ERestSubresourceHelper) instance of ERestSubresourceHelper
 	 */
 	public function getSubresourceHelper()
 	{

@@ -67,7 +67,7 @@ class ERestEventListenerRegistry
 		 * @param (String) (category) the log category
 		 * @param (Array) (ignore) Events to ignore logging
 		 *
-		 * @return (Array) the pramas sent into the event logger
+		 * @return (Array) the params sent into the event logger
 		 * 
 		 */
 		$onRest(ERestEvent::REQ_EVENT_LOGGER, function($event, $category='application', $ignore=[]) {
@@ -321,7 +321,7 @@ class ERestEventListenerRegistry
 		 *
 		 * @param (Object) (model) the model of the resource that owns the subresource
 		 * @param (String) (subresource_name) the name of the sub-resource
-		 * @param (Mixed/Int) (subresource_id) the primay key of the sub-resource
+		 * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource
 		 */
 		$onRest(ERestEvent::REQ_PUT_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id) {
 			$this->renderJSON([
@@ -361,7 +361,7 @@ class ERestEventListenerRegistry
 		 *
 		 * @param (Object) (model) this is the model object that owns the deleted sub-resource
 		 * @param (String) (subresource_name) the name of the deleted sub-resource
-		 * @param (Mixex/Int) (subresource_id) the primary key of the deleted sub-resource
+		 * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource
 		 */
 		$onRest(ERestEvent::REQ_DELETE_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id) {
 			$this->renderJSON([
@@ -429,7 +429,7 @@ class ERestEventListenerRegistry
 		 * Called when attempting to validate a resources primary key
 		 * The default is an integer
 		 *
-		 * @return (bool) true to confirm primay key; false to deny
+		 * @return (bool) true to confirm primary key; false to deny
 		 */
 		$onRest(ERestEvent::REQ_PARAM_IS_PK, function($pk) {
 			return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
@@ -514,7 +514,7 @@ class ERestEventListenerRegistry
 		 * The default is 'NULL' or the value of the _GET param 'filter'
 		 * The format is JSON: 
 		 * '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE"}]'
-		 * See documentation for additional opptions
+		 * See documentation for additional options
 		 *
 		 * @return (JSON) the filter to apply
 		 */
@@ -646,7 +646,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called on POST requests when attempting to apply posted data
 		 *
-		 * @param (Object) (model) the recource model to save data to
+		 * @param (Object) (model) the resource model to save data to
 		 * @param (Array) (data) the data to save to the model
 		 * @param (Array) (restricted_properties) list of restricted properties
 		 *
@@ -661,7 +661,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called on PUT requests when attempting to apply PUT data
 		 *
-		 * @param (Object) (model) the recource model to save data to
+		 * @param (Object) (model) the resource model to save data to
 		 * @param (Array) (data) the data to save to the model
 		 * @param (Array) (restricted_properties) list of restricted properties
 		 *
@@ -724,7 +724,7 @@ class ERestEventListenerRegistry
 		 *
 		 * Called whenever a model resource needs deleting
 		 *
-		 * @param (Object) (model) the model resouce to be deleted
+		 * @param (Object) (model) the model resource to be deleted
 		 */
 		$onRest(ERestEvent::MODEL_DELETE, function($model) {
 			if(!$model->delete()) {
@@ -736,7 +736,7 @@ class ERestEventListenerRegistry
 		/**
 		 * model.subresource.delete
 		 *
-		 * Called whenever a subresouce needs deleting
+		 * Called whenever a subresource needs deleting
 		 *
 		 * @param (Object) (model) the owner of the sub-resource
 		 * @param (String) (subresource_name) the name of the subresource

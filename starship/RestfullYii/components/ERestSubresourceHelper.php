@@ -2,7 +2,7 @@
 Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
 
 /**
- * ERestSubesourceHelper
+ * ERestSubresourceHelper
  * 
  * Helper methods for manipulating subresource models used in request
  *
@@ -15,7 +15,7 @@ Yii::import('ext.starship.RestfullYii.components.iERestRequestReader');
  *
  * @property (Callable)		$emitter
  */
-class ERestSubrecourceHelper implements iERestResourceHelper
+class ERestSubresourceHelper implements iERestResourceHelper
 {
 	private $emitter;
 
@@ -24,7 +24,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * 
 	 * Takes a callable dependency (emitter)
 	 *
-	 * @param (callable) (emitter) Callback used to emitt events
+	 * @param (callable) (emitter) Callback used to emit events
 	 */ 
 	public function __construct(Callable $emitter)
 	{
@@ -58,7 +58,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	/**
 	 * isSubresource
 	 *
-	 * Checks if resource is infact a subresource
+	 * Checks if resource is in fact a subresource
 	 *
 	 * @param (Object) (model) AR model
 	 * @param (String) (subresource_name) name of the subresource to check
@@ -222,7 +222,7 @@ class ERestSubrecourceHelper implements iERestResourceHelper
 	 * @param (String) (relation_table) the name of the relation table
 	 * @param (Array) (fks) the names of the fields that comprise the foreign key
 	 *
-	 * return (Bool) true if save success; false if save unsuccessfull
+	 * return (Bool) true if save success; false if save unsuccessful
 	 */
 	public function saveSubresource($model, $subresource_id, $relation_table, $fks)
 	{

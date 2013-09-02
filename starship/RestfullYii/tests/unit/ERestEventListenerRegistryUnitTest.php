@@ -275,7 +275,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testReqGetResourcseRender()
+	 * testReqGetResourcesRender()
 	 *
 	 * tests event req.get.resources.render
 	 *
@@ -476,7 +476,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertInstanceOf('Category', $event_result);
 		$this->assertEquals(1, $event_result->id);
 
-		//test no subresouce is found
+		//test no subresource is found
 		$event_result_2 = $this->event->emit(ERestEvent::MODEL_SUBRESOURCE_FIND, [
 			Post::model()->findByPk(1),
 			'categories',

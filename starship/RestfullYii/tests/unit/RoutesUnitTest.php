@@ -306,7 +306,7 @@ class RouteUnitTest extends ERestTestCase
 	}
 
 
-	public function assertRouteResolvesToControllerAndAction($uri, $conroller_name, $action_name)
+	public function assertRouteResolvesToControllerAndAction($uri, $controller_name, $action_name)
 	{
     $_SERVER['SCRIPT_FILENAME'] = '/bootstrap.php';
 		$_SERVER['SCRIPT_NAME'] =  '/bootstrap.php';
@@ -321,7 +321,7 @@ class RouteUnitTest extends ERestTestCase
 	
     list($controller, $action) = Yii::app()->createController($route);
  
-    $this->assertInstanceOf("{$conroller_name}Controller", $controller);
+    $this->assertInstanceOf("{$controller_name}Controller", $controller);
 		$this->assertEquals($action_name, $action);
 	}
 

@@ -9,7 +9,7 @@
  */
 
 /**
- * EActiveRecordRelationBehavior adds the possiblity to handle activerecord relations more intuitively
+ * EActiveRecordRelationBehavior adds the possibility to handle activerecord relations more intuitively
  *
  * This extension is inspired by and puts together the awesomeness of all the yii extensions
  * that aim to improve saving of related records.
@@ -450,7 +450,7 @@ class ECompositeDbCriteria extends CDbCriteria
 				$operator
 			);
 		}
-		parent::addNotInCondition($column,$values,$operator);
+		return parent::addNotInCondition($column,$values,$operator);
 	}
 
 	private function createCompositeInCondition($columns,$values)

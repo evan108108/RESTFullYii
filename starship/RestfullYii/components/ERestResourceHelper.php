@@ -24,7 +24,7 @@ class ERestResourceHelper implements iERestResourceHelper
 	 *
 	 * Takes a callable dependency (emitter)
 	 *
-	 * @param (callable) (emitter) Callback used to emitt events
+	 * @param (callable) (emitter) Callback used to emit events
 	 */ 
 	public function __construct(Callable $emitter)
 	{
@@ -58,7 +58,7 @@ class ERestResourceHelper implements iERestResourceHelper
 	/**
 	 * prepareRestModel
 	 *
-	 * gets the model assosiated with the REST request ready for output
+	 * gets the model associated with the REST request ready for output
 	 *
 	 * @param (Mixed/Int) (id) the id of the model
 	 * @param (Bool) (count) if true then the count is returned; if false then the model is returned

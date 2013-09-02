@@ -16,17 +16,17 @@ Yii::import('ext.starship.RestfullYii.components.ERestRequestReader');
 class ERestRequestReaderUnitTest extends ERestTestCase
 {
 	/**
-	 * __constuct
+	 * __construct
 	 *
 	 * tests ERestRequestReader constructor
 	 */
 	public function testConstruct()
 	{
-		$ERRR = new ERestRequestReader();
-		$this->assertEquals($this->getPrivateProperty($ERRR, 'filename'), 'php://input');
+		$errr = new ERestRequestReader();
+		$this->assertEquals($this->getPrivateProperty($errr, 'filename'), 'php://input');
 
-		$ERRR = new ERestRequestReader('/tmp/myfile.txt');
-		$this->assertEquals($this->getPrivateProperty($ERRR, 'filename'), '/tmp/myfile.txt');
+		$errr = new ERestRequestReader('/tmp/myfile.txt');
+		$this->assertEquals($this->getPrivateProperty($errr, 'filename'), '/tmp/myfile.txt');
 	}
 
 	/**
@@ -38,8 +38,8 @@ class ERestRequestReaderUnitTest extends ERestTestCase
 	{
 		$tmp_file = sys_get_temp_dir() . '/my_req_file.txt';
 		file_put_contents($tmp_file, 'TESTING DATA!');
-		$ERRR = new ERestRequestReader($tmp_file);
-		$this->assertEquals($ERRR->getContents(), 'TESTING DATA!');
+		$errr = new ERestRequestReader($tmp_file);
+		$this->assertEquals($errr->getContents(), 'TESTING DATA!');
 	}
 
 	/**
@@ -55,7 +55,7 @@ class ERestRequestReaderUnitTest extends ERestTestCase
 			];
 		$stream = fopen("php://temp", 'wb');
 		fputs($stream, CJSON::encode($data));
-		$ERRR = new ERestRequestReader($stream);
-		$this->assertEquals(CJSON::encode($data), $ERRR->getContents());
+		$errr = new ERestRequestReader($stream);
+		$this->assertEquals(CJSON::encode($data), $errr->getContents());
 	}
 }

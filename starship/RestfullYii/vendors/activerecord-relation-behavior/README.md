@@ -2,8 +2,8 @@
 
 This extension is inspired by all the yii extensions that aim to improve saving of related records.
 It allows you to assign related records especially for MANY_MANY relations more easily.
-It puts together the awesomeness of all the extensions mentionend below (see headline "Feature comparison").
-It comes with 100% test coverage and well structured and clean code so it can savely be used in enterprise production enviroment.
+It puts together the awesomeness of all the extensions mentioned below (see headline "Feature comparison").
+It comes with 100% test coverage and well structured and clean code so it can safely be used in enterprise production environment.
 
 
 ## Requirements
@@ -130,7 +130,7 @@ You have to call `->save()` on all new records before saving the related record.
 
 ### "A HAS_MANY/MANY_MANY relation needs to be an array of records or primary keys!"
 
-You can only assing arrays to HAS_MANY and MANY_MANY relations, assigning a single record to a ..._MANY relation is not possible.
+You can only assign arrays to HAS_MANY and MANY_MANY relations, assigning a single record to a ..._MANY relation is not possible.
 
 ### "Related record with primary key "X" does not exist!"
 
@@ -161,7 +161,7 @@ reviewed but did not take something out:
 - xrelationbehavior          http://www.yiiframework.com/extension/xrelationbehavior
 - save-relations-ar-behavior http://www.yiiframework.com/extension/save-relations-ar-behavior
 
-Many thanks to the authors of these extensions for inpiration and ideas.
+Many thanks to the authors of these extensions for inspiration and ideas.
 
 
 ## Run the unit test

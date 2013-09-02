@@ -34,7 +34,7 @@ class ERestJSONOutputWidget extends CWidget {
 	 * run
 	 *
 	 * called when widget is to be run
-	 * will trigger diffrent output based on $type
+	 * will trigger different output based on $type
 	 */
 	public function run()
 	{
