@@ -217,8 +217,8 @@ class ERestBehavior extends CBehavior
 		} else {
 			$controller = $this;
 		}
-		$controller->layout = 'ext.starship.restfullyii.views.layouts.json';
-		$controller->render('ext.starship.restfullyii.views.api.output', $params);
+		$controller->layout = 'ext.starship.RestfullYii.views.layouts.json';
+		$controller->render('ext.starship.RestfullYii.views.api.output', $params);
 	}	
 
 }
