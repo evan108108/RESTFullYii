@@ -14,7 +14,7 @@ Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
  * @license    https://github.com/evan108108   OSS
  * @version    Release: 1.2.0
  */
-class ERestSubesourceHelperUnitTest extends ERestTestCase
+class ERestSubresourceHelperUnitTest extends ERestTestCase
 {
 	/**
 	 * __construct
@@ -28,7 +28,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 		$erb = $controller->asa('ERestBehavior');
 		$erb->ERestInit();
 
-		$esrh = new ERestSubrecourceHelper([$erb, 'emitRest']);
+		$esrh = new ERestSubresourceHelper([$erb, 'emitRest']);
 		$this->assertEquals($this->getPrivateProperty($esrh, 'emitter'), [$erb, 'emitRest']);		
 	}
 
@@ -196,7 +196,7 @@ class ERestSubesourceHelperUnitTest extends ERestTestCase
 		$esrh = $erb->getSubresourceHelper();
 
 
-		$this->assertInstanceOf('ERestSubrecourceHelper', $esrh);
+		$this->assertInstanceOf('ERestSubresourceHelper', $esrh);
 		return $esrh;
 	}
 

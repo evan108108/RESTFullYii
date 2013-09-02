@@ -32,11 +32,11 @@ class ERestFilterUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPreFilterAttchesBehaviorAndInit
+	 * testPreFilterAttachesBehaviorAndInit
 	 *
 	 * tests ERestFilter->preFilter()
 	 */ 
-	public function testPreFilterAttchesBehaviorAndInit()
+	public function testPreFilterAttachesBehaviorAndInit()
 	{
 		$this->asUser($this, function() {
 			$this->captureOB($this, function() {
@@ -48,7 +48,7 @@ class ERestFilterUnitTest extends ERestTestCase
 			$this->assertInstanceOf('ERestBehavior', $erb);
 			$this->assertInstanceOf('Eventor', $this->getPrivateProperty($erb, 'event'));
 			$this->assertInstanceOf('EHttpStatus', $this->getPrivateProperty($erb, 'http_status'));
-			$this->assertInstanceOf('ERestSubrecourceHelper', $this->getPrivateProperty($erb, 'subresource_helper'));
+			$this->assertInstanceOf('ERestSubresourceHelper', $this->getPrivateProperty($erb, 'subresource_helper'));
 			$this->assertInstanceOf('ERestResourceHelper', $this->getPrivateProperty($erb, 'resource_helper'));
 			$this->assertInstanceOf('ERestEventListenerRegistry', $this->getPrivateProperty($erb, 'listeners'));
 		});

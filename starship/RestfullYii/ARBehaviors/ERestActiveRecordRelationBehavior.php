@@ -5,7 +5,7 @@ Yii::import('ext.starship.RestfullYii.vendors.activerecord-relation-behavior.EAc
  * ERestActiveRecordRelationBehavior
  * Extends EActiveRecordRelationBehavior
  *
- * Adds additional abitlity to save/update related models
+ * Adds additional ability to save/update related models
  *
  * @category   PHP
  * @package    Starship
@@ -92,7 +92,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 				$relation_model->setIsNewRecord(false);
 			}
 
-			if($this->getRealationType($model, $relation_name) == 'CHasManyRelation' || $this->getRealationType($model, $relation_name) == 'CHasOneRelation') {
+			if($this->getRelationType($model, $relation_name) == 'CHasManyRelation' || $this->getRelationType($model, $relation_name) == 'CHasOneRelation') {
 				$relation_model->{$model->metaData->relations[$relation_name]->foreignKey} = $model->getPrimaryKey();
 			}
 
@@ -101,7 +101,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 				$relation_model->refresh();
 			}
 
-			if($this->getRealationType($model, $relation_name) == 'CBelongsToRelation') {
+			if($this->getRelationType($model, $relation_name) == 'CBelongsToRelation') {
 				$belongs_to_fk = $model->metaData->relations[$relation_name]->foreignKey;
 				if(empty($model->$belongs_to_fk)) {
 					$model->$belongs_to_fk = $relation_model->getPrimaryKey();
@@ -135,7 +135,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	}
 
 	/**
-	 * getRealationType
+	 * getRelationType
 	 *
 	 * Gets the type of a relation or returns false
 	 *
@@ -144,7 +144,7 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 	 *
 	 * @return (Mixed) returns the relation type (String) or false (Bool)
 	 */ 
-	private function getRealationType($model, $key)
+	private function getRelationType($model, $key)
 	{
 		$relations = $model->relations();
 		if(isset($relations[$key])) {

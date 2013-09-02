@@ -125,7 +125,7 @@ class GETResourcesLimitOffsetUnitTest extends ERestTestCase
 	 * tests that a GET request for a list of 'Post' resources
 	 * with offset returns the correct response
 	 */
-	public function testGETResourcesOffsetPostssRequest()
+	public function testGETResourcesOffsetPostsRequest()
 	{
 		$request = new ERestTestRequestHelper();
 

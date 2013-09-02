@@ -65,8 +65,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel(1);
 		$this->assertInstanceOf('Category', $model);
-		$compair_model = Category::model()->findByPk(1);
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findByPk(1);
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
@@ -90,8 +90,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	{
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll();
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll();
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
@@ -103,8 +103,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 	{
 		$errh = $this->getERestResourceHelper();
 		$count = $errh->prepareRestModel(null, 1);
-		$compair_count = Category::model()->count();
-		$this->assertEquals($count, $compair_count);
+		$compare_count = Category::model()->count();
+		$this->assertEquals($count, $compare_count);
 	}
 
 	/**
@@ -155,8 +155,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll(array('order'=>'name desc'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll(array('order'=>'name desc'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 
 		Yii::app()->params['RestfullYii'] = [
 			ERestEvent::MODEL_SORT => function() {
@@ -165,8 +165,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAll(array('order'=>'name'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAll(array('order'=>'name'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**
@@ -183,8 +183,8 @@ class ERestResourceHelperUnitTest extends ERestTestCase
 		];
 		$errh = $this->getERestResourceHelper();
 		$model = $errh->prepareRestModel();
-		$compair_model = Category::model()->findAllByAttributes(array('name'=>'cat2'));
-		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compair_model));
+		$compare_model = Category::model()->findAllByAttributes(array('name'=>'cat2'));
+		$this->assertJsonStringEqualsJsonString(CJSON::encode($model), CJSON::encode($compare_model));
 	}
 
 	/**

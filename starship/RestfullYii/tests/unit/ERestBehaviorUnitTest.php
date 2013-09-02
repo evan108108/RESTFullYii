@@ -266,7 +266,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	 * tests ERestBehavior->setHttpStatus()
 	 *
 	 */ 
-	public function testSetHttpSatus()
+	public function testSetHttpStatus()
 	{
 		$erb = $this->getNewERestBehavior();
 		$erb->ERestInit();
@@ -278,7 +278,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * getresourceHelper
+	 * getResourceHelper
 	 *
 	 * tests ERestBehavior->getResourceHelper()
 	 */ 
@@ -300,7 +300,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$erb = $this->getNewERestBehavior();
 		$erb->ERestInit();
 
-		$this->assertInstanceOf('ERestSubrecourceHelper', $erb->getSubresourceHelper());
+		$this->assertInstanceOf('ERestSubresourceHelper', $erb->getSubresourceHelper());
 	}
 
 
@@ -378,7 +378,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 	/**
 	 * getEventList
 	 *
-	 * @retrun returns a list of all event names (CONST's) defined in ERestEvent
+	 * @return returns a list of all event names (CONST's) defined in ERestEvent
 	 */ 
 	public function getEventList()
 	{

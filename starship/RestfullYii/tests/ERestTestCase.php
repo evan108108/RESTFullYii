@@ -51,7 +51,7 @@ class ERestTestCase extends CTestCase
 	 *
 	 * @param (Object) (my_obj) the class that contains the private method
 	 * @param (String) (method_name) name of the method to invoke
-	 * @param (Array) (args) list of arguments to pass to the method on invokation
+	 * @param (Array) (args) list of arguments to pass to the method on invocation
 	 *
 	 * @return (Mixed) result of the method
 	 */ 
@@ -70,7 +70,7 @@ class ERestTestCase extends CTestCase
 	 * Uses reflection to allow for the returning of private properties
 	 *
 	 * @param (Object) (my_obj) the class that contains the private property
-	 * @param (String) (property_name) name of the property whos value to return
+	 * @param (String) (property_name) name of the property whose value to return
 	 *
 	 * @return (Mixed) value of the private property
 	 */ 

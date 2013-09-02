@@ -14,16 +14,16 @@ class EventorUnitTest extends CTestCase
 		$this->assertTrue(get_class($Eventor->getBoundObj()) == get_class($myObjTwo));
 	}
 
-	public function testExlusiveEventEmit()
+	public function testExclusiveEventEmit()
 	{
 		$myObj = new myClass();
 		$Eventor = new Eventor($myObj);
 
-		$Eventor->setExlusiveEventEmit(true);
-		$this->assertEquals($Eventor->getExlusiveEventEmit(), true);
+		$Eventor->setExclusiveEventEmit(true);
+		$this->assertEquals($Eventor->getExclusiveEventEmit(), true);
 
-		$Eventor->setExlusiveEventEmit(false);
-		$this->assertEquals($Eventor->getExlusiveEventEmit(), false);
+		$Eventor->setExclusiveEventEmit(false);
+		$this->assertEquals($Eventor->getExclusiveEventEmit(), false);
 	}
 
 	public function testEventRegister()
@@ -57,13 +57,13 @@ class EventorUnitTest extends CTestCase
 		$event = 'testEvent';
 		$listener = function() { echo 'test'; };
 
-		$listener_signiture = $Eventor->on($event, $listener);
-		$this->assertTrue(is_string($listener_signiture));
+		$listener_signature = $Eventor->on($event, $listener);
+		$this->assertTrue(is_string($listener_signature));
 
 		$this->assertTrue(isset($Eventor->getEventRegister()[$event]));
 		$this->assertTrue(isset($Eventor->getEventRegister()[$event][0]));
-		$this->assertTrue(isset($Eventor->getEventRegister()[$event][0]['signiture']));
-		$this->assertEquals($Eventor->getEventRegister()[$event][0]['signiture'], $listener_signiture);
+		$this->assertTrue(isset($Eventor->getEventRegister()[$event][0]['signature']));
+		$this->assertEquals($Eventor->getEventRegister()[$event][0]['signature'], $listener_signature);
 	}
 
 	public function testEmit()
@@ -166,8 +166,8 @@ class EventorUnitTest extends CTestCase
 
 		$event_1 = 'testEvent_1';
 		$listener_1 = function() { echo 'test:' . $this->somevar; };
-		$listener_signiture = $Eventor->on($event_1, $listener_1);
-		$Eventor->removeListener($listener_signiture);
+		$listener_signature = $Eventor->on($event_1, $listener_1);
+		$Eventor->removeListener($listener_signature);
 
 		$this->assertTrue(!isset($Eventor->getEventRegister()[$event_1][0]));
 
@@ -186,7 +186,7 @@ class EventorUnitTest extends CTestCase
 
 		$event_1 = 'testEvent_1';
 		$listener_1 = function() { echo 'test:' . $this->somevar; };
-		$listener_signiture = $Eventor->on($event_1, $listener_1);
+		$listener_signature = $Eventor->on($event_1, $listener_1);
 		$Eventor->removeEvent($event_1);
 
 		$this->assertTrue(!isset($Eventor->getEventRegister()[$event_1]));
@@ -206,7 +206,7 @@ class EventorUnitTest extends CTestCase
 
 		$event_1 = 'my_event';
 		$listener_1 = function() { echo 'test:' . $this->somevar; };
-		$listener_signiture = $Eventor->on($event_1, $listener_1);
+		$listener_signature = $Eventor->on($event_1, $listener_1);
 
 		$this->assertEquals($Eventor->eventExists($event_1), true);
 		$this->assertEquals($Eventor->eventExists('Event.That.Should.Not.Exist'), false);

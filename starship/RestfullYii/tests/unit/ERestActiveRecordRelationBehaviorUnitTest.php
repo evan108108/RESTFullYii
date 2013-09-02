@@ -43,7 +43,7 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 	 *
 	 * test ERestActiveRecordRelationBehavior->beforeSave()
 	 * This will be tested implicitly many times
-	 * test here is only for existance
+	 * test here is only for existence
 	 */ 
 	public function beforeSave()
 	{
@@ -97,21 +97,21 @@ class ERestActiveRecordRelationBehaviorUnitTest extends ERestTestCase
 	}
 	
 	/**
-	 * getRealationType
+	 * getRelationType
 	 *
-	 * tests ERestActiveRecordRelationBehavior->getRealationType()
+	 * tests ERestActiveRecordRelationBehavior->getRelationType()
 	 */ 
-	public function testGetRealationType()
+	public function testGetRelationType()
 	{
 		$user = User::model()->with('posts')->findByPk(1);
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$user, 'posts']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$user, 'posts']);
 		$this->assertEquals('CHasManyRelation', $result);
 
 		$post = Post::model()->with('author')->findByPk(1);
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$post, 'author']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$post, 'author']);
 		$this->assertEquals('CBelongsToRelation', $result);
 
-		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRealationType', [$post, 'RELATION_THAT_DOES_NOT_EXIST']);
+		$result = $this->invokePrivateMethod($this->ERestActiveRecordRelationBehavior, 'getRelationType', [$post, 'RELATION_THAT_DOES_NOT_EXIST']);
 		$this->assertEquals(false, $result);
 	}
 

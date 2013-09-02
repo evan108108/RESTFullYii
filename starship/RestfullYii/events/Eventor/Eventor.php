@@ -1,6 +1,6 @@
 <?php
 /**
- * Generic event emiter class
+ * Generic event emitter class
  *
  * Bind events And event listeners to a given class
  *
@@ -27,12 +27,12 @@ class Eventor implements iEventor
 	 * Sets the basic eventor context
 	 *
 	 * @param (Object) (bound_obj) Object to bind event listener to.
-	 * @param (Bool) (exclusive_event_emit) Ture allows events to be overwritten.
+	 * @param (Bool) (exclusive_event_emit) True allows events to be overwritten.
 	 */
 	function __construct($bound_obj, $exclusive_event_emit=false)
 	{
 		$this->setBoundObj($bound_obj);
-		$this->setExlusiveEventEmit($exclusive_event_emit);
+		$this->setExclusiveEventEmit($exclusive_event_emit);
 	}
 
 	/**
@@ -60,25 +60,25 @@ class Eventor implements iEventor
 	}
 
 	/**
-	 * setExlusiveEventEmit
+	 * setExclusiveEventEmit
 	 *
 	 * Setter for $this->exclusive_event_emit
 	 *
-	 * @param (Bool) (exclusive_event_emit) Ture allows events to be overwritten.
+	 * @param (Bool) (exclusive_event_emit) True allows events to be overwritten.
 	 */
-	public function setExlusiveEventEmit($exclusive_event_emit)
+	public function setExclusiveEventEmit($exclusive_event_emit)
 	{
 		$this->exclusive_event_emit = $exclusive_event_emit;
 	}
 
 	/**
-	 * getExlusiveEventEmit
+	 * getExclusiveEventEmit
 	 *
 	 * Getter for $this->exclusive_event_emit
 	 *
 	 * @return (Bool) (exclusive_event_emit)
 	 */
-	public function getExlusiveEventEmit()
+	public function getExclusiveEventEmit()
 	{
 		return $this->exclusive_event_emit;
 	}
@@ -125,18 +125,18 @@ class Eventor implements iEventor
 	 *
 	 * @param (String) (event) name of event
 	 * @param (Callable) (listener) Callback to be called when event is emitted
-	 * @return (String) (listener_signiture) The unique ID of the newly created event listener
+	 * @return (String) (listener_signature) The unique ID of the newly created event listener
 	 */
 	public function on($event, Callable $listener)
 	{
-		$listener_signiture = md5( serialize( array($event, microtime() ) ) );
+		$listener_signature = md5( serialize( array($event, microtime() ) ) );
 		$event_register = $this->getEventRegister();
 		$listener_container = array(
-			'signiture'=>$listener_signiture,
+			'signature'=>$listener_signature,
 			'callback'=>$listener,
 		);
 
-		if( $this->getExlusiveEventEmit() ) {
+		if( $this->getExclusiveEventEmit() ) {
 			$event_register[$event] = array($listener_container);
 		} else {
 			if( !isset($event_register[$event]) ) {
@@ -146,7 +146,7 @@ class Eventor implements iEventor
 		}
 		$this->setEventRegister($event_register);
 
-		return $listener_signiture;
+		return $listener_signature;
 	}
 
 	/**
@@ -179,16 +179,16 @@ class Eventor implements iEventor
 	/**
 	 * removeListener
 	 *
-	 * Removes an event listener of the given listener_signiture
+	 * Removes an event listener of the given listener_signature
 	 *
-	 * @param (String) (listener_signiture) The unique ID of the event listener you wish to remove
+	 * @param (String) (listener_signature) The unique ID of the event listener you wish to remove
 	 */
-	public function removeListener($listener_signiture)
+	public function removeListener($listener_signature)
 	{
 		$event_register = $this->getEventRegister();
 		foreach($this->getEventRegister() as $event=>$listeners) {
-			array_walk($listeners, function(&$listener, $key) use (&$event_register, $event, $listener_signiture) {
-				if($listener['signiture'] == $listener_signiture) {
+			array_walk($listeners, function(&$listener, $key) use (&$event_register, $event, $listener_signature) {
+				if($listener['signature'] == $listener_signature) {
 					unset($event_register[$event][$key]);
 				}
 			});

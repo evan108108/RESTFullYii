@@ -1,6 +1,6 @@
 # _Starship / RestfullYii_
 
-Makes quickly adding a RESTFul API to your Yii project easy. ResfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the abuilty to read and manipulate related data with ease.
+Makes quickly adding a RESTFul API to your Yii project easy. RestfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.
 
 RestfullYii has been lovingly rebuilt from the metal and is now 100% test covered! The new event based architecture allows for clean and unlimited customization.
 
@@ -510,7 +510,7 @@ RestfullYii's default behaviors can be easily customized though the built-in eve
 
 To understand how to do this, lets create a scenario that requires some customization and see how we might accomplish it.
 
-Lets say we have two controllers in our API, WorkController and CategoryController. We would like outr API to function in the following ways:
+Lets say we have two controllers in our API, WorkController and CategoryController. We would like our API to function in the following ways:
 
 1. The API should be accessible to JavaScript via AJAX.
 2. The API should not be accessible to any external client.
@@ -799,7 +799,7 @@ $this->onRest('post.filter.config.dev.flag', function($flag) {
 * @param (String) (category) the log category
 * @param (Array) (ignore) Events to ignore logging
 *
-* @return (Array) the pramas sent into the event
+* @return (Array) the params sent into the event
 */
 $this->onRest('req.event.logger', function($event, $category='application',$ignore=[]) {
 	if(!isset($ignore[$event])) {
@@ -1029,7 +1029,7 @@ $this->onRest('post.filter.after.action', function($result=null) {
  * Called when attempting to validate a resources primary key
  * The default is an integer
  *
- * @return (bool) true to confirm primay key; false to deny
+ * @return (bool) true to confirm primary key; false to deny
  */
 $this->onRest('req.param.is.pk', function($pk) {
 	return $pk === '0' || preg_match('/^-?[1-9][0-9]*$/', $pk) === 1;
@@ -1342,7 +1342,7 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
  *
  * @param (Object) (model) the model of the resource that owns the subresource
  * @param (String) (subresource_name) the name of the sub-resource
- * @param (Mixed/Int) (subresource_id) the primay key of the sub-resource
+ * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource
  */
 $this->onRest('req.put.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
@@ -1375,7 +1375,7 @@ $this->onRest('pre.filter.req.put.subresource.render', function($model, $subreso
  *
  * @param (Object) (model) this is the model object that owns the deleted sub-resource
  * @param (String) (subresource_name) the name of the deleted sub-resource
- * @param (Mixex/Int) (subresource_id) the primary key of the deleted sub-resource
+ * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource
  */
 $this->onRest('req.delete.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
@@ -1733,7 +1733,7 @@ $this->onRest('post.filter.model.scenario', function($result)) {
  * The default is 'NULL' or the value of the _GET param 'filter'
  * The format is JSON: 
  * '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE"}]'
- * See documentation for additional opptions
+ * See documentation for additional options
  *
  * @return (JSON) the filter to apply
  */
@@ -2019,7 +2019,7 @@ $this->onRest('post.filter.model.subresource.count', function($result)) {
  *
  * Called on POST requests when attempting to apply posted data
  *
- * @param (Object) (model) the recource model to save data to
+ * @param (Object) (model) the resource model to save data to
  * @param (Array) (data) the data to save to the model
  * @param (Array) (restricted_properties) list of restricted properties
  *
@@ -2055,7 +2055,7 @@ $this->onRest('post.filter.model.apply.post.data', function($result)) {
  *
  * Called on PUT requests when attempting to apply PUT data
  *
- * @param (Object) (model) the recource model to save data to
+ * @param (Object) (model) the resource model to save data to
  * @param (Array) (data) the data to save to the model
  * @param (Array) (restricted_properties) list of restricted properties
  *
@@ -2167,7 +2167,7 @@ $this->onRest('post.filter.model.subresources.save', function($result)) {
  *
  * Called whenever a model resource needs deleting
  *
- * @param (Object) (model) the model resouce to be deleted
+ * @param (Object) (model) the model resource to be deleted
  */
 $this->onRest('model.delete', function($model) {
 	if(!$model->delete()) {
@@ -2199,7 +2199,7 @@ $this->onRest('post.filter.model.delete', function($result)) {
 /**
  * model.subresource.delete
  *
- * Called whenever a subresouce needs deleting
+ * Called whenever a subresource needs deleting
  *
  * @param (Object) (model) the owner of the sub-resource
  * @param (String) (subresource_name) the name of the subresource

@@ -16,7 +16,7 @@ class ERestBaseAction extends CAction
 	/**
 	 * getRequestActionType
 	 *
-	 * Helps determin the action type
+	 * Helps determine the action type
 	 *
 	 * @param (Mixed/Int) (id) unique identifier of the resource
 	 * @param (Mixed) (param1) first param sent in the request; Often subresource name
@@ -81,7 +81,7 @@ class ERestBaseAction extends CAction
 	/**
 	 * getModelName
 	 *
-	 * Helper that returns the name of the model assosiated with the requested resource
+	 * Helper that returns the name of the model associated with the requested resource
 	 *
 	 * @return (String) name of the model
 	 */ 

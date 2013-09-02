@@ -84,7 +84,7 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	/**
 	 * filter
 	 *
-	 * filter result set based on critiria
+	 * filter result set based on criteria
 	 *
 	 * @param (String) JSON string to filter by
 	 *
