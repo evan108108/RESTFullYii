@@ -1,6 +1,6 @@
 # _Starship / RestfullYii_
 
-Makes quickly adding a RESTFul API to your Yii project easy. ResfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the abuilty to read and manipulate related data with ease.
+Makes quickly adding a RESTFul API to your Yii project easy. ResfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.
 
 RestfullYii has been lovingly rebuilt from the metal and is now 100% test covered! The new event based architecture allows for clean and unlimited customization.
 
