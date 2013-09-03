@@ -1218,7 +1218,7 @@ $this->onRest('req.post.resource.render', function($model, $relations=[]) {
 
 ####<a name="pre.filter.req.post.resource.render"/>pre.filter.req.post.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.post.resource.render, function($model, $relations) {
+$this->onRest('pre.filter.req.post.resource.render', function($model, $relations) {
 	return [$model, relations]; //Array [Object, Array]
 });
 ```
