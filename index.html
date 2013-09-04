@@ -1,38 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <title>Restfullyii by evan108108</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Restfullyii</h1>
-        <h2>Adds RESTFull API to your Yii application</h2>
-        <a href="https://github.com/evan108108/RESTFullYii" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/evan108108/RESTFullYii">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/evan108108/RESTFullYii/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/evan108108/RESTFullYii/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Restfullyii</h1>
+          <p>Adds RESTFull API to your Yii application</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/evan108108">evan108108</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
 <a name="starship--restfullyii" class="anchor" href="#starship--restfullyii"><span class="octicon octicon-link"></span></a><em>Starship / RestfullYii</em>
 </h1>
 
-<p>Makes quickly adding a RESTFul API to your Yii project easy. ResfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the abuilty to read and manipulate related data with ease.</p>
+<p>Makes quickly adding a RESTFul API to your Yii project easy. RestfullYii provides full HTTP verb support (GET, PUT, POST, DELETE) for your resources, as well as the ability to offset, limit, sort, filter, etc… . You will also have the ability to read and manipulate related data with ease.</p>
 
 <p>RestfullYii has been lovingly rebuilt from the metal and is now 100% test covered! The new event based architecture allows for clean and unlimited customization.</p>
 
@@ -566,7 +576,7 @@ PUT /api/team/1/players/44
 
 <p>To understand how to do this, lets create a scenario that requires some customization and see how we might accomplish it.</p>
 
-<p>Lets say we have two controllers in our API, WorkController and CategoryController. We would like outr API to function in the following ways:</p>
+<p>Lets say we have two controllers in our API, WorkController and CategoryController. We would like our API to function in the following ways:</p>
 
 <ol>
 <li>The API should be accessible to JavaScript via AJAX.</li>
@@ -1093,7 +1103,7 @@ PUT /api/team/1/players/44
 <span class="sd">* @param (String) (category) the log category</span>
 <span class="sd">* @param (Array) (ignore) Events to ignore logging</span>
 <span class="sd">*</span>
-<span class="sd">* @return (Array) the pramas sent into the event</span>
+<span class="sd">* @return (Array) the params sent into the event</span>
 <span class="sd">*/</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.event.logger'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$event</span><span class="p">,</span> <span class="nv">$category</span><span class="o">=</span><span class="s1">'application'</span><span class="p">,</span><span class="nv">$ignore</span><span class="o">=</span><span class="p">[])</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$ignore</span><span class="p">[</span><span class="nv">$event</span><span class="p">]))</span> <span class="p">{</span>
@@ -1320,7 +1330,7 @@ PUT /api/team/1/players/44
 <span class="sd"> * Called when attempting to validate a resources primary key</span>
 <span class="sd"> * The default is an integer</span>
 <span class="sd"> *</span>
-<span class="sd"> * @return (bool) true to confirm primay key; false to deny</span>
+<span class="sd"> * @return (bool) true to confirm primary key; false to deny</span>
 <span class="sd"> */</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.param.is.pk'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$pk</span> <span class="o">===</span> <span class="s1">'0'</span> <span class="o">||</span> <span class="nb">preg_match</span><span class="p">(</span><span class="s1">'/^-?[1-9][0-9]*$/'</span><span class="p">,</span> <span class="nv">$pk</span><span class="p">)</span> <span class="o">===</span> <span class="mi">1</span><span class="p">;</span>
@@ -1507,7 +1517,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqpostresourcerender" class="anchor" href="#prefilterreqpostresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.post.resource.render"></a>pre.filter.req.post.resource.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">post</span><span class="o">.</span><span class="nx">resource</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.post.resource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nx">relations</span><span class="p">];</span> <span class="c1">//Array [Object, Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1626,7 +1636,7 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * @param (Object) (model) the model of the resource that owns the subresource</span>
 <span class="sd"> * @param (String) (subresource_name) the name of the sub-resource</span>
-<span class="sd"> * @param (Mixed/Int) (subresource_id) the primay key of the sub-resource</span>
+<span class="sd"> * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource</span>
 <span class="sd"> */</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.put.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">renderJSON</span><span class="p">([</span>
@@ -1661,7 +1671,7 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * @param (Object) (model) this is the model object that owns the deleted sub-resource</span>
 <span class="sd"> * @param (String) (subresource_name) the name of the deleted sub-resource</span>
-<span class="sd"> * @param (Mixex/Int) (subresource_id) the primary key of the deleted sub-resource</span>
+<span class="sd"> * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource</span>
 <span class="sd"> */</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.delete.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">renderJSON</span><span class="p">([</span>
@@ -2026,7 +2036,7 @@ PUT /api/team/1/players/44
 <span class="sd"> * The default is 'NULL' or the value of the _GET param 'filter'</span>
 <span class="sd"> * The format is JSON: </span>
 <span class="sd"> * '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE"}]'</span>
-<span class="sd"> * See documentation for additional opptions</span>
+<span class="sd"> * See documentation for additional options</span>
 <span class="sd"> *</span>
 <span class="sd"> * @return (JSON) the filter to apply</span>
 <span class="sd"> */</span>
@@ -2325,7 +2335,7 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * Called on POST requests when attempting to apply posted data</span>
 <span class="sd"> *</span>
-<span class="sd"> * @param (Object) (model) the recource model to save data to</span>
+<span class="sd"> * @param (Object) (model) the resource model to save data to</span>
 <span class="sd"> * @param (Array) (data) the data to save to the model</span>
 <span class="sd"> * @param (Array) (restricted_properties) list of restricted properties</span>
 <span class="sd"> *</span>
@@ -2363,7 +2373,7 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * Called on PUT requests when attempting to apply PUT data</span>
 <span class="sd"> *</span>
-<span class="sd"> * @param (Object) (model) the recource model to save data to</span>
+<span class="sd"> * @param (Object) (model) the resource model to save data to</span>
 <span class="sd"> * @param (Array) (data) the data to save to the model</span>
 <span class="sd"> * @param (Array) (restricted_properties) list of restricted properties</span>
 <span class="sd"> *</span>
@@ -2483,7 +2493,7 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * Called whenever a model resource needs deleting</span>
 <span class="sd"> *</span>
-<span class="sd"> * @param (Object) (model) the model resouce to be deleted</span>
+<span class="sd"> * @param (Object) (model) the model resource to be deleted</span>
 <span class="sd"> */</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'model.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nv">$model</span><span class="o">-&gt;</span><span class="na">delete</span><span class="p">())</span> <span class="p">{</span>
@@ -2518,7 +2528,7 @@ PUT /api/team/1/players/44
 <div class="highlight"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresource.delete</span>
 <span class="sd"> *</span>
-<span class="sd"> * Called whenever a subresouce needs deleting</span>
+<span class="sd"> * Called whenever a subresource needs deleting</span>
 <span class="sd"> *</span>
 <span class="sd"> * @param (Object) (model) the owner of the sub-resource</span>
 <span class="sd"> * @param (String) (subresource_name) the name of the subresource</span>
@@ -2609,6 +2619,7 @@ PUT /api/team/1/players/44
 <li><a href="https://github.com/goliatone">goliatone</a></li>
 <li><a href="https://github.com/ubin">ubin</a></li>
 <li><a href="https://github.com/ericmcgill">ericmcgill</a></li>
+<li><a href="https://github.com/jlsalvador">jlsalvador</a></li>
 <li><a href="https://github.com/stianlik">stianlik</a></li>
 <li><a href="https://github.com/kachar">kachar</a></li>
 <li><a href="https://github.com/drLev">drLev</a></li>
@@ -2622,25 +2633,10 @@ PUT /api/team/1/players/44
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Starship / RestfullYii is released under the WTFPL license - <a href="http://sam.zoy.org/wtfpl/">http://sam.zoy.org/wtfpl/</a>. This means that you can literally do whatever you want with this extension.</p>
-        </section>
+      </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/evan108108/RESTFullYii/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/evan108108/RESTFullYii/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/evan108108/RESTFullYii"></a> is maintained by <a href="https://github.com/evan108108">evan108108</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
     </div>
-
-  
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
   </body>
 </html>
