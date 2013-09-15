@@ -793,6 +793,26 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testModelVisibleProperties
+	 *
+	 * tests event model.visible.properties
+	 */
+	public function testModelVisibleProperties()
+	{
+		$this->assertEquals([], $this->event->emit(ERestEvent::MODEL_VISIBLE_PROPERTIES));
+	}
+
+	/**
+	 * testModelHiddenProperties
+	 *
+	 * tests event model.hidden.properties
+	 */
+	public function testModelHiddenProperties()
+	{
+		$this->assertEquals([], $this->event->emit(ERestEvent::MODEL_HIDDEN_PROPERTIES));
+	}
+
+	/**
 	 * testModelSave
 	 *
 	 * tests event model.save

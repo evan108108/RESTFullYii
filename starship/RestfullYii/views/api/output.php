@@ -5,6 +5,8 @@ $this->widget('ext.starship.RestfullYii.widgets.ERestJSONOutputWidget', array(
 	'message'			=>(isset($message)? $message: ""),
 	'totalCount'	=>(isset($totalCount)? $totalCount: ""),
 	'modelName'		=>(isset($modelName)? $modelName: null),
+	'visibleProperties'		=>(isset($visibleProperties)? $visibleProperties: null),
+	'hiddenProperties'		=>(isset($hiddenProperties)? $hiddenProperties: null),
 	'data'				=>(isset($data)? $data: null),
 	'relations'		=>(isset($relations)? $relations: []),
 	'errorCode'		=>(isset($errorCode)? $errorCode: null),

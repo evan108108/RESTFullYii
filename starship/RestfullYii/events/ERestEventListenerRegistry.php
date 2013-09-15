@@ -192,7 +192,7 @@ class ERestEventListenerRegistry
 		 * @param (Array) (relations) the list of relations to include with the data
 		 * @param (Int) (count) the count of records to return (will be either 1 or 0)
 		 */
-		$onRest(ERestEvent::REQ_GET_RESOURCE_RENDER, function($data, $model_name, $relations, $count) {
+		$onRest(ERestEvent::REQ_GET_RESOURCE_RENDER, function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 			//Handler for GET (single resource) request
 			$this->setHttpStatus((($count > 0)? 200: 204));
 			$this->renderJSON([
@@ -202,6 +202,8 @@ class ERestEventListenerRegistry
 				'totalCount'	=> $count,
 				'modelName'		=> $model_name,
 				'relations'		=> $relations,
+				'visibleProperties' => $visibleProperties,
+				'hiddenProperties' => $hiddenProperties,
 				'data'				=> $data,
 			]);
 		});
@@ -216,7 +218,7 @@ class ERestEventListenerRegistry
 		 * @param (Array) (relations) the list of relations to include with the data
 		 * @param (Int) (count) the count of records to return
 		 */
-		$onRest(ERestEvent::REQ_GET_RESOURCES_RENDER, function($data, $model_name, $relations, $count) {
+		$onRest(ERestEvent::REQ_GET_RESOURCES_RENDER, function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 			//Handler for GET (list resources) request
 			$this->setHttpStatus((($count > 0)? 200: 204));
 			$this->renderJSON([
@@ -226,6 +228,8 @@ class ERestEventListenerRegistry
 				'totalCount'	=> $count,
 				'modelName'		=> $model_name,
 				'relations'		=> $relations,
+				'visibleProperties' => $visibleProperties,
+				'hiddenProperties' => $hiddenProperties,
 				'data'				=> $data,
 			]);
 		});
@@ -239,7 +243,7 @@ class ERestEventListenerRegistry
 		 * @param (String) (subresource_name) the name of the sub-resources to render
 		 * @param (Int) (count) the count of sub-resources to render
 		 */
-		$onRest(ERestEvent::REQ_GET_SUBRESOURCES_RENDER, function($models, $subresource_name, $count) {
+		$onRest(ERestEvent::REQ_GET_SUBRESOURCES_RENDER, function($models, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->setHttpStatus((($count > 0)? 200: 204));
 			
 			$this->renderJSON([
@@ -248,6 +252,8 @@ class ERestEventListenerRegistry
 				'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
 				'totalCount'	=> $count,
 				'modelName'		=> $subresource_name,
+				'visibleProperties' => $visibleProperties,
+				'hiddenProperties' => $hiddenProperties,
 				'data'				=> $models,
 			]);
 		});
@@ -261,7 +267,7 @@ class ERestEventListenerRegistry
 		 * @param (String) (subresource_name) the name of the sub-resource to render
 		 * @param (Int) (count) the count of sub-resources to render (will be either 1 or 0)
 		 */
-		$onRest(ERestEvent::REQ_GET_SUBRESOURCE_RENDER, function($model, $subresource_name, $count) {
+		$onRest(ERestEvent::REQ_GET_SUBRESOURCE_RENDER, function($model, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->setHttpStatus((($count > 0)? 200: 204));
 
 			$this->renderJSON([
@@ -270,6 +276,8 @@ class ERestEventListenerRegistry
 				'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
 				'totalCount'	=> $count,
 				'modelName'		=> $subresource_name,
+				'visibleProperties' => $visibleProperties,
+				'hiddenProperties' => $hiddenProperties,
 				'data'				=> $model,
 			]);
 		});
@@ -680,6 +688,30 @@ class ERestEventListenerRegistry
 		 * @return (Array) list of restricted properties
 		 */
 		$onRest(ERestEvent::MODEL_RESTRICTED_PROPERTIES, function() {
+			return [];
+		});
+
+		/**
+		 * model.visible.properties
+		 *
+		 * Called when determining which properties if any should be considered visible
+		 * The default is [] (no hidden properties)
+		 *
+		 * @return (Array) list of visible properties
+		 */
+		$onRest(ERestEvent::MODEL_VISIBLE_PROPERTIES, function() {
+			return [];
+		});
+
+		/**
+		 * model.hidden.properties
+		 *
+		 * Called when determining which properties if any should be considered hidden
+		 * The default is [] (no hidden properties)
+		 *
+		 * @return (Array) list of hidden properties
+		 */
+		$onRest(ERestEvent::MODEL_HIDDEN_PROPERTIES, function() {
 			return [];
 		});
 

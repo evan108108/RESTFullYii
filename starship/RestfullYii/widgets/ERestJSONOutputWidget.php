@@ -19,6 +19,8 @@
  * @property array		$relations
  * @property array		$data
  * @property integer	$errorCode
+ * @property array		$visibleProperties
+ * @property array		$hiddenProperties
  */
 class ERestJSONOutputWidget extends CWidget {
 	public $type = 'raw';
@@ -29,6 +31,8 @@ class ERestJSONOutputWidget extends CWidget {
 	public $relations = [];
 	public $data;
 	public $errorCode = 500;
+	public $visibleProperties = [];
+	public $hiddenProperties = [];
 
 	/**
 	 * run
@@ -130,7 +134,12 @@ class ERestJSONOutputWidget extends CWidget {
 		};
 
 		array_walk($listOfModels, function($ar_model, $index) use($relations, &$model_as_array, $process_relations) {
-			$model_as_array[$index] = $ar_model->attributes;
+			foreach ($ar_model->attributes as $property => $value) {
+				if (!empty($this->visibleProperties) && !in_array($property, $this->visibleProperties)
+					|| !empty($this->hiddenProperties) && in_array($property, $this->hiddenProperties))
+					continue;
+				$model_as_array[$index][$property] = $value;
+			}
 			foreach($relations as $relation) {
 				$model_as_array[$index][$relation] = $process_relations($ar_model->$relation);
 			}

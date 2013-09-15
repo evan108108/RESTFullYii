@@ -723,7 +723,9 @@ List of all events and their default event handlers.
 | [model.subresources.save](#model.subresources.save)   |   [Yes](#pre.filter.model.subresources.save)  | [Yes](#post.filter.model.subresources.save) |       Called whenever a sub-resource is saved
 | [model.delete](#model.delete)   |   [Yes](#pre.filter.model.delete)  | [Yes](#post.filter.model.delete) |       Called whenever a model resource needs deleting
 | [model.subresource.delete](#model.subresource.delete)   |   [Yes](#pre.filter.model.subresource.delete)  | [Yes](#post.filter.model.subresource.delete) |       Called whenever a subresource needs deleting
-[model.restricted.properties](#model.restricted.properties)   |   [Yes](#pre.filter.model.restricted.properties)  |  [Yes](#post.filter.model.restricted.properties) |       Called when determining which properties if any should be considered restricted. The default is \[] (no restricted properties)
+| [model.restricted.properties](#model.restricted.properties)   |   [Yes](#pre.filter.model.restricted.properties)  |  [Yes](#post.filter.model.restricted.properties) |       Called when determining which properties if any should be considered restricted. The default is \[] (no restricted properties)
+| [model.visible.properties](#model.visible.properties)   |   [Yes](#pre.filter.model.visible.properties)  |  [Yes](#post.filter.model.visible.properties) |       Called when determining which properties if any should be visible. The default is \[] (no hidden properties)
+[model.hidden.properties](#model.hidden.properties)   |   [Yes](#pre.filter.model.hidden.properties)  |  [Yes](#post.filter.model.hidden.properties) |       Called when determining which properties if any should be hidden. The default is \[] (no hidden properties)
 
 ###<a name="config.application.id"/>config.application.id</a>
 ```php
@@ -2269,6 +2271,74 @@ $this->onRest('post.filter.model.restricted.properties', function($result)) {
 
 
 
+###<a name="model.visible.properties">model.visible.properties</a>
+```php
+/**
+ * model.visible.properties
+ *
+ * Called when determining which properties if any should be considered visible
+ * The default is [] (no hidden properties)
+ *
+ * @return (Array) list of visible properties
+ */
+$this->onRest('model.visible.properties', function() {
+	return [];
+});
+```
+
+####<a name="pre.filter.model.visible.properties">pre.filter.model.visible.properties</a>
+```php
+$this->onRest('pre.filter.model.visible.properties', function() {
+	//No return
+});
+```
+
+####<a name="post.filter.model.visible.properties">post.filter.model.visible.properties</a>
+```php
+$this->onRest('post.filter.model.visible.properties', function($result)) {
+	return $result; //Array
+});
+```
+
+
+
+
+
+
+###<a name="model.hidden.properties">model.hidden.properties</a>
+```php
+/**
+ * model.hidden.properties
+ *
+ * Called when determining which properties if any should be considered hidden
+ * The default is [] (no hidden properties)
+ *
+ * @return (Array) list of hidden properties
+ */
+$this->onRest('model.hidden.properties', function() {
+	return [];
+});
+```
+
+####<a name="pre.filter.model.hidden.properties">pre.filter.model.hidden.properties</a>
+```php
+$this->onRest('pre.filter.model.hidden.properties', function() {
+	//No return
+});
+```
+
+####<a name="post.filter.model.hidden.properties">post.filter.model.hidden.properties</a>
+```php
+$this->onRest('post.filter.model.hidden.properties', function($result)) {
+	return $result; //Array
+});
+```
+
+
+
+
+
+
 ## Testing
 Running the project's automated tests.
 
@@ -2283,11 +2353,11 @@ Running the project's automated tests.
 * [evan108108](https://github.com/evan108108)
 * [goliatone](https://github.com/goliatone)
 * [ubin](https://github.com/ubin)
+* [jlsalvador](https://github.com/jlsalvador)
 * [ericmcgill](https://github.com/ericmcgill)
 * [stianlik](https://github.com/stianlik)
 * [kachar](https://github.com/kachar)
 * [drLev](https://github.com/drLev)
-* [jlsalvador](https://github.com/jlsalvador)
 * [sheershoff](https://github.com/sheershoff)
 * [Arne-S](https://github.com/Arne-S)
 * [amesmoey](https://github.com/amesmoey)
