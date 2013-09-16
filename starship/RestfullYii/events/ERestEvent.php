@@ -59,6 +59,8 @@ class ERestEvent
 	CONST MODEL_DELETE																		= 'model.delete';
 	CONST MODEL_SUBRESOURCE_DELETE												= 'model.subresource.delete';
 	CONST MODEL_RESTRICTED_PROPERTIES											= 'model.restricted.properties';
+	CONST MODEL_VISIBLE_PROPERTIES											= 'model.visible.properties';
+	CONST MODEL_HIDDEN_PROPERTIES											= 'model.hidden.properties';
 
 	//Pre-Filter Events
 	CONST PRE_FILTER_CONFIG_APPLICATION_ID								= 'pre.filter.config.application.id';
@@ -107,6 +109,8 @@ class ERestEvent
 	CONST PRE_FILTER_MODEL_DELETE													= 'pre.filter.model.delete';
 	CONST PRE_FILTER_MODEL_SUBRESOURCE_DELETE							= 'pre.filter.model.subresource.delete';
 	CONST PRE_FILTER_MODEL_RESTRICTED_PROPERTIES					= 'pre.filter.model.restricted.properties';
+	CONST PRE_FILTER_MODEL_VISIBLE_PROPERTIES						= 'pre.filter.model.visible.properties';
+	CONST PRE_FILTER_MODEL_HIDDEN_PROPERTIES						= 'pre.filter.model.hidden.properties';
 
 
 	//Post-Filter Events
@@ -156,4 +160,6 @@ class ERestEvent
 	CONST POST_FILTER_MODEL_DELETE												= 'post.filter.model.delete';
 	CONST POST_FILTER_MODEL_SUBRESOURCE_DELETE						= 'post.filter.model.subresource.delete';
 	CONST POST_FILTER_MODEL_RESTRICTED_PROPERTIES					= 'post.filter.model.restricted.properties';
+	CONST POST_FILTER_MODEL_VISIBLE_PROPERTIES						= 'post.filter.model.visible.properties';
+	CONST POST_FILTER_MODEL_HIDDEN_PROPERTIES						= 'post.filter.model.hidden.properties';
 }
