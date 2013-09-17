@@ -1,44 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Restfullyii by evan108108</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <title>Restfullyii by evan108108</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/evan108108/RESTFullYii">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/evan108108/RESTFullYii/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/evan108108/RESTFullYii/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <header>
+      <div class="inner">
+        <h1>Restfullyii</h1>
+        <h2>Adds RESTFull API to your Yii application</h2>
+        <a href="https://github.com/evan108108/RESTFullYii" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Restfullyii</h1>
-          <p>Adds RESTFull API to your Yii application</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/evan108108">evan108108</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
 <a name="starship--restfullyii" class="anchor" href="#starship--restfullyii"><span class="octicon octicon-link"></span></a><em>Starship / RestfullYii</em>
 </h1>
 
@@ -79,7 +69,7 @@
 <li>
 <p>Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components-&gt;urlManager-&gt;rules in same config.  </p>
 
-<div class="highlight"><pre><span class="s1">'components'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="s1">'components'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span>
     <span class="s1">'urlManager'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span>
         <span class="s1">'urlFormat'</span><span class="o">=&gt;</span><span class="s1">'path'</span><span class="p">,</span>
         <span class="s1">'rules'</span><span class="o">=&gt;</span><span class="k">require</span><span class="p">(</span>
@@ -98,7 +88,7 @@
 <li>
 <p>Add the ERestFilter to your controllers filter method.</p>
 
-<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">filters</span><span class="p">()</span>
+<div class="highlight highlight-php"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">filters</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">'accessControl'</span><span class="p">,</span> <span class="c1">// perform access control for CRUD operations</span>
@@ -113,7 +103,7 @@
 <li>
 <p>Add the ERestActionProvider to your controllers actions method.</p>
 
-<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">actions</span><span class="p">()</span>
+<div class="highlight highlight-php"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">actions</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">'REST.'</span><span class="o">=&gt;</span><span class="s1">'ext.starship.RestfullYii.actions.ERestActionProvider'</span><span class="p">,</span>
@@ -124,7 +114,7 @@
 <li>
 <p>If you are using the accessControl filter you need to make sure that access is allowed on all RESTFul routes.</p>
 
-<div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">accessRules</span><span class="p">()</span>
+<div class="highlight highlight-php"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">accessRules</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
         <span class="k">array</span><span class="p">(</span><span class="s1">'allow'</span><span class="p">,</span> <span class="s1">'actions'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span><span class="s1">'REST.GET'</span><span class="p">,</span> <span class="s1">'REST.PUT'</span><span class="p">,</span> <span class="s1">'REST.POST'</span><span class="p">,</span> <span class="s1">'REST.DELETE'</span><span class="p">),</span>
@@ -154,7 +144,7 @@
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="nx">url</span><span class="o">:</span><span class="s1">'/api/work'</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">"GET"</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -174,7 +164,7 @@ http://my-site.com/api/work
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record(s) Found"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -206,7 +196,7 @@ http://my-site.com/api/work
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="nx">url</span><span class="o">:</span><span class="s1">'/api/work/1'</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">"GET"</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -226,7 +216,7 @@ http://my-site.com/api/work/1
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record Found"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -251,7 +241,7 @@ http://my-site.com/api/work/1
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="nx">url</span><span class="o">:</span><span class="s1">'/api/work?limit=10&amp;offset=30'</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">"GET"</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -271,7 +261,7 @@ http://my-site.com/api/work?limit=10&amp;offset=30
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record(s) Found"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -305,7 +295,7 @@ http://my-site.com/api/work?limit=10&amp;offset=30
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="nx">url</span><span class="o">:</span><span class="s1">'/api/work?sort=[{"property":"title", "direction":"DESC"}, {"property":"create_time", "direction":"ASC"}]'</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">"GET"</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -325,7 +315,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record(s) Found"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -393,7 +383,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"title"</span><span class="o">:</span> <span class="s2">"title31"</span><span class="p">,</span>
     <span class="s2">"author_id"</span><span class="o">:</span> <span class="s2">"31"</span><span class="p">,</span>
     <span class="s2">"content"</span><span class="o">:</span> <span class="s2">"content31"</span><span class="p">,</span>
@@ -421,7 +411,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record Created"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -446,7 +436,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"id"</span><span class="o">:</span> <span class="s2">"31"</span><span class="p">,</span>
     <span class="s2">"title"</span><span class="o">:</span> <span class="s2">"title31"</span><span class="p">,</span>
     <span class="s2">"author_id"</span><span class="o">:</span> <span class="s2">"31"</span><span class="p">,</span>
@@ -475,7 +465,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record Updated"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -498,7 +488,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>JavaScript:</p>
 
-<div class="highlight"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight highlight-javascript"><pre> <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
     <span class="nx">url</span><span class="o">:</span><span class="s1">'/api/work/1'</span><span class="p">,</span>
     <span class="nx">type</span><span class="o">:</span><span class="s2">"DELETE"</span><span class="p">,</span>
     <span class="nx">success</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
@@ -519,7 +509,7 @@ http://my-site.com/api/work?sort=%5B%7B%22property%22%3A%22title%22%2C+%22direct
 
 <p>Response:</p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-json"><pre><span class="p">{</span>
     <span class="nt">"success"</span><span class="p">:</span><span class="kc">true</span><span class="p">,</span>
     <span class="nt">"message"</span><span class="p">:</span><span class="s2">"Record Deleted"</span><span class="p">,</span>
     <span class="nt">"data"</span><span class="p">:{</span>
@@ -592,7 +582,7 @@ PUT /api/team/1/players/44
 
 <p>In the /protected/config/main.php params section we will add the following:</p>
 
-<div class="highlight"><pre><span class="nv">$config</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+<div class="highlight highlight-php"><pre><span class="nv">$config</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
     <span class="o">..</span><span class="p">,</span>
     <span class="s1">'params'</span><span class="o">=&gt;</span><span class="p">[</span>
         <span class="s1">'RestfullYii'</span> <span class="o">=&gt;</span> <span class="p">[</span>
@@ -612,7 +602,7 @@ PUT /api/team/1/players/44
 
 <p>Now we are ready modify the output of event handler 'req.auth.ajax.user', but this time instead of overriding the default behavior, we will use the post-filter feature to add our additional user validation. The event name of a post-filter event is always the main event name prefixed with 'post.filter.', thus in our case the event name is 'post.filter.req.auth.ajax.user'. The param(s) passed into a post-filter handler are always the value(s) returned from the main event. Take a look:</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">WorkController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">WorkController</span> <span class="k">extends</span> <span class="nx">Controller</span>
 <span class="p">{</span>
     <span class="o">..</span> <span class="o">.</span>
 
@@ -645,7 +635,7 @@ PUT /api/team/1/players/44
 
 <p>Cool! That just leaves feature 7, disallowing create, update, delete on category. Again we will add this change locally, but this time to the CategoryController. Take a look:</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">CategoryController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">CategoryController</span> <span class="k">extends</span> <span class="nx">Controller</span>
 <span class="p">{</span>
     <span class="o">..</span> <span class="o">.</span>
 
@@ -684,7 +674,7 @@ PUT /api/team/1/players/44
 
 <p>As you tell from the route the request will be handled by the Category controller. So that is where we will add our event handler.</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">CategoryController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">CategoryController</span> <span class="k">extends</span> <span class="nx">Controller</span>
 <span class="p">{</span>
     <span class="o">..</span> <span class="o">.</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">restEvents</span><span class="p">()</span>
@@ -708,7 +698,7 @@ PUT /api/team/1/players/44
 
 <p>These routes all involve the Work controller. So that is where we will add our event handlers.</p>
 
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">WorkController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">WorkController</span> <span class="k">extends</span> <span class="nx">Controller</span>
 <span class="p">{</span>
     <span class="o">..</span> <span class="o">.</span>
 
@@ -1030,11 +1020,23 @@ PUT /api/team/1/players/44
 <td><a href="#post.filter.model.restricted.properties">Yes</a></td>
 <td>Called when determining which properties if any should be considered restricted. The default is [] (no restricted properties)</td>
 </tr>
+<tr>
+<td><a href="#model.visible.properties">model.visible.properties</a></td>
+<td><a href="#pre.filter.model.visible.properties">Yes</a></td>
+<td><a href="#post.filter.model.visible.properties">Yes</a></td>
+<td>Called when determining which properties if any should be visible. The default is [] (no hidden properties)</td>
+</tr>
+<tr>
+<td><a href="#model.hidden.properties">model.hidden.properties</a></td>
+<td><a href="#pre.filter.model.hidden.properties">Yes</a></td>
+<td><a href="#post.filter.model.hidden.properties">Yes</a></td>
+<td>Called when determining which properties if any should be hidden. The default is [] (no hidden properties)</td>
+</tr>
 </tbody>
 </table><h3>
 <a name="configapplicationid" class="anchor" href="#configapplicationid"><span class="octicon octicon-link"></span></a><a name="config.application.id"></a>config.application.id</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * config.application.id</span>
 <span class="sd"> *</span>
 <span class="sd"> * returns the app id that is applied to header vars (username, password)</span>
@@ -1049,7 +1051,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterconfigapplicationid" class="anchor" href="#prefilterconfigapplicationid"><span class="octicon octicon-link"></span></a><a name="pre.filter.config.application.id"></a>pre.filter.config.application.id</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1057,7 +1059,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterconfigapplicationid" class="anchor" href="#postfilterconfigapplicationid"><span class="octicon octicon-link"></span></a><a name="post.filter.config.application.id"></a>post.filter.config.application.id</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$app_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$app_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$app_id</span><span class="p">;</span> <span class="c1">//String</span>
 <span class="p">});</span>
 </pre></div>
@@ -1065,7 +1067,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="configdevflag" class="anchor" href="#configdevflag"><span class="octicon octicon-link"></span></a><a name="config.dev.flag"></a>config.dev.flag</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * config.dev.flag</span>
 <span class="sd"> *</span>
 <span class="sd"> * return true to set develop mode; false to turn of develop mode</span>
@@ -1080,7 +1082,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterconfigdevflag" class="anchor" href="#prefilterconfigdevflag"><span class="octicon octicon-link"></span></a><a name="pre.filter.config.dev.flag"></a>pre.filter.config.dev.flag</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.config.dev.flag'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.config.dev.flag'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1088,7 +1090,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterconfigdevflag" class="anchor" href="#postfilterconfigdevflag"><span class="octicon octicon-link"></span></a><a name="post.filter.config.dev.flag"></a>post.filter.config.dev.flag</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.dev.flag'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$flag</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.dev.flag'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$flag</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$flag</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
@@ -1096,7 +1098,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqeventlogger" class="anchor" href="#reqeventlogger"><span class="octicon octicon-link"></span></a><a name="req.event.logger"></a>req.event.logger</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd">* req.event.logger</span>
 <span class="sd">*</span>
 <span class="sd">* @param (String) (event) the event to log</span>
@@ -1116,7 +1118,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqauthhttpsonly" class="anchor" href="#reqauthhttpsonly"><span class="octicon octicon-link"></span></a><a name="req.auth.https.only"></a>req.auth.https.only</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.auth.https.only</span>
 <span class="sd"> *</span>
 <span class="sd"> * return true to restrict to https;</span>
@@ -1132,7 +1134,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqauthhttpsonly" class="anchor" href="#prefilterreqauthhttpsonly"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.https.only"></a>pre.filter.req.auth.https.only</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.https.only'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.https.only'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1140,7 +1142,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqauthhttpsonly" class="anchor" href="#postfilterreqauthhttpsonly"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.https.only"></a>post.filter.req.auth.https.only</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.https.only'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$https_only</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.https.only'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$https_only</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$https_only</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
@@ -1148,7 +1150,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqauthusername" class="anchor" href="#reqauthusername"><span class="octicon octicon-link"></span></a><a name="req.auth.username"></a>req.auth.username</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.auth.username</span>
 <span class="sd"> *</span>
 <span class="sd"> * This is the username used to grant access to non-ajax users</span>
@@ -1164,7 +1166,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqauthusername" class="anchor" href="#prefilterreqauthusername"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.username"></a>pre.filter.req.auth.username</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.username'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.username'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1172,7 +1174,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqauthusername" class="anchor" href="#postfilterreqauthusername"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.username"></a>post.filter.req.auth.username</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.username'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$username</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.username'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$username</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$username</span><span class="p">;</span> <span class="c1">//String</span>
 <span class="p">});</span>
 </pre></div>
@@ -1180,7 +1182,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqauthpassword" class="anchor" href="#reqauthpassword"><span class="octicon octicon-link"></span></a><a name="req.auth.password"></a>req.auth.password</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.auth.password</span>
 <span class="sd"> *</span>
 <span class="sd"> * This is the password use to grant access to non-ajax users</span>
@@ -1196,7 +1198,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqauthpassword" class="anchor" href="#prefilterreqauthpassword"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.password"></a>pre.filter.req.auth.password</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.password'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.password'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1204,7 +1206,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqauthpassword" class="anchor" href="#postfilterreqauthpassword"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.password"></a>post.filter.req.auth.password</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.password'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$password</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.password'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$password</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$password</span><span class="p">;</span> <span class="c1">//String</span>
 <span class="p">});</span>
 </pre></div>
@@ -1212,7 +1214,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqauthuser" class="anchor" href="#reqauthuser"><span class="octicon octicon-link"></span></a><a name="req.auth.user"></a>req.auth.user</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.auth.user</span>
 <span class="sd"> *</span>
 <span class="sd"> * Used to validate a non-ajax user</span>
@@ -1240,7 +1242,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqauthuser" class="anchor" href="#prefilterreqauthuser"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.user"></a>pre.filter.req.auth.user</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$application_id</span><span class="p">,</span> <span class="nv">$username</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$application_id</span><span class="p">,</span> <span class="nv">$username</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$application_id</span><span class="p">,</span> <span class="nv">$username</span><span class="p">,</span> <span class="nv">$password</span><span class="p">];</span> <span class="c1">//Array [String, String, String]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1248,7 +1250,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqauthuser" class="anchor" href="#postfilterreqauthuser"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.user"></a>post.filter.req.auth.user</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
@@ -1256,7 +1258,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqauthajaxuser" class="anchor" href="#reqauthajaxuser"><span class="octicon octicon-link"></span></a><a name="req.auth.ajax.user"></a>req.auth.ajax.user</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.auth.ajax.user</span>
 <span class="sd"> *</span>
 <span class="sd"> * Used to validate an ajax user</span>
@@ -1278,7 +1280,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqauthajaxuser" class="anchor" href="#prefilterreqauthajaxuser"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.ajax.user"></a>pre.filter.req.auth.ajax.user</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//no return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1286,7 +1288,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqauthajaxuser" class="anchor" href="#postfilterreqauthajaxuser"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.ajax.user"></a>post.filter.req.auth.ajax.user</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//String</span>
 <span class="p">});</span>
 </pre></div>
@@ -1294,7 +1296,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="reqafteraction" class="anchor" href="#reqafteraction"><span class="octicon octicon-link"></span></a><a name="req.after.action"></a>req.after.action</h4>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.after.action</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called after the request has been fulfilled</span>
@@ -1308,7 +1310,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqafteraction" class="anchor" href="#prefilterreqafteraction"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.after.action"></a>pre.filter.req.after.action</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.after.action'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$filterChain</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.after.action'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$filterChain</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$filterChain</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -1316,7 +1318,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqafteraction" class="anchor" href="#postfilterreqafteraction"><span class="octicon octicon-link"></span></a><a name="post.filter.req.after.action"></a>post.filter.req.after.action</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.after.action'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.after.action'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Mixed</span>
 <span class="p">});</span>
 </pre></div>
@@ -1324,7 +1326,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqparamispk" class="anchor" href="#reqparamispk"><span class="octicon octicon-link"></span></a><a name="req.param.is.pk"></a>req.param.is.pk</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.param.is.pk</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to validate a resources primary key</span>
@@ -1340,7 +1342,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqparamispk" class="anchor" href="#prefilterreqparamispk"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.param.is.pk"></a>pre.filter.req.param.is.pk</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">param</span><span class="o">.</span><span class="nx">is</span><span class="o">.</span><span class="nx">pk</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">param</span><span class="o">.</span><span class="nx">is</span><span class="o">.</span><span class="nx">pk</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$pk</span><span class="p">;</span> <span class="c1">//Mixed</span>
 <span class="p">});</span>
 </pre></div>
@@ -1348,7 +1350,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqparamispk" class="anchor" href="#postfilterreqparamispk"><span class="octicon octicon-link"></span></a><a name="post.filter.req.param.is.pk"></a>post.filter.req.param.is.pk</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.param.is.pk'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$isPk</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.param.is.pk'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$isPk</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$isPk</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
@@ -1356,7 +1358,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqdataread" class="anchor" href="#reqdataread"><span class="octicon octicon-link"></span></a><a name="req.data.read"></a>req.data.read</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.data.read</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when reading data on POST &amp; PUT requests</span>
@@ -1374,7 +1376,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqdataread" class="anchor" href="#prefilterreqdataread"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.data.read"></a>pre.filter.req.data.read</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.data.read, function($stream='</span><span class="nx">php</span><span class="o">://</span><span class="nx">input</span><span class="err">'</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.data.read, function($stream='</span><span class="nx">php</span><span class="o">://</span><span class="nx">input</span><span class="err">'</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$stream</span><span class="p">;</span> <span class="c1">//Mixed</span>
 <span class="p">});</span>
 </pre></div>
@@ -1382,7 +1384,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="postfilterreqdataread" class="anchor" href="#postfilterreqdataread"><span class="octicon octicon-link"></span></a><a name="post.filter.req.data.read"></a>post.filter.req.data.read</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.data.read'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.data.read'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$data</span><span class="p">];</span> <span class="c1">//Array [Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1390,7 +1392,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqgetresourcerender" class="anchor" href="#reqgetresourcerender"><span class="octicon octicon-link"></span></a><a name="req.get.resource.render"></a>req.get.resource.render</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.get.resource.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when a GET request for a single resource is to be rendered</span>
@@ -1417,7 +1419,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqgetresourcerender" class="anchor" href="#prefilterreqgetresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.get.resource.render"></a>pre.filter.req.get.resource.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">get</span><span class="o">.</span><span class="nx">resource</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">get</span><span class="o">.</span><span class="nx">resource</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">];</span> <span class="c1">//Array [Object, String, Array, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1425,7 +1427,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="reqgetresourcesrender" class="anchor" href="#reqgetresourcesrender"><span class="octicon octicon-link"></span></a><a name="req.get.resources.render"></a>req.get.resources.render</h4>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.get.resources.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when a GET request for when a list resources is to be rendered</span>
@@ -1453,7 +1455,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqgetresourcesrender" class="anchor" href="#prefilterreqgetresourcesrender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.get.resources.render"></a>pre.filter.req.get.resources.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">get</span><span class="o">.</span><span class="nx">resources</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">get</span><span class="o">.</span><span class="nx">resources</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$model_name</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">,</span> <span class="nv">$count</span><span class="p">];</span> <span class="c1">//Array [Array [Object], String, Array, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1461,7 +1463,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqputresourcerender" class="anchor" href="#reqputresourcerender"><span class="octicon octicon-link"></span></a><a name="req.put.resource.render"></a>req.put.resource.render</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.put.resource.render</span>
 <span class="sd"> * </span>
 <span class="sd"> * Called when a PUT request (update) is to be rendered</span>
@@ -1485,7 +1487,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqputresourcerender" class="anchor" href="#prefilterreqputresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.put.resource.render"></a>pre.filter.req.put.resource.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">put</span><span class="o">.</span><span class="nx">resource</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">put</span><span class="o">.</span><span class="nx">resource</span><span class="o">.</span><span class="nx">render</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nx">relations</span><span class="p">];</span> <span class="c1">//Array [Object, Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1493,7 +1495,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqpostresourcerender" class="anchor" href="#reqpostresourcerender"><span class="octicon octicon-link"></span></a><a name="req.post.resource.render"></a>req.post.resource.render</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.post.resource.render</span>
 <span class="sd"> * </span>
 <span class="sd"> * Called when a POST request (create) is to be rendered</span>
@@ -1517,7 +1519,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqpostresourcerender" class="anchor" href="#prefilterreqpostresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.post.resource.render"></a>pre.filter.req.post.resource.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.post.resource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.post.resource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$relations</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nx">relations</span><span class="p">];</span> <span class="c1">//Array [Object, Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1525,7 +1527,7 @@ PUT /api/team/1/players/44
 <h3>
 <a name="reqdeleteresourcerender" class="anchor" href="#reqdeleteresourcerender"><span class="octicon octicon-link"></span></a><a name="req.delete.resource.render"></a>req.delete.resource.render</h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.delete.resource.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when DELETE request is to be rendered</span>
@@ -1548,7 +1550,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="reqdeleteresourcerender-1" class="anchor" href="#reqdeleteresourcerender-1"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.delete.resource.render"></a>req.delete.resource.render</h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.delete.resource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.delete.resource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -1557,7 +1559,7 @@ PUT /api/team/1/players/44
 <a name="reqgetsubresourcerender" class="anchor" href="#reqgetsubresourcerender"><span class="octicon octicon-link"></span></a><a name="req.get.subresource.render">req.get.subresource.render</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.get.subresource.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when a GET request for a sub-resource is to be rendered</span>
@@ -1584,7 +1586,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqgetsubresourcerender" class="anchor" href="#prefilterreqgetsubresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.get.subresource.render">pre.filter.req.get.subresource.render</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.get.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.get.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1593,7 +1595,7 @@ PUT /api/team/1/players/44
 <a name="reqgetsubresourcesrender" class="anchor" href="#reqgetsubresourcesrender"><span class="octicon octicon-link"></span></a><a name="req.get.subresources.render">req.get.subresources.render</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.get.subresources.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when a GET request for a list of sub-resources is to be rendered</span>
@@ -1620,7 +1622,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqgetsubresourcesrender" class="anchor" href="#prefilterreqgetsubresourcesrender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.get.subresources.render">pre.filter.req.get.subresources.render</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.get.subresources.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$models</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.get.subresources.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$models</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$models</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$count</span><span class="p">];</span> <span class="c1">//Array [Array[Object], String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1629,7 +1631,7 @@ PUT /api/team/1/players/44
 <a name="reqputsubresourcerender" class="anchor" href="#reqputsubresourcerender"><span class="octicon octicon-link"></span></a><a name="req.put.subresource.render">req.put.subresource.render</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.put.subresource.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when a PUT request to a sub-resource (add a sub-resource) is rendered</span>
@@ -1655,7 +1657,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqputsubresourcerender" class="anchor" href="#prefilterreqputsubresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.put.subresource.render">pre.filter.req.put.subresource.render</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.put.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.put.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1664,7 +1666,7 @@ PUT /api/team/1/players/44
 <a name="reqdeletesubresourcerender" class="anchor" href="#reqdeletesubresourcerender"><span class="octicon octicon-link"></span></a><a name="req.delete.subresource.render">req.delete.subresource.render</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.delete.subresource.render</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when DELETE request on a sub-resource is to be made</span>
@@ -1690,7 +1692,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqdeletesubresourcerender" class="anchor" href="#prefilterreqdeletesubresourcerender"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.delete.subresource.render">pre.filter.req.delete.subresource.render</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.delete.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.delete.subresource.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1699,7 +1701,7 @@ PUT /api/team/1/players/44
 <a name="reqrenderjson" class="anchor" href="#reqrenderjson"><span class="octicon octicon-link"></span></a><a name="req.render.json">req.render.json</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.render.json</span>
 <span class="sd"> * NOT CALLED internally</span>
 <span class="sd"> * The handler exists to allow users the ability to easily render arbitrary JSON</span>
@@ -1719,7 +1721,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqrenderjson" class="anchor" href="#prefilterreqrenderjson"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.render.json">pre.filter.req.render.json</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.render.json'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.render.json'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$data</span><span class="p">];</span> <span class="c1">//Array[Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1728,7 +1730,7 @@ PUT /api/team/1/players/44
 <a name="reqexception" class="anchor" href="#reqexception"><span class="octicon octicon-link"></span></a><a name="req.exception">req.exception</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * req.exception</span>
 <span class="sd"> *</span>
 <span class="sd"> * Error handler called when an Exception is thrown</span>
@@ -1751,7 +1753,7 @@ PUT /api/team/1/players/44
 <a name="prefilterreqexception" class="anchor" href="#prefilterreqexception"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.exception">pre.filter.req.exception</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.exception'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$errorCode</span><span class="p">,</span> <span class="nv">$message</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.exception'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$errorCode</span><span class="p">,</span> <span class="nv">$message</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$errorCode</span><span class="p">,</span> <span class="nv">$message</span><span class="o">=</span><span class="k">null</span><span class="p">];</span> <span class="c1">//Array [Int, String]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1760,7 +1762,7 @@ PUT /api/team/1/players/44
 <a name="modelinstance" class="anchor" href="#modelinstance"><span class="octicon octicon-link"></span></a><a name="model.instance">model.instance</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.instance</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when an instance of the model representing the resource(s) is requested</span>
@@ -1778,7 +1780,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelinstance" class="anchor" href="#prefiltermodelinstance"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.instance">pre.filter.model.instance</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.instance'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.instance'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1787,7 +1789,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelinstance" class="anchor" href="#postfiltermodelinstance"><span class="octicon octicon-link"></span></a><a name="post.filter.model.instance">post.filter.model.instance</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.instance'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.instance'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//</span>
 <span class="p">});</span>
 </pre></div>
@@ -1796,7 +1798,7 @@ PUT /api/team/1/players/44
 <a name="modelattachbehaviors" class="anchor" href="#modelattachbehaviors"><span class="octicon octicon-link"></span></a><a name="model.attach.behaviors">model.attach.behaviors</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.attach.behaviors</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called on all requests (Other then custom) to add some magic to your models</span>
@@ -1823,7 +1825,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelattachbehaviors" class="anchor" href="#prefiltermodelattachbehaviors"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.attach.behaviors">pre.filter.model.attach.behaviors</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.attach.behaviors'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.attach.behaviors'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -1832,7 +1834,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelattachbehaviors" class="anchor" href="#postfiltermodelattachbehaviors"><span class="octicon octicon-link"></span></a><a name="post.filter.model.attach.behaviors">post.filter.model.attach.behaviors</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.attach.behaviors'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.attach.behaviors'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -1841,7 +1843,7 @@ PUT /api/team/1/players/44
 <a name="modelwithrelations" class="anchor" href="#modelwithrelations"><span class="octicon octicon-link"></span></a><a name="model.with.relations">model.with.relations</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.with.relations</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when trying to determine which relations to include in a requests render</span>
@@ -1869,7 +1871,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelwithrelations" class="anchor" href="#prefiltermodelwithrelations"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.with.relations">pre.filter.model.with.relations</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.with.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.with.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -1878,7 +1880,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelwithrelations" class="anchor" href="#postfiltermodelwithrelations"><span class="octicon octicon-link"></span></a><a name="post.filter.model.with.relations">post.filter.model.with.relations</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.with.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.with.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array[String]</span>
 <span class="p">});</span>
 </pre></div>
@@ -1887,7 +1889,7 @@ PUT /api/team/1/players/44
 <a name="modellazyloadrelations" class="anchor" href="#modellazyloadrelations"><span class="octicon octicon-link"></span></a><a name="model.lazy.load.relations">model.lazy.load.relations</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.lazy.load.relations</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when determining if relations should be lazy or eager loaded</span>
@@ -1905,7 +1907,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodellazyloadrelations" class="anchor" href="#prefiltermodellazyloadrelations"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.lazy.load.relations">pre.filter.model.lazy.load.relations</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.lazy.load.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.lazy.load.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1914,7 +1916,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodellazyloadrelations" class="anchor" href="#postfiltermodellazyloadrelations"><span class="octicon octicon-link"></span></a><a name="post.filter.model.lazy.load.relations">post.filter.model.lazy.load.relations</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.lazy.load.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.lazy.load.relations'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
@@ -1923,7 +1925,7 @@ PUT /api/team/1/players/44
 <a name="modellimit" class="anchor" href="#modellimit"><span class="octicon octicon-link"></span></a><a name="model.limit">model.limit</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.limit</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when applying a limit to the resources returned in a GET request</span>
@@ -1940,7 +1942,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodellimit" class="anchor" href="#prefiltermodellimit"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.limit">pre.filter.model.limit</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.limit'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.limit'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1949,7 +1951,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodellimit" class="anchor" href="#postfiltermodellimit"><span class="octicon octicon-link"></span></a><a name="post.filter.model.limit">post.filter.model.limit</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.limit'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.limit'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Int</span>
 <span class="p">});</span>
 </pre></div>
@@ -1958,7 +1960,7 @@ PUT /api/team/1/players/44
 <a name="modeloffset" class="anchor" href="#modeloffset"><span class="octicon octicon-link"></span></a><a name="model.offset">model.offset</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.offset</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when applying an offset to the records returned in a GET request</span>
@@ -1975,7 +1977,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodeloffset" class="anchor" href="#prefiltermodeloffset"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.offset">pre.filter.model.offset</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.offset'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.offset'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -1984,7 +1986,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodeloffset" class="anchor" href="#postfiltermodeloffset"><span class="octicon octicon-link"></span></a><a name="post.filter.model.offset">post.filter.model.offset</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.offset'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.offset'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Int</span>
 <span class="p">});</span>
 </pre></div>
@@ -1993,7 +1995,7 @@ PUT /api/team/1/players/44
 <a name="modelscenario" class="anchor" href="#modelscenario"><span class="octicon octicon-link"></span></a><a name="model.scenario">model.scenario</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.scenario</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called before a resource is found</span>
@@ -2011,7 +2013,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelscenario" class="anchor" href="#prefiltermodelscenario"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.scenario">pre.filter.model.scenario</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.scenario'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.scenario'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -2020,7 +2022,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelscenario" class="anchor" href="#postfiltermodelscenario"><span class="octicon octicon-link"></span></a><a name="post.filter.model.scenario">post.filter.model.scenario</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.scenario'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.scenario'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//String</span>
 <span class="p">});</span>
 </pre></div>
@@ -2029,7 +2031,7 @@ PUT /api/team/1/players/44
 <a name="modelfilter" class="anchor" href="#modelfilter"><span class="octicon octicon-link"></span></a><a name="model.filter">model.filter</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.filter</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to apply a filter to apply to the records in a GET request</span>
@@ -2049,7 +2051,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelfilter" class="anchor" href="#prefiltermodelfilter"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.filter">pre.filter.model.filter</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.filter'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.filter'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -2058,7 +2060,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelfilter" class="anchor" href="#postfiltermodelfilter"><span class="octicon octicon-link"></span></a><a name="post.filter.model.filter">post.filter.model.filter</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.filter'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.filter'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array[Object]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2067,7 +2069,7 @@ PUT /api/team/1/players/44
 <a name="modelsort" class="anchor" href="#modelsort"><span class="octicon octicon-link"></span></a><a name="model.sort">model.sort</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.sort</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to sort records returned in a GET request</span>
@@ -2086,7 +2088,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsort" class="anchor" href="#prefiltermodelsort"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.sort">pre.filter.model.sort</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.sort'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.sort'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -2095,7 +2097,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsort" class="anchor" href="#postfiltermodelsort"><span class="octicon octicon-link"></span></a><a name="post.filter.model.sort">post.filter.model.sort</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.sort'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.sort'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array[Object]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2104,7 +2106,7 @@ PUT /api/team/1/players/44
 <a name="modelfind" class="anchor" href="#modelfind"><span class="octicon octicon-link"></span></a><a name="model.find">model.find</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.find</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to find a single model</span>
@@ -2123,7 +2125,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelfind" class="anchor" href="#prefiltermodelfind"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.find">pre.filter.model.find</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$id</span><span class="p">];</span> <span class="c1">//Array [Object, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2132,7 +2134,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelfind" class="anchor" href="#postfiltermodelfind"><span class="octicon octicon-link"></span></a><a name="post.filter.model.find">post.filter.model.find</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2141,7 +2143,7 @@ PUT /api/team/1/players/44
 <a name="modelfindall" class="anchor" href="#modelfindall"><span class="octicon octicon-link"></span></a><a name="model.find.all">model.find.all</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.find.all</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to find a list of models</span>
@@ -2159,7 +2161,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelfindall" class="anchor" href="#prefiltermodelfindall"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.find.all">pre.filter.model.find.all</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2168,7 +2170,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelfindall" class="anchor" href="#postfiltermodelfindall"><span class="octicon octicon-link"></span></a><a name="post.filter.model.find.all">post.filter.model.find.all</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array[Object]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2177,7 +2179,7 @@ PUT /api/team/1/players/44
 <a name="modelcount" class="anchor" href="#modelcount"><span class="octicon octicon-link"></span></a><a name="model.count">model.count</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.count</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when the count of model(s) is needed</span>
@@ -2195,7 +2197,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelcount" class="anchor" href="#prefiltermodelcount"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.count">pre.filter.model.count</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2204,7 +2206,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelcount" class="anchor" href="#postfiltermodelcount"><span class="octicon octicon-link"></span></a><a name="post.filter.model.count">post.filter.model.count</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Int</span>
 <span class="p">});</span>
 </pre></div>
@@ -2213,7 +2215,7 @@ PUT /api/team/1/players/44
 <a name="modelsubresourcefind" class="anchor" href="#modelsubresourcefind"><span class="octicon octicon-link"></span></a><a name="model.subresource.find">model.subresource.find</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresource.find</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to find a subresource</span>
@@ -2237,7 +2239,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsubresourcefind" class="anchor" href="#prefiltermodelsubresourcefind"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.subresource.find">pre.filter.model.subresource.find</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2246,7 +2248,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsubresourcefind" class="anchor" href="#postfiltermodelsubresourcefind"><span class="octicon octicon-link"></span></a><a name="post.filter.model.subresource.find">post.filter.model.subresource.find</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.find'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2255,7 +2257,7 @@ PUT /api/team/1/players/44
 <a name="modelsubresourcefindall" class="anchor" href="#modelsubresourcefindall"><span class="octicon octicon-link"></span></a><a name="model.subresource.find.all">model.subresource.find.all</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresource.find.all</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when attempting to find all subresources of a resource</span>
@@ -2274,7 +2276,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsubresourcefindall" class="anchor" href="#prefiltermodelsubresourcefindall"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.subresource.find.all">pre.filter.model.subresource.find.all</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">];</span> <span class="c1">//Array [Object, String]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2283,7 +2285,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsubresourcefindall" class="anchor" href="#postfiltermodelsubresourcefindall"><span class="octicon octicon-link"></span></a><a name="post.filter.model.subresource.find.all">post.filter.model.subresource.find.all</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.find.all'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array[Object]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2292,7 +2294,7 @@ PUT /api/team/1/players/44
 <a name="modelsubresourcecount" class="anchor" href="#modelsubresourcecount"><span class="octicon octicon-link"></span></a><a name="model.subresource.count">model.subresource.count</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresource.count</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when the count of sub-resources is needed</span>
@@ -2312,7 +2314,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsubresourcecount" class="anchor" href="#prefiltermodelsubresourcecount"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.subresource.count">pre.filter.model.subresource.count</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="o">=</span><span class="k">null</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="o">=</span><span class="k">null</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2321,7 +2323,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsubresourcecount" class="anchor" href="#postfiltermodelsubresourcecount"><span class="octicon octicon-link"></span></a><a name="post.filter.model.subresource.count">post.filter.model.subresource.count</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.count'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Int</span>
 <span class="p">});</span>
 </pre></div>
@@ -2330,7 +2332,7 @@ PUT /api/team/1/players/44
 <a name="modelapplypostdata" class="anchor" href="#modelapplypostdata"><span class="octicon octicon-link"></span></a><a name="model.apply.post.data">model.apply.post.data</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.apply.post.data</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called on POST requests when attempting to apply posted data</span>
@@ -2350,7 +2352,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelapplypostdata" class="anchor" href="#prefiltermodelapplypostdata"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.apply.post.data">pre.filter.model.apply.post.data</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.apply.post.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.apply.post.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">];</span> <span class="c1">//Array []</span>
 <span class="p">});</span>
 </pre></div>
@@ -2359,7 +2361,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelapplypostdata" class="anchor" href="#postfiltermodelapplypostdata"><span class="octicon octicon-link"></span></a><a name="post.filter.model.apply.post.data">post.filter.model.apply.post.data</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.apply.post.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.apply.post.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//</span>
 <span class="p">});</span>
 </pre></div>
@@ -2368,7 +2370,7 @@ PUT /api/team/1/players/44
 <a name="modelapplyputdata" class="anchor" href="#modelapplyputdata"><span class="octicon octicon-link"></span></a><a name="model.apply.put.data">model.apply.put.data</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.apply.put.data</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called on PUT requests when attempting to apply PUT data</span>
@@ -2388,7 +2390,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelapplyputdata" class="anchor" href="#prefiltermodelapplyputdata"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.apply.put.data">pre.filter.model.apply.put.data</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.apply.put.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.apply.put.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$restricted_properties</span><span class="p">];</span> <span class="c1">//Array [Object, Array, Array]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2397,7 +2399,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelapplyputdata" class="anchor" href="#postfiltermodelapplyputdata"><span class="octicon octicon-link"></span></a><a name="post.filter.model.apply.put.data">post.filter.model.apply.put.data</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.apply.put.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.apply.put.data'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2406,7 +2408,7 @@ PUT /api/team/1/players/44
 <a name="modelsave" class="anchor" href="#modelsave"><span class="octicon octicon-link"></span></a><a name="model.save">model.save</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.save</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called whenever a model resource is saved</span>
@@ -2428,7 +2430,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsave" class="anchor" href="#prefiltermodelsave"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.save">pre.filter.model.save</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2437,7 +2439,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsave" class="anchor" href="#postfiltermodelsave"><span class="octicon octicon-link"></span></a><a name="post.filter.model.save">post.filter.model.save</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2446,7 +2448,7 @@ PUT /api/team/1/players/44
 <a name="modelsubresourcessave" class="anchor" href="#modelsubresourcessave"><span class="octicon octicon-link"></span></a><a name="model.subresources.save">model.subresources.save</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresources.save</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called whenever a sub-resource is saved</span>
@@ -2470,7 +2472,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsubresourcessave" class="anchor" href="#prefiltermodelsubresourcessave"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.subresources.save">pre.filter.model.subresources.save</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresources.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresources.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2479,7 +2481,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsubresourcessave" class="anchor" href="#postfiltermodelsubresourcessave"><span class="octicon octicon-link"></span></a><a name="post.filter.model.subresources.save">post.filter.model.subresources.save</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresources.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresources.save'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2488,7 +2490,7 @@ PUT /api/team/1/players/44
 <a name="modeldelete" class="anchor" href="#modeldelete"><span class="octicon octicon-link"></span></a><a name="model.delete">model.delete</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.delete</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called whenever a model resource needs deleting</span>
@@ -2507,7 +2509,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodeldelete" class="anchor" href="#prefiltermodeldelete"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.delete">pre.filter.model.delete</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$model</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2516,7 +2518,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodeldelete" class="anchor" href="#postfiltermodeldelete"><span class="octicon octicon-link"></span></a><a name="post.filter.model.delete">post.filter.model.delete</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2525,7 +2527,7 @@ PUT /api/team/1/players/44
 <a name="modelsubresourcedelete" class="anchor" href="#modelsubresourcedelete"><span class="octicon octicon-link"></span></a><a name="model.subresource.delete">model.subresource.delete</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.subresource.delete</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called whenever a subresource needs deleting</span>
@@ -2549,7 +2551,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelsubresourcedelete" class="anchor" href="#prefiltermodelsubresourcedelete"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.subresource.delete">pre.filter.model.subresource.delete</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.subresource.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$model</span><span class="p">,</span> <span class="nv">$subresource_name</span><span class="p">,</span> <span class="nv">$subresource_id</span><span class="p">];</span> <span class="c1">//Array [Object, String, Int]</span>
 <span class="p">});</span>
 </pre></div>
@@ -2558,7 +2560,7 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelsubresourcedelete" class="anchor" href="#postfiltermodelsubresourcedelete"><span class="octicon octicon-link"></span></a><a name="post.filter.model.subresource.delete">post.filter.model.subresource.delete</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.subresource.delete'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Object</span>
 <span class="p">});</span>
 </pre></div>
@@ -2567,7 +2569,7 @@ PUT /api/team/1/players/44
 <a name="modelrestrictedproperties" class="anchor" href="#modelrestrictedproperties"><span class="octicon octicon-link"></span></a><a name="model.restricted.properties">model.restricted.properties</a>
 </h3>
 
-<div class="highlight"><pre><span class="sd">/**</span>
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
 <span class="sd"> * model.restricted.properties</span>
 <span class="sd"> *</span>
 <span class="sd"> * Called when determining which properties if any should be considered restricted</span>
@@ -2584,7 +2586,7 @@ PUT /api/team/1/players/44
 <a name="prefiltermodelrestrictedproperties" class="anchor" href="#prefiltermodelrestrictedproperties"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.restricted.properties">pre.filter.model.restricted.properties</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.restricted.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.restricted.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">//No return</span>
 <span class="p">});</span>
 </pre></div>
@@ -2593,7 +2595,77 @@ PUT /api/team/1/players/44
 <a name="postfiltermodelrestrictedproperties" class="anchor" href="#postfiltermodelrestrictedproperties"><span class="octicon octicon-link"></span></a><a name="post.filter.model.restricted.properties">post.filter.model.restricted.properties</a>
 </h4>
 
-<div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.restricted.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.restricted.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="modelvisibleproperties" class="anchor" href="#modelvisibleproperties"><span class="octicon octicon-link"></span></a><a name="model.visible.properties">model.visible.properties</a>
+</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * model.visible.properties</span>
+<span class="sd"> *</span>
+<span class="sd"> * Called when determining which properties if any should be considered visible</span>
+<span class="sd"> * The default is [] (no hidden properties)</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Array) list of visible properties</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'model.visible.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[];</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefiltermodelvisibleproperties" class="anchor" href="#prefiltermodelvisibleproperties"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.visible.properties">pre.filter.model.visible.properties</a>
+</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.visible.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfiltermodelvisibleproperties" class="anchor" href="#postfiltermodelvisibleproperties"><span class="octicon octicon-link"></span></a><a name="post.filter.model.visible.properties">post.filter.model.visible.properties</a>
+</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.visible.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="modelhiddenproperties" class="anchor" href="#modelhiddenproperties"><span class="octicon octicon-link"></span></a><a name="model.hidden.properties">model.hidden.properties</a>
+</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * model.hidden.properties</span>
+<span class="sd"> *</span>
+<span class="sd"> * Called when determining which properties if any should be considered hidden</span>
+<span class="sd"> * The default is [] (no hidden properties)</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Array) list of hidden properties</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'model.hidden.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[];</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefiltermodelhiddenproperties" class="anchor" href="#prefiltermodelhiddenproperties"><span class="octicon octicon-link"></span></a><a name="pre.filter.model.hidden.properties">pre.filter.model.hidden.properties</a>
+</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.model.hidden.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfiltermodelhiddenproperties" class="anchor" href="#postfiltermodelhiddenproperties"><span class="octicon octicon-link"></span></a><a name="post.filter.model.hidden.properties">post.filter.model.hidden.properties</a>
+</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.model.hidden.properties'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$result</span><span class="p">;</span> <span class="c1">//Array</span>
 <span class="p">});</span>
 </pre></div>
@@ -2618,12 +2690,11 @@ PUT /api/team/1/players/44
 <li><a href="https://github.com/evan108108">evan108108</a></li>
 <li><a href="https://github.com/goliatone">goliatone</a></li>
 <li><a href="https://github.com/ubin">ubin</a></li>
-<li><a href="https://github.com/ericmcgill">ericmcgill</a></li>
 <li><a href="https://github.com/jlsalvador">jlsalvador</a></li>
+<li><a href="https://github.com/ericmcgill">ericmcgill</a></li>
 <li><a href="https://github.com/stianlik">stianlik</a></li>
 <li><a href="https://github.com/kachar">kachar</a></li>
 <li><a href="https://github.com/drLev">drLev</a></li>
-<li><a href="https://github.com/jlsalvador">jlsalvador</a></li>
 <li><a href="https://github.com/sheershoff">sheershoff</a></li>
 <li><a href="https://github.com/Arne-S">Arne-S</a></li>
 <li><a href="https://github.com/amesmoey">amesmoey</a></li>
@@ -2633,10 +2704,25 @@ PUT /api/team/1/players/44
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Starship / RestfullYii is released under the WTFPL license - <a href="http://sam.zoy.org/wtfpl/">http://sam.zoy.org/wtfpl/</a>. This means that you can literally do whatever you want with this extension.</p>
-      </section>
+        </section>
 
+        <aside id="sidebar">
+          <a href="https://github.com/evan108108/RESTFullYii/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/evan108108/RESTFullYii/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/evan108108/RESTFullYii"></a> is maintained by <a href="https://github.com/evan108108">evan108108</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+
+  
   </body>
 </html>
