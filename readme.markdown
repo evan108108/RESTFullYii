@@ -2355,7 +2355,6 @@ Running the project's automated tests.
 * [ubin](https://github.com/ubin)
 * [jlsalvador](https://github.com/jlsalvador)
 * [ericmcgill](https://github.com/ericmcgill)
-* [jlsalvador](https://github.com/jlsalvador)
 * [stianlik](https://github.com/stianlik)
 * [kachar](https://github.com/kachar)
 * [drLev](https://github.com/drLev)
