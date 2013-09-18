@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+
+env:
+  - DB=mysql
+  #- DB=pgsql
+  #- DB=sqlite
+
+before_script:
+  - git clone --depth=1 https://github.com/yiisoft/yii.git yii
+  - cd ./starship/RestfullYii/tests
+  - ./travis/setup-mysql.sh
+  #- ./travis/setup-psal.sh
+  - ./travis/setup.sh
+  - if [[ "$DB" == "pgsql" ]]; then psql -c "CREATE DATABASE restfullyii_test;" -U postgres; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "CREATE DATABASE IF NOT EXISTS restfullyii_test;" -uroot; fi
+
+script: phpunit --colors --coverage-text
