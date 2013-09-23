@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.ERestBaseAction');
 
 /**
  * Action For Rest Posts

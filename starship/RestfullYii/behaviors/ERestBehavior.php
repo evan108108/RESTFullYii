@@ -1,8 +1,8 @@
 <?php
-Yii::import('ext.starship.RestfullYii.events.Eventor.*');
-Yii::import('ext.starship.RestfullYii.events.*');
-Yii::import('ext.starship.RestfullYii.ARBehaviors.*');
-Yii::import('ext.starship.RestfullYii.components.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.events.Eventor.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.events.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.ARBehaviors.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.components.*');
 
 /**
  * ERestBehavior
@@ -217,8 +217,8 @@ class ERestBehavior extends CBehavior
 		} else {
 			$controller = $this;
 		}
-		$controller->layout = 'ext.starship.RestfullYii.views.layouts.json';
-		$controller->render('ext.starship.RestfullYii.views.api.output', $params);
+		$controller->layout = ((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.views.layouts.json';
+		$controller->render(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.views.api.output', $params);
 	}	
 
 }

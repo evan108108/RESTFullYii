@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.events.Eventor.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.events.Eventor.*');
 
 class EventorUnitTest extends CTestCase
 {

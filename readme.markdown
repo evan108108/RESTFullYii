@@ -29,7 +29,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
  _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
 
 ## Installation
-1. Download and place the 'starship' directory in your Yii extension directory.
+1. Download and place the 'starship' directory in your Yii extension directory or other (see step 3 for alternative installation place).
 
 2. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
 ```php
@@ -42,6 +42,20 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 		),
 )
 ```
+
+3. Skip this step if you have the starship in extension directory space. 
+Alternative installation place: the directory you installed the extension into should be accessible through a path alias notation.
+Setup a path alias if needed. In the /protected/config/main.php params section add the following:
+```php
+$config = array(
+	..,
+	'params'=>[
+		'RestfullYiiBasePath' => 'path.alias.notation.that.replaces.ext',
+                 // path alias should point to a directory where 'starship' is located
+	]
+);
+```
+Ensure that routes.php file is included with the right path. Also note that in the [Controller Setup](#controller-setup) section you should also use your modified path alias.
 
 ##Controller Setup
 Adding a set of RESTFul actions to a controller.

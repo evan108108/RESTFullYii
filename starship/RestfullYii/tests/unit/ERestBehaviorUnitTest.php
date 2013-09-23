@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.behaviors.ERestBehavior');
 
 /**
  * ERestBehaviorUnitTest

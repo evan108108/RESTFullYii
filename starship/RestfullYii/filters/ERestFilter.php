@@ -29,7 +29,7 @@ class ERestFilter extends CFilter
 		$controller = $filterChain->controller;
 
 		$controller->attachBehaviors([
-			'ERestBehavior'=>'ext.starship.RestfullYii.behaviors.ERestBehavior'
+			'ERestBehavior'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.behaviors.ERestBehavior'
 		]);
 		$controller->ERestInit();	
 

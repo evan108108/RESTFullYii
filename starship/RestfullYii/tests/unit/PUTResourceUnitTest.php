@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.tests.ERestTestRequestHelper');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.tests.ERestTestRequestHelper');
 
 /**
  * PUTResourceUnitTest

@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestActionProvider');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.ERestActionProvider');
 
 /**
  * Test For ERestActionProvider
@@ -16,10 +16,10 @@ Yii::import('ext.starship.RestfullYii.actions.ERestActionProvider');
 class ERestActionProviderUnitTest extends ERestTestCase
 {
 	public $actions = [
-		'GET'=>'ext.starship.RestfullYii.actions.EActionRestGET',
-		'PUT'=>'ext.starship.RestfullYii.actions.EActionRestPUT',
-		'POST'=>'ext.starship.RestfullYii.actions.EActionRestPOST',
-		'DELETE'=>'ext.starship.RestfullYii.actions.EActionRestDELETE',
+		'GET'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestGET',
+		'PUT'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestPUT',
+		'POST'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestPOST',
+		'DELETE'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestDELETE',
 		];
 
 	/**

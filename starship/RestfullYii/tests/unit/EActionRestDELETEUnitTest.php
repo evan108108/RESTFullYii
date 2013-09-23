@@ -1,7 +1,7 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
-Yii::import('ext.starship.RestfullYii.actions.EActionRestDELETE');
-Yii::import('ext.starship.RestfullYii.events.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.ERestBaseAction');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestDELETE');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.events.*');
 
 
 /**
@@ -26,7 +26,7 @@ class EActionRestDELETEUnitTest extends ERestTestCase
 		
 		$controller = $this->getController()->Category;
 		$controller->attachBehaviors(array(
-			'class'=>'ext.starship.RestfullYii.behaviors.ERestBehavior'
+			'class'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.behaviors.ERestBehavior'
 		));
 		$controller->injectEvents('req.delete.my_custom_route.render', function($param1='', $param2='') {
 			echo "My Custom Route" . $param1 . $param2;

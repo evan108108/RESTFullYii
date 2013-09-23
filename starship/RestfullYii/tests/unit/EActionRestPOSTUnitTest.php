@@ -1,7 +1,7 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
-Yii::import('ext.starship.RestfullYii.actions.EActionRestPOST');
-Yii::import('ext.starship.RestfullYii.events.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.ERestBaseAction');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.EActionRestPOST');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.events.*');
 
 
 /**
@@ -26,7 +26,7 @@ class EActionRestPOSTUnitTest extends ERestTestCase
 		
 		$controller = $this->getController()->Category;
 		$controller->attachBehaviors(array(
-			'class'=>'ext.starship.RestfullYii.behaviors.ERestBehavior'
+			'class'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.behaviors.ERestBehavior'
 		));
 		$controller->injectEvents('req.post.my_custom_route.render', function($data, $param1='', $param2='') {
 			echo "My Custom Route" . $param1 . $param2 . '_' . implode('_', $data);

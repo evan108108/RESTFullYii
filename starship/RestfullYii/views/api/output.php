@@ -1,5 +1,5 @@
 <?php
-$this->widget('ext.starship.RestfullYii.widgets.ERestJSONOutputWidget', array(
+$this->widget(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.widgets.ERestJSONOutputWidget', array(
 	'type'				=>(isset($type)? $type: 'raw'),
 	'success'			=>(isset($success)? $success: true),
 	'message'			=>(isset($message)? $message: ""),

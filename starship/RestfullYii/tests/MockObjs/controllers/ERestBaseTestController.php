@@ -15,14 +15,14 @@ class ERestBaseTestController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			 array('ext.starship.RestfullYii.filters.ERestFilter + REST.GET, REST.PUT, REST.POST, REST.DELETE'),
+			 array(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.filters.ERestFilter + REST.GET, REST.PUT, REST.POST, REST.DELETE'),
 		);
 	}
 
 	public function actions()
 	{
 		return array(
-			'REST.'=>'ext.starship.RestfullYii.actions.ERestActionProvider',
+			'REST.'=>((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.ERestActionProvider',
 		);
 	}	
 

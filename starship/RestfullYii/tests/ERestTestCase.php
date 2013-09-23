@@ -1,7 +1,7 @@
 <?php
-Yii::import('ext.starship.RestfullYii.tests.migrations.*');
-Yii::import('ext.starship.RestfullYii.tests.MockObjs.models.*');
-Yii::import('ext.starship.RestfullYii.tests.MockObjs.controllers.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.tests.migrations.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.tests.MockObjs.models.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.tests.MockObjs.controllers.*');
 
 class ERestTestCase extends CTestCase
 {

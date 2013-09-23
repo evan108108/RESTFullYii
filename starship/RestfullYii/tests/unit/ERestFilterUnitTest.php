@@ -1,7 +1,7 @@
 <?php
-Yii::import('ext.starship.RestfullYii.filters.ERestFilter');
-Yii::import('ext.starship.RestfullYii.actions.*');
-Yii::import('ext.starship.RestfullYii.event.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.filters.ERestFilter');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.actions.*');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.event.*');
 
 /**
  * ERestFilter

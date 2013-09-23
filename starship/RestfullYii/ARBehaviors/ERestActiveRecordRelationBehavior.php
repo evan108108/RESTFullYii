@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.vendors.activerecord-relation-behavior.EActiveRecordRelationBehavior');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.vendors.activerecord-relation-behavior.EActiveRecordRelationBehavior');
 
 /**
  * ERestActiveRecordRelationBehavior

@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.widgets.ERestJSONOutputWidget');
+Yii::import(((isset(Yii::app()->params['RestfullYiiBasePath']))?(Yii::app()->params['RestfullYiiBasePath']):('ext')).'.starship.RestfullYii.widgets.ERestJSONOutputWidget');
 
 /**
  * ERestJSONOutputWidgetUnitTest
