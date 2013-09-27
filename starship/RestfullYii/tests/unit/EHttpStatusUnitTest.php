@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.components.EHttpStatus');
+Yii::import('RestfullYii.components.EHttpStatus');
 
 /**
  * EHttpStatusUnitTest

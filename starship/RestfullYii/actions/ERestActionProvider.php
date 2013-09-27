@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
+Yii::import('RestfullYii.actions.ERestBaseAction');
 
 /**
  * Action Provider Widget
@@ -23,10 +23,10 @@ class ERestActionProvider extends CWidget
 	public static function actions() 
 	{
 		return [
-			'GET'=>'ext.starship.RestfullYii.actions.EActionRestGET',
-			'PUT'=>'ext.starship.RestfullYii.actions.EActionRestPUT',
-			'POST'=>'ext.starship.RestfullYii.actions.EActionRestPOST',
-			'DELETE'=>'ext.starship.RestfullYii.actions.EActionRestDELETE',
+			'GET'=>'RestfullYii.actions.EActionRestGET',
+			'PUT'=>'RestfullYii.actions.EActionRestPUT',
+			'POST'=>'RestfullYii.actions.EActionRestPOST',
+			'DELETE'=>'RestfullYii.actions.EActionRestDELETE',
 		];
 	}
 }

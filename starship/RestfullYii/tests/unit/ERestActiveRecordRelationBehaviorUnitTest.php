@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.ARBehaviors.ERestActiveRecordRelationBehavior');
+Yii::import('RestfullYii.ARBehaviors.ERestActiveRecordRelationBehavior');
 
 /**
  * ERestActiveRecordRelationBehaviorUnitTest

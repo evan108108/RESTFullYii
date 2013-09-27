@@ -1,6 +1,6 @@
 <?php
-Yii::import('ext.starship.RestfullYii.tests.MockObjs.controllers.*');
-Yii::import('ext.starship.RestfullYii.events.ERestEvent');
+Yii::import('RestfullYii.tests.MockObjs.controllers.*');
+Yii::import('RestfullYii.events.ERestEvent');
 /**
  * ERestTestRequestHelper
  *
