@@ -13,7 +13,8 @@ return array(
 	'preload'=>array('log'),
 
 	'aliases' => array(
-		'app' => 'application',
+        'app' => 'application',
+        'RestfullYii' =>realpath(__DIR__ . '/../')
 	),
 	// autoloading model and component classes
 	'import'=>array(

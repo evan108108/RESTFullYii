@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
+Yii::import('RestfullYii.behaviors.ERestBehavior');
 
 /**
  * ERestBehaviorUnitTest

@@ -1,9 +1,9 @@
 <?php
-Yii::import('ext.starship.RestfullYii.events.ERestEventListenerRegistry');
-Yii::import('ext.starship.RestfullYii.events.Eventor.*');
-Yii::import('ext.starship.RestfullYii.events.*');
-Yii::import('ext.starship.RestfullYii.behaviors.ERestBehavior');
-Yii::import('ext.starship.RestfullYii.ARBehaviors.*');
+Yii::import('RestfullYii.events.ERestEventListenerRegistry');
+Yii::import('RestfullYii.events.Eventor.*');
+Yii::import('RestfullYii.events.*');
+Yii::import('RestfullYii.behaviors.ERestBehavior');
+Yii::import('RestfullYii.ARBehaviors.*');
 
 /**
  * ERestEventListenerRegistryUnitTest

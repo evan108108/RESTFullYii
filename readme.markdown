@@ -29,9 +29,19 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
  _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
 
 ## Installation
-1. Download and place the 'starship' directory in your Yii extension directory.
+0. Download and place the 'starship' directory in your Yii extension directory.
 
-2. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
+0. In config/main.php you will need to add the RestfullYii alias. This allows for flexability in where you place the extension.
+
+```php
+	'aliases' => array(
+		.. .
+        'RestfullYii' =>realpath(__DIR__ . '/../extensions/starship/RestfullYii'),
+        .. .
+	),
+```
+
+0. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
 ```php
 'components'=>array(
 		'urlManager'=>array(

@@ -1,7 +1,7 @@
 <?php
-Yii::import('ext.starship.RestfullYii.filters.ERestFilter');
-Yii::import('ext.starship.RestfullYii.actions.*');
-Yii::import('ext.starship.RestfullYii.event.*');
+Yii::import('RestfullYii.filters.ERestFilter');
+Yii::import('RestfullYii.actions.*');
+Yii::import('RestfullYii.event.*');
 
 /**
  * ERestFilter
