@@ -708,7 +708,7 @@ List of all events and their default event handlers.
 | [model.lazy.load.relations](#model.lazy.load.relations)   |   [Yes](#pre.filter.model.lazy.load.relations)  | [Yes](#post.filter.model.lazy.load.relations) |    Called when determining if relations should be lazy or eager loaded. The default is to lazy load. In most cases this is sufficient. Under certain conditions eager loading my be more appropriate |
 | [model.limit](#model.limit)   |   [Yes](#pre.filter.model.limit)  | [Yes](#post.filter.model.limit) |     Called when applying a limit to the resources returned in a GET request. The default is 100 or the value of the _GET param 'limit' |
 | [model.offset](#model.offset)   |   [Yes](#pre.filter.model.offset)  | [Yes](#post.filter.model.offset) |     Called when applying an offset to the records returned in a GET request. The default is 0 or the value of the _GET param 'offset'|
-| [model.scenario](#model.scenario)   |   [Yes](#pre.filter.model.scenario)  | [Yes](#post.filter.model.scenario) |     Called before a resource(s) is found. This is the scenario to apply to a resource pre-find. The default is 'search' or the value of the _GET param 'scenario'. At this point setting the scenario does very little, but is included here so that you may create custom functionality with little modification.|
+| [model.scenario](#model.scenario)   |   [Yes](#pre.filter.model.scenario)  | [Yes](#post.filter.model.scenario) |     Called before a resource(s) is found. This is the scenario to apply to a resource pre-find. The default is 'restfullyii' or the value of the _GET param 'scenario'. At this point setting the scenario does very little, but is included here so that you may create custom functionality with little modification.|
 | [model.filter](#model.filter)   |   [Yes](#pre.filter.model.filter)  | [Yes](#post.filter.model.filter) |     Called when attempting to apply a filter to apply to the records in a GET request. The default is 'NULL' or the value of the _GET param 'filter'. The format is JSON: '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE", "operator": =""}]'
 | [model.sort](#model.sort)   |   [Yes](#pre.filter.model.sort)  | [Yes](#post.filter.model.sort) |     Called when attempting to sort records returned in a GET request. The default is 'NULL' or the value of the _GET param 'sort'. Rhe format is JSON:[{"property":"SOME_PROPERTY", "direction":"DESC"}]
 | [model.find](#model.find)   |   [Yes](#pre.filter.model.find)  | [Yes](#post.filter.model.find) |     Called when attempting to find a single model
@@ -1699,12 +1699,12 @@ $this->onRest('post.filter.model.offset', function($result)) {
  *
  * Called before a resource is found
  * This is the scenario to apply to a resource pre-find
- * The default is 'search' or the value of the _GET param 'scenario'
+ * The default is 'restfullyii' or the value of the _GET param 'scenario'
  *
  * @return (String) the scenario name
  */
 $this->onRest('model.scenario', function() {
-	return isset($_GET['scenario'])? $_GET['scenario']: 'search';
+	return isset($_GET['scenario'])? $_GET['scenario']: 'restfullyii';
 });
 ```
 

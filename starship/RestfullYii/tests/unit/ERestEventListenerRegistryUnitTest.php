@@ -572,7 +572,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testModelScenario()
 	{
-		$this->assertEquals('search', $this->event->emit(ERestEvent::MODEL_SCENARIO));
+		$this->assertEquals('restfullyii', $this->event->emit(ERestEvent::MODEL_SCENARIO));
 
 		$_GET['scenario'] = 'update';
 		$this->assertEquals('update', $this->event->emit(ERestEvent::MODEL_SCENARIO));
