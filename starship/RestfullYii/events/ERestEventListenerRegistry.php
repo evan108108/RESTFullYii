@@ -512,7 +512,7 @@ class ERestEventListenerRegistry
 		 * @return (String) the scenario name
 		 */
 		$onRest(ERestEvent::MODEL_SCENARIO, function() {
-			return isset($_GET['scenario'])? $_GET['scenario']: 'search';
+			return isset($_GET['scenario'])? $_GET['scenario']: 'restfullyii';
 		});
 
 		/**
