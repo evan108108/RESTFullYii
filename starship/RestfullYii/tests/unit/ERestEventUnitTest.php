@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.events.ERestEvent');
+Yii::import('RestfullYii.events.ERestEvent');
 
 /**
  * ERestEvent

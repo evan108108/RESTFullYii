@@ -1,8 +1,8 @@
 <?php
-Yii::import('ext.starship.RestfullYii.events.Eventor.*');
-Yii::import('ext.starship.RestfullYii.events.*');
-Yii::import('ext.starship.RestfullYii.ARBehaviors.*');
-Yii::import('ext.starship.RestfullYii.components.*');
+Yii::import('RestfullYii.events.Eventor.*');
+Yii::import('RestfullYii.events.*');
+Yii::import('RestfullYii.ARBehaviors.*');
+Yii::import('RestfullYii.components.*');
 
 /**
  * ERestBehavior
@@ -217,8 +217,8 @@ class ERestBehavior extends CBehavior
 		} else {
 			$controller = $this;
 		}
-		$controller->layout = 'ext.starship.RestfullYii.views.layouts.json';
-		$controller->render('ext.starship.RestfullYii.views.api.output', $params);
+		$controller->layout = 'RestfullYii.views.layouts.json';
+		$controller->render('RestfullYii.views.api.output', $params);
 	}	
 
 }

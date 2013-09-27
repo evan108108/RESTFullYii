@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.widgets.ERestJSONOutputWidget');
+Yii::import('RestfullYii.widgets.ERestJSONOutputWidget');
 
 /**
  * ERestJSONOutputWidgetUnitTest

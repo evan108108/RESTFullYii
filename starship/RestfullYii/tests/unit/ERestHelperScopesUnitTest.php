@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.ARBehaviors.ERestHelperScopes');
+Yii::import('RestfullYii.ARBehaviors.ERestHelperScopes');
 
 /**
  * ERestHelperScopesUnitTest

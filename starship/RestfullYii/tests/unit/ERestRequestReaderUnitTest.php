@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.components.ERestRequestReader');
+Yii::import('RestfullYii.components.ERestRequestReader');
 
 /**
  * ERestRequestReaderUnitTest

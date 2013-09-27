@@ -1,6 +1,6 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
-Yii::import('ext.starship.RestfullYii.events.*');
+Yii::import('RestfullYii.actions.ERestBaseAction');
+Yii::import('RestfullYii.events.*');
 
 
 /**
@@ -24,7 +24,7 @@ class ERestBaseActionUnitTest extends ERestTestCase
 		parent::setUp();
 		$controller = $this->getController()->Category;
 		$controller->attachBehaviors(array(
-			'class'=>'ext.starship.RestfullYii.behaviors.ERestBehavior'
+			'class'=>'RestfullYii.behaviors.ERestBehavior'
 		));
 		$controller->injectEvents('req.get.my_custom_route.render', function($param1=null, $param2=null) {
 			echo "My Custom Route";

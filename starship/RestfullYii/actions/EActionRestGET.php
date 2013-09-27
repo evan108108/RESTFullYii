@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestBaseAction');
+Yii::import('RestfullYii.actions.ERestBaseAction');
 
 /**
  * Action For Rest Gets

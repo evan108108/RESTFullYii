@@ -1,5 +1,5 @@
 <?php
-Yii::import('ext.starship.RestfullYii.actions.ERestActionProvider');
+Yii::import('RestfullYii.actions.ERestActionProvider');
 
 /**
  * Test For ERestActionProvider
@@ -16,10 +16,10 @@ Yii::import('ext.starship.RestfullYii.actions.ERestActionProvider');
 class ERestActionProviderUnitTest extends ERestTestCase
 {
 	public $actions = [
-		'GET'=>'ext.starship.RestfullYii.actions.EActionRestGET',
-		'PUT'=>'ext.starship.RestfullYii.actions.EActionRestPUT',
-		'POST'=>'ext.starship.RestfullYii.actions.EActionRestPOST',
-		'DELETE'=>'ext.starship.RestfullYii.actions.EActionRestDELETE',
+		'GET'=>'RestfullYii.actions.EActionRestGET',
+		'PUT'=>'RestfullYii.actions.EActionRestPUT',
+		'POST'=>'RestfullYii.actions.EActionRestPOST',
+		'DELETE'=>'RestfullYii.actions.EActionRestDELETE',
 		];
 
 	/**
