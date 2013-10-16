@@ -1017,7 +1017,7 @@ $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
  *
  * @return (bool) default is true
  */ 
-$onRest(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
+$onRest(req.auth.uri, function($uri, $verb) {
 	return true;
 });
 ```
