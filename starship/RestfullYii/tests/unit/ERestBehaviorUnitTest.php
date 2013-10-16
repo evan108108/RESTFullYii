@@ -405,7 +405,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$erb = $controller->asa('ERestBehavior');
 		$this->assertInstanceOf('ERestBehavior', $erb);
 		return $erb;
-    } 
+	} 
 
 	/**
 	 * getEventList
