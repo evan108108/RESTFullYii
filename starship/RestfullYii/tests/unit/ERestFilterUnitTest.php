@@ -79,7 +79,7 @@ class ERestFilterUnitTest extends ERestTestCase
 			$_SERVER['HTTPS'] = 'on';
 			$result = $this->captureOB($this, function() {
 				$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
-            });
+			});
 			$this->assertTrue(is_array(CJSON::decode($result)));
 		});
 	}
