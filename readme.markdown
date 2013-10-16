@@ -1024,8 +1024,8 @@ $onRest(req.auth.uri, function($uri, $verb) {
 
 ####<a name="pre.filter.req.auth.uri"/>pre.filter.req.auth.uri</a>
 ```php
-$this->onRest('pre.filter.req.auth.uri', function() {
-	//no return
+$this->onRest('pre.filter.req.auth.uri', function($uri, $verb) {
+	return [$uri, $verb]; //array[string, string]
 });
 ```
 
