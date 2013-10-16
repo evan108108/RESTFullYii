@@ -123,7 +123,7 @@ class ERestEventListenerRegistry
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_HTTPS_ONLY, function() {
 			return false;
-        });
+		});
 
 		/**
 		 * req.auth.uri
