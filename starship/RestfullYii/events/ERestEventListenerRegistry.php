@@ -123,7 +123,19 @@ class ERestEventListenerRegistry
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_HTTPS_ONLY, function() {
 			return false;
-		});
+        });
+
+		/**
+		 * req.auth.uri
+		 *
+		 * return true to allow access to a given uri;
+		 * false to deny access to a given uri;
+		 *
+		 * @return (bool) default is true
+		 */ 
+        $onRest(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
+            return true;
+        });
 
 		/**
 		 * req.auth.username

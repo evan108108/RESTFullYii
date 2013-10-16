@@ -79,7 +79,7 @@ class ERestFilterUnitTest extends ERestTestCase
 			$_SERVER['HTTPS'] = 'on';
 			$result = $this->captureOB($this, function() {
 				$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
-			});
+            });
 			$this->assertTrue(is_array(CJSON::decode($result)));
 		});
 	}
@@ -141,6 +141,58 @@ class ERestFilterUnitTest extends ERestTestCase
 			]]
 		);
 		$result = $this->captureOB($this, function() {
+			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
+		});
+		$this->assertTrue(is_array(CJSON::decode($result)));
+    }
+
+    /**
+	 * testPreFilterUri
+	 *
+	 * tests ERestFilter->preFilter()
+	 */
+	public function testPreFilterURI()
+	{
+		$this->loadFilter(
+            [
+                [
+				    'event' => ERestEvent::REQ_AUTH_USER,
+				    'handler' => function($app_id, $username, $password) {
+						return true;
+				    }
+                ],
+                [
+                    'event' => ERestEvent::REQ_AUTH_URI,
+                    'handler' => function($uri, $verb) {
+                        return false;
+                    }
+                ]
+            ]
+        );
+		$result = $this->captureOB($this, function() {
+			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
+		});
+		$this->assertInstanceOf('Exception', $result);
+        $this->assertExceptionHasMessage('Unauthorized', $result);
+
+
+        $this->loadFilter(
+            [
+                [
+				    'event' => ERestEvent::REQ_AUTH_USER,
+				    'handler' => function($app_id, $username, $password) {
+						return true;
+				    }
+                ],
+                [
+                    'event' => ERestEvent::REQ_AUTH_URI,
+                    'handler' => function($uri, $verb) {
+                        return true;
+                    }
+                ]
+            ]
+        );
+        $result = $this->captureOB($this, function() {
 			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
 		});
 		$this->assertTrue(is_array(CJSON::decode($result)));

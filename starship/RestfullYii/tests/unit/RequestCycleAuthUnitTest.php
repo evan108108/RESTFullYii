@@ -107,5 +107,47 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		$request_response = $request->send();
 		$this->assertInstanceOf('Exception', $request_response);
 		$this->assertExceptionHasMessage('You must use a secure connection', $request_response);
-	}
+    }
+
+    /**
+	 * tests that specific URI's may be accepted or denied 
+	 */ 
+	public function testRequestAuthUri()
+	{
+		$request = new ERestTestRequestHelper();
+		
+		$request->addEvent(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
+            if($uri == '/api/post' && $verb == 'GET') {
+                return false;
+            }
+            return true;
+		});
+
+		$request['config'] = [
+			'url'			=> 'http://api/post',
+			'type'		=> 'GET',
+			'data'		=> NULL,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+		$request_response = $request->send();
+		$this->assertInstanceOf('Exception', $request_response);
+        $this->assertExceptionHasMessage('Unauthorized', $request_response);
+
+        $request['config'] = [
+			'url'			=> 'http://api/post/1',
+			'type'		=> 'GET',
+			'data'		=> NULL,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+		$request_response = $request->send();
+		$this->assertJSONFormat($request_response);
+    }
+
+
 }
