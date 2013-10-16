@@ -1000,7 +1000,7 @@ $this->onRest('pre.filter.req.auth.ajax.user', function() {
 ####<a name="post.filter.req.auth.ajax.user"/>post.filter.req.auth.ajax.user</a>
 ```php
 $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
-	return $validation; //String
+	return $validation; //Bool
 });
 ```
 
@@ -1032,7 +1032,7 @@ $this->onRest('pre.filter.req.auth.uri', function() {
 ####<a name="post.filter.req.auth.uri"/>post.filter.req.auth.uri</a>
 ```php
 $this->onRest('post.filter.req.auth.uri, function($validation) {
-	return $validation; //String
+	return $validation; //bool
 });
 ```
 
