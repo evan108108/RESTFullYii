@@ -94,6 +94,16 @@ class ERestEventUnitTest extends ERestTestCase
 	public function testHasConstREQAUTHAJAXUSERExists()
 	{
 		$this->assertTrue(defined('ERestEvent::REQ_AUTH_AJAX_USER'));
+    }
+
+    /**
+	 * testREQAUTHURI
+	 *
+	 * tests ERestEvent has const::REQ_AUTH_URI 
+	 */ 
+	public function testHasConstREQAUTHURIExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_AUTH_URI'));
 	}
 
 	/**
@@ -525,6 +535,16 @@ class ERestEventUnitTest extends ERestTestCase
 	public function testHasConstPREFILTERREQAUTHAJAXUSERExists()
 	{
 		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_AUTH_AJAX_USER'));
+    }
+
+    /**
+	 * testPREFILTERREQAUTHURI
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_URI 
+	 */ 
+	public function testHasConstPREFILTERREQAUTHURIExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_AUTH_URI'));
 	}
 
 	/**
@@ -955,6 +975,16 @@ class ERestEventUnitTest extends ERestTestCase
 	public function testHasConstPOSTFILTERREQAUTHAJAXUSERExists()
 	{
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_AUTH_AJAX_USER'));
+    }
+
+    /**
+	 * testPOSTFILTERREQAUTHURIExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_URI 
+	 */ 
+	public function testHasConstPOSTFILTERREQAUTHURIExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_AUTH_URI'));
 	}
 
 	/**

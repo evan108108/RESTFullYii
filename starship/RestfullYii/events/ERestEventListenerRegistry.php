@@ -126,6 +126,18 @@ class ERestEventListenerRegistry
 		});
 
 		/**
+		 * req.auth.uri
+		 *
+		 * return true to allow access to a given uri;
+		 * false to deny access to a given uri;
+		 *
+		 * @return (bool) default is true
+		 */ 
+        $onRest(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
+            return true;
+        });
+
+		/**
 		 * req.auth.username
 		 *
 		 * This is the username used to grant access to non-ajax users

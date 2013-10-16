@@ -22,6 +22,7 @@ class ERestEvent
 	CONST REQ_AUTH_USERNAME																= 'req.auth.username';
 	CONST REQ_AUTH_PASSWORD																= 'req.auth.password';
 	CONST REQ_AUTH_AJAX_USER															= 'req.auth.ajax.user';
+	CONST REQ_AUTH_URI															= 'req.auth.uri';
 	CONST REQ_AFTER_ACTION																= 'req.after.action';
 	CONST REQ_PARAM_IS_PK																	= 'req.param.is.pk';
 	CONST REQ_DATA_READ																		= 'req.data.read';
@@ -72,6 +73,7 @@ class ERestEvent
 	CONST PRE_FILTER_REQ_AUTH_USERNAME										= 'pre.filter.req.auth.username';
 	CONST PRE_FILTER_REQ_AUTH_PASSWORD										= 'pre.filter.req.auth.password';
 	CONST PRE_FILTER_REQ_AUTH_AJAX_USER										= 'pre.filter.req.auth.ajax.user';
+	CONST PRE_FILTER_REQ_AUTH_URI										= 'pre.filter.req.auth.uri';
 	CONST PRE_FILTER_REQ_AFTER_ACTION											= 'pre.filter.req.after.action';
 	CONST PRE_FILTER_REQ_PARAM_IS_PK											= 'pre.filter.req.param.is.pk';
 	CONST PRE_FILTER_REQ_DATA_READ												= 'pre.filter.req.data.read';
@@ -123,6 +125,7 @@ class ERestEvent
 	CONST POST_FILTER_REQ_AUTH_USERNAME										= 'post.filter.req.auth.username';
 	CONST POST_FILTER_REQ_AUTH_PASSWORD										= 'post.filter.req.auth.password';
 	CONST POST_FILTER_REQ_AUTH_AJAX_USER									= 'post.filter.req.auth.ajax.user';
+	CONST POST_FILTER_REQ_AUTH_URI									= 'post.filter.req.auth.uri';
 	CONST POST_FILTER_REQ_AFTER_ACTION										= 'post.filter.req.after.action';
 	CONST POST_FILTER_REQ_PARAM_IS_PK											= 'post.filter.req.param.is.pk';
 	CONST POST_FILTER_REQ_DATA_READ												= 'post.filter.req.data.read';

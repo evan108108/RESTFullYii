@@ -63,6 +63,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EVENT_LOGGER), "Event " . ERestEvent::REQ_EVENT_LOGGER . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EXCEPTION), "Event " . ERestEvent::REQ_EXCEPTION . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_AJAX_USER), "Event " . ERestEvent::REQ_AUTH_AJAX_USER . " is not registered");
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_URI), "Event " . ERestEvent::REQ_AUTH_URI . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_HTTPS_ONLY), "Event " . ERestEvent::REQ_AUTH_HTTPS_ONLY . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_USERNAME), "Event " . ERestEvent::REQ_AUTH_USERNAME . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_PASSWORD), "Event " . ERestEvent::REQ_AUTH_PASSWORD . " is not registered");
@@ -167,7 +168,17 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->asUser($this, function() {
 			$this->assertTrue($this->event->emit(ERestEvent::REQ_AUTH_AJAX_USER), "req.auth.ajax.user should return true");
 		});
-	}
+    }
+
+	/**
+	 * testEventReqAuthURI
+	 *
+	 * tests event req.auth.uri
+	 */ 
+	public function testEventReqAuthUri()
+	{
+		$this->assertTrue($this->event->emit(ERestEvent::REQ_AUTH_URI, ['/api/unit/testing', 'GET']), "req.auth.uri should return true");
+    }
 
 	/**
 	 * testEventReqAuthHttpsOnly
