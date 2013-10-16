@@ -107,7 +107,7 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		$request_response = $request->send();
 		$this->assertInstanceOf('Exception', $request_response);
 		$this->assertExceptionHasMessage('You must use a secure connection', $request_response);
-    }
+	}
 
     /**
 	 * tests that specific URI's may be accepted or denied 
