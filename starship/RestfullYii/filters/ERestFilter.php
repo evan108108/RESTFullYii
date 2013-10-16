@@ -49,6 +49,10 @@ class ERestFilter extends CFilter
 			}
 		}
 
+		if(!$controller->emitRest(ERestEvent::REQ_AUTH_URI, $controller->getURIAndHTTPVerb())) {
+			throw new CHttpException(401, "Unauthorized");
+		}
+
 		return $filterChain->run();
 	}
 

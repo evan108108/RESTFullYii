@@ -697,6 +697,7 @@ List of all events and their default event handlers.
 | [req.auth.password](#req.auth.password)   |   [Yes](#pre.filter.req.auth.password)  | [Yes](#post.filter.req.auth.password) |  This is the password use to grant access to non-ajax users. At a minimum you should change this value |
 | [req.auth.user](#req.auth.user)   |   [Yes](#pre.filter.req.auth.user)  | [Yes](#post.filter.req.auth.user) |  Used to validate a non-ajax user; return true to allow; false to deny |
 | [req.auth.ajax.user](#req.auth.ajax.user)   |   [Yes](#pre.filter.req.auth.ajax.user)  | [Yes](#post.filter.req.auth.ajax.user) |  Used to validate a an ajax user; return true to allow; false to deny |
+| [req.auth.uri](#req.auth.uri)   |   [Yes](#pre.filter.req.auth.uri)  | [Yes](#post.filter.req.auth.uri) |  grant / deny access based on the URI and or HTTP verb |
 | [req.after.action](#req.after.action)   |   [Yes](#pre.filter.req.after.action)  | [Yes](#post.filter.req.after.action) |  Called after the request has been fulfilled. By default it has no behavior |
 | [req.param.is.pk](#req.param.is.pk)   |   [Yes](#pre.filter.req.param.is.pk)  | [Yes](#post.filter.req.param.is.pk) |  Called when attempting to validate a resources primary key. The default is an integer. Return true to confirm Primary Key; False to deny primary key. |
 | [req.data.read](#req.data.read)   |   [Yes](#pre.filter.req.data.read)  | [Yes](#post.filter.req.data.read) |  Called when reading data on POST & PUT requests |
@@ -988,6 +989,7 @@ $this->onRest('req.auth.ajax.user', function() {
 });
 ```
 
+
 ####<a name="pre.filter.req.auth.ajax.user"/>pre.filter.req.auth.ajax.user</a>
 ```php
 $this->onRest('pre.filter.req.auth.ajax.user', function() {
@@ -1002,6 +1004,37 @@ $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
 });
 ```
 
+
+
+
+###<a name="req.auth.uri"/>req.auth.uri</a>
+```php
+/**
+ * req.auth.uri
+ *
+ * return true to allow access to a given uri / http verb;
+ * false to deny access to a given uri / http verb;
+ *
+ * @return (bool) default is true
+ */ 
+$onRest(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
+	return true;
+});
+```
+
+####<a name="pre.filter.req.auth.uri"/>pre.filter.req.auth.uri</a>
+```php
+$this->onRest('pre.filter.req.auth.uri', function() {
+	//no return
+});
+```
+
+####<a name="post.filter.req.auth.uri"/>post.filter.req.auth.uri</a>
+```php
+$this->onRest('post.filter.req.auth.uri, function($validation) {
+	return $validation; //String
+});
+```
 
 
 

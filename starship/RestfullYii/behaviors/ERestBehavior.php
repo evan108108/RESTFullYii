@@ -217,8 +217,56 @@ class ERestBehavior extends CBehavior
 		} else {
 			$controller = $this;
 		}
-		$controller->layout = 'RestfullYii.views.layouts.json';
-		$controller->render('RestfullYii.views.api.output', $params);
-	}	
+		$this->getController()->layout = 'RestfullYii.views.layouts.json';
+		$this->getController()->render('RestfullYii.views.api.output', $params);
+    }
+
+	/**
+	 * getURIAndHTTPVerb
+	 *
+	 * helper function for getting the URI and HTTPVerb
+	 *
+	 * @param (Array) (params) list of params to send to the render
+	 */ 
+	public function getURIAndHTTPVerb()
+    {
+        if(isset($this->getController()->action)) {
+            $verb = str_replace('REST.', '', $this->getController()->action->id);
+        } else {
+            $verb = 'UNKOWN';
+        }
+
+		if(PHP_SAPI != 'cli') {
+			return [ Yii::app()->request->url, $verb ];
+        } 
+
+        //We now know we are on the cli so we will have to reconstruct the URI
+        $uri = '/api/' . lcfirst($this->getController()->id);
+        if(isset($_GET['id'])) {
+            $uri .= '/' . $_GET['id'];
+        }
+        if(isset($_GET['param1'])) {
+            $uri .= '/' . $_GET['param1'];
+        }
+        if(isset($_GET['param2'])) {
+            $uri .= '/' . $_GET['param2'];
+        }
+        return [ $uri, $verb ]; 
+    }
+
+    /**
+     * getController
+     *
+     * helper function for getting a controller instance
+     *
+     * @return (Object) an instance of the controller or ERestBehavior class deppending on context
+     */ 
+    private function getController()
+    {
+        if(isset($this->owner)) {
+		    return $this->owner;
+        } 
+        return $this;
+    }
 
 }

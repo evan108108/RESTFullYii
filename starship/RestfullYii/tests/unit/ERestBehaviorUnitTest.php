@@ -358,8 +358,40 @@ class ERestBehaviorUnitTest extends ERestTestCase
 			]);
 		});
 		$this->assertJsonStringEqualsJsonString($render_error, '{"success":false,"message":"TEST ERROR","data":{"errorCode":500,"message":"TEST ERROR"}}');
-	}
-	
+    }
+
+    /**
+     * testGetUriAndHttpVerb
+     *
+     * tests ERestBehavior->getURIAndHTTPVerb()
+     * note: This is an incomplete test as it can only test the CLI implimentation
+     * Additionally since we are not entering via an action we have no HTTP VERB
+     */ 
+    public function testGetUriAndHttpVerb()
+    {
+        $erb = $this->getNewERestBehavior();
+        $erb->ERestInit();
+
+        $_GET['id'] = 1;
+        $_GET['param1'] = 'p1';
+        $_GET['param2'] = 'p2';
+
+        $this->assertArraysEqual(['/api/category/1/p1/p2', 'UNKOWN'], $erb->getURIAndHTTPVerb());
+    }
+
+    /**
+     * getController
+     *
+     * tests ERestBehavior->getController()
+     */
+    public function testGetController()
+    {
+        $erb = $this->getNewERestBehavior();
+        $erb->ERestInit();
+
+        $controller = $this->invokePrivateMethod($erb, 'getController', []);
+        $this->assertInstanceOf('CategoryController', $controller);
+    }
 
 	/**
 	 * getNewERestBehavior
@@ -373,7 +405,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$erb = $controller->asa('ERestBehavior');
 		$this->assertInstanceOf('ERestBehavior', $erb);
 		return $erb;
-	}
+	} 
 
 	/**
 	 * getEventList
