@@ -42,15 +42,16 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 ```
 
 0. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
+
 ```php
-'components'=>array(
-		'urlManager'=>array(
-			'urlFormat'=>'path',
-			'rules'=>require(
+	'components' => array(
+		'urlManager' => array(
+			'urlFormat' => 'path',
+			'rules' => require(
 				dirname(__FILE__).'/../extensions/starship/restfullyii/config/routes.php'
 			),
 		),
-)
+	)
 ```
 
 ##Controller Setup
