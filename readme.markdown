@@ -36,7 +36,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 ```php
 	'aliases' => array(
 		.. .
-        'RestfullYii' =>realpath(__DIR__ . '/../extensions/starship/RestfullYii'),
+        'RestfullYii' => realpath(__DIR__ . '/../extensions/starship/RestfullYii'),
         .. .
 	),
 ```
