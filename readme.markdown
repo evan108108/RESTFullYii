@@ -17,14 +17,11 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 [DELETE] http://yoursite.com/api/work/1 (delete work with PK=1)
 ```
 
-
 ## Requirements
 
 * PHP 5.4.0 (or later)*
 * YiiFramework 1.1.14 (or later)
 * PHPUnit 3.7 (or later) to run tests.
-
-
 
  _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
 
@@ -36,7 +33,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 ```php
 	'aliases' => array(
 		.. .
-        'RestfullYii' =>realpath(__DIR__ . '/../extensions/starship/RestfullYii'),
+        'RestfullYii' => realpath(__DIR__ . '/../extensions/starship/RestfullYii'),
         .. .
 	),
 ```
@@ -48,7 +45,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'rules' => require(
-				dirname(__FILE__).'/../extensions/starship/restfullyii/config/routes.php'
+				dirname(__FILE__) . '/../extensions/starship/restfullyii/config/routes.php'
 			),
 		),
 	)
@@ -87,10 +84,10 @@ public function accessRules()
 {
 		return array(
 			array('allow', 'actions'=>array('REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE'),
-			'users'=>array('*'),
+			'users' => array('*'),
 			),
 			array('deny',  // deny all users
-				'users'=>array('*'),
+				'users' => array('*'),
 			),
 		);
 }
@@ -149,7 +146,6 @@ Response:
                 "content": "content2",
                 "create_time": "2013-08-08 11:01:11"
 			},
-			. . .,
 		]
 	}
 }	
@@ -171,7 +167,6 @@ JavaScript:
     } 
   }); 
 ```
-
 
 CURL:
 ```shell
@@ -245,7 +240,6 @@ Response:
                 "content": "content12",
                 "create_time": "2013-08-08 12:11:10"
 			},
-			. . .,
 		]
 	}
 }	
@@ -254,7 +248,6 @@ Response:
 
 ### GET Request: Sorting results (WorkController)
 You can sort your results by any valid param or multiple params as well as provide a sort direction (ASC or DESC). sort=[{"property":"title", "direction":"DESC"}, {"property":"create_time", "direction":"ASC"}]
-
 
 JavaScript:
 ```javascript
@@ -305,7 +298,6 @@ Response:
                 "content": "content28",
                 "create_time": "2013-08-09 14:05:01"
 			},
-			. . .,
 		]
 	}
 }	
@@ -538,10 +530,9 @@ To accomplish 1 & 3 we don't have to do anything as this is RestfullYii's defaul
 In the /protected/config/main.php params section we will add the following:
 ```php
 $config = array(
-	..,
-	'params'=>[
+	'params' => [
 		'RestfullYii' => [
-			'req.auth.user'=>function($application_id, $username, $password) {
+			'req.auth.user' => function($application_id, $username, $password) {
 				return false;
 			},
 		]
@@ -560,8 +551,6 @@ Now we are ready modify the output of event handler 'req.auth.ajax.user', but th
 ```php
 class WorkController extends Controller
 {
-	.. .
-	
 	public function restEvents()
 	{
 		$this->onRest('post.filter.req.auth.ajax.user', function($validation) {
@@ -584,8 +573,6 @@ class WorkController extends Controller
 			}
 		});
 	}
-	
-	.. .
 }
 ```
 
@@ -594,8 +581,6 @@ Cool! That just leaves feature 7, disallowing create, update, delete on category
 ```php
 class CategoryController extends Controller
 {
-	.. .
-	
 	public function restEvents()
 	{
 		$this->onRest('post.filter.req.auth.ajax.user', function($validation) {
@@ -605,8 +590,6 @@ class CategoryController extends Controller
 			return ($this->getAction()->getId() == 'REST.GET');
 		});
 	}
-	
-	.. .
 }
 
 ```
@@ -635,18 +618,16 @@ As you tell from the route the request will be handled by the Category controlle
 ```php
 class CategoryController extends Controller
 {
-	.. .
-	public function restEvents()
-    {
-    	$this->onRest('req.get.active.render', function() {
-    		//Custom logic for this route.
-    		//Should output results.
-    		$this->emitRest('req.render.json', [
-    			[
-    				'type'=>'raw',
-    				'data'=>['active'=>true]
-    			]
-    		])
+	public function restEvents() {
+		$this->onRest('req.get.active.render', function() {
+		    // Custom logic for this route.
+		    // Should output results.
+		    $this->emitRest('req.render.json', [
+		    	[
+		    		'type' => 'raw',
+		    		'data' => ['active' => true]
+		    	]
+		    ])
 		});
 	}
 }
@@ -658,8 +639,6 @@ These routes all involve the Work controller. So that is where we will add our e
 ```php
 class WorkController extends Controller
 {
-	.. .
-	
 	public function restEvents()
 	{
 		$this->emitRest('req.get.special.render', function($param1) {
@@ -668,16 +647,16 @@ class WorkController extends Controller
 		
 		$this->emitRest('req.put.special.render', function($data, $param1, $param2) {
 			//$data is the data sent in the PUT
-			echo CJSON::encode(['data'=>$data, $param1, $param2]);
+			echo CJSON::encode(['data' => $data, $param1, $param2]);
 		});
 		
 		$this->emitRest('req.post.special.render', function($data, $param1) {
 			//$data is the data sent in the POST
-			echo CJSON::encode(['data'=>$data, 'param1'=>$param1, 'param2'=>$param2]);
+			echo CJSON::encode(['data' => $data, 'param1'=>$param1, 'param2' => $param2]);
 		});
 		
 		$this->emitRest('req.delete.special.render', function($param1, $param2) {
-			echo CJSON::encode(['param1'=>$param1, 'param2'=>$param2]);
+			echo CJSON::encode(['param1' => $param1, 'param2' => $param2]);
 		});
 	}
 
@@ -767,11 +746,6 @@ $this->onRest('post.filter.config.application.id', function($app_id) {
 });
 ```
 
-
-
-
-
-
 ###<a name="config.dev.flag"/>config.dev.flag</a>
 ```php
 /**
@@ -800,10 +774,6 @@ $this->onRest('post.filter.config.dev.flag', function($flag) {
 });
 ```
 
-
-
-
-
 ###<a name="req.event.logger"/>req.event.logger</a>
 ```php
 /**
@@ -815,19 +785,13 @@ $this->onRest('post.filter.config.dev.flag', function($flag) {
 *
 * @return (Array) the params sent into the event
 */
-$this->onRest('req.event.logger', function($event, $category='application',$ignore=[]) {
+$this->onRest('req.event.logger', function($event, $category = 'application',$ignore=[]) {
 	if(!isset($ignore[$event])) {
 		Yii::trace($event, $category);
 	}
 	return [$event, $category, $ignore];
 });
 ```
-
-
-
-
-
-
 
 ###<a name="req.auth.https.only"/>req.auth.https.only</a>
 ```php
@@ -858,9 +822,6 @@ $this->onRest('post.filter.req.auth.https.only', function($https_only) {
 });
 ```
 
-
-
-
 ###<a name="req.auth.username"/>req.auth.username</a>
 ```php
 /**
@@ -890,9 +851,6 @@ $this->onRest('post.filter.req.auth.username', function($username) {
 });
 ```
 
-
-
-
 ###<a name="req.auth.password"/>req.auth.password</a>
 ```php
 /**
@@ -921,9 +879,6 @@ $this->onRest('post.filter.req.auth.password', function($password) {
 	return $password; //String
 });
 ```
-
-
-
 
 ###<a name="req.auth.user"/>req.auth.user</a>
 ```php
@@ -966,9 +921,6 @@ $this->onRest('post.filter.req.auth.user', function($validation) {
 });
 ```
 
-
-
-
 ###<a name="req.auth.ajax.user"/>req.auth.ajax.user</a>
 ```php
 /**
@@ -990,7 +942,6 @@ $this->onRest('req.auth.ajax.user', function() {
 });
 ```
 
-
 ####<a name="pre.filter.req.auth.ajax.user"/>pre.filter.req.auth.ajax.user</a>
 ```php
 $this->onRest('pre.filter.req.auth.ajax.user', function() {
@@ -1004,9 +955,6 @@ $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
 	return $validation; //Bool
 });
 ```
-
-
-
 
 ###<a name="req.auth.uri"/>req.auth.uri</a>
 ```php
@@ -1037,8 +985,6 @@ $this->onRest('post.filter.req.auth.uri, function($validation) {
 });
 ```
 
-
-
 ####<a name="req.after.action"/>req.after.action</a>
 ```php
 /**
@@ -1065,7 +1011,6 @@ $this->onRest('post.filter.after.action', function($result=null) {
 	return $result; //Mixed
 });
 ```
-
 
 ###<a name="req.param.is.pk"/>req.param.is.pk</a>
 ```php
@@ -1097,8 +1042,6 @@ $this->onRest('post.filter.req.param.is.pk', function($isPk) {
 ```
 
 
-
-
 ###<a name="req.data.read"/>req.data.read</a>
 ```php
 /**
@@ -1110,7 +1053,7 @@ $this->onRest('post.filter.req.param.is.pk', function($isPk) {
  *
  * @return (Array) the JSON decoded array of data
  */ 
-$this->onRest('req.data.read', function($stream='php://input') {
+$this->onRest('req.data.read', function($stream = 'php://input') {
 	$reader = new ERestRequestReader($stream);
 	return CJSON::decode($reader->getContents());
 });
@@ -1118,7 +1061,7 @@ $this->onRest('req.data.read', function($stream='php://input') {
 
 ####<a name="pre.filter.req.data.read"/>pre.filter.req.data.read</a>
 ```php
-$this->onRest('pre.filter.req.data.read, function($stream='php://input') {
+$this->onRest('pre.filter.req.data.read, function($stream = 'php://input') {
 	return $stream; //Mixed
 });
 ```
@@ -1129,8 +1072,6 @@ $this->onRest('post.filter.req.data.read', function($data) {
 	return [$data]; //Array [Array]
 });
 ```
-
-
 
 ###<a name="req.get.resource.render"/>req.get.resource.render</a>
 ```php
@@ -1147,13 +1088,13 @@ $this->onRest('req.get.resource.render', function($data, $model_name, $relations
 	//Handler for GET (single resource) request
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> (($count > 0)? true: false),
-		'message'			=> (($count > 0)? "Record Found": "No Record Found"),
-		'totalCount'		=> $count,
-		'modelName'			=> $model_name,
-		'relations'			=> $relations,
-		'data'				=> $data,
+		'type'		=> 'rest',
+		'success'	=> (($count > 0)? true: false),
+		'message'	=> (($count > 0)? "Record Found": "No Record Found"),
+		'totalCount'	=> $count,
+		'modelName'	=> $model_name,
+		'relations'	=> $relations,
+		'data'		=> $data,
 	]);
 });
 ```
@@ -1164,9 +1105,6 @@ $this->onRest('pre.filter.req.get.resource.render, function($data, $model_name, 
 	return [$data, $model_name, $relations, $count]; //Array [Object, String, Array, Int]
 });
 ```
-
-
-
 
 ####<a name="req.get.resources.render"/>req.get.resources.render</a>
 ```php
@@ -1184,13 +1122,13 @@ $this->onRest('req.get.resources.render', function($data, $model_name, $relation
 	//Handler for GET (list resources) request
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> (($count > 0)? true: false),
-		'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
-		'totalCount'		=> $count,
-		'modelName'			=> $model_name,
-		'relations'			=> $relations,
-		'data'				=> $data,
+		'type'		=> 'rest',
+		'success'	=> (($count > 0)? true: false),
+		'message'	=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
+		'totalCount'	=> $count,
+		'modelName'	=> $model_name,
+		'relations'	=> $relations,
+		'data'		=> $data,
 	]);
 });
 ```
@@ -1201,10 +1139,6 @@ $this->onRest('pre.filter.req.get.resources.render, function($data, $model_name,
 	return [$data, $model_name, $relations, $count]; //Array [Array [Object], String, Array, Int]
 });
 ```
-
-
-
-
 
 ###<a name="req.put.resource.render"/>req.put.resource.render</a>
 ```php
@@ -1218,13 +1152,13 @@ $this->onRest('pre.filter.req.get.resources.render, function($data, $model_name,
  */
 $this->onRest('req.put.resource.render' function($model, $relations) {
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> 'true',
-		'message'			=> "Record Updated",
+		'type'		=> 'rest',
+		'success'	=> 'true',
+		'message'	=> "Record Updated",
 		'totalCount'	=> "1",
-		'modelName'		=> get_class($model),
-		'relations'		=> $relations,
-		'data'				=> $model,
+		'modelName'	=> get_class($model),
+		'relations'	=> $relations,
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1235,8 +1169,6 @@ $this->onRest('pre.filter.req.req.put.resource.render, function($model, $relatio
 	return [$model, relations]; //Array [Object, Array]
 });
 ```
-
-
 
 
 ###<a name="req.post.resource.render"/>req.post.resource.render</a>
@@ -1251,13 +1183,13 @@ $this->onRest('pre.filter.req.req.put.resource.render, function($model, $relatio
  */
 $this->onRest('req.post.resource.render', function($model, $relations=[]) {
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> 'true',
-		'message'			=> "Record Created",
+		'type'		=> 'rest',
+		'success'	=> 'true',
+		'message'	=> "Record Created",
 		'totalCount'	=> "1",
-		'modelName'		=> get_class($model),
-		'relations'		=> $relations,
-		'data'				=> $model,
+		'modelName'	=> get_class($model),
+		'relations'	=> $relations,
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1268,10 +1200,6 @@ $this->onRest('pre.filter.req.post.resource.render', function($model, $relations
 	return [$model, relations]; //Array [Object, Array]
 });
 ```
-
-
-
-
 
 ###<a name="req.delete.resource.render"/>req.delete.resource.render</a>
 ```php
@@ -1284,13 +1212,13 @@ $this->onRest('pre.filter.req.post.resource.render', function($model, $relations
  */
 $this->onRest('req.delete.resource.render', function($model) {
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> 'true',
-		'message'			=> "Record Deleted",
-		'totalCount'		=> "1",
-		'modelName'			=> get_class($model),
-		'relations'			=> [],
-		'data'				=> $model,
+		'type'		=> 'rest',
+		'success'	=> 'true',
+		'message'	=> "Record Deleted",
+		'totalCount'	=> "1",
+		'modelName'	=> get_class($model),
+		'relations'	=> [],
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1301,10 +1229,6 @@ $this->onRest('pre.filter.req.delete.resource.render', function($model) {
 	return $model; //Object
 });
 ```
-
-
-
-
 
 ###<a name="req.get.subresource.render">req.get.subresource.render</a>
 ```php
@@ -1321,12 +1245,12 @@ $this->onRest('req.get.subresource.render', function($model, $subresource_name, 
 	$this->setHttpStatus((($count > 0)? 200: 204));
 
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> true,
-		'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
-		'totalCount'		=> $count,
-		'modelName'			=> $subresource_name,
-		'data'				=> $model,
+		'type'		=> 'rest',
+		'success'	=> true,
+		'message'	=> (($count > 0) ? "Record(s) Found": "No Record(s) Found"),
+		'totalCount'	=> $count,
+		'modelName'	=> $subresource_name,
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1337,10 +1261,6 @@ $this->onRest('pre.filter.req.get.subresource.render', function($model, $subreso
 	return [$model, $subresource_name, $count]; //Array [Object, String, Int]
 });
 ```
-
-
-
-
 
 
 ###<a name="req.get.subresources.render">req.get.subresources.render</a>
@@ -1358,12 +1278,12 @@ $this->onRest('req.get.subresources.render', function($models, $subresource_name
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> (($count > 0)? true: false),
-		'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
-		'totalCount'		=> $count,
-		'modelName'			=> $subresource_name,
-		'data'				=> $models,
+		'type'		=> 'rest',
+		'success'	=> (($count > 0) ? true: false),
+		'message'	=> (($count > 0) ? "Record(s) Found": "No Record(s) Found"),
+		'totalCount'	=> $count,
+		'modelName'	=> $subresource_name,
+		'data'		=> $models,
 	]);
 });
 ```
@@ -1374,10 +1294,6 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
 	return [$models, $subresource_name, $count]; //Array [Array[Object], String, Int]
 });
 ```
-
-
-
-
 
 ###<a name="req.put.subresource.render">req.put.subresource.render</a>
 ```php
@@ -1392,13 +1308,13 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
  */
 $this->onRest('req.put.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> 'true',
-		'message'			=> "Subresource Added",
-		'totalCount'		=> "1",
-		'modelName'			=> get_class($model),
-		'relations'			=> [$subresource_name],
-		'data'				=> $model,
+		'type'		=> 'rest',
+		'success'	=> 'true',
+		'message'	=> "Subresource Added",
+		'totalCount'	=> "1",
+		'modelName'	=> get_class($model),
+		'relations'	=> [$subresource_name],
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1409,8 +1325,6 @@ $this->onRest('pre.filter.req.put.subresource.render', function($model, $subreso
 	return [$model, $subresource_name, $subresource_id]; //Array [Object, String, Int]
 });
 ```
-
-
 
 ###<a name="req.delete.subresource.render">req.delete.subresource.render</a>
 ```php
@@ -1425,13 +1339,13 @@ $this->onRest('pre.filter.req.put.subresource.render', function($model, $subreso
  */
 $this->onRest('req.delete.subresource.render', function($model, $subresource_name, $subresource_id) {
 	$this->renderJSON([
-		'type'				=> 'rest',
-		'success'			=> 'true',
-		'message'			=> "Sub-Resource Deleted",
-		'totalCount'		=> "1",
-		'modelName'			=> get_class($model),
-		'relations'			=> [$subresource_name],
-		'data'				=> $model,
+		'type'		=> 'rest',
+		'success'	=> 'true',
+		'message'	=> "Sub-Resource Deleted",
+		'totalCount'	=> "1",
+		'modelName'	=> get_class($model),
+		'relations'	=> [$subresource_name],
+		'data'		=> $model,
 	]);
 });
 ```
@@ -1442,11 +1356,6 @@ $this->onRest('pre.filter.req.delete.subresource.render', function($model, $subr
 	return [$model, $subresource_name, $subresource_id]; //Array [Object, String, Int]
 });
 ```
-
-
-
-
-
 
 ###<a name="req.render.json">req.render.json</a>
 ```php
@@ -1473,11 +1382,6 @@ $this->onRest('pre.filter.req.render.json', function($data) {
 });
 ```
 
-
-
-
-
-
 ###<a name="req.exception">req.exception</a>
 ```php
 /**
@@ -1491,10 +1395,10 @@ $this->onRest('pre.filter.req.render.json', function($data) {
  */
 $this->onRest('req.exception', function($errorCode, $message=null) {
 	$this->renderJSON([
-		'type'			=> 'error',
-		'success'		=> false,
-		'message'		=> (is_null($message)? $this->getHttpStatus()->message: $message),
-		'errorCode' => $errorCode,
+		'type'		=> 'error',
+		'success'	=> false,
+		'message'	=> (is_null($message)? $this->getHttpStatus()->message: $message),
+		'errorCode' 	=> $errorCode,
 	]);
 });
 ```
@@ -1505,10 +1409,6 @@ $this->onRest('pre.filter.req.exception', function($errorCode, $message=null) {
 	return [$errorCode, $message=null]; //Array [Int, String]
 });
 ```
-
-
-
-
 
 ###<a name="model.instance">model.instance</a>
 ```php
@@ -1539,10 +1439,6 @@ $this->onRest('post.filter.model.instance', function($result)) {
 	return $result; //
 });
 ```
-
-
-
-
 
 ###<a name="model.attach.behaviors">model.attach.behaviors</a>
 ```php
@@ -1583,12 +1479,6 @@ $this->onRest('post.filter.model.attach.behaviors', function($model)) {
 });
 ```
 
-
-
-
-
-
-
 ###<a name="model.with.relations">model.with.relations</a>
 ```php
 /**
@@ -1603,10 +1493,11 @@ $this->onRest('post.filter.model.attach.behaviors', function($model)) {
  */
 $this->onRest('model.with.relations', function($model) {
 	$nestedRelations = [];
-	foreach($model->metadata->relations as $rel=>$val)
+	foreach($model->metadata->relations as $rel => $val)
 	{
 		$className = $val->className;
 		$rel_model = call_user_func([$className, 'model']);
+		
 		if(!is_array($rel_model->tableSchema->primaryKey) && substr($rel, 0, 1) != '_') {
 			$nestedRelations[] = $rel;
 		}
@@ -1628,10 +1519,6 @@ $this->onRest('post.filter.model.with.relations', function($result)) {
 	return $result; //Array[String]
 });
 ```
-
-
-
-
 
 ###<a name="model.lazy.load.relations">model.lazy.load.relations</a>
 ```php
@@ -1663,11 +1550,6 @@ $this->onRest('post.filter.model.lazy.load.relations', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.limit">model.limit</a>
 ```php
 /**
@@ -1695,13 +1577,7 @@ $this->onRest('pre.filter.model.limit', function() {
 $this->onRest('post.filter.model.limit', function($result)) {
 	return $result; //Int
 });
-```
-
-
-
-
-
-
+``
 
 ###<a name="model.offset">model.offset</a>
 ```php
@@ -1732,10 +1608,6 @@ $this->onRest('post.filter.model.offset', function($result)) {
 });
 ```
 
-
-
-
-
 ###<a name="model.scenario">model.scenario</a>
 ```php
 /**
@@ -1765,10 +1637,6 @@ $this->onRest('post.filter.model.scenario', function($result)) {
 	return $result; //String
 });
 ```
-
-
-
-
 
 ###<a name="model.filter">model.filter</a>
 ```php
@@ -1802,11 +1670,6 @@ $this->onRest('post.filter.model.filter', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.sort">model.sort</a>
 ```php
 /**
@@ -1837,11 +1700,6 @@ $this->onRest('post.filter.model.sort', function($result)) {
 	return $result; //Array[Object]
 });
 ```
-
-
-
-
-
 
 ###<a name="model.find">model.find</a>
 ```php
@@ -1874,7 +1732,6 @@ $this->onRest('post.filter.model.find', function($result)) {
 });
 ```
 
-
 ###<a name="model.find.all">model.find.all</a>
 ```php
 /**
@@ -1905,10 +1762,6 @@ $this->onRest('post.filter.model.find.all', function($result)) {
 });
 ```
 
-
-
-
-
 ###<a name="model.count">model.count</a>
 ```php
 /**
@@ -1938,11 +1791,6 @@ $this->onRest('post.filter.model.count', function($result)) {
 	return $result; //Int
 });
 ```
-
-
-
-
-
 ###<a name="model.subresource.find">model.subresource.find</a>
 ```php
 /**
@@ -1979,12 +1827,6 @@ $this->onRest('post.filter.model.subresource.find', function($result)) {
 });
 ```
 
-
-
-
-
-
-
 ###<a name="model.subresource.find.all">model.subresource.find.all</a>
 ```php
 /**
@@ -2015,11 +1857,6 @@ $this->onRest('post.filter.model.subresource.find.all', function($result)) {
 	return $result; //Array[Object]
 });
 ```
-
-
-
-
-
 
 ###<a name="model.subresource.count">model.subresource.count</a>
 ```php
@@ -2053,11 +1890,6 @@ $this->onRest('post.filter.model.subresource.count', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.apply.post.data">model.apply.post.data</a>
 ```php
 /**
@@ -2090,10 +1922,6 @@ $this->onRest('post.filter.model.apply.post.data', function($result)) {
 });
 ```
 
-
-
-
-
 ###<a name="model.apply.put.data">model.apply.put.data</a>
 ```php
 /**
@@ -2125,8 +1953,6 @@ $this->onRest('post.filter.model.apply.put.data', function($result)) {
 	return $result; //Object
 });
 ```
-
-
 
 ###<a name="model.save">model.save</a>
 ```php
@@ -2161,9 +1987,6 @@ $this->onRest('post.filter.model.save', function($result)) {
 	return $result; //Object
 });
 ```
-
-
-
 
 ###<a name="model.subresources.save">model.subresources.save</a>
 ```php
@@ -2201,11 +2024,6 @@ $this->onRest('post.filter.model.subresources.save', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.delete">model.delete</a>
 ```php
 /**
@@ -2237,9 +2055,6 @@ $this->onRest('post.filter.model.delete', function($result)) {
 });
 ```
 
-
-
-
 ###<a name="model.subresource.delete">model.subresource.delete</a>
 ```php
 /**
@@ -2257,6 +2072,7 @@ $this->onRest('model.subresource.delete', function($model, $subresource_name, $s
 	if(!$this->getSubresourceHelper()->deleteSubResource($model, $subresource_name, $subresource_id)) {
 		throw new CHttpException(500, 'Could not delete Sub-Resource');
 	}
+	
 	$model->refresh();
 	return $model;
 });
@@ -2275,11 +2091,6 @@ $this->onRest('post.filter.model.subresource.delete', function($result)) {
 	return $result; //Object
 });
 ```
-
-
-
-
-
 
 ###<a name="model.restricted.properties">model.restricted.properties</a>
 ```php
@@ -2310,11 +2121,6 @@ $this->onRest('post.filter.model.restricted.properties', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.visible.properties">model.visible.properties</a>
 ```php
 /**
@@ -2344,11 +2150,6 @@ $this->onRest('post.filter.model.visible.properties', function($result)) {
 });
 ```
 
-
-
-
-
-
 ###<a name="model.hidden.properties">model.hidden.properties</a>
 ```php
 /**
@@ -2377,11 +2178,6 @@ $this->onRest('post.filter.model.hidden.properties', function($result)) {
 	return $result; //Array
 });
 ```
-
-
-
-
-
 
 ## Testing
 Running the project's automated tests.
