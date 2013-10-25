@@ -213,7 +213,107 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
 		$expected = CJSON::decode(CJSON::encode($model));
 		$expected['author'] = CJSON::decode(CJSON::encode($model->author));
 		$this->assertArraysEqual($expected, $this->getWidget()->modelsToArray($model, $relations));
-	}
+    }
+
+    /**
+     * testPropertyIsVisableVisibleProperties
+     *
+     * tests ERestJSONOutputWidget->propertyIsVisable()
+     */
+    public function testPropertyIsVisableVisibleProperties()
+    {
+        $widget = $this->getWidget([
+            'type' => 'rest',
+            'success' => true,
+            'message' => 'Record Returned',
+            'visibleProperties'=>['id', 'title', '*.name', 'categories.id'],
+            'totalCount' => 1,
+            'modelName' => 'Post',
+            'relations' => ['categories'],
+            'data' => Post::model()->with('categories')->findByPk(1)
+        ]);
+    
+        $this->assertTrue($widget->propertyIsVisable('id'));
+        $this->assertTrue($widget->propertyIsVisable('title'));
+        $this->assertFalse($widget->propertyIsVisable('create_time'));
+
+        $this->assertTrue($widget->propertyIsVisable('name', 'categories'));
+        $this->assertTrue($widget->propertyIsVisable('id', 'categories'));
+        $this->assertFalse($widget->propertyIsVisable('title', 'categories'));
+    }
+
+    /**
+     * testPropertyIsVisableHiddenProperties
+     *
+     * tests ERestJSONOutputWidget->propertyIsVisable()
+     */
+    public function testPropertyIsVisableHiddenProperties()
+    {
+        $widget = $this->getWidget([
+            'type' => 'rest',
+            'success' => true,
+            'message' => 'Record Returned',
+            'hiddenProperties'=>['id', 'title', '*.name', 'categories.id'],
+            'totalCount' => 1,
+            'modelName' => 'Post',
+            'relations' => ['categories'],
+            'data' => Post::model()->with('categories')->findByPk(1)
+        ]);
+    
+        $this->assertFalse($widget->propertyIsVisable('id'));
+        $this->assertFalse($widget->propertyIsVisable('title'));
+        $this->assertTrue($widget->propertyIsVisable('create_time'));
+
+        $this->assertFalse($widget->propertyIsVisable('name', 'categories'));
+        $this->assertFalse($widget->propertyIsVisable('id', 'categories'));
+        $this->assertTrue($widget->propertyIsVisable('title', 'categories'));
+    }
+
+    /**
+     * testProcessAttributesMainModel
+     *
+     * tests ERestJSONOutputWidget->processAttributes()
+     */
+    public function testProcessAttributesMainModel()
+    {
+        $model = Post::model()->with('categories')->findByPk(1);
+
+        $widget = $this->getWidget([
+            'type' => 'rest',
+            'success' => true,
+            'message' => 'Record Returned',
+            'totalCount' => 1,
+            'modelName' => 'Post',
+            'relations' => ['categories'],
+            'data' => $model
+        ]);
+
+        $this->assertArraysEqual($model->attributes, $widget->processAttributes($model));
+    }
+
+
+    /**
+     * testProcessAttributesRelatedModel
+     *
+     * tests ERestJSONOutputWidget->processAttributes()
+     */
+    public function testProcessAttributesRelatedModel()
+    {
+        $model = Post::model()->with('categories')->findByPk(1);
+
+        $widget = $this->getWidget([
+            'type' => 'rest',
+            'success' => true,
+            'message' => 'Record Returned',
+            'totalCount' => 1,
+            'modelName' => 'Post',
+            'relations' => ['categories'],
+            'data' => $model
+        ]);
+
+        $this->assertArraysEqual($model->categories[0]->attributes, $widget->processAttributes($model->categories[0], 'categories'));
+    }
+
 
 
 	/**
