@@ -48,7 +48,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 		'urlManager' => array(
 			'urlFormat' => 'path',
 			'rules' => require(
-				dirname(__FILE__).'/../extensions/starship/restfullyii/config/routes.php'
+				dirname(__FILE__) . '/../extensions/starship/restfullyii/config/routes.php'
 			),
 		),
 	)
