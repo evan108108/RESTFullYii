@@ -662,21 +662,21 @@ class WorkController extends Controller
 	
 	public function restEvents()
 	{
-		$this->emitRest('req.get.special.render', function($param1) {
+		$this->onRest('req.get.special.render', function($param1) {
 			echo CJSON::encode(['param1'=>$param1]);
 		});
 		
-		$this->emitRest('req.put.special.render', function($data, $param1, $param2) {
+		$this->onRest('req.put.special.render', function($data, $param1, $param2) {
 			//$data is the data sent in the PUT
 			echo CJSON::encode(['data'=>$data, $param1, $param2]);
 		});
 		
-		$this->emitRest('req.post.special.render', function($data, $param1) {
+		$this->onRest('req.post.special.render', function($data, $param1) {
 			//$data is the data sent in the POST
 			echo CJSON::encode(['data'=>$data, 'param1'=>$param1, 'param2'=>$param2]);
 		});
 		
-		$this->emitRest('req.delete.special.render', function($param1, $param2) {
+		$this->onRest('req.delete.special.render', function($param1, $param2) {
 			echo CJSON::encode(['param1'=>$param1, 'param2'=>$param2]);
 		});
 	}
