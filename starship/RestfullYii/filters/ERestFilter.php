@@ -28,6 +28,12 @@ class ERestFilter extends CFilter
 	{
 		$controller = $filterChain->controller;
 
+		foreach (Yii::app()->log->routes as $route) {
+			if ( $route instanceof CWebLogRoute ) {
+					$route->enabled = false;
+			}
+		}
+
 		$controller->attachBehaviors([
 			'ERestBehavior'=>'RestfullYii.behaviors.ERestBehavior'
 		]);
