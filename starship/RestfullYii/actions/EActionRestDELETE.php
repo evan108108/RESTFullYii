@@ -26,7 +26,7 @@ class EActionRestDELETE extends ERestBaseAction
 	 */
 	public function run($id=null, $param1=null, $param2=null) 
 	{
-    switch ($this->getRequestActionType($id, $param1, $param2, 'delete')) {
+		switch ($this->getRequestActionType($id, $param1, $param2, 'delete')) {
 			case 'RESOURCES':
 				throw new CHttpException('405', 'Method Not Allowed');
 				break;
@@ -42,7 +42,6 @@ class EActionRestDELETE extends ERestBaseAction
 					$param1,
 					$param2,
 				]);
-				break;
 				break;
 			case 'RESOURCE':
 				$this->controller->emitRest(ERestEvent::REQ_DELETE_RESOURCE_RENDER, [$this->handleDelete($id)]);
