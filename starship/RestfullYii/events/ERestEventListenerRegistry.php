@@ -78,6 +78,18 @@ class ERestEventListenerRegistry
 		});
 
 		/**
+		 *
+		 * req.disable.cweblogroute
+		 *
+		 * this is only relivent if you have enabled CWebLogRoute in your main config
+		 *
+		 * @return (Bool) true (default) to disable CWebLogRoute, false to allow
+		 */
+		$onRest(ERestEvent::REQ_DISABLE_CWEBLOGROUTE, function() {
+			return true;
+		});
+
+		/**
 		 * req.exception
 		 *
 		 * Error handler called when an Exception is thrown

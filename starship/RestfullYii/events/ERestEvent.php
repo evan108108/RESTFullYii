@@ -17,12 +17,13 @@ class ERestEvent
 	CONST CONFIG_DEV_FLAG																	= 'config.dev.flag';
 
 	CONST REQ_EVENT_LOGGER																= 'req.event.logger';
+	CONST REQ_DISABLE_CWEBLOGROUTE												= 'req.disable.cweblogroute';
 	CONST REQ_AUTH_USER																		= 'req.auth.user';
 	CONST REQ_AUTH_HTTPS_ONLY															= 'req.auth.https.only';
 	CONST REQ_AUTH_USERNAME																= 'req.auth.username';
 	CONST REQ_AUTH_PASSWORD																= 'req.auth.password';
 	CONST REQ_AUTH_AJAX_USER															= 'req.auth.ajax.user';
-	CONST REQ_AUTH_URI															= 'req.auth.uri';
+	CONST REQ_AUTH_URI																		= 'req.auth.uri';
 	CONST REQ_AFTER_ACTION																= 'req.after.action';
 	CONST REQ_PARAM_IS_PK																	= 'req.param.is.pk';
 	CONST REQ_DATA_READ																		= 'req.data.read';
@@ -60,20 +61,21 @@ class ERestEvent
 	CONST MODEL_DELETE																		= 'model.delete';
 	CONST MODEL_SUBRESOURCE_DELETE												= 'model.subresource.delete';
 	CONST MODEL_RESTRICTED_PROPERTIES											= 'model.restricted.properties';
-	CONST MODEL_VISIBLE_PROPERTIES											= 'model.visible.properties';
-	CONST MODEL_HIDDEN_PROPERTIES											= 'model.hidden.properties';
+	CONST MODEL_VISIBLE_PROPERTIES												= 'model.visible.properties';
+	CONST MODEL_HIDDEN_PROPERTIES													= 'model.hidden.properties';
 
 	//Pre-Filter Events
 	CONST PRE_FILTER_CONFIG_APPLICATION_ID								= 'pre.filter.config.application.id';
 	CONST PRE_FILTER_CONFIG_DEV_FLAG											= 'pre.filter.config.dev.flag';
 
 	CONST PRE_FILTER_REQ_EVENT_LOGGER											= 'pre.filter.req.event.logger';
+	CONST PRE_FILTER_REQ_DISABLE_CWEBLOGROUTE							= 'pre.filter.req.disable.cweblogroute';
 	CONST PRE_FILTER_REQ_AUTH_USER												= 'pre.filter.req.auth.user';
 	CONST PRE_FILTER_REQ_AUTH_HTTPS_ONLY									= 'pre.filter.req.auth.https.only';
 	CONST PRE_FILTER_REQ_AUTH_USERNAME										= 'pre.filter.req.auth.username';
 	CONST PRE_FILTER_REQ_AUTH_PASSWORD										= 'pre.filter.req.auth.password';
 	CONST PRE_FILTER_REQ_AUTH_AJAX_USER										= 'pre.filter.req.auth.ajax.user';
-	CONST PRE_FILTER_REQ_AUTH_URI										= 'pre.filter.req.auth.uri';
+	CONST PRE_FILTER_REQ_AUTH_URI													= 'pre.filter.req.auth.uri';
 	CONST PRE_FILTER_REQ_AFTER_ACTION											= 'pre.filter.req.after.action';
 	CONST PRE_FILTER_REQ_PARAM_IS_PK											= 'pre.filter.req.param.is.pk';
 	CONST PRE_FILTER_REQ_DATA_READ												= 'pre.filter.req.data.read';
@@ -111,8 +113,8 @@ class ERestEvent
 	CONST PRE_FILTER_MODEL_DELETE													= 'pre.filter.model.delete';
 	CONST PRE_FILTER_MODEL_SUBRESOURCE_DELETE							= 'pre.filter.model.subresource.delete';
 	CONST PRE_FILTER_MODEL_RESTRICTED_PROPERTIES					= 'pre.filter.model.restricted.properties';
-	CONST PRE_FILTER_MODEL_VISIBLE_PROPERTIES						= 'pre.filter.model.visible.properties';
-	CONST PRE_FILTER_MODEL_HIDDEN_PROPERTIES						= 'pre.filter.model.hidden.properties';
+	CONST PRE_FILTER_MODEL_VISIBLE_PROPERTIES							= 'pre.filter.model.visible.properties';
+	CONST PRE_FILTER_MODEL_HIDDEN_PROPERTIES							= 'pre.filter.model.hidden.properties';
 
 
 	//Post-Filter Events
@@ -120,12 +122,13 @@ class ERestEvent
 	CONST POST_FILTER_CONFIG_DEV_FLAG											= 'post.filter.config.dev.flag';
 
 	CONST POST_FILTER_REQ_EVENT_LOGGER										= 'post.filter.req.event.logger';
+	CONST POST_FILTER_REQ_DISABLE_CWEBLOGROUTE						= 'post.filter.req.disable.cweblogroute';
 	CONST POST_FILTER_REQ_AUTH_USER												= 'post.filter.req.auth.user';
 	CONST POST_FILTER_REQ_AUTH_HTTPS_ONLY									= 'post.filter.req.auth.https.only';
 	CONST POST_FILTER_REQ_AUTH_USERNAME										= 'post.filter.req.auth.username';
 	CONST POST_FILTER_REQ_AUTH_PASSWORD										= 'post.filter.req.auth.password';
 	CONST POST_FILTER_REQ_AUTH_AJAX_USER									= 'post.filter.req.auth.ajax.user';
-	CONST POST_FILTER_REQ_AUTH_URI									= 'post.filter.req.auth.uri';
+	CONST POST_FILTER_REQ_AUTH_URI												= 'post.filter.req.auth.uri';
 	CONST POST_FILTER_REQ_AFTER_ACTION										= 'post.filter.req.after.action';
 	CONST POST_FILTER_REQ_PARAM_IS_PK											= 'post.filter.req.param.is.pk';
 	CONST POST_FILTER_REQ_DATA_READ												= 'post.filter.req.data.read';
@@ -164,5 +167,5 @@ class ERestEvent
 	CONST POST_FILTER_MODEL_SUBRESOURCE_DELETE						= 'post.filter.model.subresource.delete';
 	CONST POST_FILTER_MODEL_RESTRICTED_PROPERTIES					= 'post.filter.model.restricted.properties';
 	CONST POST_FILTER_MODEL_VISIBLE_PROPERTIES						= 'post.filter.model.visible.properties';
-	CONST POST_FILTER_MODEL_HIDDEN_PROPERTIES						= 'post.filter.model.hidden.properties';
+	CONST POST_FILTER_MODEL_HIDDEN_PROPERTIES							= 'post.filter.model.hidden.properties';
 }

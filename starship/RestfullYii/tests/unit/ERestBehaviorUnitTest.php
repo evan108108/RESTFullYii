@@ -43,7 +43,7 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$eventor = $this->getPrivateProperty($erb, 'event');
 		foreach($this->getEventList() as $event_name) {
 			if(strpos($event_name, 'pre.filter.') === false && strpos($event_name, 'post.filter.') === false) {
-				$this->assertTrue($eventor->eventExists($event_name));
+				$this->assertTrue($eventor->eventExists($event_name), "Event ($event_name) is missing");
 			}
 		}
 		

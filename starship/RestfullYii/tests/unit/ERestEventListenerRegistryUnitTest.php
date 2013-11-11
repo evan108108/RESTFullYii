@@ -61,6 +61,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertTrue($eventor->eventExists(ERestEvent::CONFIG_DEV_FLAG), "Event " . ERestEvent::CONFIG_DEV_FLAG . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::CONFIG_APPLICATION_ID), "Event " . ERestEvent::CONFIG_APPLICATION_ID . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EVENT_LOGGER), "Event " . ERestEvent::REQ_EVENT_LOGGER . " is not registered");
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_DISABLE_CWEBLOGROUTE), "Event " . ERestEvent::REQ_DISABLE_CWEBLOGROUTE. " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EXCEPTION), "Event " . ERestEvent::REQ_EXCEPTION . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_AJAX_USER), "Event " . ERestEvent::REQ_AUTH_AJAX_USER . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_URI), "Event " . ERestEvent::REQ_AUTH_URI . " is not registered");
@@ -136,6 +137,16 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 			ERestEvent::CONFIG_APPLICATION_ID, 'Application',[]],
 			$this->event->emit(ERestEvent::REQ_EVENT_LOGGER, [ERestEvent::CONFIG_APPLICATION_ID, 'Application'])
 		);
+	}
+
+	/**
+	 * testReqDisableCWebLogRoute
+	 *
+	 * tests event req.disable.cweblogroute
+	 */
+	public function testReqDisableCWebLobRoute()
+	{
+		$this->assertTrue($this->event->emit(ERestEvent::REQ_DISABLE_CWEBLOGROUTE), "Disable CWebLogRoute should be true by default but we false");
 	}
 
 	/**
