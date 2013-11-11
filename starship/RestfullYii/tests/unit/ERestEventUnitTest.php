@@ -35,7 +35,6 @@ class ERestEventUnitTest extends ERestTestCase
 		$this->assertTrue(defined('ERestEvent::CONFIG_DEV_FLAG'));
 	}
 
-
 	/**
 	 * testREQEVENTLOGGERRExists
 	 *
@@ -45,6 +44,17 @@ class ERestEventUnitTest extends ERestTestCase
 	{
 		$this->assertTrue(defined('ERestEvent::REQ_EVENT_LOGGER'));
 	}
+
+	/**
+	 * testREQDISABLECWEBLOGROUTE
+	 *
+	 * tests ERestEvent has const::REQ_DISABLE_CWEBLOGROUTE
+	 */
+	public function testREQDISABLECWEBLOGROUTE()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_DISABLE_CWEBLOGROUTE'));
+	}
+
 
 	/**
 	 * testREQAUTHUSERExists
@@ -488,6 +498,27 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testPREFILTERREQEVENTLOGGERRExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_EVENT_LOGGER
+	 */ 
+	public function testPREFILTERREQEVENTLOGGERRExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_EVENT_LOGGER'));
+	}
+
+	/**
+	 * testPREFILTERREQDISABLECWEBLOGROUTE
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_DISABLE_CWEBLOGROUTE
+	 */
+	public function testPREFILTERRREQDISABLECWEBLOGROUTE()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_DISABLE_CWEBLOGROUTE'));
+	}
+
+
+	/**
 	 * testPREFILTERREQAUTHUSERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_USER
@@ -907,7 +938,7 @@ class ERestEventUnitTest extends ERestTestCase
 		$this->assertTrue(defined('ERestEvent::PRE_FILTER_MODEL_RESTRICTED_PROPERTIES'));
 	}
 
-		/**
+	/**
 	 * testPOSTFILTERCONFIGAPPLICATIONIDExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_CONFIG_APPLICATION_ID
@@ -926,6 +957,27 @@ class ERestEventUnitTest extends ERestTestCase
 	{
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_CONFIG_DEV_FLAG'));
 	}
+
+	/**
+	 * testPOSTFILTERREQEVENTLOGGERRExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_EVENT_LOGGER
+	 */ 
+	public function testPOSTFILTERREQEVENTLOGGERRExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_EVENT_LOGGER'));
+	}
+
+	/**
+	 * testPOSTFILTERREQDISABLECWEBLOGROUTE
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_DISABLE_CWEBLOGROUTE
+	 */
+	public function testPOSTFILTERRREQDISABLECWEBLOGROUTE()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_DISABLE_CWEBLOGROUTE'));
+	}
+
 
 	/**
 	 * testPOSTFILTERREQAUTHUSERExists

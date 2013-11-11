@@ -28,16 +28,23 @@ class ERestFilter extends CFilter
 	{
 		$controller = $filterChain->controller;
 
-		foreach (Yii::app()->log->routes as $route) {
-			if ( $route instanceof CWebLogRoute ) {
-					$route->enabled = false;
-			}
-		}
-
 		$controller->attachBehaviors([
 			'ERestBehavior'=>'RestfullYii.behaviors.ERestBehavior'
 		]);
-		$controller->ERestInit();	
+		$controller->ERestInit();
+
+		/**
+		 * Since we are going to be outputting JSON
+		 * we disable CWebLogRoute unless otherwise indicated
+		 */ 
+		if( $controller->emitRest(ERestEvent::REQ_DISABLE_CWEBLOGROUTE ) ){
+			foreach (Yii::app()->log->routes as $route) {
+				if ( $route instanceof CWebLogRoute ) {
+						$route->enabled = false;
+				}
+			}
+		}
+
 
 		if( $controller->emitRest(ERestEvent::REQ_AUTH_HTTPS_ONLY) ) {
 			if( !$this->validateHttpsOnly() ) {

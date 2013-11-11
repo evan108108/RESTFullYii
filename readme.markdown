@@ -693,6 +693,7 @@ List of all events and their default event handlers.
 | [config.dev.flag](#config.dev.flag)    |   [Yes](#pre.filter.config.dev.flag)  | [Yes](#post.filter.config.dev.flag) | Return true to set develop mode; False to turn of develop mode |
 | Request Events |
 | [req.event.logger](#req.event.logger)   |   No  | No | Logs events |
+| [req.disable.cweblogroute](#req.disable.cweblogroute)   |   [Yes](#pre.filter.req.disable.cweblogroute)  | [Yes](#post.filter.req.disable.cweblogroute) | Disable CWebLogRoute (True by default) |
 | [req.auth.https.only](#req.auth.https.only)   |   [Yes](#pre.filter.req.auth.https.only)  | [Yes](#post.filter.req.auth.https.only) | Return true to restrict to https; false to allow http or https |
 | [req.auth.username](#req.auth.username)   |   [Yes](#pre.filter.req.auth.username)   | [Yes](#post.filter.req.auth.username)  | This is the username used to grant access to non-ajax users. At a minimum you should change this value |
 | [req.auth.password](#req.auth.password)   |   [Yes](#pre.filter.req.auth.password)  | [Yes](#post.filter.req.auth.password) |  This is the password use to grant access to non-ajax users. At a minimum you should change this value |
@@ -823,6 +824,37 @@ $this->onRest('req.event.logger', function($event, $category='application',$igno
 });
 ```
 
+
+
+
+
+###<a name="req.disable.cweblogroute"/>req.disable.cweblogroute</a>
+```php
+/**
+ * req.disable.cweblogroute
+ *
+ * this is only relevant if you have enabled CWebLogRoute in your main config
+ *
+ * @return (Bool) true (default) to disable CWebLogRoute, false to allow
+ */ 
+$this->onRest('req.auth.username', function(){
+	return true;
+});
+```
+
+####<a name="pre.filter.req.disable_cweblogroute"/>pre.filter.req.disable_cweblogroute</a>
+```php
+$this->onRest('pre.filter.req.disable_cweblogroute', function() {
+	//no return
+});
+```
+
+####<a name="post.filter.req.disable_cweblogroute"/>post.filter.req.disable_cweblogroute</a>
+```php
+$this->onRest('post.filter.req.disable_cweblogroute', function($disable) {
+	return $disable; //String
+});
+```
 
 
 

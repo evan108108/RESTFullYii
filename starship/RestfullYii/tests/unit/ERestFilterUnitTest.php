@@ -144,9 +144,30 @@ class ERestFilterUnitTest extends ERestTestCase
 			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
 		});
 		$this->assertTrue(is_array(CJSON::decode($result)));
-    }
+	}
 
-    /**
+	/**
+	 * testCWebLogRouteDisabled
+	 *
+	 * tests that the disable CWebLogRoute logic is working
+	 */ 
+	public function testCWebLogRouteDisabled()
+	{
+		$this->captureOB($this, function() {
+			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
+		});
+		$route_disabled = true;
+		foreach (Yii::app()->log->routes as $route) {
+			if ( $route instanceof CWebLogRoute ) {
+				if($route->enabled) {
+					$route_disabled = false;
+				}
+			}
+		}
+		$this->assertTrue($route_disabled, "CWebLogRoute should be disabled but was enabled");
+	}
+
+	/**
 	 * testPreFilterUri
 	 *
 	 * tests ERestFilter->preFilter()
