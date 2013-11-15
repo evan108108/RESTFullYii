@@ -842,14 +842,14 @@ $this->onRest('req.auth.username', function(){
 });
 ```
 
-####<a name="pre.filter.req.disable_cweblogroute"/>pre.filter.req.disable_cweblogroute</a>
+####<a name="pre.filter.req.disable.cweblogroute"/>pre.filter.req.disable.cweblogroute</a>
 ```php
 $this->onRest('pre.filter.req.disable_cweblogroute', function() {
 	//no return
 });
 ```
 
-####<a name="post.filter.req.disable_cweblogroute"/>post.filter.req.disable_cweblogroute</a>
+####<a name="post.filter.req.disable.cweblogroute"/>post.filter.req.disable.cweblogroute</a>
 ```php
 $this->onRest('post.filter.req.disable_cweblogroute', function($disable) {
 	return $disable; //String
