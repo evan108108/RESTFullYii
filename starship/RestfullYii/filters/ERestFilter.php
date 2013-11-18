@@ -39,9 +39,10 @@ class ERestFilter extends CFilter
 		 */ 
 		if( $controller->emitRest(ERestEvent::REQ_DISABLE_CWEBLOGROUTE ) ){
 			foreach (Yii::app()->log->routes as $route) {
-				if ( $route instanceof CWebLogRoute ) {
+				if ( $route instanceof CWebLogRoute ||  $route instanceof CProfileLogRoute || $route instanceof XWebDebugRouter ) {
 						$route->enabled = false;
 				}
+				
 			}
 		}
 
