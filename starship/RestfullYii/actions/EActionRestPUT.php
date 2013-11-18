@@ -18,7 +18,7 @@ class EActionRestPUT extends ERestBaseAction
 	/**
 	 * run
 	 *
-	 * Called by Yii for DELETE verb
+	 * Called by Yii for PUT verb
 	 * 
 	 * @param (Mixed/Int) (id) unique identifier of the resource
 	 * @param (Mixed) (param1) first param sent in the request; Often subresource name
@@ -54,7 +54,7 @@ class EActionRestPUT extends ERestBaseAction
 	/**
 	 * handlePut
 	 *
-	 * Helper method for delete actions
+	 * Helper method for put actions
 	 *
 	 * @param (Mixed/Int) (id) unique identifier of the resource to put
 	 *
