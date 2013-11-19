@@ -211,6 +211,30 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * constructFilter
+	 *
+	 * tests ERestHelperScopes->constructFilter()
+	 */ 
+	public function testConstructFilter()
+	{
+		$field = 'name';
+		$prop = 'name0';
+		$value = 'cat1';
+		$cType = 'text';
+		$filterItem = ['operation'=>'=', 'value'=>'cat1', 'property'=>'name'];
+		$params = [];
+		$result = $this->invokePrivateMethod($this->getERestHelperScopes(), 'constructFilter', [$field, $prop, $value, $cType, $filterItem, $params]);
+		$expected_result = [
+			' LIKE :name0',
+			[
+				':name0' => '%cat1%',
+			],
+		];
+
+		$this->assertArraysEqual($expected_result, $result);
+	}
+
+	/**
 	 * getSortSQL
 	 *
 	 * tests ERestHelperScopes->getSortSQL()

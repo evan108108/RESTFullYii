@@ -107,6 +107,8 @@ class ERestHelperScopes extends CActiveRecordBehavior
 
 		$query = "";
 		$params = [];
+		$related_params = [];
+		$related_query = [];
 		foreach ($filterItems as $filterItem) {
 			if (!is_null($filterItem['property'])) {
 				$c = 0;
@@ -120,68 +122,123 @@ class ERestHelperScopes extends CActiveRecordBehavior
 				$field = $filterItem['property'];
 				$cType = $this->getFilterCType($field);
 
-				if (array_key_exists('operator', $filterItem) || is_array($value)) {
-					if (!array_key_exists('operator', $filterItem)) {
-						$operator = 'in';
-					} else {
-						$operator = strtolower($filterItem['operator']);
-					}
-					switch ($operator) {
-						case 'not in':
-						case 'in':
-							$paramsStr = '';
-							foreach ((array) $value as $index => $item) {
-								$paramsStr.= (empty($paramsStr)) ? '' : ', ';
-								$params[(":" . $prop . '_' . $index)] = $item;
-								$paramsStr.= (":" . $prop . '_' . $index);
-							}
-
-							$compare = " " . strtoupper($operator) . " ({$paramsStr})";
-							break;
-						case 'like':
-							$compare = " LIKE :" . $prop;
-							$params[(":" . $prop)] = '%' . $value . '%';
-							break;
-						case '=' :
-						case '<' :
-						case '<=':
-						case '>' :
-						case '>=':
-							$compare = " $operator :" . $prop;
-							$params[(":" . $prop)] = $value;
-							break;
-						case '!=':
-						case '<>':
-							$compare = " <> :" . $prop;
-							$params[(":" . $prop)] = $value;
-							break;
-						default :
-							$compare = " = :" . $prop;
-							$params[(":" . $prop)] = $value;
-							break;
-					}
+				if(strpos($field, '.')===false) {
+					list($compare, $params) = $this->constructFilter($field, $prop, $value, $cType, $filterItem, $params);
+					$query .= (empty($query) ? "(" : " AND ") . $this->getFilterAlias($field) . '.' . $field . $compare;
 				} else {
-					if ($cType == 'text' || $cType == 'string') {
-						$compare = " LIKE :" . $prop;
-						$params[(":" . $prop)] = '%' . $value . '%';
-					} else {
-						$compare = " = :" . $prop;
-						$params[(":" . $prop)] = $value;
+					list($relation, $property) = explode('.', $field);
+					if(!isset($related_params[$relation])) {
+						$related_params[$relation] = [];
 					}
+					$prop = str_replace('.', '_', $prop);
+					list($compare, $related_params[$relation]) = $this->constructFilter($field, $prop, $value, $cType, $filterItem, $related_params[$relation]);
+					if(!isset($related_query[$relation])) {
+						$related_query[$relation] = '';
+					}
+					$related_query[$relation] .= (empty($related_query[$relation]) ? "(" : " AND ") . $field . $compare;
 				}
-				$query .= (empty($query) ? "(" : " AND ") . $this->getFilterAlias($field) . '.' . $field . $compare;
 			}
 		}
-		if (empty($query)) {
+		if (empty($query) && empty($related_query)) {
 			return $this->Owner;
 		}
 
-		$query .= ")";
+		if(!empty($query)) {
+			$query .= ")";
+		}
 
-		$this->Owner->getDbCriteria()->mergeWith([
-			'condition' => $query, 'params' => $params
-		]);
+		$with = [];
+
+		foreach($related_query as $relation=>$val) {
+			$with[$relation] = [
+				'condition' => $related_query[$relation] . ')',
+				'params' => $related_params[$relation],
+				'joinType' => 'INNER JOIN',
+				'together'=>true,
+			];
+		}
+
+		if(!empty($query)) {
+			$this->Owner->getDbCriteria()->mergeWith([
+				'condition' => $query, 'params' => $params
+			]);
+		}
+
+		if(count($with) > 0) {
+			$this->Owner->getDbCriteria()->mergeWith([
+				'with' => $with
+			]);
+		}
+
 		return $this->Owner;
+	}
+
+	/**
+	 * constructFilter
+	 *
+	 * Helper method that builds conditions and params for a given filter object
+	 *
+	 * @param (String) (field) name of the field to apply filter to
+	 * @param (String) (prop) special unique name of the property to be used as a replacement param key
+	 * @param (String) (value) the value to use for filtering results
+	 * @param (String) (cType) the type of the filed (text, int, ect)
+	 * @param (Array) (filterItem) the filter object
+	 * @param (Array) (params) Array of bind params for the query
+	 *
+	 * @return (Array) returns both the compare statement and the params array
+	 */ 
+	private function constructFilter($field, $prop, $value, $cType, $filterItem, $params)
+	{
+		if (array_key_exists('operator', $filterItem) || is_array($value)) {
+			if (!array_key_exists('operator', $filterItem)) {
+				$operator = 'in';
+			} else {
+				$operator = strtolower($filterItem['operator']);
+			}
+			switch ($operator) {
+				case 'not in':
+				case 'in':
+					$paramsStr = '';
+					foreach ((array) $value as $index => $item) {
+						$paramsStr.= (empty($paramsStr)) ? '' : ', ';
+						$params[(":" . $prop . '_' . $index)] = $item;
+						$paramsStr.= (":" . $prop . '_' . $index);
+					}
+
+					$compare = " " . strtoupper($operator) . " ({$paramsStr})";
+					break;
+				case 'like':
+					$compare = " LIKE :" . $prop;
+					$params[(":" . $prop)] = '%' . $value . '%';
+					break;
+				case '=' :
+				case '<' :
+				case '<=':
+				case '>' :
+				case '>=':
+					$compare = " $operator :" . $prop;
+					$params[(":" . $prop)] = $value;
+					break;
+				case '!=':
+				case '<>':
+					$compare = " <> :" . $prop;
+					$params[(":" . $prop)] = $value;
+					break;
+				default :
+					$compare = " = :" . $prop;
+					$params[(":" . $prop)] = $value;
+					break;
+			}
+		} else {
+			if ($cType == 'text' || $cType == 'string') {
+				$compare = " LIKE :" . $prop;
+				$params[(":" . $prop)] = '%' . $value . '%';
+			} else {
+				$compare = " = :" . $prop;
+				$params[(":" . $prop)] = $value;
+			}
+		}
+		return [$compare, $params];
 	}
 
 	/**
