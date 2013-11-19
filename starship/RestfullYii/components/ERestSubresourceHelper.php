@@ -170,7 +170,7 @@ class ERestSubresourceHelper implements iERestResourceHelper
 		}
 		$results = $model
 			->with($subresource_name)
-			->findByPk($pk, ['condition'=>"$subresource_name.id=$subresource_pk"]);
+			->findByPk($pk, ['condition'=>"$subresource_name.id=:subresource_pk", 'params'=>[':subresource_pk' => $subresource_pk]]);
 		return !is_null($results->$subresource_name)? $results->$subresource_name: [];
 	}
 
