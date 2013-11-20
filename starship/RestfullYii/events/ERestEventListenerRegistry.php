@@ -185,16 +185,17 @@ class ERestEventListenerRegistry
 		 * @return (Bool) true to grant access; false to deny access
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_USER, function($application_id, $username, $password) {
-			if(!isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) || !isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
-				return false;
-			}
-			if( $username != $_SERVER['HTTP_X_'.$application_id.'_USERNAME'] ) {
-				return false;
-			}
-			if( $password != $_SERVER['HTTP_X_'.$application_id.'_PASSWORD'] ) {
-				return false;
-			}
-			return true;
+			$headers = getallheaders();
+		    if (!isset($headers['X_' .$application_id.'_USERNAME']) || !isset($headers['X_'.$application_id.'_PASSWORD'])) {
+		        return false;
+		    }
+		    if ( $username != $headers['X_' .$application_id.'_USERNAME'] ) {
+		        return false;
+		    }
+		    if ( $password != $headers['X_'.$application_id.'_PASSWORD'] ) {
+		        return false;
+		    }
+		    return true;
 		});
 
 		/**
