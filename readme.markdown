@@ -1116,7 +1116,7 @@ $this->onRest('req.param.is.pk', function($pk) {
 
 ####<a name="pre.filter.req.param.is.pk"/>pre.filter.req.param.is.pk</a>
 ```php
-$this->onRest('pre.filter.req.param.is.pk, function($pk) {
+$this->onRest('pre.filter.req.param.is.pk', function($pk) {
 	return $pk; //Mixed
 });
 ```
