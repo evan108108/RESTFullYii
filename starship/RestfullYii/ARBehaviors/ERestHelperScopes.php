@@ -70,12 +70,26 @@ class ERestHelperScopes extends CActiveRecordBehavior
 			return $this->Owner;
 		} else {
 			$orderByStr = "";
-			foreach ($orderListItems as $orderListItem)
-				$orderByStr .= ((!empty($orderByStr)) ? ", " : "") .
-				$this->getSortSQL($orderListItem['property'], $orderListItem['direction']);
-
+			foreach ($orderListItems as $orderListItem) {
+				$alias = $this->Owner->getTableAlias(false, false);
+				$property = $orderListItem['property'];
+				$with = [];
+				if(strpos($property, '.')) {
+					$prop_parts = explode('.', $property);
+					$alias = $prop_parts[0];
+					$property = $prop_parts[1];
+					if(!isset($with[$alias])) {
+						$with[$alias] = [];
+						$with[$alias]['order'] = '';
+					}
+					$with[$alias]['order'] = (!empty($with[$alias]['order'])? ', ': '') . $this->getSortSQL($property, $orderListItem['direction'], $alias);
+				} else {
+					$orderByStr .= ((!empty($orderByStr)) ? ", " : "") . $this->getSortSQL($property, $orderListItem['direction'], $alias);
+				}
+			}
 			$this->Owner->getDbCriteria()->mergeWith([
-				'order' => $orderByStr
+				'order' => $orderByStr,
+				'with' => $with
 			]);
 			return $this->Owner;
 		}
@@ -283,9 +297,9 @@ class ERestHelperScopes extends CActiveRecordBehavior
 	 *
 	 * @return (String) the sort SQL
 	 */ 
-	private function getSortSQL($field, $dir = 'ASC') 
+	private function getSortSQL($field, $dir = 'ASC', $alias=false) 
 	{
-		return $this->Owner->getTableAlias(false, false) . ".$field $dir";
+		return (($alias)? $alias: $this->Owner->getTableAlias(false, false)) . ".$field $dir";
 	}
 
 }

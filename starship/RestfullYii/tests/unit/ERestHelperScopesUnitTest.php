@@ -78,9 +78,17 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	public function testOrderByWithJSON()
 	{
 		$erhs = $this->getERestHelperScopes();
-		$result = $erhs->orderBy('[{"property":"name", "direction":"ASC"}, {"property":"id", "direction":"DESC"}]');
+		$result = $erhs->orderBy('[{"property":"name", "direction":"ASC"}, {"property":"id", "direction":"DESC"}, {"property":"posts.title", "direction":"DESC"}]');
 		$this->assertInstanceOf('Category', $result);
 		$this->assertEquals('t.name ASC, t.id DESC', $result->getDbCriteria()->order);
+
+		$expected_with_condition = [
+			'posts'=>[
+				'order' => 'posts.title DESC'
+			]
+		];
+		
+		$this->assertEquals($expected_with_condition, $result->getDbCriteria()->with);
 	}
 
 	/**
