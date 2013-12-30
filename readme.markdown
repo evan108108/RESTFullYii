@@ -29,6 +29,8 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
  _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
 
 ## Installation
+
+### Installing Manually 
 0. Download and place the 'starship' directory in your Yii extension directory.
 
 0. In config/main.php you will need to add the RestfullYii alias. This allows for flexability in where you place the extension.
@@ -54,6 +56,41 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 	)
 ```
 
+### Installing With [Composer](http://getcomposer.org)
+
+```JSON
+{
+    "require": {
+        "starship/restfullyii": "dev-master"
+    }
+}
+```
+
+0. In config/main.php you will need to add the RestfullYii alias. This allows for flexability in where you place the extension.
+
+```php
+	'aliases' => array(
+		.. .
+		//Path to your Composer vendor dir plus starship/restfullyii path
+		'RestfullYii' =>realpath(__DIR__ . '/../../../vendor/starship/restfullyii/starship/RestfullYii'),
+        .. .
+	),
+```
+
+0. Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components->urlManager->rules in same config.  
+
+```php
+	'components' => array(
+		'urlManager' => array(
+			'urlFormat' => 'path',
+			'rules' => require(
+				dirname(__FILE__).'/../../../vendor/starship/restfullyii/starship/RestfullYii/config/routes.php
+			),
+		),
+	)
+```
+
+
 ##Controller Setup
 Adding a set of RESTFul actions to a controller.
 
@@ -64,7 +101,7 @@ public function filters()
 		return array(
 			'accessControl', // perform access control for CRUD operations
 			array(
-				'ext.starship.RestfullYii.filters.ERestFilter + 
+				'RestfullYii.filters.ERestFilter + 
 			 	REST.GET, REST.PUT, REST.POST, REST.DELETE'
 			),
 		);
@@ -76,7 +113,7 @@ public function filters()
 public function actions()
 {
 		return array(
-			'REST.'=>'ext.starship.RestfullYii.actions.ERestActionProvider',
+			'REST.'=>'RestfullYii.actions.ERestActionProvider',
 		);
 }	
 ```
