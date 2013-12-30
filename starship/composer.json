@@ -1,0 +1,53 @@
+{
+	"name": "starship/RestfullYii",
+	"type": "library",
+	"description": "RESTFull API for your Yii application",
+	"keywords": ["REST, RESTFull", "Yii", "API"],
+	"homepage": "https://github.com/evan108108/RESTFullYii",
+	"license": "WTFPL",
+	"authors": [
+			{
+				"name": "Evan Frohlich",
+				"email": "evan108108@gmail.com"
+			},
+			{
+				"name": "goliatone"
+			},
+			{
+				"name": "ubin"
+			},
+			{
+				"name": "jlsalvador"
+			},
+			{
+				"name": "ericmcgill"
+			},
+			{
+				"name": "stianlik"
+			},
+			{
+				"name": "kachar"
+			},
+			{
+				"name": "drLev"
+			},
+			{
+				"name": "sheershoff"
+			},
+			{
+				"name": "Arne-S"
+			},
+			{
+				"name": "amesmoey"
+			},
+			{
+				"name": "eligundry"
+			},
+			{
+				"name": "rominawnc"
+			}
+	],
+	"require": {
+		"php": ">=5.4.0"
+	}
+}
