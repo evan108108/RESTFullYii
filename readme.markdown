@@ -852,7 +852,7 @@ $this->onRest('pre.filter.req.disable.cweblogroute', function() {
 ####<a name="post.filter.req.disable.cweblogroute"/>post.filter.req.disable.cweblogroute</a>
 ```php
 $this->onRest('post.filter.req.disable.cweblogroute', function($disable) {
-	return $disable; //String
+	return $disable; //Bool
 });
 ```
 
