@@ -2,7 +2,7 @@
 	"name": "starship/RestfullYii",
 	"type": "library",
 	"description": "RESTFull API for your Yii application",
-	"keywords": ["REST, RESTFull", "Yii", "API"],
+	"keywords": ["REST", "RESTFull", "Yii", "API"],
 	"homepage": "https://github.com/evan108108/RESTFullYii",
 	"license": "WTFPL",
 	"authors": [
