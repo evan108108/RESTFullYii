@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Restfullyii : Adds RESTFull API to your Yii application" />
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Restfullyii by evan108108</title>
+    <title>Restfullyii</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>Restfullyii</h1>
-        <h2>Adds RESTFull API to your Yii application</h2>
-        <a href="https://github.com/evan108108/RESTFullYii" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/evan108108/RESTFullYii">View on GitHub</a>
+
+          <h1 id="project_title">Restfullyii</h1>
+          <h2 id="project_tagline">Adds RESTFull API to your Yii application</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/evan108108/RESTFullYii/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/evan108108/RESTFullYii/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
 <a name="starship--restfullyii" class="anchor" href="#starship--restfullyii"><span class="octicon octicon-link"></span></a><em>Starship / RestfullYii</em>
 </h1>
 
@@ -64,22 +67,67 @@
 </ul><h2>
 <a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
 
+<h3>
+<a name="installing-manually" class="anchor" href="#installing-manually"><span class="octicon octicon-link"></span></a>Installing Manually</h3>
+
 <ol>
 <li><p>Download and place the 'starship' directory in your Yii extension directory.</p></li>
-<li>
-<p>Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components-&gt;urlManager-&gt;rules in same config.  </p>
-
-<div class="highlight highlight-php"><pre><span class="s1">'components'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span>
-    <span class="s1">'urlManager'</span><span class="o">=&gt;</span><span class="k">array</span><span class="p">(</span>
-        <span class="s1">'urlFormat'</span><span class="o">=&gt;</span><span class="s1">'path'</span><span class="p">,</span>
-        <span class="s1">'rules'</span><span class="o">=&gt;</span><span class="k">require</span><span class="p">(</span>
-            <span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="s1">'/../extensions/starship/restfullyii/config/routes.php'</span>
-        <span class="p">),</span>
+<li><p>In config/main.php you will need to add the RestfullYii alias. This allows for flexability in where you place the extension.</p></li>
+</ol><div class="highlight highlight-php"><pre>    <span class="s1">'aliases'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="o">..</span> <span class="o">.</span>
+        <span class="s1">'RestfullYii'</span> <span class="o">=&gt;</span><span class="nb">realpath</span><span class="p">(</span><span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../extensions/starship/RestfullYii'</span><span class="p">),</span>
+        <span class="o">..</span> <span class="o">.</span>
     <span class="p">),</span>
-<span class="p">)</span>
 </pre></div>
+
+<ol>
+<li>Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components-&gt;urlManager-&gt;rules in same config.<br>
 </li>
-</ol><h2>
+</ol><div class="highlight highlight-php"><pre>    <span class="s1">'components'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
+            <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">require</span><span class="p">(</span>
+                <span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="s1">'/../extensions/starship/restfullyii/config/routes.php'</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+
+<h3>
+<a name="installing-with-composer" class="anchor" href="#installing-with-composer"><span class="octicon octicon-link"></span></a>Installing With <a href="http://getcomposer.org">Composer</a>
+</h3>
+
+<div class="highlight highlight-JSON"><pre><span class="p">{</span>
+    <span class="nt">"require"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="nt">"starship/restfullyii"</span><span class="p">:</span> <span class="s2">"dev-master"</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<ol>
+<li>In config/main.php you will need to add the RestfullYii alias. This allows for flexability in where you place the extension.</li>
+</ol><div class="highlight highlight-php"><pre>    <span class="s1">'aliases'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="o">..</span> <span class="o">.</span>
+        <span class="c1">//Path to your Composer vendor dir plus starship/restfullyii path</span>
+        <span class="s1">'RestfullYii'</span> <span class="o">=&gt;</span><span class="nb">realpath</span><span class="p">(</span><span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">'/../../../vendor/starship/restfullyii/starship/RestfullYii'</span><span class="p">),</span>
+        <span class="o">..</span> <span class="o">.</span>
+    <span class="p">),</span>
+</pre></div>
+
+<ol>
+<li>Include ext.starship.RestfullYii.config.routes in your main config (see below) or copy the routes and paste them in your components-&gt;urlManager-&gt;rules in same config.<br>
+</li>
+</ol><div class="highlight highlight-php"><pre>    <span class="s1">'components'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">'urlManager'</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">'urlFormat'</span> <span class="o">=&gt;</span> <span class="s1">'path'</span><span class="p">,</span>
+            <span class="s1">'rules'</span> <span class="o">=&gt;</span> <span class="k">require</span><span class="p">(</span>
+                <span class="nb">dirname</span><span class="p">(</span><span class="k">__FILE__</span><span class="p">)</span><span class="o">.</span><span class="err">'</span><span class="o">/../../../</span><span class="nx">vendor</span><span class="o">/</span><span class="nx">starship</span><span class="o">/</span><span class="nx">restfullyii</span><span class="o">/</span><span class="nx">starship</span><span class="o">/</span><span class="nx">RestfullYii</span><span class="o">/</span><span class="nx">config</span><span class="o">/</span><span class="nx">routes</span><span class="o">.</span><span class="nx">php</span>
+            <span class="p">),</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+</pre></div>
+
+<h2>
 <a name="controller-setup" class="anchor" href="#controller-setup"><span class="octicon octicon-link"></span></a>Controller Setup</h2>
 
 <p>Adding a set of RESTFul actions to a controller.</p>
@@ -93,7 +141,7 @@
     <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">'accessControl'</span><span class="p">,</span> <span class="c1">// perform access control for CRUD operations</span>
         <span class="k">array</span><span class="p">(</span>
-            <span class="s1">'ext.starship.RestfullYii.filters.ERestFilter + </span>
+            <span class="s1">'RestfullYii.filters.ERestFilter + </span>
 <span class="s1">            REST.GET, REST.PUT, REST.POST, REST.DELETE'</span>
         <span class="p">),</span>
     <span class="p">);</span>
@@ -106,7 +154,7 @@
 <div class="highlight highlight-php"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">actions</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">'REST.'</span><span class="o">=&gt;</span><span class="s1">'ext.starship.RestfullYii.actions.ERestActionProvider'</span><span class="p">,</span>
+        <span class="s1">'REST.'</span><span class="o">=&gt;</span><span class="s1">'RestfullYii.actions.ERestActionProvider'</span><span class="p">,</span>
     <span class="p">);</span>
 <span class="p">}</span>   
 </pre></div>
@@ -704,21 +752,21 @@ PUT /api/team/1/players/44
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">restEvents</span><span class="p">()</span>
     <span class="p">{</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">emitRest</span><span class="p">(</span><span class="s1">'req.get.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$param1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.get.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$param1</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">echo</span> <span class="nx">CJSON</span><span class="o">::</span><span class="na">encode</span><span class="p">([</span><span class="s1">'param1'</span><span class="o">=&gt;</span><span class="nv">$param1</span><span class="p">]);</span>
         <span class="p">});</span>
 
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">emitRest</span><span class="p">(</span><span class="s1">'req.put.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$param1</span><span class="p">,</span> <span class="nv">$param2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.put.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$param1</span><span class="p">,</span> <span class="nv">$param2</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">//$data is the data sent in the PUT</span>
             <span class="k">echo</span> <span class="nx">CJSON</span><span class="o">::</span><span class="na">encode</span><span class="p">([</span><span class="s1">'data'</span><span class="o">=&gt;</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$param1</span><span class="p">,</span> <span class="nv">$param2</span><span class="p">]);</span>
         <span class="p">});</span>
 
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">emitRest</span><span class="p">(</span><span class="s1">'req.post.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$param1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.post.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span> <span class="nv">$param1</span><span class="p">)</span> <span class="p">{</span>
             <span class="c1">//$data is the data sent in the POST</span>
             <span class="k">echo</span> <span class="nx">CJSON</span><span class="o">::</span><span class="na">encode</span><span class="p">([</span><span class="s1">'data'</span><span class="o">=&gt;</span><span class="nv">$data</span><span class="p">,</span> <span class="s1">'param1'</span><span class="o">=&gt;</span><span class="nv">$param1</span><span class="p">,</span> <span class="s1">'param2'</span><span class="o">=&gt;</span><span class="nv">$param2</span><span class="p">]);</span>
         <span class="p">});</span>
 
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">emitRest</span><span class="p">(</span><span class="s1">'req.delete.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$param1</span><span class="p">,</span> <span class="nv">$param2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.delete.special.render'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$param1</span><span class="p">,</span> <span class="nv">$param2</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">echo</span> <span class="nx">CJSON</span><span class="o">::</span><span class="na">encode</span><span class="p">([</span><span class="s1">'param1'</span><span class="o">=&gt;</span><span class="nv">$param1</span><span class="p">,</span> <span class="s1">'param2'</span><span class="o">=&gt;</span><span class="nv">$param2</span><span class="p">]);</span>
         <span class="p">});</span>
     <span class="p">}</span>
@@ -769,6 +817,12 @@ PUT /api/team/1/players/44
 <td>Logs events</td>
 </tr>
 <tr>
+<td><a href="#req.disable.cweblogroute">req.disable.cweblogroute</a></td>
+<td><a href="#pre.filter.req.disable.cweblogroute">Yes</a></td>
+<td><a href="#post.filter.req.disable.cweblogroute">Yes</a></td>
+<td>Disable CWebLogRoute (True by default)</td>
+</tr>
+<tr>
 <td><a href="#req.auth.https.only">req.auth.https.only</a></td>
 <td><a href="#pre.filter.req.auth.https.only">Yes</a></td>
 <td><a href="#post.filter.req.auth.https.only">Yes</a></td>
@@ -797,6 +851,12 @@ PUT /api/team/1/players/44
 <td><a href="#pre.filter.req.auth.ajax.user">Yes</a></td>
 <td><a href="#post.filter.req.auth.ajax.user">Yes</a></td>
 <td>Used to validate a an ajax user; return true to allow; false to deny</td>
+</tr>
+<tr>
+<td><a href="#req.auth.uri">req.auth.uri</a></td>
+<td><a href="#pre.filter.req.auth.uri">Yes</a></td>
+<td><a href="#post.filter.req.auth.uri">Yes</a></td>
+<td>grant / deny access based on the URI and or HTTP verb</td>
 </tr>
 <tr>
 <td><a href="#req.after.action">req.after.action</a></td>
@@ -928,19 +988,19 @@ PUT /api/team/1/players/44
 <td><a href="#model.scenario">model.scenario</a></td>
 <td><a href="#pre.filter.model.scenario">Yes</a></td>
 <td><a href="#post.filter.model.scenario">Yes</a></td>
-<td>Called before a resource(s) is found. This is the scenario to apply to a resource pre-find. The default is 'search' or the value of the _GET param 'scenario'. At this point setting the scenario does very little, but is included here so that you may create custom functionality with little modification.</td>
+<td>Called before a resource(s) is found. This is the scenario to apply to a resource pre-find. The default is 'restfullyii' or the value of the _GET param 'scenario'. At this point setting the scenario does very little, but is included here so that you may create custom functionality with little modification.</td>
 </tr>
 <tr>
 <td><a href="#model.filter">model.filter</a></td>
 <td><a href="#pre.filter.model.filter">Yes</a></td>
 <td><a href="#post.filter.model.filter">Yes</a></td>
-<td>Called when attempting to apply a filter to apply to the records in a GET request. The default is 'NULL' or the value of the _GET param 'filter'. The format is JSON: '[{"property":"SOME_PROPERTY", "value":"SOME_VALUE", "operator": =""}]'</td>
+<td>Called when attempting to apply a filter to apply to the records in a GET request. The default is 'NULL' or the value of the <em>GET param 'filter'. The format is JSON: '[{"property":"SOME</em>PROPERTY", "value":"SOME_VALUE", "operator": =""}]'</td>
 </tr>
 <tr>
 <td><a href="#model.sort">model.sort</a></td>
 <td><a href="#pre.filter.model.sort">Yes</a></td>
 <td><a href="#post.filter.model.sort">Yes</a></td>
-<td>Called when attempting to sort records returned in a GET request. The default is 'NULL' or the value of the _GET param 'sort'. Rhe format is JSON:[{"property":"SOME_PROPERTY", "direction":"DESC"}]</td>
+<td>Called when attempting to sort records returned in a GET request. The default is 'NULL' or the value of the <em>GET param 'sort'. Rhe format is JSON:[{"property":"SOME</em>PROPERTY", "direction":"DESC"}]</td>
 </tr>
 <tr>
 <td><a href="#model.find">model.find</a></td>
@@ -1112,6 +1172,37 @@ PUT /api/team/1/players/44
         <span class="nx">Yii</span><span class="o">::</span><span class="na">trace</span><span class="p">(</span><span class="nv">$event</span><span class="p">,</span> <span class="nv">$category</span><span class="p">);</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="p">[</span><span class="nv">$event</span><span class="p">,</span> <span class="nv">$category</span><span class="p">,</span> <span class="nv">$ignore</span><span class="p">];</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqdisablecweblogroute" class="anchor" href="#reqdisablecweblogroute"><span class="octicon octicon-link"></span></a><a name="req.disable.cweblogroute"></a>req.disable.cweblogroute</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.disable.cweblogroute</span>
+<span class="sd"> *</span>
+<span class="sd"> * this is only relevant if you have enabled CWebLogRoute in your main config</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Bool) true (default) to disable CWebLogRoute, false to allow</span>
+<span class="sd"> */</span> 
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.auth.username'</span><span class="p">,</span> <span class="k">function</span><span class="p">(){</span>
+    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqdisablecweblogroute" class="anchor" href="#prefilterreqdisablecweblogroute"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.disable.cweblogroute"></a>pre.filter.req.disable.cweblogroute</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.disable.cweblogroute'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//no return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqdisablecweblogroute" class="anchor" href="#postfilterreqdisablecweblogroute"><span class="octicon octicon-link"></span></a><a name="post.filter.req.disable.cweblogroute"></a>post.filter.req.disable.cweblogroute</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.disable.cweblogroute'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$disable</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$disable</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
 
@@ -1289,7 +1380,39 @@ PUT /api/team/1/players/44
 <a name="postfilterreqauthajaxuser" class="anchor" href="#postfilterreqauthajaxuser"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.ajax.user"></a>post.filter.req.auth.ajax.user</h4>
 
 <div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//String</span>
+    <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//Bool</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqauthuri" class="anchor" href="#reqauthuri"><span class="octicon octicon-link"></span></a><a name="req.auth.uri"></a>req.auth.uri</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.auth.uri</span>
+<span class="sd"> *</span>
+<span class="sd"> * return true to allow access to a given uri / http verb;</span>
+<span class="sd"> * false to deny access to a given uri / http verb;</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (bool) default is true</span>
+<span class="sd"> */</span> 
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="nx">req</span><span class="o">.</span><span class="nx">auth</span><span class="o">.</span><span class="nx">uri</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$verb</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqauthuri" class="anchor" href="#prefilterreqauthuri"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.uri"></a>pre.filter.req.auth.uri</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.uri'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$verb</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nv">$uri</span><span class="p">,</span> <span class="nv">$verb</span><span class="p">];</span> <span class="c1">//array[string, string]</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqauthuri" class="anchor" href="#postfilterreqauthuri"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.uri"></a>post.filter.req.auth.uri</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">post</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">auth</span><span class="o">.</span><span class="nx">uri</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//bool</span>
 <span class="p">});</span>
 </pre></div>
 
@@ -1342,7 +1465,7 @@ PUT /api/team/1/players/44
 <h4>
 <a name="prefilterreqparamispk" class="anchor" href="#prefilterreqparamispk"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.param.is.pk"></a>pre.filter.req.param.is.pk</h4>
 
-<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="err">'</span><span class="nx">pre</span><span class="o">.</span><span class="nx">filter</span><span class="o">.</span><span class="nx">req</span><span class="o">.</span><span class="nx">param</span><span class="o">.</span><span class="nx">is</span><span class="o">.</span><span class="nx">pk</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.param.is.pk'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$pk</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$pk</span><span class="p">;</span> <span class="c1">//Mixed</span>
 <span class="p">});</span>
 </pre></div>
@@ -2000,12 +2123,12 @@ PUT /api/team/1/players/44
 <span class="sd"> *</span>
 <span class="sd"> * Called before a resource is found</span>
 <span class="sd"> * This is the scenario to apply to a resource pre-find</span>
-<span class="sd"> * The default is 'search' or the value of the _GET param 'scenario'</span>
+<span class="sd"> * The default is 'restfullyii' or the value of the _GET param 'scenario'</span>
 <span class="sd"> *</span>
 <span class="sd"> * @return (String) the scenario name</span>
 <span class="sd"> */</span>
 <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'model.scenario'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'scenario'</span><span class="p">])</span><span class="o">?</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'scenario'</span><span class="p">]</span><span class="o">:</span> <span class="s1">'search'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">'scenario'</span><span class="p">])</span><span class="o">?</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">'scenario'</span><span class="p">]</span><span class="o">:</span> <span class="s1">'restfullyii'</span><span class="p">;</span>
 <span class="p">});</span>
 </pre></div>
 
@@ -2704,25 +2827,18 @@ PUT /api/team/1/players/44
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>Starship / RestfullYii is released under the WTFPL license - <a href="http://sam.zoy.org/wtfpl/">http://sam.zoy.org/wtfpl/</a>. This means that you can literally do whatever you want with this extension.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/evan108108/RESTFullYii/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/evan108108/RESTFullYii/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/evan108108/RESTFullYii"></a> is maintained by <a href="https://github.com/evan108108">evan108108</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-  
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Restfullyii maintained by <a href="https://github.com/evan108108">evan108108</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
