@@ -720,6 +720,78 @@ class WorkController extends Controller
 
 ```
 
+##CORS Requests (Cross-Origin Resource Sharing)
+
+Making cross origin requests from Javascript is now possible with RESTFullYii! RESTFullYii has several CORS specific events that help making CORS requests easy.
+
+Lets suppose you have the following setup; An API server with the domain http://rest-api-server.back and a client application at the domain http://my-js-client-app.front. Obviously you would like to make requests from your front end client application (my-js-client-app.front) to your backend API server (rest-api-server.back). 
+
+#####1) The first thing you will need to do is let RESTFullYii know that my-js-client-app.front is allowed to make requests to a given resource or resources. 
+Lets say we want to allow our app to make requests to the 'Artist' resource only. So lets add an event hook in our ArtistController
+
+```php
+class ArtistController extends Controller
+{
+	[...]
+	
+	public function restEvents()
+	{
+		$this->onRest('req.cors.access.control.allow.origin', function() {
+			return ['http://my-js-client-app.front']; //List of sites allowed to make CORS requests 
+		});
+	}
+}
+
+```
+
+If you would like to allow my-js-client-app.front to access other resource you simply repeat this process in the appropriate controller(s) or apply it globally in your main config params (see above examples).
+
+#####2) We need to determine is the types of requests we would like to allow. By default RESTFullYii will allow GET & POST but for our application we would like PUT & DELETE as well.
+
+```php
+class ArtistController extends Controller
+{
+	[...]
+	
+	public function restEvents()
+	{
+		$this->onRest('req.cors.access.control.allow.origin', function() {
+			return ['http://my-js-client-app.front']; //List of sites allowed to make CORS requests 
+		});
+		
+		$this->onRest('req.cors.access.control.allow.methods', function() {
+			return ['GET', 'POST', 'PUT', 'DELETE']; //List of allowed http methods (verbs) 
+		});
+	}
+}
+```
+
+This is the minimum configuration but there are more available; See ([req.cors.access.control.allow.headers](#req.cors.access.control.allow.headers), [req.cors.access.control.max.age](#req.cors.access.control.max.age), [req.auth.cors](#req.auth.cors))
+
+#####3) Now that our server is set up to allow CORS requests we are ready to send requests from our client @http://my-js-client-app.front
+
+```javascript
+$.ajax({
+	type: "GET",
+	url: "http://rest-api-server.back/api/artist",
+	headers: {
+		'X_REST_CORS': 'Yes',
+	},
+	success: function( response ){
+		console.log(response);
+	},
+	error: function( error ){
+		console.log( "ERROR:", error );
+	}
+});
+```
+
+######*Notice the headers object in the jQuery request above. It is required that you send `X_REST_CORS: 'Yes'`
+
+####That's it! You are making sweet CORS!
+
+
+
 ## Events
 List of all events and their default event handlers.
 
@@ -736,6 +808,12 @@ List of all events and their default event handlers.
 | [req.auth.password](#req.auth.password)   |   [Yes](#pre.filter.req.auth.password)  | [Yes](#post.filter.req.auth.password) |  This is the password use to grant access to non-ajax users. At a minimum you should change this value |
 | [req.auth.user](#req.auth.user)   |   [Yes](#pre.filter.req.auth.user)  | [Yes](#post.filter.req.auth.user) |  Used to validate a non-ajax user; return true to allow; false to deny |
 | [req.auth.ajax.user](#req.auth.ajax.user)   |   [Yes](#pre.filter.req.auth.ajax.user)  | [Yes](#post.filter.req.auth.ajax.user) |  Used to validate a an ajax user; return true to allow; false to deny |
+| [req.auth.type](#req.auth.type)   |   [Yes](#pre.filter.req.auth.type)  | [Yes](#post.filter.req.auth.type) | returns the authorization type (1=CORS, 2=USER_PASS, 3=AJAX) |
+| [req.cors.access.control.allow.origin](#req.cors.access.control.allow.origin)   |   [Yes](#pre.filter.req.cors.access.control.allow.origin)  | [Yes](#post.filter.req.cors.access.control.allow.origin) | returns the allowed remote origins durring a CORS request |
+| [req.cors.access.control.allow.methods](#req.cors.access.control.allow.methods)   |   [Yes](#pre.filter.req.cors.access.control.allow.methods)  | [Yes](#post.filter.req.cors.access.control.allow.methods) | returns the allowed http methods/verbs for a CORS request |
+| [req.cors.access.control.allow.headers](#req.cors.access.control.allow.headers)   |   [Yes](#pre.filter.req.cors.access.control.allow.headers)  | [Yes](#post.filter.req.cors.access.control.allow.headers) | returns the allowed headers for a CORS request |
+| [req.cors.access.control.max.age](#req.cors.access.control.max.age)   |   [Yes](#pre.filter.req.cors.access.control.max.age)  | [Yes](#post.filter.req.cors.access.control.max.age) | Used in a CORS request to indicate how long the response can be cached (seconds) |
+| [req.auth.cors](#req.auth.cors)   |   [Yes](#pre.filter.req.auth.cors)  | [Yes](#post.filter.req.auth.cors) | returns the authorization true if the CORS request is authorized and false if not |
 | [req.auth.uri](#req.auth.uri)   |   [Yes](#pre.filter.req.auth.uri)  | [Yes](#post.filter.req.auth.uri) |  grant / deny access based on the URI and or HTTP verb |
 | [req.after.action](#req.after.action)   |   [Yes](#pre.filter.req.after.action)  | [Yes](#post.filter.req.after.action) |  Called after the request has been fulfilled. By default it has no behavior |
 | [req.param.is.pk](#req.param.is.pk)   |   [Yes](#pre.filter.req.param.is.pk)  | [Yes](#post.filter.req.param.is.pk) |  Called when attempting to validate a resources primary key. The default is an integer. Return true to confirm Primary Key; False to deny primary key. |
@@ -1073,6 +1151,209 @@ $this->onRest('post.filter.req.auth.ajax.user', function($validation) {
 	return $validation; //Bool
 });
 ```
+
+
+
+
+
+###<a name="req.auth.type"/>req.auth.type</a>
+```php
+/**
+ * req.auth.type
+ *
+ * @return (Int) The request authentication type which may be 'USERPASS' (2), 'AJAX' (3) or 'CORS' (1)
+ */
+$this->onRest('req.auth.type', function($application_id) {
+	if(isset($_SERVER['HTTP_X_'.$application_id.'_CORS']) || (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
+		return ERestEventListenerRegistry::REQ_TYPE_CORS;
+	} else if(isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) && isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
+		return ERestEventListenerRegistry::REQ_TYPE_USERPASS;
+	} else {
+		return ERestEventListenerRegistry::REQ_TYPE_AJAX;
+	}
+});
+```
+
+####<a name="pre.filter.req.auth.type"/>pre.filter.req.auth.type</a>
+```php
+$this->onRest('pre.filter.req.auth.type', function($application_id) {
+	return $application_id; //String
+});
+```
+
+####<a name="post.filter.req.auth.type"/>post.filter.req.auth.type</a>
+```php
+$this->onRest('post.filter.config.application.id', function($auth_type) {
+	return $auth_type; //Int
+});
+```
+
+
+
+
+###<a name="req.cors.access.control.allow.origin"/>req.cors.access.control.allow.origin</a>
+```php
+/**
+ * req.cors.access.control.allow.origin
+ *
+ * Used to validate a CORS request
+ *
+ * @return (Array) return a list of domains (origin) allowed access
+ */
+$this->onRest('req.cors.access.control.allow.origin', function() {
+	return []; //Array
+});
+```
+
+####<a name="pre.filter.req.cors.access.control.allow.origin"/>pre.filter.req.cors.access.control.allow.origin</a>
+```php
+$this->onRest('pre.filter.req.cors.access.control.allow.origin', function() {
+	//No Return
+});
+```
+
+####<a name="post.filter.req.cors.access.control.allow.origin"/>post.filter.req.cors.access.control.allow.origin</a>
+```php
+$this->onRest('post.filter.req.cors.access.control.allow.origin', function($allowed_origins) {
+	return $allowed_origins; //Array
+});
+```
+
+
+
+
+
+###<a name="req.cors.access.control.allow.methods"/>req.cors.access.control.allow.methods</a>
+```php
+/**
+ * req.cors.access.control.allow.methods
+ *
+ * Used by CORS request to indicate the http methods (verbs) 
+ * that can be used in the actual request
+ *
+ * @return (Array) List of http methods allowed via CORS
+ */
+$this->onRest('req.cors.access.control.allow.methods', function() {
+	return ['GET', 'POST'];
+});
+```
+
+####<a name="pre.filter.req.cors.access.control.allow.methods"/>pre.filter.req.cors.access.control.allow.methods</a>
+```php
+$this->onRest('pre.filter.req.cors.access.control.allow.methods', function() {
+	//No Return
+});
+```
+
+####<a name="post.filter.req.cors.access.control.allow.methods"/>post.filter.req.cors.access.control.allow.methods</a>
+```php
+$this->onRest('post.filter.req.cors.access.control.allow.methods', function($allowed_methods) {
+	return $allowed_methods; //Array
+});
+```
+
+
+
+
+
+###<a name="req.cors.access.control.allow.headers"/>req.cors.access.control.allow.headers</a>
+```php
+/**
+ * req.cors.access.control.allow.headers
+ *
+ * Used by CORS request to indicate which custom headers are allowed in a request
+ *
+ * @return (Array) List of allowed headers
+ */ 
+$this->onRest('req.cors.access.control.allow.headers', function($application_id) {
+	return ["X_{$application_id}_CORS"];
+});
+```
+
+####<a name="pre.filter.req.cors.access.control.allow.headers"/>pre.filter.req.cors.access.control.allow.headers</a>
+```php
+$this->onRest('pre.filter.req.cors.access.control.allow.headers', function() {
+	//No Return
+});
+```
+
+####<a name="post.filter.req.cors.access.control.allow.headers"/>post.filter.req.cors.access.control.allow.headers</a>
+```php
+$this->onRest('post.filter.req.cors.access.control.allow.headers', function($allowed_headers) {
+	return $allowed_headers; //Array
+});
+```
+
+
+
+
+
+###<a name="req.cors.access.control.max.age"/>req.cors.access.control.max.age</a>
+```php
+/**
+ * req.cors.access.control.max.age
+ *
+ * Used in a CORS request to indicate how long the response can be cached, 
+ * so that for subsequent requests, within the specified time, no preflight request has to be made
+ *
+ * @return (Int) time in seconds
+ */
+$this->onRest('req.cors.access.control.max.age', function() {
+	return 3628800; //Int
+});
+```
+
+####<a name="pre.filter.req.cors.access.control.max.age"/>pre.filter.req.cors.access.control.max.age</a>
+```php
+$this->onRest('pre.filter.req.cors.access.control.max.age', function() {
+	//No Return
+});
+```
+
+####<a name="post.filter.req.cors.access.control.allow.headers"/>post.filter.req.cors.access.control.max.age</a>
+```php
+$this->onRest('post.filter.req.cors.access.control.max.age', function($max_age_in_seconds) {
+	return $max_age_in_seconds; //int
+});
+```
+
+
+
+
+###<a name="req.auth.cors"/>req.auth.cors</a>
+```php
+/**
+ * req.auth.cors
+ *
+ * Used to authorize a given CORS request
+ *
+ * @param (Array) (allowed_origins) list of allowed remote origins
+ *
+ * @return (Bool) true to allow access and false to deny access
+ */
+$this->onRest('req.auth.cors', function ($allowed_origins) {
+	if((isset($_SERVER['HTTP_ORIGIN'])) && (( array_search($_SERVER['HTTP_ORIGIN'], $allowed_origins)) !== false )) {
+		return true;
+	}
+	return false;	
+});
+```
+
+####<a name="pre.filter.req.auth.cors"/>pre.filter.req.auth.cors</a>
+```php
+$this->onRest('pre.filter.req.auth.cors', function($allowed_origins) {
+	return $allowed_origins; //Array
+});
+```
+
+####<a name="post.filter.req.auth.cors"/>post.filter.req.auth.cors</a>
+```php
+$this->onRest('post.filter.config.application.id', function($auth_cors) {
+	return $auth_cors; //Bool
+});
+```
+
+
 
 
 

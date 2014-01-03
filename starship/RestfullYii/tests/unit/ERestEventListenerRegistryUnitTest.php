@@ -63,6 +63,8 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EVENT_LOGGER), "Event " . ERestEvent::REQ_EVENT_LOGGER . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_DISABLE_CWEBLOGROUTE), "Event " . ERestEvent::REQ_DISABLE_CWEBLOGROUTE. " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EXCEPTION), "Event " . ERestEvent::REQ_EXCEPTION . " is not registered");
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_TYPE), "Event " . ERestEvent::REQ_AUTH_TYPE . " is not registered");
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_CORS), "Event " . ERestEvent::REQ_AUTH_CORS . " is not registered");		
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_AJAX_USER), "Event " . ERestEvent::REQ_AUTH_AJAX_USER . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_URI), "Event " . ERestEvent::REQ_AUTH_URI . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_HTTPS_ONLY), "Event " . ERestEvent::REQ_AUTH_HTTPS_ONLY . " is not registered");
@@ -168,6 +170,119 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testHasConstREQTYPECORS
+	 *
+	 * test that the const ERestEventListenerRegistry::REQ_TYPE_CORS exists &
+	 * has the correct value
+	 */
+	public function testHasConstREQTYPECORS()
+	{
+		$this->assertTrue(defined('ERestEventListenerRegistry::REQ_TYPE_CORS'));
+		$this->assertEquals(1, ERestEventListenerRegistry::REQ_TYPE_CORS);
+	}
+
+	/**
+	 * testHasConstREQTYPEUSERPASS
+	 *
+	 * test that the const ERestEventListenerRegistry::REQ_TYPE_USERPASS exists &
+	 * has the correct value
+	 */
+	public function testHasConstREQTYPEUSERPASS()
+	{
+		$this->assertTrue(defined('ERestEventListenerRegistry::REQ_TYPE_USERPASS'));
+		$this->assertEquals(2, ERestEventListenerRegistry::REQ_TYPE_USERPASS);
+	}
+
+	/**
+	 * testHasConstREQTYPEAJAX
+	 *
+	 * test that the const ERestEventListenerRegistry::REQ_TYPE_AJAX exists &
+	 * has the correct value
+	 */
+	public function testHasConstREQTYPEAJAX()
+	{
+		$this->assertTrue(defined('ERestEventListenerRegistry::REQ_TYPE_AJAX'));
+		$this->assertEquals(3, ERestEventListenerRegistry::REQ_TYPE_AJAX);
+	}
+
+	/**
+	 * testEventReqAuthType
+	 * 
+	 * tests that the correct request authentication types are returned
+	 */
+	public function testEventReqAuthType()
+	{
+		$this->assertEquals(ERestEventListenerRegistry::REQ_TYPE_AJAX, $this->event->emit(ERestEvent::REQ_AUTH_TYPE, 'REST'));
+
+		$_SERVER['HTTP_X_REST_USERNAME'] = 'test_user_name';
+		$_SERVER['HTTP_X_REST_PASSWORD'] = 'test_user_password';
+		$this->assertEquals(ERestEventListenerRegistry::REQ_TYPE_USERPASS, $this->event->emit(ERestEvent::REQ_AUTH_TYPE, 'REST'));
+
+		$_SERVER['HTTP_X_REST_CORS'] = 1;
+		$this->assertEquals(ERestEventListenerRegistry::REQ_TYPE_CORS, $this->event->emit(ERestEvent::REQ_AUTH_TYPE, 'REST'));
+
+		unset($_SERVER['HTTP_X_REST_CORS']);
+		$_SERVER['REQUEST_METHOD'] = 'OPTIONS';
+		$this->assertEquals(ERestEventListenerRegistry::REQ_TYPE_CORS, $this->event->emit(ERestEvent::REQ_AUTH_TYPE, 'REST'));
+
+		unset($_SERVER['HTTP_X_REST_USERNAME'], $_SERVER['HTTP_X_REST_PASSWORD'], $_SERVER['HTTP_X_REST_CORS']);
+	}
+
+	/**
+	 * testEventReqCorsAccessControlAllowOrigin
+	 *
+	 * test that allow origin returns an empty array
+	 */
+	public function testEventReqCorsAccessControlAllowOrigin()
+	{
+		$this->assertEquals([], $this->event->emit(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN));
+	}
+
+	/**
+	 * testEventReqCorsAccessControlAllowMethods
+	 *
+	 * test that allow methods returns correct array
+	 */
+	public function testEventReqCorsAccessControlAllowMethods()
+	{
+		$this->assertEquals(['GET', 'POST'], $this->event->emit(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS));
+	}
+
+	/**
+	 * testEventReqCorsAccessControlAllowHeaders
+	 *
+	 * test that allow headers returns correct array
+	 */
+	public function testEventReqCorsAccessControlAllowHeaders()
+	{
+		$this->assertEquals(['X_REST_CORS'], $this->event->emit(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS, 'REST'));
+	}
+
+	/**
+	 * testEventReqCorsAccessControlMaxAge
+	 *
+	 * test that max age returns 3628800
+	 */
+	public function testEventReqCorsAccessControlMaxAge()
+	{
+		$this->assertEquals(3628800, $this->event->emit(ERestEvent::REQ_CORS_ACCESS_CONTROL_MAX_AGE));
+	}
+
+	/**
+	 * testEventReqAuthCors
+	 *
+	 * test that CORS authentication event works correclty
+	 */
+	public function testEventReqAuthCors()
+	{
+		$_SERVER['HTTP_ORIGIN'] = 'http://noallowed.test';
+		$this->assertFalse($this->event->emit(ERestEvent::REQ_AUTH_CORS, [['http://1test.test', 'http://2test.test']]), "req.auth.cors should return false");
+
+		$_SERVER['HTTP_ORIGIN'] = 'http://allowed.test';
+		$this->assertTrue($this->event->emit(ERestEvent::REQ_AUTH_CORS, [['http://allowed.test']]), "req.auth.cors should return true");
+	}
+
+	/**
 	 * testEventReqAuthAjaxUser
 	 *
 	 * tests event req.auth.ajax.user
@@ -179,7 +294,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->asUser($this, function() {
 			$this->assertTrue($this->event->emit(ERestEvent::REQ_AUTH_AJAX_USER), "req.auth.ajax.user should return true");
 		});
-    }
+	}
 
 	/**
 	 * testEventReqAuthURI
@@ -189,7 +304,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testEventReqAuthUri()
 	{
 		$this->assertTrue($this->event->emit(ERestEvent::REQ_AUTH_URI, ['/api/unit/testing', 'GET']), "req.auth.uri should return true");
-    }
+	}
 
 	/**
 	 * testEventReqAuthHttpsOnly
@@ -259,6 +374,23 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	public function testAfterAction()
 	{
 		$this->assertEquals(null, $this->event->emit(ERestEvent::REQ_AFTER_ACTION, null));
+	}
+
+	public function testReqOptionsRender()
+	{
+		$expected_result = '{"Access-Control-Allow-Origin:":"http:\/\/restfullyii.test","Access-Control-Max-Age":3628800,"Access-Control-Allow-Methods":"GET, PUT","Access-Control-Allow-Headers: ":"X_REST_CORS"}';
+		
+		$event_result = $this->captureOB($this, function() {
+			$_SERVER['HTTP_ORIGIN'] = 'http://restfullyii.test';
+			$this->event->emit(ERestEvent::REQ_OPTIONS_RENDER, [
+				['X_REST_CORS'],
+				['GET', 'PUT'],
+				3628800
+			]);
+			unset($_SERVER['HTTP_ORIGIN']);
+		});
+
+		$this->assertJsonStringEqualsJsonString($expected_result, $event_result);
 	}
 
 	/**

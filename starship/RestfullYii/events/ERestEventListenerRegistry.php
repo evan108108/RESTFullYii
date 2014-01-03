@@ -17,6 +17,10 @@ class ERestEventListenerRegistry
 {
 	private $onRest;
 
+	CONST REQ_TYPE_CORS = 1;
+	CONST REQ_TYPE_USERPASS = 2;
+	CONST REQ_TYPE_AJAX = 3;
+
 	/**
 	 * __construct
 	 *
@@ -108,6 +112,21 @@ class ERestEventListenerRegistry
 		});
 
 		/**
+		 * req.auth.type
+		 *
+		 * @return (Int) The request authentication type which may be 'USERPASS' (2), 'AJAX' (3) or 'CORS' (1)
+		 */
+		$onRest(ERestEvent::REQ_AUTH_TYPE, function($application_id) {
+			if(isset($_SERVER['HTTP_X_'.$application_id.'_CORS']) || (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'OPTIONS')) {
+				return ERestEventListenerRegistry::REQ_TYPE_CORS;
+			} else if(isset($_SERVER['HTTP_X_'.$application_id.'_USERNAME']) && isset($_SERVER['HTTP_X_'.$application_id.'_PASSWORD'])) {
+				return ERestEventListenerRegistry::REQ_TYPE_USERPASS;
+			} else {
+				return ERestEventListenerRegistry::REQ_TYPE_AJAX;
+			}
+		});
+
+		/**
 		 * req.auth.ajax.user
 		 *
 		 * Used to validate an ajax user
@@ -126,12 +145,74 @@ class ERestEventListenerRegistry
 		});
 
 		/**
+		 * req.cors.access.control.allow.origin
+		 *
+		 * Used to validate a CORS request
+		 *
+		 * @return (Array) return a list of domains (origin) allowed access
+		 */
+		$onRest(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN, function() {
+			return [];
+		});
+
+		/**
+		 * req.cors.access.control.allow.methods
+		 *
+		 * Used by CORS request to indicate the http methods (verbs) 
+		 * that can be used in the actual request
+		 *
+		 * @return (Array) List of http methods allowed via CORS
+		 */
+		$onRest(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS, function() {
+			return ['GET', 'POST'];
+		});
+
+		/**
+		 * req.cors.access.control.allow.headers
+		 *
+		 * Used by CORS request to indicate which custom headers are allowed in a request
+		 *
+		 * @return (Array) List of allowed headers
+		 */ 
+		$onRest(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS, function($application_id) {
+			return ["X_{$application_id}_CORS"];
+		});
+
+		/**
+		 * req.cors.access.control.max.age
+		 *
+		 * Used in a CORS request to indicate how long the response can be cached, 
+		 * so that for subsequent requests, within the specified time, no preflight request has to be made
+		 *
+		 * @return (Int) time in seconds
+		 */
+		$onRest(ERestEvent::REQ_CORS_ACCESS_CONTROL_MAX_AGE, function() {
+			return 3628800;
+		});
+
+		/**
+		 * req.auth.cors
+		 *
+		 * Used to authorize a given CORS request
+		 *
+		 * @param (Array) (allowed_origins) list of allowed remote origins
+		 *
+		 * @return (Bool) true to allow access and false to deny access
+		 */
+		$onRest(ERestEvent::REQ_AUTH_CORS, function ($allowed_origins) {
+			if((isset($_SERVER['HTTP_ORIGIN'])) && (( array_search($_SERVER['HTTP_ORIGIN'], $allowed_origins)) !== false )) {
+				return true;
+			}
+			return false;	
+		});
+
+		/**
 		 * req.auth.https.only
 		 *
 		 * return true to restrict to https;
 		 * false to allow http or https
 		 *
-		 * @return (bool) default is false
+		 * @return (Bool) default is false
 		 */ 
 		$onRest(ERestEvent::REQ_AUTH_HTTPS_ONLY, function() {
 			return false;
@@ -205,6 +286,24 @@ class ERestEventListenerRegistry
 		 */ 
 		$onRest(ERestEvent::REQ_AFTER_ACTION, function($filterChain) {
 			//Logic being applied after the action is executed
+		});
+
+		/**
+		 * req.options.render
+		 *
+		 * Called when an options request is made from a CORS request
+		 * @param (Array) (allowed_headers) list of allowed headers
+		 * @param (Array) (allowed_methods) list of allowed http methods (verbs: ie PUT, POST, ect...)
+		 * @param (Int) (max_age) Maximum age to cache options client side
+		 */
+		$onRest(ERestEvent::REQ_OPTIONS_RENDER, function($allowed_headers, $allowed_methods, $max_age) {
+			$this->layout = 'RestfullYii.views.layouts.json';
+			$this->render('RestfullYii.views.api.options', [
+				'allowed_headers'		=>$allowed_headers,
+				'allowed_methods'		=>$allowed_methods,
+				'max_age'						=>$max_age,
+				'origin'						=>$_SERVER['HTTP_ORIGIN'],
+			]);
 		});
 
 		/**

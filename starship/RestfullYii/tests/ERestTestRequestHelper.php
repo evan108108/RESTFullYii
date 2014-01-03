@@ -117,6 +117,9 @@ class ERestTestRequestHelper implements arrayaccess
 			case 'delete':
 				$action = 'REST.DELETE';
 				break;
+			case 'options':
+				$action = 'REST.OPTIONS';
+				break;
 			default:
 				$action = 'REST.GET';
 				break;
