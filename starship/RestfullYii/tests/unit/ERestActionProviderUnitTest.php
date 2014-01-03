@@ -20,6 +20,7 @@ class ERestActionProviderUnitTest extends ERestTestCase
 		'PUT'=>'RestfullYii.actions.EActionRestPUT',
 		'POST'=>'RestfullYii.actions.EActionRestPOST',
 		'DELETE'=>'RestfullYii.actions.EActionRestDELETE',
+		'OPTIONS'=>'RestfullYii.actions.EActionRestOPTIONS',
 		];
 
 	/**

@@ -109,7 +109,7 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		$this->assertExceptionHasMessage('You must use a secure connection', $request_response);
 	}
 
-    /**
+	/**
 	 * tests that specific URI's may be accepted or denied 
 	 */ 
 	public function testRequestAuthUri()
@@ -117,10 +117,10 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		$request = new ERestTestRequestHelper();
 		
 		$request->addEvent(ERestEvent::REQ_AUTH_URI, function($uri, $verb) {
-            if($uri == '/api/post' && $verb == 'GET') {
-                return false;
-            }
-            return true;
+			if($uri == '/api/post' && $verb == 'GET') {
+					return false;
+			}
+			return true;
 		});
 
 		$request['config'] = [
@@ -134,9 +134,9 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		];
 		$request_response = $request->send();
 		$this->assertInstanceOf('Exception', $request_response);
-        $this->assertExceptionHasMessage('Unauthorized', $request_response);
+		$this->assertExceptionHasMessage('Unauthorized', $request_response);
 
-        $request['config'] = [
+		$request['config'] = [
 			'url'			=> 'http://api/post/1',
 			'type'		=> 'GET',
 			'data'		=> NULL,
@@ -147,7 +147,49 @@ class RequestCycleAuthUnitTest extends ERestTestCase
 		];
 		$request_response = $request->send();
 		$this->assertJSONFormat($request_response);
-    }
+	}
+
+	/**
+	 * Test that cors auth round trip works
+	 */
+	public function testRequestCORSAuth()
+	{
+		$request = new ERestTestRequestHelper();
+
+		$request->addEvent(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN, function() {
+			return ['http://rest.test'];
+		});
+
+		$request['config'] = [
+			'url'			=> 'http://api/post/1',
+			'type'		=> 'OPTIONS',
+			'data'		=> NULL,
+			'headers' => [
+				'ORIGIN' 			=> 'http://rest.test',
+				'X_REST_CORS' => 'ALLOW',
+			],
+		];
+
+		$request_response = $request->send();
+		$expected_response = '{"Access-Control-Allow-Origin:":"http:\/\/rest.test","Access-Control-Max-Age":3628800,"Access-Control-Allow-Methods":"GET, POST","Access-Control-Allow-Headers: ":"X_REST_CORS"}';
+		$this->assertJsonStringEqualsJsonString($expected_response, $request_response);
+
+		$request['config'] = [
+			'url'			=> 'http://api/post/1',
+			'type'		=> 'GET',
+			'data'		=> NULL,
+			'headers' => [
+				'ORIGIN' 			=> 'http://rest.test',
+				'X_REST_CORS' => 'ALLOW',
+			],
+		];
+
+		$request_response = $request->send();
+		$expected_response = '{"success":true,"message":"Record Found","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}],"author":{"id":"1","username":"username1","password":"password1","email":"email@email1.com"}}}}';
+		$this->assertJsonStringEqualsJsonString($expected_response, $request_response);
+
+	}
+
 
 
 }

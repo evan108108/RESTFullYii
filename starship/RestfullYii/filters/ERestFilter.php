@@ -52,16 +52,35 @@ class ERestFilter extends CFilter
 			}
 		}
 
-		if( !$controller->emitRest(ERestEvent::REQ_AUTH_AJAX_USER) ) {
-			if(!$controller->emitRest(ERestEvent::REQ_AUTH_USER, [
-				$controller->emitRest(ERestEvent::CONFIG_APPLICATION_ID),
-				$controller->emitRest(ERestEvent::REQ_AUTH_USERNAME),
-				$controller->emitRest(ERestEvent::REQ_AUTH_PASSWORD),
-			])) {
-				throw new CHttpException(401, "Unauthorized");
-			}
+
+		$application_id = $controller->emitRest(ERestEvent::CONFIG_APPLICATION_ID);
+
+		switch ($controller->emitRest(ERestEvent::REQ_AUTH_TYPE, $application_id)) {
+			case ERestEventListenerRegistry::REQ_TYPE_CORS:
+				$authorized = $controller->emitRest(
+					ERestEvent::REQ_AUTH_CORS,
+					[$controller->emitRest(ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN)]
+				);
+				break;
+			case ERestEventListenerRegistry::REQ_TYPE_USERPASS:	
+				$authorized = ($controller->emitRest(ERestEvent::REQ_AUTH_USER, [
+					$application_id,
+					$controller->emitRest(ERestEvent::REQ_AUTH_USERNAME),
+					$controller->emitRest(ERestEvent::REQ_AUTH_PASSWORD),
+				]));
+				break;
+			case ERestEventListenerRegistry::REQ_TYPE_AJAX:
+				$authorized = ($controller->emitRest(ERestEvent::REQ_AUTH_AJAX_USER));
+				break;
+			default:
+				$authorized = false;
+				break;
 		}
 
+		if(!$authorized) {
+			throw new CHttpException(401, "Unauthorized");
+		}
+	
 		if(!$controller->emitRest(ERestEvent::REQ_AUTH_URI, $controller->getURIAndHTTPVerb())) {
 			throw new CHttpException(401, "Unauthorized");
 		}

@@ -15,7 +15,7 @@ class ERestBaseTestController extends Controller
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			 array('RestfullYii.filters.ERestFilter + REST.GET, REST.PUT, REST.POST, REST.DELETE'),
+			 array('RestfullYii.filters.ERestFilter + REST.GET, REST.PUT, REST.POST, REST.DELETE, REST.OPTIONS'),
 		);
 	}
 
@@ -35,7 +35,7 @@ class ERestBaseTestController extends Controller
 	{
 		return array(
 			array('allow', 
-				'actions'=>array('REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE'),
+				'actions'=>array('REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE', 'REST.OPTIONS'),
 				'users'=>array('*'),
 			),
 			array('deny',  // deny all users

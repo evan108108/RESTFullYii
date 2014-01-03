@@ -305,6 +305,30 @@ class RouteUnitTest extends ERestTestCase
 		$this->assertRouteResolvesToControllerAndAction('DELETE::api/profile/testing4/4/d', 'Profile', 'REST.DELETE');
 	}
 
+	/**
+	 * testRouteOPTIONSResource
+	 *
+	 * tests that a OPTIONS for a single resource
+	 * is correctly routed
+	 */
+	public function testRouteOptionsResource()
+	{
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/category', 'Category', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/post', 'Post', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/user', 'User', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/profile', 'Profile', 'REST.OPTIONS');
+
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/category/1', 'Category', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/post/2', 'Post', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/user/3', 'User', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/profile/4', 'Profile', 'REST.OPTIONS');
+
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/category/1/1', 'Category', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/post/2/2', 'Post', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/user/3/3', 'User', 'REST.OPTIONS');
+		$this->assertRouteResolvesToControllerAndAction('OPTIONS::api/profile/4/4', 'Profile', 'REST.OPTIONS');
+	}
+
 
 	public function assertRouteResolvesToControllerAndAction($uri, $controller_name, $action_name)
 	{

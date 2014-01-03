@@ -46,6 +46,171 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testREQAUTHTYPExists
+	 *
+	 * tests ERestEvent has const::REQ_AUTH_TYPE
+	 */ 
+	public function testREQAUTHTYPExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_AUTH_TYPE'));
+	}
+
+	/**
+	 * testREQOPTIONSRENDERExists
+	 *
+	 * tests ERestEvent has const::REQ_OPTIONS_RENDER
+	 */ 
+	public function testREQOPTIONSRENDERExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_OPTIONS_RENDER'));
+	}
+
+	/**
+	 * testPREFILTERREQOPTIONSRENDERExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_OPTIONS_RENDER
+	 */ 
+	public function testPREFILTERREQOPTIONSRENDERExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_OPTIONS_RENDER'));
+	}
+
+	/**
+	 * testPOSTFILTERREQOPTIONSRENDERExists
+	 *
+	 * tests ERestEvent has const::POST_FILTERREQ_OPTIONS_RENDER
+	 */ 
+	public function testPOSTFILTERREQOPTIONSRENDERExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_OPTIONS_RENDER'));
+	}
+
+	/**
+	 * testREQCORSACCESSCONTROLALLOWORIGINExists
+	 *
+	 * tests ERestEvent has const::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN
+	 */ 
+	public function testREQCORSACCESSCONTROLALLOWORIGINExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN'));
+	}
+
+	
+	/**
+	 * testPREFILTERREQCORSACCESSCONTROLALLOWORIGINExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN
+	 */ 
+	public function testPREFILTERREQCORSACCESSCONTROLALLOWORIGINExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN'));
+	}
+
+	/**
+	 * testPOSTFILTERREQCORSACCESSCONTROLALLOWORIGINExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN
+	 */ 
+	public function testPOSTFILTERREQCORSACCESSCONTROLALLOWORIGINExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN'));
+	}
+
+	/**
+	 * testREQCORSACCESSCONTROLALLOWMETHODSExists
+	 *
+	 * tests ERestEvent has const::REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN
+	 */ 
+	public function testREQCORSACCESSCONTROLALLOWMETHODSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS'));
+	}
+
+	
+	/**
+	 * testPREFILTERREQCORSACCESSCONTROLALLOWMETHODSExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN
+	 */ 
+	public function testPREFILTERREQCORSACCESSCONTROLALLOWMETHODSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS'));
+	}
+
+	/**
+	 * testPOSTFILTERREQCORSACCESSCONTROLALLOWMETHODSExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS
+	 */ 
+	public function testPOSTFILTERREQCORSACCESSCONTROLALLOWMETHODSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS'));
+	}
+
+	/**
+	 * testREQCORSACCESSCONTROLALLOWHEADERSExists
+	 *
+	 * tests ERestEvent has const::REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS
+	 */ 
+	public function testREQCORSACCESSCONTROLALLOWHEADERSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS'));
+	}
+
+	
+	/**
+	 * testPREFILTERREQCORSACCESSCONTROLALLOWMETHODSExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS
+	 */ 
+	public function testPREFILTERREQCORSACCESSCONTROLALLOWHEADERSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS'));
+	}
+
+	/**
+	 * testPOSTFILTERREQCORSACCESSCONTROLALLOWHEADERSExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS
+	 */ 
+	public function testPOSTFILTERREQCORSACCESSCONTROLALLOWHEADERSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS'));
+	}
+
+	/**
+	 * testREQCORSACCESSCONTROLMAXAGEExists
+	 *
+	 * tests ERestEvent has const::REQ_CORS_ACCESS_CONTROL_MAX_AGE
+	 */ 
+	public function testREQCORSACCESSCONTROLMAXAGEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_CORS_ACCESS_CONTROL_MAX_AGE'));
+	}
+
+	
+	/**
+	 * testPREFILTERREQCORSACCESSCONTROLMAXAGEExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_MAX_AGE
+	 */ 
+	public function testPREFILTERREQCORSACCESSCONTROLMAXAGEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_CORS_ACCESS_CONTROL_MAX_AGE'));
+	}
+
+	/**
+	 * testPOSTFILTERREQCORSACCESSCONTROLMAXAGEExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_CORS_ACCESS_CONTROL_MAX_AGE
+	 */ 
+	public function testPOSTFILTERREQCORSACCESSCONTROLMAXAGEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_CORS_ACCESS_CONTROL_MAX_AGE'));
+	}
+
+	
+	/**
 	 * testREQDISABLECWEBLOGROUTE
 	 *
 	 * tests ERestEvent has const::REQ_DISABLE_CWEBLOGROUTE
@@ -65,6 +230,17 @@ class ERestEventUnitTest extends ERestTestCase
 	{
 		$this->assertTrue(defined('ERestEvent::REQ_AUTH_USER'));
 	}
+
+	/**
+	 * testREQAUTCORSHExists
+	 *
+	 * tests ERestEvent has const::REQ_AUTH_CORS
+	 */ 
+	public function testHasConstREQAUTHCORSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_AUTH_CORS'));
+	}
+
 
 	/**
 	 * testREQAUTHHTTPSONLYExists
@@ -478,7 +654,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 	
 	/**
-	 * testPREFILTERCONFIGAPPLICATIONIDExists
+	 * testHasConstPREFILTERCONFIGAPPLICATIONIDExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_CONFIG_APPLICATION_ID
 	 */ 
@@ -488,7 +664,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERCONFIGDEVFLAGExists
+	 * testHasConstPREFILTERCONFIGDEVFLAGExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_CONFIG_DEV_FLAG 
 	 */ 
@@ -498,28 +674,38 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQEVENTLOGGERRExists
+	 * testHasConstPREFILTERREQEVENTLOGGERRExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_EVENT_LOGGER
 	 */ 
-	public function testPREFILTERREQEVENTLOGGERRExists()
+	public function testHasConstPREFILTERREQEVENTLOGGERRExists()
 	{
 		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_EVENT_LOGGER'));
 	}
 
 	/**
-	 * testPREFILTERREQDISABLECWEBLOGROUTE
+	 * testHasConstPREFILTERREQAUTHTYPExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_TYPE
+	 */ 
+	public function testHasConstPREFILTERREQAUTHTYPExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_AUTH_TYPE'));
+	}
+
+	/**
+	 * testHasConstPREFILTERREQDISABLECWEBLOGROUTE
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_DISABLE_CWEBLOGROUTE
 	 */
-	public function testPREFILTERRREQDISABLECWEBLOGROUTE()
+	public function testHasConstPREFILTERRREQDISABLECWEBLOGROUTE()
 	{
 		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_DISABLE_CWEBLOGROUTE'));
 	}
 
 
 	/**
-	 * testPREFILTERREQAUTHUSERExists
+	 * testHasConstPREFILTERREQAUTHUSERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_USER
 	 */ 
@@ -529,7 +715,17 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQAUTHHTTPSONLYExists
+	 * testPREFILTERREQAUTCORSHExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_CORS
+	 */ 
+	public function testHasConstPREFILTERREQAUTHCORSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_AUTH_CORS'));
+	}
+
+	/**
+	 * testHasConstPREFILTERREQAUTHHTTPSONLYExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_HTTPS_ONLY 
 	 */ 
@@ -539,7 +735,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQAUTHUSERNAMEExists
+	 * testHasConstPREFILTERREQAUTHUSERNAMEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_USERNAME
 	 */ 
@@ -549,7 +745,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQAUTHPASSWORDExists
+	 * testHasConstPREFILTERREQAUTHPASSWORDExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_PASSWORD
 	 */ 
@@ -559,7 +755,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQAUTHAJAXUSERExists
+	 * testHasConstPREFILTERREQAUTHAJAXUSERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_AJAX_USER 
 	 */ 
@@ -569,7 +765,7 @@ class ERestEventUnitTest extends ERestTestCase
     }
 
     /**
-	 * testPREFILTERREQAUTHURI
+	 * testHasConstPREFILTERREQAUTHURI
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AUTH_URI 
 	 */ 
@@ -579,7 +775,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQAFTERACTIONExists
+	 * testHasConstPREFILTERREQAFTERACTIONExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_AFTER_ACTION
 	 */ 
@@ -589,7 +785,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQPARAMISPKExists
+	 * testHasConstPREFILTERREQPARAMISPKExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_PARAM_IS_PK 
 	 */ 
@@ -599,7 +795,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQDATAREADExists
+	 * testHasConstPREFILTERREQDATAREADExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_DATA_READ
 	 */ 
@@ -609,7 +805,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQGETRESOURCERENDERExists
+	 * testHasConstPREFILTERREQGETRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_GET_RESOURCE_RENDER 
 	 */ 
@@ -619,7 +815,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQGETRESOURCESRENDERExists
+	 * testHasConstPREFILTERREQGETRESOURCESRENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_GET_RESOURCES_RENDER
 	 */ 
@@ -629,7 +825,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQPUTRESOURCERENDERExists
+	 * testHasConstPREFILTERREQPUTRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_PUT_RESOURCE_RENDER 
 	 */ 
@@ -639,7 +835,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQPOSTRESOURCERENDERExists
+	 * testHasConstPREFILTERREQPOSTRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_POST_RESOURCE_RENDER
 	 */ 
@@ -649,7 +845,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQDELETERESOURCERENDERExists
+	 * testHasConstPREFILTERREQDELETERESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_DELETE_RESOURCE_RENDER 
 	 */ 
@@ -659,7 +855,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQGETSUBRESOURCERENDERExists
+	 * testHasConstPREFILTERREQGETSUBRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_GET_SUBRESOURCE_RENDER 
 	 */ 
@@ -669,7 +865,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQGETSUBRESOURCESRENDERExists
+	 * testHasConstPREFILTERREQGETSUBRESOURCESRENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_GET_SUBRESOURCES_RENDER 
 	 */ 
@@ -679,7 +875,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQPUTSUBRESOURCERENDERExists
+	 * testHasConstPREFILTERREQPUTSUBRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_PUT_SUBRESOURCE_RENDER 
 	 */ 
@@ -689,7 +885,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQDELETESUBRESOURCERENDERExists
+	 * testHasConstPREFILTERREQDELETESUBRESOURCERENDERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_DELETE_SUBRESOURCE_RENDER
 	 */ 
@@ -699,7 +895,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQEXCEPTIONExists
+	 * testHasConstPREFILTERREQEXCEPTIONExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_EXCEPTION
 	 */ 
@@ -709,7 +905,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERREQRENDERJSONExists
+	 * testHasConstPREFILTERREQRENDERJSONExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_REQ_RENDER_JSON 
 	 */ 
@@ -719,7 +915,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELINSTANCEExists
+	 * testHasConstPREFILTERMODELINSTANCEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_INSTANCE 
 	 */ 
@@ -729,17 +925,17 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELATTACHBEHAVIORSExists
+	 * testHasConstPREFILTERMODELATTACHBEHAVIORSExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_ATTACH_BEHAVIORS
 	 */ 
-	public function testPREFILTERMODELATTACHBEHAVIORSExist()
+	public function testHasConstPREFILTERMODELATTACHBEHAVIORSExist()
 	{
 		$this->assertTrue(defined('ERestEvent::PRE_FILTER_MODEL_ATTACH_BEHAVIORS'));
 	}
 
 	/**
-	 * testPREFILTERMODELWITHRELATIONSExists
+	 * testHasConstPREFILTERMODELWITHRELATIONSExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_WITH_RELATIONS
 	 */ 
@@ -749,7 +945,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELLAZYLOADRELATIONSExists
+	 * testHasConstPREFILTERMODELLAZYLOADRELATIONSExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_LAZY_LOAD_RELATIONS
 	 */ 
@@ -759,7 +955,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELLIMITExists
+	 * testHasConstPREFILTERMODELLIMITExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_LIMIT 
 	 */ 
@@ -769,7 +965,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELOFFSETExists
+	 * testHasConstPREFILTERMODELOFFSETExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_OFFSET
 	 */ 
@@ -779,7 +975,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSCENARIOExists
+	 * testHasConstPREFILTERMODELSCENARIOExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SCENARIO 
 	 */ 
@@ -789,7 +985,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELFILTERExists
+	 * testHasConstPREFILTERMODELFILTERExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_FILTER
 	 */ 
@@ -799,7 +995,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSORTExists
+	 * testHasConstPREFILTERMODELSORTExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SORT 
 	 */ 
@@ -809,7 +1005,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELFINDExists
+	 * testHasConstPREFILTERMODELFINDExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_FIND 
 	 */ 
@@ -819,7 +1015,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELFINDALLExists
+	 * testHasConstPREFILTERMODELFINDALLExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_FIND_ALL 
 	 */ 
@@ -829,7 +1025,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELCOUNTExists
+	 * testHasConstPREFILTERMODELCOUNTExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_COUNT 
 	 */ 
@@ -839,7 +1035,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSUBRESOURCEFINDExists
+	 * testHasConstPREFILTERMODELSUBRESOURCEFINDExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SUBRESOURCE_FIND 
 	 */ 
@@ -849,7 +1045,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSUBRESOURCESFINDALLExists
+	 * testHasConstPREFILTERMODELSUBRESOURCESFINDALLExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SUBRESOURCES_FIND_ALL 
 	 */ 
@@ -859,7 +1055,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSUBRESOURCECOUNTExists
+	 * testHasConstPREFILTERMODELSUBRESOURCECOUNTExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SUBRESOURCE_COUNT 
 	 */ 
@@ -869,7 +1065,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELAPPLYPOSTDATAExists
+	 * testHasConstPREFILTERMODELAPPLYPOSTDATAExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_APPLY_POST_DATA
 	 */ 
@@ -879,7 +1075,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELAPPLYPUTDATAExists
+	 * testHasConstPREFILTERMODELAPPLYPUTDATAExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_APPLY_PUT_DATA
 	 */ 
@@ -889,7 +1085,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSAVEExists
+	 * testHasConstPREFILTERMODELSAVEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SAVE 
 	 */ 
@@ -899,7 +1095,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSUBRESOURCESAVEExists
+	 * testHasConstPREFILTERMODELSUBRESOURCESAVEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SUBRESOURCE_SAVE 
 	 */ 
@@ -909,7 +1105,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELDELETEExists
+	 * testHasConstPREFILTERMODELDELETEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_DELETE
 	 */ 
@@ -919,7 +1115,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELSUBRESOURCEDELETEExists
+	 * testHasConstPREFILTERMODELSUBRESOURCEDELETEExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_SUBRESOURCE_DELETE
 	 */ 
@@ -929,7 +1125,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPREFILTERMODELRESTRICTEDPROPERTIESExists
+	 * testHasConstPREFILTERMODELRESTRICTEDPROPERTIESExists
 	 *
 	 * tests ERestEvent has const::PRE_FILTER_MODEL_RESTRICTED_PROPERTIES 
 	 */ 
@@ -939,7 +1135,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERCONFIGAPPLICATIONIDExists
+	 * testHasConstPOSTFILTERCONFIGAPPLICATIONIDExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_CONFIG_APPLICATION_ID
 	 */ 
@@ -949,7 +1145,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERCONFIGDEVFLAGExists
+	 * testHasConstPOSTFILTERCONFIGDEVFLAGExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_CONFIG_DEV_FLAG 
 	 */ 
@@ -959,28 +1155,38 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQEVENTLOGGERRExists
+	 * testHasConstPOSTFILTERREQEVENTLOGGERRExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_EVENT_LOGGER
 	 */ 
-	public function testPOSTFILTERREQEVENTLOGGERRExists()
+	public function testHasConstPOSTFILTERREQEVENTLOGGERRExists()
 	{
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_EVENT_LOGGER'));
 	}
 
 	/**
-	 * testPOSTFILTERREQDISABLECWEBLOGROUTE
+	 * testHasConstPOSTFILTERREQAUTHTYPExists
+	 *
+	 * tests ERestEvent has const::PoST_FILTER_REQ_AUTH_TYPE
+	 */ 
+	public function testHasConstPOSTFILTERREQAUTHTYPExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_AUTH_TYPE'));
+	}
+
+	/**
+	 * testHasConstPOSTFILTERREQDISABLECWEBLOGROUTE
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_DISABLE_CWEBLOGROUTE
 	 */
-	public function testPOSTFILTERRREQDISABLECWEBLOGROUTE()
+	public function testHasConstPOSTFILTERRREQDISABLECWEBLOGROUTE()
 	{
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_DISABLE_CWEBLOGROUTE'));
 	}
 
 
 	/**
-	 * testPOSTFILTERREQAUTHUSERExists
+	 * testHasConstPOSTFILTERREQAUTHUSERExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_USER
 	 */ 
@@ -990,7 +1196,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQAUTHHTTPSONLYExists
+	 * testHasConstPOSTFILTERREQAUTHHTTPSONLYExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_HTTPS_ONLY 
 	 */ 
@@ -1000,7 +1206,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQAUTHUSERNAMEExists
+	 * testHasConstPOSTFILTERREQAUTHUSERNAMEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_USERNAME
 	 */ 
@@ -1010,7 +1216,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQAUTHPASSWORDExists
+	 * testHasConstPOSTFILTERREQAUTHPASSWORDExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_PASSWORD
 	 */ 
@@ -1020,7 +1226,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQAUTHAJAXUSERExists
+	 * testHasConstPOSTFILTERREQAUTHAJAXUSERExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_AJAX_USER 
 	 */ 
@@ -1030,7 +1236,7 @@ class ERestEventUnitTest extends ERestTestCase
     }
 
     /**
-	 * testPOSTFILTERREQAUTHURIExists
+	 * testHasConstPOSTFILTERREQAUTHURIExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_URI 
 	 */ 
@@ -1040,7 +1246,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQAFTERACTIONExists
+	 * testHasConstPOSTFILTERREQAFTERACTIONExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_AFTER_ACTION
 	 */ 
@@ -1050,7 +1256,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERREQPARAMISPKExists
+	 * testHasConstPOSTFILTERREQPARAMISPKExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_PARAM_IS_PK 
 	 */ 
@@ -1059,8 +1265,18 @@ class ERestEventUnitTest extends ERestTestCase
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_PARAM_IS_PK'));
 	}
 
+		/**
+	 * testPOSTFILTERREQAUTCORSHExists
+	 *
+	 * tests ERestEvent has const::POST_FILTER_REQ_AUTH_CORS
+	 */ 
+	public function testHasConstPOSTFILTERREQAUTHCORSExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_AUTH_CORS'));
+	}
+
 	/**
-	 * testPOSTFILTERREQDATAREADExists
+	 * testHasConstPOSTFILTERREQDATAREADExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_REQ_DATA_READ
 	 */ 
@@ -1070,7 +1286,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELINSTANCEExists
+	 * testHasConstPOSTFILTERMODELINSTANCEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_INSTANCE 
 	 */ 
@@ -1080,17 +1296,17 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELATTACHBEHAVIORSExists
+	 * testHasConstPOSTFILTERMODELATTACHBEHAVIORSExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_ATTACH_BEHAVIORS
 	 */ 
-	public function testPOSTFILTERMODELATTACHBEHAVIORSExists()
+	public function testHasConstPOSTFILTERMODELATTACHBEHAVIORSExists()
 	{
 		$this->assertTrue(defined('ERestEvent::POST_FILTER_MODEL_ATTACH_BEHAVIORS'));
 	}
 
 	/**
-	 * testPOSTFILTERMODELWITHRELATIONSExists
+	 * testHasConstPOSTFILTERMODELWITHRELATIONSExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_WITH_RELATIONS
 	 */ 
@@ -1100,7 +1316,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELLAZYLOADRELATIONSExists
+	 * testHasConstPOSTFILTERMODELLAZYLOADRELATIONSExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_LAZY_LOAD_RELATIONS
 	 */ 
@@ -1110,7 +1326,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELLIMITExists
+	 * testHasConstPOSTFILTERMODELLIMITExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_LIMIT 
 	 */ 
@@ -1120,7 +1336,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELOFFSETExists
+	 * testHasConstPOSTFILTERMODELOFFSETExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_OFFSET
 	 */ 
@@ -1130,7 +1346,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSCENARIOExists
+	 * testHasConstPOSTFILTERMODELSCENARIOExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SCENARIO 
 	 */ 
@@ -1140,7 +1356,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELFILTERExists
+	 * testHasConstPOSTFILTERMODELFILTERExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_FILTER
 	 */ 
@@ -1150,7 +1366,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSORTExists
+	 * testHasConstPOSTFILTERMODELSORTExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SORT 
 	 */ 
@@ -1160,7 +1376,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELFINDExists
+	 * testHasConstPOSTFILTERMODELFINDExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_FIND 
 	 */ 
@@ -1170,7 +1386,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELFINDALLExists
+	 * testHasConstPOSTFILTERMODELFINDALLExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_FIND_ALL 
 	 */ 
@@ -1180,7 +1396,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELCOUNTExists
+	 * testHasConstPOSTFILTERMODELCOUNTExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_COUNT 
 	 */ 
@@ -1190,7 +1406,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSUBRESOURCEFINDExists
+	 * testHasConstPOSTFILTERMODELSUBRESOURCEFINDExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SUBRESOURCE_FIND 
 	 */ 
@@ -1200,7 +1416,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSUBRESOURCESFINDALLExists
+	 * testHasConstPOSTFILTERMODELSUBRESOURCESFINDALLExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SUBRESOURCES_FIND_ALL 
 	 */ 
@@ -1210,7 +1426,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSUBRESOURCECOUNTExists
+	 * testHasConstPOSTFILTERMODELSUBRESOURCECOUNTExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SUBRESOURCE_COUNT 
 	 */ 
@@ -1220,7 +1436,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELAPPLYPOSTDATAExists
+	 * testHasConstPOSTFILTERMODELAPPLYPOSTDATAExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_APPLY_POST_DATA
 	 */ 
@@ -1230,7 +1446,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELAPPLYPUTDATAExists
+	 * testHasConstPOSTFILTERMODELAPPLYPUTDATAExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_APPLY_PUT_DATA
 	 */ 
@@ -1240,7 +1456,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSAVEExists
+	 * testHasConstPOSTFILTERMODELSAVEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SAVE 
 	 */ 
@@ -1250,7 +1466,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSUBRESOURCESAVEExists
+	 * testHasConstPOSTFILTERMODELSUBRESOURCESAVEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SUBRESOURCE_SAVE 
 	 */ 
@@ -1260,7 +1476,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELDELETEExists
+	 * testHasConstPOSTFILTERMODELDELETEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_DELETE
 	 */ 
@@ -1270,7 +1486,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELSUBRESOURCEDELETEExists
+	 * testHasConstPOSTFILTERMODELSUBRESOURCEDELETEExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_SUBRESOURCE_DELETE
 	 */ 
@@ -1280,7 +1496,7 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
-	 * testPOSTFILTERMODELRESTRICTEDPROPERTIESExists
+	 * testHasConstPOSTFILTERMODELRESTRICTEDPROPERTIESExists
 	 *
 	 * tests ERestEvent has const::POST_FILTER_MODEL_RESTRICTED_PROPERTIES 
 	 */ 

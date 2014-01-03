@@ -133,17 +133,58 @@ class ERestFilterUnitTest extends ERestTestCase
 		$this->assertExceptionHasMessage('Unauthorized', $result);
 
 		$this->loadFilter(
-			[[
-				'event' => ERestEvent::REQ_AUTH_USER,
-				'handler' => function($app_id, $username, $password) {
+			[
+				[
+					'event' => ERestEvent::REQ_AUTH_USER,
+					'handler' => function($app_id, $username, $password) {
 						return true;
-				}
-			]]
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_TYPE,
+					'handler' => function($application_id) {
+						return ERestEventListenerRegistry::REQ_TYPE_USERPASS;
+					}
+				]
+			]
 		);
 		$result = $this->captureOB($this, function() {
 			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
 		});
-		$this->assertTrue(is_array(CJSON::decode($result)));
+		$this->assertTrue(is_array(CJSON::decode($result)), $result);
+	}
+
+	/**
+	 * testPreFilterAuthCors
+	 *
+	 * tests ERestFilter->preFilter()
+	 */
+	public function testPreFilterAuthCors()
+	{
+		$result = $this->captureOB($this, function() {
+			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
+		});
+		$this->assertInstanceOf('Exception', $result);
+		$this->assertExceptionHasMessage('Unauthorized', $result);
+
+		$this->loadFilter(
+			[
+				[
+					'event' => ERestEvent::REQ_AUTH_CORS,
+					'handler' => function() {
+						return true;
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_TYPE,
+					'handler' => function($application_id) {
+						return ERestEventListenerRegistry::REQ_TYPE_CORS;
+					}
+				]
+			]
+		);
+		$result = $this->captureOB($this, function() {
+			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
+		});
+		$this->assertTrue(is_array(CJSON::decode($result)), $result);
 	}
 
 	/**
@@ -175,45 +216,55 @@ class ERestFilterUnitTest extends ERestTestCase
 	public function testPreFilterURI()
 	{
 		$this->loadFilter(
-            [
-                [
-				    'event' => ERestEvent::REQ_AUTH_USER,
-				    'handler' => function($app_id, $username, $password) {
+			[
+				[
+					'event' => ERestEvent::REQ_AUTH_USER,
+					'handler' => function($app_id, $username, $password) {
 						return true;
-				    }
-                ],
-                [
-                    'event' => ERestEvent::REQ_AUTH_URI,
-                    'handler' => function($uri, $verb) {
-                        return false;
-                    }
-                ]
-            ]
-        );
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_URI,
+					'handler' => function($uri, $verb) {
+							return false;
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_TYPE,
+					'handler' => function($application_id) {
+						return ERestEventListenerRegistry::REQ_TYPE_USERPASS;
+					}
+				]
+			]
+		);
+
 		$result = $this->captureOB($this, function() {
 			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
 		});
 		$this->assertInstanceOf('Exception', $result);
-        $this->assertExceptionHasMessage('Unauthorized', $result);
+    $this->assertExceptionHasMessage('Unauthorized', $result);
 
 
-        $this->loadFilter(
-            [
-                [
-				    'event' => ERestEvent::REQ_AUTH_USER,
-				    'handler' => function($app_id, $username, $password) {
+		$this->loadFilter(
+			[
+				[
+					'event' => ERestEvent::REQ_AUTH_USER,
+					'handler' => function($app_id, $username, $password) {
 						return true;
-				    }
-                ],
-                [
-                    'event' => ERestEvent::REQ_AUTH_URI,
-                    'handler' => function($uri, $verb) {
-                        return true;
-                    }
-                ]
-            ]
-        );
-        $result = $this->captureOB($this, function() {
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_URI,
+					'handler' => function($uri, $verb) {
+						return true;
+					}
+				], [
+					'event' => ERestEvent::REQ_AUTH_TYPE,
+					'handler' => function($application_id) {
+						return ERestEventListenerRegistry::REQ_TYPE_USERPASS;
+					}
+				]
+			]
+		);
+
+		$result = $this->captureOB($this, function() {
 			$this->invokePrivateMethod($this->filter, 'preFilter', [$this->filterChain]);
 		});
 		$this->assertTrue(is_array(CJSON::decode($result)));
