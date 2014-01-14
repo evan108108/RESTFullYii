@@ -774,6 +774,82 @@ PUT /api/team/1/players/44
 </pre></div>
 
 <h2>
+<a name="cors-requests-cross-origin-resource-sharing" class="anchor" href="#cors-requests-cross-origin-resource-sharing"><span class="octicon octicon-link"></span></a>CORS Requests (Cross-Origin Resource Sharing)</h2>
+
+<p>Making cross origin requests from Javascript is now possible with RESTFullYii! RESTFullYii has several CORS specific events that help making CORS requests easy.</p>
+
+<p>Lets suppose you have the following setup; An API server with the domain <a href="http://rest-api-server.back">http://rest-api-server.back</a> and a client application at the domain <a href="http://my-js-client-app.front">http://my-js-client-app.front</a>. Obviously you would like to make requests from your front end client application (my-js-client-app.front) to your backend API server (rest-api-server.back). </p>
+
+<h5>
+<a name="1-the-first-thing-you-will-need-to-do-is-let-restfullyii-know-that-my-js-client-appfront-is-allowed-to-make-requests-to-a-given-resource-or-resources" class="anchor" href="#1-the-first-thing-you-will-need-to-do-is-let-restfullyii-know-that-my-js-client-appfront-is-allowed-to-make-requests-to-a-given-resource-or-resources"><span class="octicon octicon-link"></span></a>1) The first thing you will need to do is let RESTFullYii know that my-js-client-app.front is allowed to make requests to a given resource or resources.</h5>
+
+<p>Lets say we want to allow our app to make requests to the 'Artist' resource only. So lets add an event hook in our ArtistController</p>
+
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">ArtistController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">restEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.origin'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s1">'http://my-js-client-app.front'</span><span class="p">];</span> <span class="c1">//List of sites allowed to make CORS requests </span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+
+<p>If you would like to allow my-js-client-app.front to access other resource you simply repeat this process in the appropriate controller(s) or apply it globally in your main config params (see above examples).</p>
+
+<h5>
+<a name="2-we-need-to-determine-is-the-types-of-requests-we-would-like-to-allow-by-default-restfullyii-will-allow-get--post-but-for-our-application-we-would-like-put--delete-as-well" class="anchor" href="#2-we-need-to-determine-is-the-types-of-requests-we-would-like-to-allow-by-default-restfullyii-will-allow-get--post-but-for-our-application-we-would-like-put--delete-as-well"><span class="octicon octicon-link"></span></a>2) We need to determine is the types of requests we would like to allow. By default RESTFullYii will allow GET &amp; POST but for our application we would like PUT &amp; DELETE as well.</h5>
+
+<div class="highlight highlight-php"><pre><span class="k">class</span> <span class="nc">ArtistController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="p">[</span><span class="o">...</span><span class="p">]</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">restEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.origin'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s1">'http://my-js-client-app.front'</span><span class="p">];</span> <span class="c1">//List of sites allowed to make CORS requests </span>
+        <span class="p">});</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.methods'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">,</span> <span class="s1">'PUT'</span><span class="p">,</span> <span class="s1">'DELETE'</span><span class="p">];</span> <span class="c1">//List of allowed http methods (verbs) </span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p>This is the minimum configuration but there are more available; See (<a href="#req.cors.access.control.allow.headers">req.cors.access.control.allow.headers</a>, <a href="#req.cors.access.control.max.age">req.cors.access.control.max.age</a>, <a href="#req.auth.cors">req.auth.cors</a>)</p>
+
+<h5>
+<a name="3-now-that-our-server-is-set-up-to-allow-cors-requests-we-are-ready-to-send-requests-from-our-client-httpmy-js-client-appfront" class="anchor" href="#3-now-that-our-server-is-set-up-to-allow-cors-requests-we-are-ready-to-send-requests-from-our-client-httpmy-js-client-appfront"><span class="octicon octicon-link"></span></a>3) Now that our server is set up to allow CORS requests we are ready to send requests from our client @<a href="http://my-js-client-app.front">http://my-js-client-app.front</a>
+</h5>
+
+<div class="highlight highlight-javascript"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s2">"GET"</span><span class="p">,</span>
+    <span class="nx">url</span><span class="o">:</span> <span class="s2">"http://rest-api-server.back/api/artist"</span><span class="p">,</span>
+    <span class="nx">headers</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s1">'X_REST_CORS'</span><span class="o">:</span> <span class="s1">'Yes'</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">response</span> <span class="p">){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+    <span class="p">},</span>
+    <span class="nx">error</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span> <span class="nx">error</span> <span class="p">){</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span> <span class="s2">"ERROR:"</span><span class="p">,</span> <span class="nx">error</span> <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h6>
+<a name="notice-the-headers-object-in-the-jquery-request-above-it-is-required-that-you-send-x_rest_cors-yes" class="anchor" href="#notice-the-headers-object-in-the-jquery-request-above-it-is-required-that-you-send-x_rest_cors-yes"><span class="octicon octicon-link"></span></a>*Notice the headers object in the jQuery request above. It is required that you send <code>X_REST_CORS: 'Yes'</code>
+</h6>
+
+<h4>
+<a name="thats-it-you-are-making-sweet-cors" class="anchor" href="#thats-it-you-are-making-sweet-cors"><span class="octicon octicon-link"></span></a>That's it! You are making sweet CORS!</h4>
+
+<h2>
 <a name="events" class="anchor" href="#events"><span class="octicon octicon-link"></span></a>Events</h2>
 
 <p>List of all events and their default event handlers.</p>
@@ -851,6 +927,42 @@ PUT /api/team/1/players/44
 <td><a href="#pre.filter.req.auth.ajax.user">Yes</a></td>
 <td><a href="#post.filter.req.auth.ajax.user">Yes</a></td>
 <td>Used to validate a an ajax user; return true to allow; false to deny</td>
+</tr>
+<tr>
+<td><a href="#req.auth.type">req.auth.type</a></td>
+<td><a href="#pre.filter.req.auth.type">Yes</a></td>
+<td><a href="#post.filter.req.auth.type">Yes</a></td>
+<td>returns the authorization type (1=CORS, 2=USER_PASS, 3=AJAX)</td>
+</tr>
+<tr>
+<td><a href="#req.cors.access.control.allow.origin">req.cors.access.control.allow.origin</a></td>
+<td><a href="#pre.filter.req.cors.access.control.allow.origin">Yes</a></td>
+<td><a href="#post.filter.req.cors.access.control.allow.origin">Yes</a></td>
+<td>returns the allowed remote origins durring a CORS request</td>
+</tr>
+<tr>
+<td><a href="#req.cors.access.control.allow.methods">req.cors.access.control.allow.methods</a></td>
+<td><a href="#pre.filter.req.cors.access.control.allow.methods">Yes</a></td>
+<td><a href="#post.filter.req.cors.access.control.allow.methods">Yes</a></td>
+<td>returns the allowed http methods/verbs for a CORS request</td>
+</tr>
+<tr>
+<td><a href="#req.cors.access.control.allow.headers">req.cors.access.control.allow.headers</a></td>
+<td><a href="#pre.filter.req.cors.access.control.allow.headers">Yes</a></td>
+<td><a href="#post.filter.req.cors.access.control.allow.headers">Yes</a></td>
+<td>returns the allowed headers for a CORS request</td>
+</tr>
+<tr>
+<td><a href="#req.cors.access.control.max.age">req.cors.access.control.max.age</a></td>
+<td><a href="#pre.filter.req.cors.access.control.max.age">Yes</a></td>
+<td><a href="#post.filter.req.cors.access.control.max.age">Yes</a></td>
+<td>Used in a CORS request to indicate how long the response can be cached (seconds)</td>
+</tr>
+<tr>
+<td><a href="#req.auth.cors">req.auth.cors</a></td>
+<td><a href="#pre.filter.req.auth.cors">Yes</a></td>
+<td><a href="#post.filter.req.auth.cors">Yes</a></td>
+<td>returns the authorization true if the CORS request is authorized and false if not</td>
 </tr>
 <tr>
 <td><a href="#req.auth.uri">req.auth.uri</a></td>
@@ -1381,6 +1493,203 @@ PUT /api/team/1/players/44
 
 <div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.auth.ajax.user'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$validation</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nv">$validation</span><span class="p">;</span> <span class="c1">//Bool</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqauthtype" class="anchor" href="#reqauthtype"><span class="octicon octicon-link"></span></a><a name="req.auth.type"></a>req.auth.type</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.auth.type</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Int) The request authentication type which may be 'USERPASS' (2), 'AJAX' (3) or 'CORS' (1)</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.auth.type'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$application_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'HTTP_X_'</span><span class="o">.</span><span class="nv">$application_id</span><span class="o">.</span><span class="s1">'_CORS'</span><span class="p">])</span> <span class="o">||</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REQUEST_METHOD'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'REQUEST_METHOD'</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'OPTIONS'</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ERestEventListenerRegistry</span><span class="o">::</span><span class="na">REQ_TYPE_CORS</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'HTTP_X_'</span><span class="o">.</span><span class="nv">$application_id</span><span class="o">.</span><span class="s1">'_USERNAME'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'HTTP_X_'</span><span class="o">.</span><span class="nv">$application_id</span><span class="o">.</span><span class="s1">'_PASSWORD'</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ERestEventListenerRegistry</span><span class="o">::</span><span class="na">REQ_TYPE_USERPASS</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">ERestEventListenerRegistry</span><span class="o">::</span><span class="na">REQ_TYPE_AJAX</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqauthtype" class="anchor" href="#prefilterreqauthtype"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.type"></a>pre.filter.req.auth.type</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.type'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$application_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$application_id</span><span class="p">;</span> <span class="c1">//String</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqauthtype" class="anchor" href="#postfilterreqauthtype"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.type"></a>post.filter.req.auth.type</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$auth_type</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$auth_type</span><span class="p">;</span> <span class="c1">//Int</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqcorsaccesscontrolalloworigin" class="anchor" href="#reqcorsaccesscontrolalloworigin"><span class="octicon octicon-link"></span></a><a name="req.cors.access.control.allow.origin"></a>req.cors.access.control.allow.origin</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.cors.access.control.allow.origin</span>
+<span class="sd"> *</span>
+<span class="sd"> * Used to validate a CORS request</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Array) return a list of domains (origin) allowed access</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.origin'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[];</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqcorsaccesscontrolalloworigin" class="anchor" href="#prefilterreqcorsaccesscontrolalloworigin"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.cors.access.control.allow.origin"></a>pre.filter.req.cors.access.control.allow.origin</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.cors.access.control.allow.origin'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No Return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqcorsaccesscontrolalloworigin" class="anchor" href="#postfilterreqcorsaccesscontrolalloworigin"><span class="octicon octicon-link"></span></a><a name="post.filter.req.cors.access.control.allow.origin"></a>post.filter.req.cors.access.control.allow.origin</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.cors.access.control.allow.origin'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$allowed_origins</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$allowed_origins</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqcorsaccesscontrolallowmethods" class="anchor" href="#reqcorsaccesscontrolallowmethods"><span class="octicon octicon-link"></span></a><a name="req.cors.access.control.allow.methods"></a>req.cors.access.control.allow.methods</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.cors.access.control.allow.methods</span>
+<span class="sd"> *</span>
+<span class="sd"> * Used by CORS request to indicate the http methods (verbs) </span>
+<span class="sd"> * that can be used in the actual request</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Array) List of http methods allowed via CORS</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.methods'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">'GET'</span><span class="p">,</span> <span class="s1">'POST'</span><span class="p">];</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqcorsaccesscontrolallowmethods" class="anchor" href="#prefilterreqcorsaccesscontrolallowmethods"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.cors.access.control.allow.methods"></a>pre.filter.req.cors.access.control.allow.methods</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.cors.access.control.allow.methods'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No Return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqcorsaccesscontrolallowmethods" class="anchor" href="#postfilterreqcorsaccesscontrolallowmethods"><span class="octicon octicon-link"></span></a><a name="post.filter.req.cors.access.control.allow.methods"></a>post.filter.req.cors.access.control.allow.methods</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.cors.access.control.allow.methods'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$allowed_methods</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$allowed_methods</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqcorsaccesscontrolallowheaders" class="anchor" href="#reqcorsaccesscontrolallowheaders"><span class="octicon octicon-link"></span></a><a name="req.cors.access.control.allow.headers"></a>req.cors.access.control.allow.headers</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.cors.access.control.allow.headers</span>
+<span class="sd"> *</span>
+<span class="sd"> * Used by CORS request to indicate which custom headers are allowed in a request</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Array) List of allowed headers</span>
+<span class="sd"> */</span> 
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.allow.headers'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$application_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s2">"X_</span><span class="si">{</span><span class="nv">$application_id</span><span class="si">}</span><span class="s2">_CORS"</span><span class="p">];</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqcorsaccesscontrolallowheaders" class="anchor" href="#prefilterreqcorsaccesscontrolallowheaders"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.cors.access.control.allow.headers"></a>pre.filter.req.cors.access.control.allow.headers</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.cors.access.control.allow.headers'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No Return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqcorsaccesscontrolallowheaders" class="anchor" href="#postfilterreqcorsaccesscontrolallowheaders"><span class="octicon octicon-link"></span></a><a name="post.filter.req.cors.access.control.allow.headers"></a>post.filter.req.cors.access.control.allow.headers</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.cors.access.control.allow.headers'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$allowed_headers</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$allowed_headers</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqcorsaccesscontrolmaxage" class="anchor" href="#reqcorsaccesscontrolmaxage"><span class="octicon octicon-link"></span></a><a name="req.cors.access.control.max.age"></a>req.cors.access.control.max.age</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.cors.access.control.max.age</span>
+<span class="sd"> *</span>
+<span class="sd"> * Used in a CORS request to indicate how long the response can be cached, </span>
+<span class="sd"> * so that for subsequent requests, within the specified time, no preflight request has to be made</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Int) time in seconds</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.cors.access.control.max.age'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">3628800</span><span class="p">;</span> <span class="c1">//Int</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqcorsaccesscontrolmaxage" class="anchor" href="#prefilterreqcorsaccesscontrolmaxage"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.cors.access.control.max.age"></a>pre.filter.req.cors.access.control.max.age</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.cors.access.control.max.age'</span><span class="p">,</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">//No Return</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqcorsaccesscontrolmaxage" class="anchor" href="#postfilterreqcorsaccesscontrolmaxage"><span class="octicon octicon-link"></span></a><a name="post.filter.req.cors.access.control.allow.headers"></a>post.filter.req.cors.access.control.max.age</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.req.cors.access.control.max.age'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$max_age_in_seconds</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$max_age_in_seconds</span><span class="p">;</span> <span class="c1">//int</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
+<a name="reqauthcors" class="anchor" href="#reqauthcors"><span class="octicon octicon-link"></span></a><a name="req.auth.cors"></a>req.auth.cors</h3>
+
+<div class="highlight highlight-php"><pre><span class="sd">/**</span>
+<span class="sd"> * req.auth.cors</span>
+<span class="sd"> *</span>
+<span class="sd"> * Used to authorize a given CORS request</span>
+<span class="sd"> *</span>
+<span class="sd"> * @param (Array) (allowed_origins) list of allowed remote origins</span>
+<span class="sd"> *</span>
+<span class="sd"> * @return (Bool) true to allow access and false to deny access</span>
+<span class="sd"> */</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'req.auth.cors'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$allowed_origins</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">((</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'HTTP_ORIGIN'</span><span class="p">]))</span> <span class="o">&amp;&amp;</span> <span class="p">((</span> <span class="nb">array_search</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">'HTTP_ORIGIN'</span><span class="p">],</span> <span class="nv">$allowed_origins</span><span class="p">))</span> <span class="o">!==</span> <span class="k">false</span> <span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="k">false</span><span class="p">;</span>   
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="prefilterreqauthcors" class="anchor" href="#prefilterreqauthcors"><span class="octicon octicon-link"></span></a><a name="pre.filter.req.auth.cors"></a>pre.filter.req.auth.cors</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'pre.filter.req.auth.cors'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$allowed_origins</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$allowed_origins</span><span class="p">;</span> <span class="c1">//Array</span>
+<span class="p">});</span>
+</pre></div>
+
+<h4>
+<a name="postfilterreqauthcors" class="anchor" href="#postfilterreqauthcors"><span class="octicon octicon-link"></span></a><a name="post.filter.req.auth.cors"></a>post.filter.req.auth.cors</h4>
+
+<div class="highlight highlight-php"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">onRest</span><span class="p">(</span><span class="s1">'post.filter.config.application.id'</span><span class="p">,</span> <span class="k">function</span><span class="p">(</span><span class="nv">$auth_cors</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$auth_cors</span><span class="p">;</span> <span class="c1">//Bool</span>
 <span class="p">});</span>
 </pre></div>
 
