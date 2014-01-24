@@ -140,8 +140,8 @@ class ERestJSONOutputWidget extends CWidget {
 			if(is_null($models)){
 				return null;
 			}
-            if( !is_array($models) ) {
-                return $this->processAttributes($models, $relationName);
+			if( !is_array($models) ) {
+				return $this->processAttributes($models, $relationName);
 			}
 			$list = [];
 			foreach($models as $model) {
@@ -151,9 +151,15 @@ class ERestJSONOutputWidget extends CWidget {
 		};
 
 		array_walk($listOfModels, function($ar_model, $index) use($relations, &$model_as_array, $process_relations) {
-            $model_as_array[$index] = $this->processAttributes($ar_model);
+			$model_as_array[$index] = $this->processAttributes($ar_model);
 			foreach($relations as $relation) {
-				$model_as_array[$index][$relation] = $process_relations($relation, $ar_model->$relation);
+				$model_as_array[$index][$relation] = 
+					(
+						($ar_model->relations()[$relation][0] != CActiveRecord::STAT)?
+						//(is_object($ar_model->$relation) || is_array($ar_model->$relation))?
+							$process_relations($relation, $ar_model->$relation):
+							$ar_model->$relation
+					);
 			}
 		});
 
@@ -213,16 +219,15 @@ class ERestJSONOutputWidget extends CWidget {
 	 * @return (Array) Array of the models attributes 
 	 */
     public function processAttributes($model, $relation=null)
-    {
-        $model_as_array = [];
-        foreach($model->attributes as $property => $value) {
-            if (!$this->propertyIsVisable($property, $relation)) {
-                continue;
-            }
-            $model_as_array[$property] = $value;
-        }
-        return $model_as_array;
-    }
-
+		{
+			$model_as_array = [];
+			foreach($model->attributes as $property => $value) {
+					if (!$this->propertyIsVisable($property, $relation)) {
+							continue;
+					}
+					$model_as_array[$property] = $value;
+			}
+			return $model_as_array;
+		}
 }
 
