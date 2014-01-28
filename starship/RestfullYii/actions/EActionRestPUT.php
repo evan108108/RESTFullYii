@@ -26,6 +26,9 @@ class EActionRestPUT extends ERestBaseAction
 	 */
 	public function run($id=null, $param1=null, $param2=null) 
 	{
+		$visibleProperties = $this->controller->emitRest(ERestEvent::MODEL_VISIBLE_PROPERTIES);
+		$hiddenProperties = $this->controller->emitRest(ERestEvent::MODEL_HIDDEN_PROPERTIES);
+		
     switch ($this->getRequestActionType($id, $param1, $param2, 'put')) {
 			case 'RESOURCES':
 				throw new CHttpException('405', 'Method Not Allowed');
@@ -41,10 +44,12 @@ class EActionRestPUT extends ERestBaseAction
 					$this->handlePutSubresource($id, $param1, $param2),
 					$param1,
 					$param2,
+					$visibleProperties,
+					$hiddenProperties,
 				]);
 				break;
 			case 'RESOURCE':
-				$this->controller->emitRest(ERestEvent::REQ_PUT_RESOURCE_RENDER, [$this->handlePut($id), $this->getRelations()]);
+				$this->controller->emitRest(ERestEvent::REQ_PUT_RESOURCE_RENDER, [$this->handlePut($id), $this->getRelations(), $visibleProperties, $hiddenProperties]);
 				break;
 			default:
 				throw new CHttpException(404, "Resource Not Found");
