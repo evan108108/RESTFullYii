@@ -162,15 +162,15 @@ class GETResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 	 */
 	public function testGETResourcesVissibleGlobalRelatedProperties()
 	{
-        $request = new ERestTestRequestHelper();
+		$request = new ERestTestRequestHelper();
 
-        $request->addEvent('model.visible.properties', function() {
-            return ['id', '*.website'];
-        });
+		$request->addEvent('model.visible.properties', function() {
+				return ['id', '*.website'];
+		});
 
-        $request->addEvent('model.with.relations', function() {
-            return ['profile'];
-        });
+		$request->addEvent('model.with.relations', function() {
+				return ['profile'];
+		});
 
 		$request['config'] = [
 			'url'			=> 'http://api/user',
@@ -182,10 +182,10 @@ class GETResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 			],
 		];
 
-        $request_response = $request->send(); 
-        $expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"6","user":[{"id":"1","profile":{"website":"mysite1.com"}},{"id":"2","profile":{"website":"mysite2.com"}},{"id":"3","profile":{"website":"mysite3.com"}},{"id":"4","profile":{"website":"mysite4.com"}},{"id":"5","profile":{"website":"mysite5.com"}},{"id":"6","profile":{"website":"mysite6.com"}}]}}';
-        $this->assertJsonStringEqualsJsonString($request_response, $expected_response);
-    }
+		$request_response = $request->send(); 
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"6","user":[{"id":"1","profile":{"website":"mysite1.com"}},{"id":"2","profile":{"website":"mysite2.com"}},{"id":"3","profile":{"website":"mysite3.com"}},{"id":"4","profile":{"website":"mysite4.com"}},{"id":"5","profile":{"website":"mysite5.com"}},{"id":"6","profile":{"website":"mysite6.com"}}]}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+	}
 
 
     /**
@@ -197,15 +197,15 @@ class GETResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 	 */
 	public function testGETResourcesVisibleSpecificRelatedProperties()
 	{
-        $request = new ERestTestRequestHelper();
+		$request = new ERestTestRequestHelper();
 
-        $request->addEvent('model.visible.properties', function() {
-            return ['profile.photo', 'profile.website'];
-        });
+		$request->addEvent('model.visible.properties', function() {
+				return ['profile.photo', 'profile.website'];
+		});
 
-        $request->addEvent('model.with.relations', function() {
-            return ['profile'];
-        });
+		$request->addEvent('model.with.relations', function() {
+				return ['profile'];
+		});
 
 		$request['config'] = [
 			'url'			=> 'http://api/user',
@@ -217,8 +217,8 @@ class GETResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 			],
 		];
 
-        $request_response = $request->send(); 
-        $expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"6","user":[{"id":"1","username":"username1","password":"password1","email":"email@email1.com","profile":{"photo":"1","website":"mysite1.com"}},{"id":"2","username":"username2","password":"password2","email":"email@email2.com","profile":{"photo":"0","website":"mysite2.com"}},{"id":"3","username":"username3","password":"password3","email":"email@email3.com","profile":{"photo":"1","website":"mysite3.com"}},{"id":"4","username":"username4","password":"password4","email":"email@email4.com","profile":{"photo":"0","website":"mysite4.com"}},{"id":"5","username":"username5","password":"password5","email":"email@email5.com","profile":{"photo":"1","website":"mysite5.com"}},{"id":"6","username":"username6","password":"password6","email":"email@email6.com","profile":{"photo":"0","website":"mysite6.com"}}]}}';
-        $this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+		$request_response = $request->send(); 
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"6","user":[{"id":"1","username":"username1","password":"password1","email":"email@email1.com","profile":{"photo":"1","website":"mysite1.com"}},{"id":"2","username":"username2","password":"password2","email":"email@email2.com","profile":{"photo":"0","website":"mysite2.com"}},{"id":"3","username":"username3","password":"password3","email":"email@email3.com","profile":{"photo":"1","website":"mysite3.com"}},{"id":"4","username":"username4","password":"password4","email":"email@email4.com","profile":{"photo":"0","website":"mysite4.com"}},{"id":"5","username":"username5","password":"password5","email":"email@email5.com","profile":{"photo":"1","website":"mysite5.com"}},{"id":"6","username":"username6","password":"password6","email":"email@email6.com","profile":{"photo":"0","website":"mysite6.com"}}]}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 }

@@ -26,6 +26,9 @@ class EActionRestDELETE extends ERestBaseAction
 	 */
 	public function run($id=null, $param1=null, $param2=null) 
 	{
+		$visibleProperties = $this->controller->emitRest(ERestEvent::MODEL_VISIBLE_PROPERTIES);
+		$hiddenProperties = $this->controller->emitRest(ERestEvent::MODEL_HIDDEN_PROPERTIES);
+
 		switch ($this->getRequestActionType($id, $param1, $param2, 'delete')) {
 			case 'RESOURCES':
 				throw new CHttpException('405', 'Method Not Allowed');
@@ -41,10 +44,12 @@ class EActionRestDELETE extends ERestBaseAction
 					$this->handleSubresourceDelete($id, $param1, $param2),
 					$param1,
 					$param2,
+					$visibleProperties,
+					$hiddenProperties,
 				]);
 				break;
 			case 'RESOURCE':
-				$this->controller->emitRest(ERestEvent::REQ_DELETE_RESOURCE_RENDER, [$this->handleDelete($id)]);
+				$this->controller->emitRest(ERestEvent::REQ_DELETE_RESOURCE_RENDER, [$this->handleDelete($id), $visibleProperties, $hiddenProperties]);
 				break;
 			default:
 				throw new CHttpException(404, "Resource Not Found");

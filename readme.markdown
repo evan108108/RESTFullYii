@@ -1493,7 +1493,7 @@ $this->onRest('post.filter.req.data.read', function($data) {
  * @param (Array) (relations) the list of relations to include with the data
  * @param (Int) (count) the count of records to return (will be either 1 or 0)
  */
-$this->onRest('req.get.resource.render', function($data, $model_name, $relations, $count) {
+$this->onRest('req.get.resource.render', function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 	//Handler for GET (single resource) request
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	$this->renderJSON([
@@ -1503,6 +1503,8 @@ $this->onRest('req.get.resource.render', function($data, $model_name, $relations
 		'totalCount'		=> $count,
 		'modelName'			=> $model_name,
 		'relations'			=> $relations,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $data,
 	]);
 });
@@ -1510,8 +1512,8 @@ $this->onRest('req.get.resource.render', function($data, $model_name, $relations
 
 ####<a name="pre.filter.req.get.resource.render"/>pre.filter.req.get.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.get.resource.render, function($data, $model_name, $relations, $count) {
-	return [$data, $model_name, $relations, $count]; //Array [Object, String, Array, Int]
+$this->onRest('pre.filter.req.get.resource.render, function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$data, $model_name, $relations, $count]; //Array [Object, String, Array, Int, Array[String], Array[String]]
 });
 ```
 
@@ -1530,7 +1532,7 @@ $this->onRest('pre.filter.req.get.resource.render, function($data, $model_name, 
  * @param (Array) (relations) the list of relations to include with the data
  * @param (Int) (count) the count of records to return
  */
-$this->onRest('req.get.resources.render', function($data, $model_name, $relations, $count) {
+$this->onRest('req.get.resources.render', function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 	//Handler for GET (list resources) request
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	$this->renderJSON([
@@ -1540,6 +1542,8 @@ $this->onRest('req.get.resources.render', function($data, $model_name, $relation
 		'totalCount'		=> $count,
 		'modelName'			=> $model_name,
 		'relations'			=> $relations,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $data,
 	]);
 });
@@ -1547,8 +1551,8 @@ $this->onRest('req.get.resources.render', function($data, $model_name, $relation
 
 ####<a name="pre.filter.req.get.resources.render"/>pre.filter.req.get.resources.render</a>
 ```php
-$this->onRest('pre.filter.req.get.resources.render, function($data, $model_name, $relations, $count) {
-	return [$data, $model_name, $relations, $count]; //Array [Array [Object], String, Array, Int]
+$this->onRest('pre.filter.req.get.resources.render, function($data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties) {
+	return [$data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties]; //Array [Array [Object], String, Array, Int, Array[String], Array[String]]
 });
 ```
 
@@ -1566,7 +1570,7 @@ $this->onRest('pre.filter.req.get.resources.render, function($data, $model_name,
  * @param (Object) (model) the updated model
  * @param (Array) (relations) list of relations to render with model
  */
-$this->onRest('req.put.resource.render' function($model, $relations) {
+$this->onRest('req.put.resource.render' function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> 'true',
@@ -1574,6 +1578,8 @@ $this->onRest('req.put.resource.render' function($model, $relations) {
 		'totalCount'	=> "1",
 		'modelName'		=> get_class($model),
 		'relations'		=> $relations,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1581,8 +1587,8 @@ $this->onRest('req.put.resource.render' function($model, $relations) {
 
 ####<a name="pre.filter.req.put.resource.render"/>pre.filter.req.put.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.req.put.resource.render, function($model, $relations) {
-	return [$model, relations]; //Array [Object, Array]
+$this->onRest('pre.filter.req.req.put.resource.render, function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$model, relations, $visibleProperties, $hiddenProperties]; //Array [Object, Array, Array[String], Array[String]]
 });
 ```
 
@@ -1599,7 +1605,7 @@ $this->onRest('pre.filter.req.req.put.resource.render, function($model, $relatio
  * @param (Object) (model) the newly created model
  * @param (Array) (relations) list of relations to render with model
  */
-$this->onRest('req.post.resource.render', function($model, $relations=[]) {
+$this->onRest('req.post.resource.render', function($model, $relations=[], $visibleProperties=[], $hiddenProperties=[]) {
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> 'true',
@@ -1607,6 +1613,8 @@ $this->onRest('req.post.resource.render', function($model, $relations=[]) {
 		'totalCount'	=> "1",
 		'modelName'		=> get_class($model),
 		'relations'		=> $relations,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1614,8 +1622,8 @@ $this->onRest('req.post.resource.render', function($model, $relations=[]) {
 
 ####<a name="pre.filter.req.post.resource.render"/>pre.filter.req.post.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.post.resource.render', function($model, $relations) {
-	return [$model, relations]; //Array [Object, Array]
+$this->onRest('pre.filter.req.post.resource.render', function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$model, relations, $visibleProperties, $hiddenProperties]; //Array [Object, Array, Array[String], Array[String]]
 });
 ```
 
@@ -1632,7 +1640,7 @@ $this->onRest('pre.filter.req.post.resource.render', function($model, $relations
  *
  * @param (Object) (model) this is the deleted model object for the resource
  */
-$this->onRest('req.delete.resource.render', function($model) {
+$this->onRest('req.delete.resource.render', function($model, $visibleProperties=[], $hiddenProperties=[]) {
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> 'true',
@@ -1640,6 +1648,8 @@ $this->onRest('req.delete.resource.render', function($model) {
 		'totalCount'		=> "1",
 		'modelName'			=> get_class($model),
 		'relations'			=> [],
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1647,8 +1657,8 @@ $this->onRest('req.delete.resource.render', function($model) {
 
 ####<a name="pre.filter.req.delete.resource.render"/>req.delete.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.delete.resource.render', function($model) {
-	return $model; //Object
+$this->onRest('pre.filter.req.delete.resource.render', function($model, $visibleProperties=[], $hiddenProperties=[]) {
+	return[$model, $visibleProperties, $hiddenProperties]; //Array[Object, Array[String], Array[String]]
 });
 ```
 
@@ -1667,7 +1677,7 @@ $this->onRest('pre.filter.req.delete.resource.render', function($model) {
  * @param (String) (subresource_name) the name of the sub-resource to render
  * @param (Int) (count) the count of sub-resources to render (will be either 1 or 0)
  */
-$this->onRest('req.get.subresource.render', function($model, $subresource_name, $count) {
+$this->onRest('req.get.subresource.render', function($model, $subresource_name, $count, $visibleProperties, $hiddenProperties) {
 	$this->setHttpStatus((($count > 0)? 200: 204));
 
 	$this->renderJSON([
@@ -1676,6 +1686,8 @@ $this->onRest('req.get.subresource.render', function($model, $subresource_name, 
 		'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
 		'totalCount'		=> $count,
 		'modelName'			=> $subresource_name,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1683,8 +1695,8 @@ $this->onRest('req.get.subresource.render', function($model, $subresource_name, 
 
 ####<a name="pre.filter.req.get.subresource.render">pre.filter.req.get.subresource.render</a>
 ```php
-$this->onRest('pre.filter.req.get.subresource.render', function($model, $subresource_name, $count) {
-	return [$model, $subresource_name, $count]; //Array [Object, String, Int]
+$this->onRest('pre.filter.req.get.subresource.render', function($model, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$model, $subresource_name, $count, $visibleProperties, $hiddenProperties]; //Array [Object, String, Int, Array[String], Array[String]]
 });
 ```
 
@@ -1704,7 +1716,7 @@ $this->onRest('pre.filter.req.get.subresource.render', function($model, $subreso
  * @param (String) (subresource_name) the name of the sub-resources to render
  * @param (Int) (count) the count of sub-resources to render
  */
-$this->onRest('req.get.subresources.render', function($models, $subresource_name, $count) {
+$this->onRest('req.get.subresources.render', function($models, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
 	$this->setHttpStatus((($count > 0)? 200: 204));
 	
 	$this->renderJSON([
@@ -1713,6 +1725,8 @@ $this->onRest('req.get.subresources.render', function($models, $subresource_name
 		'message'			=> (($count > 0)? "Record(s) Found": "No Record(s) Found"),
 		'totalCount'		=> $count,
 		'modelName'			=> $subresource_name,
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $models,
 	]);
 });
@@ -1720,8 +1734,8 @@ $this->onRest('req.get.subresources.render', function($models, $subresource_name
 
 ####<a name="pre.filter.req.get.subresources.render">pre.filter.req.get.subresources.render</a>
 ```php
-$this->onRest('pre.filter.req.get.subresources.render', function($models, $subresource_name, $count) {
-	return [$models, $subresource_name, $count]; //Array [Array[Object], String, Int]
+$this->onRest('pre.filter.req.get.subresources.render', function($models, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$models, $subresource_name, $count, $visibleProperties, $hiddenProperties]; //Array [Array[Object], String, Int, Array[String], Array[String]]
 });
 ```
 
@@ -1740,7 +1754,7 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
  * @param (String) (subresource_name) the name of the sub-resource
  * @param (Mixed/Int) (subresource_id) the primary key of the sub-resource
  */
-$this->onRest('req.put.subresource.render', function($model, $subresource_name, $subresource_id) {
+$this->onRest('req.put.subresource.render', function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> 'true',
@@ -1748,6 +1762,8 @@ $this->onRest('req.put.subresource.render', function($model, $subresource_name, 
 		'totalCount'		=> "1",
 		'modelName'			=> get_class($model),
 		'relations'			=> [$subresource_name],
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1755,8 +1771,8 @@ $this->onRest('req.put.subresource.render', function($model, $subresource_name, 
 
 ####<a name="pre.filter.req.put.subresource.render">pre.filter.req.put.subresource.render</a>
 ```php
-$this->onRest('pre.filter.req.put.subresource.render', function($model, $subresource_name, $subresource_id) {
-	return [$model, $subresource_name, $subresource_id]; //Array [Object, String, Int]
+$this->onRest('pre.filter.req.put.subresource.render', function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$model, $subresource_name, $subresource_id, $visibleProperties, $hiddenProperties]; //Array [Object, String, Int, Array[String], Array[String]]
 });
 ```
 
@@ -1773,7 +1789,7 @@ $this->onRest('pre.filter.req.put.subresource.render', function($model, $subreso
  * @param (String) (subresource_name) the name of the deleted sub-resource
  * @param (Mixed/Int) (subresource_id) the primary key of the deleted sub-resource
  */
-$this->onRest('req.delete.subresource.render', function($model, $subresource_name, $subresource_id) {
+$this->onRest('req.delete.subresource.render', function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
 	$this->renderJSON([
 		'type'				=> 'rest',
 		'success'			=> 'true',
@@ -1781,6 +1797,8 @@ $this->onRest('req.delete.subresource.render', function($model, $subresource_nam
 		'totalCount'		=> "1",
 		'modelName'			=> get_class($model),
 		'relations'			=> [$subresource_name],
+		'visibleProperties'	=> $visibleProperties,
+		'hiddenProperties'	=> $hiddenProperties,
 		'data'				=> $model,
 	]);
 });
@@ -1788,8 +1806,8 @@ $this->onRest('req.delete.subresource.render', function($model, $subresource_nam
 
 ####<a name="pre.filter.req.delete.subresource.render">pre.filter.req.delete.subresource.render</a>
 ```php
-$this->onRest('pre.filter.req.delete.subresource.render', function($model, $subresource_name, $subresource_id) {
-	return [$model, $subresource_name, $subresource_id]; //Array [Object, String, Int]
+$this->onRest('pre.filter.req.delete.subresource.render', function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
+	return [$model, $subresource_name, $subresource_id, $visibleProperties, $hiddenProperties]; //Array [Object, String, Int, Array[String], Array[String]]
 });
 ```
 
