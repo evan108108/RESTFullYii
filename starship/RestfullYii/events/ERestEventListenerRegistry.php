@@ -343,7 +343,7 @@ class ERestEventListenerRegistry
 		 */
 		$onRest(ERestEvent::REQ_GET_RESOURCES_RENDER, function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 			//Handler for GET (list resources) request
-			;$this->setHttpStatus(200);
+			$this->setHttpStatus(200);
 			$this->renderJSON([
 				'type'							=> 'rest',
 				'success'						=> (($count > 0)? true: false),
@@ -367,7 +367,7 @@ class ERestEventListenerRegistry
 		 * @param (Int) (count) the count of sub-resources to render
 		 */
 		$onRest(ERestEvent::REQ_GET_SUBRESOURCES_RENDER, function($models, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
-			;$this->setHttpStatus(200);
+			$this->setHttpStatus(200);
 			
 			$this->renderJSON([
 				'type'							=> 'rest',
@@ -391,7 +391,7 @@ class ERestEventListenerRegistry
 		 * @param (Int) (count) the count of sub-resources to render (will be either 1 or 0)
 		 */
 		$onRest(ERestEvent::REQ_GET_SUBRESOURCE_RENDER, function($model, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
-			;$this->setHttpStatus(200);
+			$this->setHttpStatus(200);
 
 			$this->renderJSON([
 				'type'				=> 'rest',
@@ -414,6 +414,8 @@ class ERestEventListenerRegistry
 		 * @param (Array) (relations) list of relations to render with model
 		 */
 		$onRest(ERestEvent::REQ_POST_RESOURCE_RENDER, function($model, $relations=[], $visibleProperties=[], $hiddenProperties=[]) {
+			$this->setHttpStatus(201);
+
 			$this->renderJSON([
 				'type'							=> 'rest',
 				'success'						=> 'true',
