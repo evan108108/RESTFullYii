@@ -20,7 +20,7 @@ class ERestTestMigration extends CDbMigration
 				'email'=>'string',
 			));
 		} catch(Exception $e) {
-			$this->execute("TRUNCATE tbl_user");
+			$this->truncateTable("tbl_user");
 		}
 
 		try {
@@ -32,7 +32,7 @@ class ERestTestMigration extends CDbMigration
 				'FOREIGN KEY (user_id) REFERENCES tbl_user(id) ON DELETE CASCADE ON UPDATE CASCADE',
 			));
 		} catch(Exception $e) {
-			$this->execute("TRUNCATE tbl_profile");
+			$this->truncateTable("tbl_profile");
 		}
 
 		try {
@@ -41,7 +41,7 @@ class ERestTestMigration extends CDbMigration
 				'name'=>'string',
 			));
 		} catch(Exception $e) {
-			$this->execute("TRUNCATE tbl_category");
+			$this->truncateTable("tbl_category");
 		}
 
 		try {
@@ -54,7 +54,7 @@ class ERestTestMigration extends CDbMigration
 				'FOREIGN KEY (author_id) REFERENCES tbl_user(id) ON DELETE CASCADE ON UPDATE CASCADE',
 			));
 		} catch(Exception $e) {
-			$this->execute("TRUNCATE tbl_post");
+			$this->truncateTable("tbl_post");
 		}
 
 		try {
@@ -67,7 +67,7 @@ class ERestTestMigration extends CDbMigration
 			'FOREIGN KEY (category_id) REFERENCES tbl_category(id) ON DELETE CASCADE ON UPDATE CASCADE',
 		));
 		} catch(Exception $e) {
-			$this->execute("TRUNCATE tbl_post_category");
+			$this->truncateTable("tbl_post_category");
 		}
 
 		$this->execute("
