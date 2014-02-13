@@ -26,7 +26,7 @@ So if you apply RestfullYii to the 'WorkController' you will get the following n
 
 
 
- _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15)_
+ _For older versions of PHP (< 5.4) checkout [v1.15](https://github.com/evan108108/RESTFullYii/tree/v1.15) or [cccssw's](https://github.com/cccssw) amazing 5.3 port: [https://github.com/cccssw/RESTFullYii](https://github.com/cccssw/RESTFullYii)_
 
 ## Installation
 
