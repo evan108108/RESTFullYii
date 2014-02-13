@@ -2707,7 +2707,7 @@ $this->onRest('pre.filter.model.visible.properties', function() {
 
 ####<a name="post.filter.model.visible.properties">post.filter.model.visible.properties</a>
 ```php
-$this->onRest('post.filter.model.visible.properties', function($result)) {
+$this->onRest('post.filter.model.visible.properties', function($result) {
 	return $result; //Array
 });
 ```
