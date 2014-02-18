@@ -609,7 +609,7 @@ class WorkController extends Controller
 				case 'REST.POST':
 					return Yii::app()->user->checkAccess('REST-CREATE');
 					break;
-				case 'REST.POST':
+				case 'REST.PUT':
 					return Yii::app()->user->checkAccess('REST-UPDATE');
 					break;
 				case 'REST.DELETE':
