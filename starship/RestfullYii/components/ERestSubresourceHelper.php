@@ -70,7 +70,9 @@ class ERestSubresourceHelper implements iERestResourceHelper
 		if(!array_key_exists($subresource_name, $model->relations())) {
 			return false;
 		}
-		if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+		if (!in_array($model->relations()[$subresource_name][0], array(
+			CActiveRecord::HAS_MANY, CActiveRecord::MANY_MANY
+		))) {
 			return false;
 		}
 		return true;
