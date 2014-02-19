@@ -65,7 +65,8 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_EXCEPTION), "Event " . ERestEvent::REQ_EXCEPTION . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_TYPE), "Event " . ERestEvent::REQ_AUTH_TYPE . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_CORS), "Event " . ERestEvent::REQ_AUTH_CORS . " is not registered");		
-		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_AJAX_USER), "Event " . ERestEvent::REQ_AUTH_AJAX_USER . " is not registered");
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_CORS), "Event " . ERestEvent::REQ_AUTH_CORS . " is not registered");		
+		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_IS_SUBRESOURCE), "Event " . ERestEvent::REQ_IS_SUBRESOURCE . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_URI), "Event " . ERestEvent::REQ_AUTH_URI . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_HTTPS_ONLY), "Event " . ERestEvent::REQ_AUTH_HTTPS_ONLY . " is not registered");
 		$this->assertTrue($eventor->eventExists(ERestEvent::REQ_AUTH_USERNAME), "Event " . ERestEvent::REQ_AUTH_USERNAME . " is not registered");
@@ -227,6 +228,18 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 
 		unset($_SERVER['HTTP_X_REST_USERNAME'], $_SERVER['HTTP_X_REST_PASSWORD'], $_SERVER['HTTP_X_REST_CORS']);
 	}
+
+	/**
+	 * testEventREQ_IS_SUBRESOURCE
+	 *
+	 * test that req.is.subresource event returns the correct response
+	 */
+	public function testEventREQ_IS_SUBRESOURCE()
+	{
+		$this->assertEquals(false, $this->event->emit(ERestEvent::REQ_IS_SUBRESOURCE, [new Post(), 'Author', 'GET']));
+		$this->assertEquals(true, $this->event->emit(ERestEvent::REQ_IS_SUBRESOURCE, [new Post(), 'categories', 'GET']));
+	}
+
 
 	/**
 	 * testEventReqCorsAccessControlAllowOrigin

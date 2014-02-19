@@ -56,6 +56,37 @@ class ERestEventUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testREQISSUBRESOURCEExists
+	 *
+	 * tests ERestEvent has const::REQ_IS_SUBRESOURCE
+	 */ 
+	public function testREQISSUBRESOURCEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::REQ_OPTIONS_RENDER'));
+	}
+
+	/**
+	 * testPREFILTERREQISSUBRESOURCEExists
+	 *
+	 * tests ERestEvent has const::PRE_FILTER_REQ_IS_SUBRESOURCE
+	 */ 
+	public function testPREFILTERREQISSUBRESOURCEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::PRE_FILTER_REQ_OPTIONS_RENDER'));
+	}
+
+
+	/**
+	 * testPOSTFILTERREQISSUBRESOURCEExists
+	 *
+	 * tests ERestEvent has const::REQ_IS_SUBRESOURCE
+	 */ 
+	public function testPOSTFILTERREQISSUBRESOURCEExists()
+	{
+		$this->assertTrue(defined('ERestEvent::POST_FILTER_REQ_OPTIONS_RENDER'));
+	}
+
+	/**
 	 * testREQOPTIONSRENDERExists
 	 *
 	 * tests ERestEvent has const::REQ_OPTIONS_RENDER

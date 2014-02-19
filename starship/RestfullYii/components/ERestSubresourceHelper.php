@@ -65,15 +65,11 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	 *
 	 * @return (Bool) true if this is a subresource; false if not
 	 */ 
-	public function isSubresource($model, $subresource_name)
+	public function isSubresource($model, $subresource_name, $verb)
 	{	
-		if(!array_key_exists($subresource_name, $model->relations())) {
-			return false;
-		}
-		if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
-			return false;
-		}
-		return true;
+		$emitRest = $this->getEmitter();
+
+		return $emitRest(ERestEvent::REQ_IS_SUBRESOURCE, [$model, $subresource_name, $verb]);
 	}
 
 	/**

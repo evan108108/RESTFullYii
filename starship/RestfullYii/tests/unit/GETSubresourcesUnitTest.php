@@ -65,5 +65,35 @@ class GETSubresourcesUnitTest extends ERestTestCase
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
+
+	/**
+	 * testGETSubresourcesCategoryUserRequestForHasManyWithEventOverrideRequest
+	 *
+	 * tests that a get request for a non sub-resources (HAS_MANY) with event override
+	 * returns the correct response
+	 */
+	public function testGETSubresourcesCategoryUserRequestForHasManyWithEventOverrideRequest()
+	{
+		$request = new ERestTestRequestHelper();
+
+		$request['config'] = [
+			'url'			=> 'http://api/user/1/posts',
+			'type'		=> 'GET',
+			'data'		=> null,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+
+		$request->addEvent('req.is.subresource', function($model, $subresource_name, $http_verb) {
+			return true;
+		});
+
+		$request_response = $request->send();
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"1","post":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+	}
+
 }
 

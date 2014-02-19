@@ -65,8 +65,10 @@ class ERestSubresourceHelperUnitTest extends ERestTestCase
 		$model = $this->getModel('Post');
 		$model = $model->findByPk(1);
 		$esrh = $this->getERestSubresourceHelper();
-		$this->assertTrue($esrh->isSubresource($model, 'categories'));
-		$this->assertTrue(!$esrh->isSubresource($model, 'author'));
+		$this->assertTrue($esrh->isSubresource($model, 'categories', 'GET'));
+		$this->assertTrue(!$esrh->isSubresource($model, 'author', 'POST'));
+		$this->assertTrue(!$esrh->isSubresource($model, 'author', 'PUT'));
+		$this->assertTrue(!$esrh->isSubresource($model, 'author', 'DELETE'));
 	}
 
 	/**
