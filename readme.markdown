@@ -1465,7 +1465,7 @@ $this->onRest('post.filter.req.param.is.pk', function($isPk) {
  *
  * @return (Bool) True if this is a subresouce request and false if not
  */ 
-$onRest(ERestEvent::REQ_IS_SUBRESOURCE, function($model, $subresource_name, $http_verb) {
+$onRest('req.is.subresource', function($model, $subresource_name, $http_verb) {
 	if(!array_key_exists($subresource_name, $model->relations())) {
 		return false;
 	}
