@@ -817,6 +817,7 @@ List of all events and their default event handlers.
 | [req.auth.uri](#req.auth.uri)   |   [Yes](#pre.filter.req.auth.uri)  | [Yes](#post.filter.req.auth.uri) |  grant / deny access based on the URI and or HTTP verb |
 | [req.after.action](#req.after.action)   |   [Yes](#pre.filter.req.after.action)  | [Yes](#post.filter.req.after.action) |  Called after the request has been fulfilled. By default it has no behavior |
 | [req.param.is.pk](#req.param.is.pk)   |   [Yes](#pre.filter.req.param.is.pk)  | [Yes](#post.filter.req.param.is.pk) |  Called when attempting to validate a resources primary key. The default is an integer. Return true to confirm Primary Key; False to deny primary key. |
+| [req.is.subresource](#req.is.subresource)   |   [Yes](#pre.filter.req.is.subresource)  | [Yes](#post.filter.req.is.subresource) |  Called when trying to determain if the request is for a subresource |
 | [req.data.read](#req.data.read)   |   [Yes](#pre.filter.req.data.read)  | [Yes](#post.filter.req.data.read) |  Called when reading data on POST & PUT requests |
 | [req.get.resource.render](#req.get.resource.render)   |   [Yes](#pre.filter.req.get.resource.render)  | No |  Called when a GET request for a single resource is to be rendered |
 | [req.get.resources.render](#req.get.resources.render)   |   [Yes](#pre.filter.req.get.resources.render)  | No |  Called when a GET request for when a list resources is to be rendered |
@@ -1445,6 +1446,52 @@ $this->onRest('post.filter.req.param.is.pk', function($isPk) {
 	return $isPk; //Bool
 });
 ```
+
+
+
+
+###<a name="req.is.subresource"/>req.is.subresource</a>
+```php
+/**
+ * req.is.subresource
+ * 
+ * Called when trying to determain if the request is for a subresource
+ * WARNING!!!: ONLY CHANGE THIS EVENTS BEHAVIOR IF YOU REALLY KNOW WHAT YOUR DOING!!!
+ * WARNING!!!: CHANGING THIS MAY LEAD TO INCONSISTENT AND OR INCORRECT BEHAVIOR
+ *
+ * @param (Object) (model) model instance to evaluate
+ * @param (String) (subresource_name) potentially the name of the subresource
+ * @param (String) (http_verb) the http verb used to make the request
+ *
+ * @return (Bool) True if this is a subresouce request and false if not
+ */ 
+$onRest(ERestEvent::REQ_IS_SUBRESOURCE, function($model, $subresource_name, $http_verb) {
+	if(!array_key_exists($subresource_name, $model->relations())) {
+		return false;
+	}
+	if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+		return false;
+	}
+	return true;
+});
+
+```
+
+####<a name="pre.filter.req.is.subresource"/>pre.filter.req.is.subresource</a>
+```php
+$this->onRest('pre.filter.req.param.is.pk, function($model, $subresource_name, $http_verb) {
+	return [$model, $subresource_name, $http_verb]; //Array
+});
+```
+
+####<a name="post.filter.req.is.subresource"/>post.filter.req.is.subresource</a>
+```php
+$this->onRest('post.filter.req.is.subresource', function($is_subresource) {
+	return $is_subresource; //Bool
+});
+```
+
+
 
 
 

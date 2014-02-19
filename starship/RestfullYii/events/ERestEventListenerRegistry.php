@@ -289,6 +289,29 @@ class ERestEventListenerRegistry
 		});
 
 		/**
+		 * req.is.subresource
+		 * 
+		 * Called when trying to determain if the request is for a subresource
+		 * WARNING!!!: ONLY CHANGE THIS EVENTS BEHAVIOR IF YOU REALLY KNOW WHAT YOUR DOING!!!
+		 * WARNING!!!: CHANGING THIS MAY LEAD TO INCONSISTENT AND OR INCORRECT BEHAVIOR
+		 *
+		 * @param (Object) (model) model instance to evaluate
+		 * @param (String) (subresource_name) potentially the name of the subresource
+		 * @param (String) (http_verb) the http verb used to make the request
+		 *
+		 * @return (Bool) True if this is a subresouce request and false if not
+		 */ 
+		$onRest(ERestEvent::REQ_IS_SUBRESOURCE, function($model, $subresource_name, $http_verb) {
+			if(!array_key_exists($subresource_name, $model->relations())) {
+				return false;
+			}
+			if($model->relations()[$subresource_name][0] != CActiveRecord::MANY_MANY) {
+				return false;
+			}
+			return true;
+		});
+
+		/**
 		 * req.options.render
 		 *
 		 * Called when an options request is made from a CORS request

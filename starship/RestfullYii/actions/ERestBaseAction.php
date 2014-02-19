@@ -28,7 +28,7 @@ class ERestBaseAction extends CAction
 	{
 		$id_is_null = is_null($id);
 		$id_is_pk = $this->controller->emitRest(ERestEvent::REQ_PARAM_IS_PK, $id);
-		$is_subresource = $id_is_pk && $this->controller->getSubresourceHelper()->isSubresource($this->controller->emitRest(ERestEvent::MODEL_INSTANCE), $param1);
+		$is_subresource = $id_is_pk && $this->controller->getSubresourceHelper()->isSubresource($this->controller->emitRest(ERestEvent::MODEL_INSTANCE), $param1, $verb);
 		$is_custom_route = $this->controller->eventExists("req.$verb.$id.render");
 
 		if($id_is_null) {

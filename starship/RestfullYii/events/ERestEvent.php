@@ -25,6 +25,7 @@ class ERestEvent
 	CONST REQ_AUTH_AJAX_USER																		= 'req.auth.ajax.user';
 	CONST REQ_AUTH_CORS																					= 'req.auth.cors';
 	CONST REQ_AUTH_URI																					= 'req.auth.uri';
+	CONST REQ_IS_SUBRESOURCE 																		= 'req.is.subresource';
 	CONST REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN									= 'req.cors.access.control.allow.origin';
 	CONST REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS									= 'req.cors.access.control.allow.methods';
 	CONST REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS									= 'req.cors.access.control.allow.headers';
@@ -84,6 +85,7 @@ class ERestEvent
 	CONST PRE_FILTER_REQ_AUTH_PASSWORD													= 'pre.filter.req.auth.password';
 	CONST PRE_FILTER_REQ_AUTH_AJAX_USER													= 'pre.filter.req.auth.ajax.user';
 	CONST PRE_FILTER_REQ_AUTH_URI																= 'pre.filter.req.auth.uri';
+	CONST PRE_FILTER_REQ_IS_SUBRESOURCE 												= 'pre.filter.req.is.subresource';
 	CONST PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN				= 'pre.filter.req.cors.access.control.allow.origin';
 	CONST PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS			= 'pre.filter.req.cors.access.control.allow.methods';
 	CONST PRE_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS			= 'pre.filter.req.cors.access.control.allow.headers';
@@ -144,6 +146,7 @@ class ERestEvent
 	CONST POST_FILTER_REQ_AUTH_PASSWORD													= 'post.filter.req.auth.password';
 	CONST POST_FILTER_REQ_AUTH_AJAX_USER												= 'post.filter.req.auth.ajax.user';
 	CONST POST_FILTER_REQ_AUTH_URI															= 'post.filter.req.auth.uri';
+	CONST POST_FILTER_REQ_IS_SUBRESOURCE 												= 'post.filter.req.is.subresource';
 	CONST POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_ORIGIN			= 'post.filter.req.cors.access.control.allow.origin';
 	CONST POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_METHODS			= 'post.filter.req.cors.access.control.allow.methods';
 	CONST POST_FILTER_REQ_CORS_ACCESS_CONTROL_ALLOW_HEADERS			= 'post.filter.req.cors.access.control.allow.headers';
