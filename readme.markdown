@@ -683,7 +683,7 @@ class CategoryController extends Controller
     				'type'=>'raw',
     				'data'=>['active'=>true]
     			]
-    		])
+    		]);
 		});
 	}
 }
