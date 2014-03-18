@@ -1479,7 +1479,7 @@ $onRest('req.is.subresource', function($model, $subresource_name, $http_verb) {
 
 ####<a name="pre.filter.req.is.subresource"/>pre.filter.req.is.subresource</a>
 ```php
-$this->onRest('pre.filter.req.param.is.pk, function($model, $subresource_name, $http_verb) {
+$this->onRest('pre.filter.req.param.is.pk', function($model, $subresource_name, $http_verb) {
 	return [$model, $subresource_name, $http_verb]; //Array
 });
 ```
@@ -1559,7 +1559,7 @@ $this->onRest('req.get.resource.render', function($data, $model_name, $relations
 
 ####<a name="pre.filter.req.get.resource.render"/>pre.filter.req.get.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.get.resource.render, function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
+$this->onRest('pre.filter.req.get.resource.render', function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
 	return [$data, $model_name, $relations, $count]; //Array [Object, String, Array, Int, Array[String], Array[String]]
 });
 ```
@@ -1598,7 +1598,7 @@ $this->onRest('req.get.resources.render', function($data, $model_name, $relation
 
 ####<a name="pre.filter.req.get.resources.render"/>pre.filter.req.get.resources.render</a>
 ```php
-$this->onRest('pre.filter.req.get.resources.render, function($data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties) {
+$this->onRest('pre.filter.req.get.resources.render', function($data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties) {
 	return [$data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties]; //Array [Array [Object], String, Array, Int, Array[String], Array[String]]
 });
 ```
@@ -1634,7 +1634,7 @@ $this->onRest('req.put.resource.render' function($model, $relations, $visiblePro
 
 ####<a name="pre.filter.req.put.resource.render"/>pre.filter.req.put.resource.render</a>
 ```php
-$this->onRest('pre.filter.req.req.put.resource.render, function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
+$this->onRest('pre.filter.req.req.put.resource.render', function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
 	return [$model, relations, $visibleProperties, $hiddenProperties]; //Array [Object, Array, Array[String], Array[String]]
 });
 ```
