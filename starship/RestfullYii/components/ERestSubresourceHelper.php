@@ -100,21 +100,21 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	 */ 
 	public function getSubresourceCount($model, $subresource_name, $subresource_pk=null)
 	{
-		$pk = $model->id;
+		$pk = $model->getPrimaryKey();;
 		$subresourceAR = $this->getSubresourceAR($model, $subresource_name);
 		if( is_null($subresource_pk) ) {
 			$model_name = get_class($model);
 			$new_relation_name = "_" . $subresourceAR->active_relation->className . "Count";
 			$model->metaData->addRelation($new_relation_name, [
 				constant($model_name.'::STAT'),
-				$subresourceAR->active_relation->className, 
+				$subresourceAR->active_relation->className,
 				$subresourceAR->active_relation->foreignKey
 			]);
 			$model = $model->with($new_relation_name)->findByPk($pk);	
 			return $model->$new_relation_name;
 		} 
 		return !is_null( 
-			$model->with($subresource_name)->findByPk($pk, array('condition'=>"$subresource_name.id=$subresource_pk")) 
+			$model->with($subresource_name)->findByPk($pk, array('condition'=>"$subresource_name.{$this->getSubRecourcesPKAttribute($subresourceAR)}=$subresource_pk")) 
 		)? 1: 0;
 	}
 
@@ -153,7 +153,7 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	public function getSubresource($model, $subresource_name, $subresource_pk=null)
 	{
 		$pk = $model->getPrimaryKey();	
-		$emitRest = $this->getEmitter();	
+		$emitRest = $this->getEmitter();
 
 		if( is_null($subresource_pk) ) {
 			$model = $emitRest(ERestEvent::MODEL_ATTACH_BEHAVIORS, $model);
@@ -166,7 +166,7 @@ class ERestSubresourceHelper implements iERestResourceHelper
 		}
 		$results = $model
 			->with($subresource_name)
-			->findByPk($pk, ['condition'=>"$subresource_name.id=:subresource_pk", 'params'=>[':subresource_pk' => $subresource_pk]]);
+			->findByPk($pk, ['condition'=>"$subresource_name.{$this->getSubRecourcesPKAttribute($this->getSubresourceAR($model, $subresource_name))}=:subresource_pk", 'params'=>[':subresource_pk' => $subresource_pk]]);
 		return !is_null($results->$subresource_name)? $results->$subresource_name: [];
 	}
 
@@ -251,6 +251,21 @@ class ERestSubresourceHelper implements iERestResourceHelper
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * getSubRecourcesPKAttribute
+	 *
+	 * returns the Primary Key Attribute of the subresource
+	 *
+	 * @param (Object) (Active relation) AR model
+	 *
+	 * @return (String) Primary Key Attribute Name of the subresource model
+	 */
+	public function getSubRecourcesPKAttribute($subresourceAR)
+	{
+		$srPK = $subresourceAR->active_relation->className;
+		return $srPK::model()->tableSchema->primaryKey;
 	}
 
 }

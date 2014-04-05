@@ -183,6 +183,20 @@ class ERestSubresourceHelperUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * getSubRecourcesPKAttribute
+	 *
+	 * test ERestSubresourceHelper->getSubRecourcesPKAttribute
+	 */
+	public function testGetSubRecourcesPKAttribute()
+	{
+		$esrh = $this->getERestSubresourceHelper();
+		$model = $this->getModel('Post');
+		$model = $model->findByPk(1);
+		$srPK = $esrh->getSubRecourcesPKAttribute($this->invokePrivateMethod($esrh, 'getSubresourceAR', [$model, 'categories']));
+		$this->assertEquals(Category::model()->tableSchema->primaryKey, $srPK);
+	}
+
+	/**
 	 * getERestResourceHelper
 	 *
 	 * returns instance of ERestResourceHelper
