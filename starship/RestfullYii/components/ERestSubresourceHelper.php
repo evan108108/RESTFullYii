@@ -264,9 +264,9 @@ class ERestSubresourceHelper implements iERestResourceHelper
 	 */
 	public function getSubRecourcesPKAttribute($subresourceAR)
 	{
-		$srPK = $subresourceAR->active_relation->className;
-		return $srPK::model()->tableSchema->primaryKey;
+		return call_user_func(function($srPK){
+			return $srPK::model()->tableSchema->primaryKey; 
+		}, $subresourceAR->active_relation->className);
 	}
-
 }
 
