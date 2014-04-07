@@ -36,7 +36,7 @@ class GETResourcesFilterUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"1","category":[{"id":"1","name":"cat1","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}]}}';
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":1,"category":[{"id":"1","name":"cat1","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}]}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -161,7 +161,7 @@ class GETResourcesFilterUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"1","post":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}],"author":{"id":"1","username":"username1","password":"password1","email":"email@email1.com"}}]}}';
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":1,"post":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}],"author":{"id":"1","username":"username1","password":"password1","email":"email@email1.com"}}]}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -236,7 +236,7 @@ class GETResourcesFilterUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":"1","post":[{"id":"3","title":"title3","content":"content3","create_time":"2013-08-07 10:09:43","author_id":"3","categories":[{"id":"3","name":"cat3"}],"author":{"id":"3","username":"username3","password":"password3","email":"email@email3.com"}}]}}';
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":1,"post":[{"id":"3","title":"title3","content":"content3","create_time":"2013-08-07 10:09:43","author_id":"3","categories":[{"id":"3","name":"cat3"}],"author":{"id":"3","username":"username3","password":"password3","email":"email@email3.com"}}]}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

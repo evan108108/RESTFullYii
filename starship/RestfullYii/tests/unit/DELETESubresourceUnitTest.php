@@ -36,7 +36,7 @@ class DELETESubresourceUnitTest extends ERestTestCase
 		];
 		
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Sub-Resource Deleted","data":{"totalCount":"1","category":{"id":"1","name":"cat1","posts":[]}}}';
+		$expected_response = '{"success":true,"message":"Sub-Resource Deleted","data":{"totalCount":1,"category":{"id":"1","name":"cat1","posts":[]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -61,7 +61,7 @@ class DELETESubresourceUnitTest extends ERestTestCase
 		];
 		
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Sub-Resource Deleted","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"2","name":"cat2"}]}}}';
+		$expected_response = '{"success":true,"message":"Sub-Resource Deleted","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"2","name":"cat2"}]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

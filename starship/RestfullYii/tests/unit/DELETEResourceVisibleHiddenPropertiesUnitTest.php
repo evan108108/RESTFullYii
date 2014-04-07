@@ -44,7 +44,7 @@ class DELETEResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","user":{"username":"username1","email":"email@email1.com"}}}';
+		$expected_response = '{"success":true,"message":"Record Deleted","data":{"totalCount":1,"user":{"username":"username1","email":"email@email1.com"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -79,7 +79,7 @@ class DELETEResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","user":{"username":"username1","email":"email@email1.com"}}}';
+		$expected_response = '{"success":true,"message":"Record Deleted","data":{"totalCount":1,"user":{"username":"username1","email":"email@email1.com"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

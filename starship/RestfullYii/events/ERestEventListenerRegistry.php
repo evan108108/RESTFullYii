@@ -441,9 +441,9 @@ class ERestEventListenerRegistry
 
 			$this->renderJSON([
 				'type'							=> 'rest',
-				'success'						=> 'true',
+				'success'						=> true,
 				'message'						=> "Record Created",
-				'totalCount'				=> "1",
+				'totalCount'				=> 1,
 				'modelName'					=> get_class($model),
 				'relations'					=> $relations,
 				'visibleProperties'	=> $visibleProperties,
@@ -463,9 +463,9 @@ class ERestEventListenerRegistry
 		$onRest(ERestEvent::REQ_PUT_RESOURCE_RENDER, function($model, $relations, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->renderJSON([
 				'type'							=> 'rest',
-				'success'						=> 'true',
+				'success'						=> true,
 				'message'						=> "Record Updated",
-				'totalCount'				=> "1",
+				'totalCount'				=> 1,
 				'modelName'					=> get_class($model),
 				'relations'					=> $relations,
 				'visibleProperties'	=> $visibleProperties,
@@ -486,9 +486,9 @@ class ERestEventListenerRegistry
 		$onRest(ERestEvent::REQ_PUT_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->renderJSON([
 				'type'							=> 'rest',
-				'success'						=> 'true',
+				'success'						=> true,
 				'message'						=> "Subresource Added",
-				'totalCount'				=> "1",
+				'totalCount'				=> 1,
 				'modelName'					=> get_class($model),
 				'relations'					=> [$subresource_name],
 				'visibleProperties' => $visibleProperties,
@@ -507,9 +507,9 @@ class ERestEventListenerRegistry
 		$onRest(ERestEvent::REQ_DELETE_RESOURCE_RENDER, function($model, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->renderJSON([
 				'type'							=> 'rest',
-				'success'						=> 'true',
+				'success'						=> true,
 				'message'						=> "Record Deleted",
-				'totalCount'				=> "1",
+				'totalCount'				=> 1,
 				'modelName'					=> get_class($model),
 				'relations'					=> [],
 				'visibleProperties'	=> $visibleProperties,
@@ -530,9 +530,9 @@ class ERestEventListenerRegistry
 		$onRest(ERestEvent::REQ_DELETE_SUBRESOURCE_RENDER, function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
 			$this->renderJSON([
 				'type'							=> 'rest',
-				'success'						=> 'true',
+				'success'						=> true,
 				'message'						=> "Sub-Resource Deleted",
-				'totalCount'				=> "1",
+				'totalCount'				=> 1,
 				'modelName'					=> get_class($model),
 				'relations'					=> [$subresource_name],
 				'visibleProperties'	=> $visibleProperties,

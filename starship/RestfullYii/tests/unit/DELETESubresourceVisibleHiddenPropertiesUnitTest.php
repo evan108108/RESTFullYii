@@ -44,7 +44,7 @@ class DELETESubResourceVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Sub-Resource Deleted","data":{"totalCount":"1","category":{"id":"1","name":"cat1","posts":[]}}}';
+		$expected_response = '{"success":true,"message":"Sub-Resource Deleted","data":{"totalCount":1,"category":{"id":"1","name":"cat1","posts":[]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -79,7 +79,7 @@ class DELETESubResourceVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Sub-Resource Deleted","data":{"totalCount":"1","category":{"name":"cat1","posts":[]}}}';
+		$expected_response = '{"success":true,"message":"Sub-Resource Deleted","data":{"totalCount":1,"category":{"name":"cat1","posts":[]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

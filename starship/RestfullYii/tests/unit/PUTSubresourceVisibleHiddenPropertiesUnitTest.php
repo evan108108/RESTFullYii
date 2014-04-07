@@ -44,7 +44,7 @@ class PUTSubResourceVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Subresource Added","data":{"totalCount":"1","category":{"id":"1","name":"cat1","posts":[{"title":"title1"},{"title":"title3"}]}}}';
+		$expected_response = '{"success":true,"message":"Subresource Added","data":{"totalCount":1,"category":{"id":"1","name":"cat1","posts":[{"title":"title1"},{"title":"title3"}]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -79,7 +79,7 @@ class PUTSubResourceVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Subresource Added","data":{"totalCount":"1","category":{"name":"cat1","posts":[{"id":"1","author_id":"1"},{"id":"3","author_id":"3"}]}}}';
+		$expected_response = '{"success":true,"message":"Subresource Added","data":{"totalCount":1,"category":{"name":"cat1","posts":[{"id":"1","author_id":"1"},{"id":"3","author_id":"3"}]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
