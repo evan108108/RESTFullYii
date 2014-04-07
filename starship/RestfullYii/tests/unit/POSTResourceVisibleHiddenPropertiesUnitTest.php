@@ -46,7 +46,7 @@ class POSTResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Created","data":{"totalCount":"1","profile":{"user_id":"4"}}}';
+		$expected_response = '{"success":true,"message":"Record Created","data":{"totalCount":1,"profile":{"user_id":"4"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -83,7 +83,7 @@ class POSTResourcesVisibleHiddenPropertiesUnitTest extends ERestTestCase
 		];
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Created","data":{"totalCount":"1","profile":{"user_id":"4"}}}';
+		$expected_response = '{"success":true,"message":"Record Created","data":{"totalCount":1,"profile":{"user_id":"4"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 		 
 	}

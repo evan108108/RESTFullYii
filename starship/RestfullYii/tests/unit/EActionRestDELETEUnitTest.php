@@ -77,7 +77,7 @@ class EActionRestDELETEUnitTest extends ERestTestCase
 		});
 		$this->assertJSONFormat($result);	
 		$result = CJSON::decode($result);
-		$this->assertEquals($result['success'], 'true');
+		$this->assertEquals($result['success'], true);
 		$this->assertEquals($result['message'], 'Sub-Resource Deleted');
 		$this->assertEquals($result['data']['totalCount'], '1');
 		$this->assertArrayHasKey('category', $result['data']);
@@ -123,7 +123,7 @@ class EActionRestDELETEUnitTest extends ERestTestCase
 		});
 		$this->assertJSONFormat($result);
 		$result = CJSON::decode($result);
-		$this->assertEquals($result['success'], 'true');
+		$this->assertEquals($result['success'], true);
 		$this->assertEquals($result['message'], 'Record Deleted');
 		$this->assertEquals($result['data']['totalCount'], '1');
 		$this->assertArrayHasKey('category', $result['data']);

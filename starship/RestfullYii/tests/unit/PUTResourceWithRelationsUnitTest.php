@@ -56,7 +56,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		$expected_data['author_id'] = 3;
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","post":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"post":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -101,7 +101,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		$expected_data['author']['id'] = 7;
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","post":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"post":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -154,7 +154,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		$expected_data['posts'][1]['author_id'] = 1;
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","user":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"user":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	
 		//Test that a PUT can remove a Many To Many
@@ -175,7 +175,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		});
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","user":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"user":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -220,7 +220,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		$expected_data['profile']['user_id'] = 2;
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","user":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"user":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -271,7 +271,7 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 		$expected_data['posts'][1]['id'] = 7;
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","category":' . CJSON::encode($expected_data) . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"category":' . CJSON::encode($expected_data) . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

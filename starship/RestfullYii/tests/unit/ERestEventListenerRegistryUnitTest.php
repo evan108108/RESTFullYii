@@ -544,7 +544,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testReqPostResourceRender()
 	{
-		$expected_result = '{"success":"true","message":"Record Created","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
+		$expected_result = '{"success":true,"message":"Record Created","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
 		
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_POST_RESOURCE_RENDER, [
@@ -562,7 +562,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testReqPutResourceRender()
 	{
-		$expected_result = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
+		$expected_result = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
 		
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_PUT_RESOURCE_RENDER, [
@@ -580,7 +580,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testReqPutSubresourceRender()
 	{
-		$expected_result = '{"success":"true","message":"Subresource Added","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
+		$expected_result = '{"success":true,"message":"Subresource Added","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
 
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_PUT_SUBRESOURCE_RENDER, [
@@ -599,7 +599,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testReqDeleteResourceRender()
 	{
-		$expected_result = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}}}';
+		$expected_result = '{"success":true,"message":"Record Deleted","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}}}';
 		
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_DELETE_RESOURCE_RENDER, [
@@ -616,7 +616,7 @@ class ERestEventListenerRegistryUnitTest extends ERestTestCase
 	 */
 	public function testReqDeleteSubresourceRender()
 	{
-		$expected_result = '{"success":"true","message":"Sub-Resource Deleted","data":{"totalCount":"1","post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
+		$expected_result = '{"success":true,"message":"Sub-Resource Deleted","data":{"totalCount":1,"post":{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1","categories":[{"id":"1","name":"cat1"},{"id":"2","name":"cat2"}]}}}';
 
 		$event_result = $this->captureOB($this, function() {
 			$this->event->emit(ERestEvent::REQ_DELETE_SUBRESOURCE_RENDER, [

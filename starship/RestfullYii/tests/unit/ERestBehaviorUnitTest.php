@@ -339,15 +339,15 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$render_rest = $this->captureOB($erb, function() {
 			$this->renderJSON([
 				'type'				=> 'rest',
-				'success'			=> 'true',
+				'success'			=> true,
 				'message'			=> "Record Found",
-				'totalCount'	=> "1",
+				'totalCount'	=> 1,
 				'modelName'		=> 'Category',
 				'relations'		=> [],
 				'data'				=> Category::model()->findByPk(1),
 			]);
 		});
-		$this->assertJsonStringEqualsJsonString($render_rest, '{"success":"true","message":"Record Found","data":{"totalCount":"1","category":{"id":"1","name":"cat1"}}}');
+		$this->assertJsonStringEqualsJsonString($render_rest, '{"success":true,"message":"Record Found","data":{"totalCount":1,"category":{"id":"1","name":"cat1"}}}');
 		
 		$render_error = $this->captureOB($erb, function() {
 			$this->renderJSON([

@@ -89,7 +89,7 @@ class EActionRestGETUnitTest extends ERestTestCase
 		$this->assertJSONFormat($result);	
 		$this->assertJsonStringEqualsJsonString(
 			$result,
-			'{"success":true,"message":"Record(s) Found","data":{"totalCount":"1","post":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}}'
+			'{"success":true,"message":"Record(s) Found","data":{"totalCount":1,"post":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}}'
 		);
 	}
 

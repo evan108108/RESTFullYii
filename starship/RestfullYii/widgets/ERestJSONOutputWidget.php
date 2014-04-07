@@ -111,7 +111,7 @@ class ERestJSONOutputWidget extends CWidget {
 			'success'	=> $this->success,
 			'message'	=> $this->message,
 			'data'		=> [
-				"totalCount" => $this->totalCount,
+				"totalCount" => (Int) $this->totalCount,
 				lcfirst($this->modelName) => $this->modelsToArray($this->data, $this->relations),
 			]
 		]);

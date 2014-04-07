@@ -54,7 +54,7 @@ class EActionRestPOSTUnitTest extends ERestTestCase
 		$this->assertJSONFormat($result);	
 		$this->assertJsonStringEqualsJsonString(
 			$result,
-			'{"success":"true","message":"Record Created","data":{"totalCount":"1","category":{"id":"7","name":"cat-new","posts":[]}}}'
+			'{"success":true,"message":"Record Created","data":{"totalCount":1,"category":{"id":"7","name":"cat-new","posts":[]}}}'
 		);
 	}
 

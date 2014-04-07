@@ -38,7 +38,7 @@ class POSTResourceUnitTest extends ERestTestCase
 		];
 		
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Created","data":{"totalCount":"1","category":{"id":"7","name":"new_cat_name","posts":[]}}}';
+		$expected_response = '{"success":true,"message":"Record Created","data":{"totalCount":1,"category":{"id":"7","name":"new_cat_name","posts":[]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -69,7 +69,7 @@ class POSTResourceUnitTest extends ERestTestCase
 		});
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Created","data":{"totalCount":"1","profile":{"id":"7","user_id":"4","photo":"0","website":"mysite4.com"}}}';
+		$expected_response = '{"success":true,"message":"Record Created","data":{"totalCount":1,"profile":{"id":"7","user_id":"4","photo":"0","website":"mysite4.com"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

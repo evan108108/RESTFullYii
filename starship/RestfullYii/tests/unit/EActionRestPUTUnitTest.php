@@ -106,7 +106,7 @@ class EActionRestPUTUnitTest extends ERestTestCase
 		$this->assertJSONFormat($result);
 		$this->assertJsonStringEqualsJsonString(
 			$result,
-			'{"success":"true","message":"Subresource Added","data":{"totalCount":"1","category":{"id":"1","name":"cat1","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"},{"id":"2","title":"title2","content":"content2","create_time":"2013-08-07 10:09:42","author_id":"2"}]}}}'
+			'{"success":true,"message":"Subresource Added","data":{"totalCount":"1","category":{"id":"1","name":"cat1","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"},{"id":"2","title":"title2","content":"content2","create_time":"2013-08-07 10:09:42","author_id":"2"}]}}}'
 		);
 	}
 
@@ -123,7 +123,7 @@ class EActionRestPUTUnitTest extends ERestTestCase
 		$this->assertJSONFormat($result);
 		$this->assertJsonStringEqualsJsonString(
 			$result,
-			'{"success":"true","message":"Record Updated","data":{"totalCount":"1","category":{"id":"1","name":"cat-updated","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}}}'
+			'{"success":true,"message":"Record Updated","data":{"totalCount":"1","category":{"id":"1","name":"cat-updated","posts":[{"id":"1","title":"title1","content":"content1","create_time":"2013-08-07 10:09:41","author_id":"1"}]}}}'
 		);
 	}
 

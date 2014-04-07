@@ -42,7 +42,7 @@ class PUTResourceUnitTest extends ERestTestCase
 		});
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","category":' . $data . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"category":' . $data . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -73,7 +73,7 @@ class PUTResourceUnitTest extends ERestTestCase
 		});
 
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Updated","data":{"totalCount":"1","user":' . $data . '}}';
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"user":' . $data . '}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

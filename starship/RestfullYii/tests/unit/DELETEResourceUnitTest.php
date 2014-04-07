@@ -36,7 +36,7 @@ class DELETEResourceUnitTest extends ERestTestCase
 		];
 		
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","category":{"id":"4","name":"cat4"}}}';
+		$expected_response = '{"success":true,"message":"Record Deleted","data":{"totalCount":1,"category":{"id":"4","name":"cat4"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
@@ -61,7 +61,7 @@ class DELETEResourceUnitTest extends ERestTestCase
 		];
 		
 		$request_response = $request->send();
-		$expected_response = '{"success":"true","message":"Record Deleted","data":{"totalCount":"1","post":{"id":"2","title":"title2","content":"content2","create_time":"2013-08-07 10:09:42","author_id":"2"}}}';
+		$expected_response = '{"success":true,"message":"Record Deleted","data":{"totalCount":1,"post":{"id":"2","title":"title2","content":"content2","create_time":"2013-08-07 10:09:42","author_id":"2"}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 
