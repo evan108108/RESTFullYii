@@ -219,15 +219,19 @@ class ERestJSONOutputWidget extends CWidget {
 	 * @return (Array) Array of the models attributes 
 	 */
     public function processAttributes($model, $relation=null)
-		{
-			$model_as_array = [];
-			foreach($model->attributes as $property => $value) {
-					if (!$this->propertyIsVisable($property, $relation)) {
-							continue;
-					}
-					$model_as_array[$property] = $value;
-			}
-			return $model_as_array;
-		}
+    {
+        $schema = $model->getTableSchema();
+        $model_as_array = [];
+        foreach($model->attributes as $property => $value) {
+        if (!$this->propertyIsVisable($property, $relation)) {
+            continue;
+        }
+        if(strpos($schema->columns[$property]->dbType,"binary") != -1 || strpos($schema->columns[$property]->dbType,"blob") != -1)
+            $value =  bin2hex($value); 
+            $model_as_array[$property] = $value;
+        }
+        return $model_as_array;
+    }
+    
 }
 
