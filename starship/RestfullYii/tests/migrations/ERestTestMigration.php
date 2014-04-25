@@ -70,6 +70,15 @@ class ERestTestMigration extends CDbMigration
 			$this->truncateTable("tbl_post_category");
 		}
 
+		try {
+			$this->createTable('tbl_binary', array(
+				'id'=>'pk',
+				'name'=>'BINARY(16) NOT NULL',
+			));
+		} catch(Exception $e) {
+			$this->truncateTable("tbl_binary");
+		}
+
 		$this->execute("
 			INSERT INTO tbl_user
 			VALUES 
@@ -122,6 +131,11 @@ class ERestTestMigration extends CDbMigration
 				(1, 2, 2)
 		");
 		$this->checkIntegrity(true);
+		$this->execute("
+			INSERT INTO tbl_binary
+			VALUES
+				(1, UNHEX('DE46C83E5A50CED70E6A525A7BE6D709'))
+		");
 		ob_end_clean();
 	}
 
@@ -135,6 +149,7 @@ class ERestTestMigration extends CDbMigration
 			$this->dropTable('tbl_post');
 			$this->dropTable('tbl_profile');
 			$this->dropTable('tbl_user');
+			$this->dropTable('tbl_binary');
 		} catch(Exception $e) {
 			//Nothing to do...
 		}

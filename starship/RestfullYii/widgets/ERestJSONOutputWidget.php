@@ -201,14 +201,14 @@ class ERestJSONOutputWidget extends CWidget {
             return true;
         }
 
-        if ( (isset($related_model_visible_properties[$relation]) && !in_array("$relation.$property", $related_model_visible_properties[$relation]) ) || (!empty($this->hiddenProperties) && (in_array("$relation.$property", $this->hiddenProperties)) ||  in_array("*.$property", $this->hiddenProperties))) {   
+        if ( (isset($related_model_visible_properties[$relation]) && !in_array("$relation.$property", $related_model_visible_properties[$relation]) ) || (!empty($this->hiddenProperties) && (in_array("$relation.$property", $this->hiddenProperties)) ||  in_array("*.$property", $this->hiddenProperties))) {
             return false;
         }
 
         return true;
     }
 
-    /**
+  /**
 	 * processAttributes
 	 *
 	 * Converts a models attributes to an array of same
@@ -223,15 +223,39 @@ class ERestJSONOutputWidget extends CWidget {
         $schema = $model->getTableSchema();
         $model_as_array = [];
         foreach($model->attributes as $property => $value) {
-        if (!$this->propertyIsVisable($property, $relation)) {
-            continue;
-        }
-        if(strpos($schema->columns[$property]->dbType,"binary") != -1 || strpos($schema->columns[$property]->dbType,"blob") != -1)
-            $value =  bin2hex($value); 
-            $model_as_array[$property] = $value;
+					if (!$this->propertyIsVisable($property, $relation)) {
+							continue;
+					}
+					if($this->isBinary($schema->columns[$property]->dbType, $value)) {
+						$value =  bin2hex($value);
+					}
+					$model_as_array[$property] = $value;
         }
         return $model_as_array;
-    }
+		}
+
+		/**
+		 * isBinary
+		 *
+		 * Helper to convert binary to hex when binary/blob field types are larger then 1 digit
+		 *
+		 * @param (String) (property_type) the data type of the given property
+		 * @param (Mixed) (value) the value of the given property
+		 *
+		 * @return (Bool) returns true if the property is a binary that should be converted to hex false if not
+		 */
+		public function isBinary($property_type, $value)
+		{
+			if(strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+				return false;
+			}
+			if(strpos($property_type, "binary") !== false) { //if we have a binary
+				return true;
+			}
+			if(strpos($property_type, "blob") !== false) { //if we have a binary blob
+				return true;
+			}
+		}
     
 }
 

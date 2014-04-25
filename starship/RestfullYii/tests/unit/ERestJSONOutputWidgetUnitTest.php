@@ -314,6 +314,18 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
         $this->assertArraysEqual($model->categories[0]->attributes, $widget->processAttributes($model->categories[0], 'categories'));
     }
 
+		/**
+		 * testIsBinary
+		 *
+		 * tests isBinary
+		 */
+		public function testIsBinary()
+		{
+			$this->assertEquals(true, $this->getWidget()->isBinary('binary(16)', hex2bin('DE46C83E5A50CED70E6A525A7BE6D709')));
+			$this->assertEquals(true, $this->getWidget()->isBinary('blob', hex2bin('AA46C83E5A50CED70E6A525A7BE6D709')));
+			$this->assertEquals(false, $this->getWidget()->isBinary('binary(16)', 1));
+			$this->assertEquals(false, $this->getWidget()->isBinary('blob', null));
+		}
 
 
 	/**
