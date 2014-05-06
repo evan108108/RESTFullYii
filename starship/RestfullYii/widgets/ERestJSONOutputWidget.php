@@ -34,23 +34,23 @@ class ERestJSONOutputWidget extends CWidget {
 	public $visibleProperties = [];
 	public $hiddenProperties = [];
 
-    /**
-     * init
-     *
-     * called when widget is initialized
-     * will set the initial properties
-     */ 
-    public function init()
-    {
-        if(is_null($this->visibleProperties)) {
-            $this->visibleProperties = [];
-        }
-        if(is_null($this->hiddenProperties)) {
-            $this->hiddenProperties = [];
-        }
+		/**
+		 * init
+		 *
+		 * called when widget is initialized
+		 * will set the initial properties
+		 */ 
+		public function init()
+		{
+				if(is_null($this->visibleProperties)) {
+						$this->visibleProperties = [];
+				}
+				if(is_null($this->hiddenProperties)) {
+						$this->hiddenProperties = [];
+				}
 
-        parent::init();
-    }
+				parent::init();
+		}
 	/**
 	 * run
 	 *
@@ -164,9 +164,9 @@ class ERestJSONOutputWidget extends CWidget {
 		});
 
 		return is_array($model)? $model_as_array: $model_as_array[0];
-    }
+	}
 
-    /**
+		/**
 	 * propertyIsVisable
 	 *
 	 * Decides if a property is visable.
@@ -176,39 +176,39 @@ class ERestJSONOutputWidget extends CWidget {
 	 *
 	 * @return (Bool) True if the property should be visable false if it should not
 	 */
-    public function propertyIsVisable($property, $relation=null)
-    {
-        $main_model_visible_properties = [];
-        $related_model_visible_properties = []; 
+		public function propertyIsVisable($property, $relation=null)
+		{
+				$main_model_visible_properties = [];
+				$related_model_visible_properties = []; 
 
-        foreach($this->visibleProperties as $vp) {
-            if(strpos($vp, '.') === false) {
-                $main_model_visible_properties[] = $vp;
-            } else if(!is_null($relation)) {
-                $vp = str_replace('*.', "$relation.", $vp); 
-                list($relation_name, $property_name) = explode('.', $vp); 
-                if(!isset($related_model_visible_properties[$relation_name])) {
-                    $related_model_visible_properties[$relation_name] = [];
-                }
-                $related_model_visible_properties[$relation_name][] = $vp;
-            }
-        }
+				foreach($this->visibleProperties as $vp) {
+						if(strpos($vp, '.') === false) {
+								$main_model_visible_properties[] = $vp;
+						} else if(!is_null($relation)) {
+								$vp = str_replace('*.', "$relation.", $vp); 
+								list($relation_name, $property_name) = explode('.', $vp); 
+								if(!isset($related_model_visible_properties[$relation_name])) {
+										$related_model_visible_properties[$relation_name] = [];
+								}
+								$related_model_visible_properties[$relation_name][] = $vp;
+						}
+				}
 
-        if(is_null($relation)) {
-            if (!empty($main_model_visible_properties) && !in_array($property, $main_model_visible_properties) || !empty($this->hiddenProperties) && in_array($property, $this->hiddenProperties)) {
-                return false;
-            }
-            return true;
-        }
+				if(is_null($relation)) {
+						if (!empty($main_model_visible_properties) && !in_array($property, $main_model_visible_properties) || !empty($this->hiddenProperties) && in_array($property, $this->hiddenProperties)) {
+								return false;
+						}
+						return true;
+				}
 
-        if ( (isset($related_model_visible_properties[$relation]) && !in_array("$relation.$property", $related_model_visible_properties[$relation]) ) || (!empty($this->hiddenProperties) && (in_array("$relation.$property", $this->hiddenProperties)) ||  in_array("*.$property", $this->hiddenProperties))) {
-            return false;
-        }
+				if ( (isset($related_model_visible_properties[$relation]) && !in_array("$relation.$property", $related_model_visible_properties[$relation]) ) || (!empty($this->hiddenProperties) && (in_array("$relation.$property", $this->hiddenProperties)) ||  in_array("*.$property", $this->hiddenProperties))) {
+						return false;
+				}
 
-        return true;
-    }
+				return true;
+		}
 
-  /**
+	/**
 	 * processAttributes
 	 *
 	 * Converts a models attributes to an array of same
@@ -218,20 +218,20 @@ class ERestJSONOutputWidget extends CWidget {
 	 *
 	 * @return (Array) Array of the models attributes 
 	 */
-    public function processAttributes($model, $relation=null)
-    {
-        $schema = $model->getTableSchema();
-        $model_as_array = [];
-        foreach($model->attributes as $property => $value) {
+		public function processAttributes($model, $relation=null)
+		{
+				$schema = $model->getTableSchema();
+				$model_as_array = [];
+				foreach($model->attributes as $property => $value) {
 					if (!$this->propertyIsVisable($property, $relation)) {
 							continue;
 					}
-					if(array_key_exists($property, $schema->columns) and $this->isBinary($schema->columns[$property]->dbType, $value)) {
+					if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
 						$value =  bin2hex($value);
 					}
 					$model_as_array[$property] = $value;
-        }
-        return $model_as_array;
+				}
+				return $model_as_array;
 		}
 
 		/**
@@ -256,6 +256,6 @@ class ERestJSONOutputWidget extends CWidget {
 				return true;
 			}
 		}
-    
+		
 }
 

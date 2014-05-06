@@ -15,6 +15,8 @@ Yii::import('RestfullYii.tests.ERestTestRequestHelper');
  */
 class PUTResourceWithRelationsUnitTest extends ERestTestCase
 {
+
+	
 	/**
 	 * testPUTResourceWithBelongsToRequest
 	 *
@@ -272,6 +274,43 @@ class PUTResourceWithRelationsUnitTest extends ERestTestCase
 
 		$request_response = $request->send();
 		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"category":' . CJSON::encode($expected_data) . '}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+	}
+	
+	/**
+	 * testPUTResourceWithHasManyRequestRemoveAll
+	 *
+	 * tests that a PUT request with new Has Many And Empty Array
+	 * correctly updates a resource
+	 */
+	public function testPUTResourceWithHasManyRequestRemoveAll()
+	{
+		$request = new ERestTestRequestHelper();
+
+		$data = '{
+				"email": "email@email1.com",
+				"id": "1",
+				"password": "password1",
+				"posts": [],
+				"username": "username1"
+		}';
+
+		$request['config'] = [
+			'url'			=> 'http://api/user/1',
+			'type'		=> 'PUT',
+			'data'		=> $data,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+		
+		$request->addEvent(ERestEvent::MODEL_WITH_RELATIONS, function() {
+			return ['posts'];
+		});
+
+		$request_response = $request->send();
+		$expected_response = '{"success":true,"message":"Record Updated","data":{"totalCount":1,"user":{"id":"1","username":"username1","password":"password1","email":"email@email1.com","posts":[]}}}';
 		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
 	}
 

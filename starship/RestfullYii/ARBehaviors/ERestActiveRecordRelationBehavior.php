@@ -127,7 +127,9 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 					}
 					$model->{$key} = $relation_data;
 				} else if(is_array($model->{$key})){
-					$model->$key = $relation_helper($key, $model->$key);
+					if($model->$key != []) {
+						$model->$key = $relation_helper($key, $model->$key);
+					}
 				}
 			}
 		}
