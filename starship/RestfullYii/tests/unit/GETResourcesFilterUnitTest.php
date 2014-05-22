@@ -271,5 +271,45 @@ class GETResourcesFilterUnitTest extends ERestTestCase
 		$this->assertTrue(true);
 	}
 
+
+	/**
+	 * testGETResourcesFilterPostsWithTwoFiltersAndOrOperatorRequest
+	 *
+	 * tests that a GET request for a list of 'Post' resources
+	 * with search filter (=) returns the correct response
+	 */
+	public function testGETResourcesFilterPostsWithTwoFiltersAndOrOperatorRequest()
+	{
+		$request = new ERestTestRequestHelper();
+
+		$request['config'] = [
+			'url'			=> 'http://api/post?filter=[{"property":"author_id", "value":3, "operator":"=", "andor":"or"}, {"property":"author_id", "value":2, "operator":"=", "andor":"or"}]',
+			'type'		=> 'GET',
+			'data'		=> null,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+
+		$request_response = $request->send();
+		$expected_response = '{"success":true,"message":"Record(s) Found","data":{"totalCount":2,"post":[{"id":"2","title":"title2","content":"content2","create_time":"2013-08-07 10:09:42","author_id":"2","categories":[{"id":"2","name":"cat2"}],"author":{"id":"2","username":"username2","password":"password2","email":"email@email2.com"}},{"id":"3","title":"title3","content":"content3","create_time":"2013-08-07 10:09:43","author_id":"3","categories":[{"id":"3","name":"cat3"}],"author":{"id":"3","username":"username3","password":"password3","email":"email@email3.com"}}]}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+
+		$request['config'] = [
+			'url'			=> 'http://api/post?filter=[{"property":"author_id", "value":3, "operator":"=", "andor":"and"}, {"property":"author_id", "value":2, "operator":"=", "andor":"and"}]',
+			'type'		=> 'GET',
+			'data'		=> null,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+
+		$request_response = $request->send();
+		$expected_response = '{"success":false,"message":"No Record(s) Found","data":{"totalCount":0,"post":[]}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+	}
+
 }
 
