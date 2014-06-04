@@ -1560,7 +1560,7 @@ $this->onRest('req.get.resource.render', function($data, $model_name, $relations
 ####<a name="pre.filter.req.get.resource.render"/>pre.filter.req.get.resource.render</a>
 ```php
 $this->onRest('pre.filter.req.get.resource.render', function($data, $model_name, $relations, $count, $visibleProperties=[], $hiddenProperties=[]) {
-	return [$data, $model_name, $relations, $count]; //Array [Object, String, Array, Int, Array[String], Array[String]]
+	return [$data, $model_name, $relations, $count, $visibleProperties, $hiddenProperties]; //Array [Object, String, Array, Int, Array[String], Array[String]]
 });
 ```
 
