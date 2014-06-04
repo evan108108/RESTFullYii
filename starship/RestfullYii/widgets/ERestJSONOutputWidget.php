@@ -167,7 +167,7 @@ class ERestJSONOutputWidget extends CWidget {
 	}
 
 		/**
-	 * propertyIsVisable
+	 * propertyIsVisible
 	 *
 	 * Decides if a property is visable.
 	 *
@@ -176,7 +176,7 @@ class ERestJSONOutputWidget extends CWidget {
 	 *
 	 * @return (Bool) True if the property should be visable false if it should not
 	 */
-		public function propertyIsVisable($property, $relation=null)
+		public function propertyIsVisible($property, $relation=null)
 		{
 				$main_model_visible_properties = [];
 				$related_model_visible_properties = []; 
@@ -223,7 +223,7 @@ class ERestJSONOutputWidget extends CWidget {
 				$schema = $model->getTableSchema();
 				$model_as_array = [];
 				foreach($model->attributes as $property => $value) {
-					if (!$this->propertyIsVisable($property, $relation)) {
+					if (!$this->propertyIsVisible($property, $relation)) {
 							continue;
 					}
 					if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
