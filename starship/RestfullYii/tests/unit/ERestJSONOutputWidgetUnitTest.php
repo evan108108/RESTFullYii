@@ -216,11 +216,11 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
     }
 
     /**
-     * testPropertyIsVisableVisibleProperties
+     * testpropertyIsVisibleVisibleProperties
      *
-     * tests ERestJSONOutputWidget->propertyIsVisable()
+     * tests ERestJSONOutputWidget->propertyIsVisible()
      */
-    public function testPropertyIsVisableVisibleProperties()
+    public function testpropertyIsVisibleVisibleProperties()
     {
         $widget = $this->getWidget([
             'type' => 'rest',
@@ -233,21 +233,21 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
             'data' => Post::model()->with('categories')->findByPk(1)
         ]);
     
-        $this->assertTrue($widget->propertyIsVisable('id'));
-        $this->assertTrue($widget->propertyIsVisable('title'));
-        $this->assertFalse($widget->propertyIsVisable('create_time'));
+        $this->assertTrue($widget->propertyIsVisible('id'));
+        $this->assertTrue($widget->propertyIsVisible('title'));
+        $this->assertFalse($widget->propertyIsVisible('create_time'));
 
-        $this->assertTrue($widget->propertyIsVisable('name', 'categories'));
-        $this->assertTrue($widget->propertyIsVisable('id', 'categories'));
-        $this->assertFalse($widget->propertyIsVisable('title', 'categories'));
+        $this->assertTrue($widget->propertyIsVisible('name', 'categories'));
+        $this->assertTrue($widget->propertyIsVisible('id', 'categories'));
+        $this->assertFalse($widget->propertyIsVisible('title', 'categories'));
     }
 
     /**
-     * testPropertyIsVisableHiddenProperties
+     * testpropertyIsVisibleHiddenProperties
      *
-     * tests ERestJSONOutputWidget->propertyIsVisable()
+     * tests ERestJSONOutputWidget->propertyIsVisible()
      */
-    public function testPropertyIsVisableHiddenProperties()
+    public function testpropertyIsVisibleHiddenProperties()
     {
         $widget = $this->getWidget([
             'type' => 'rest',
@@ -260,13 +260,13 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
             'data' => Post::model()->with('categories')->findByPk(1)
         ]);
     
-        $this->assertFalse($widget->propertyIsVisable('id'));
-        $this->assertFalse($widget->propertyIsVisable('title'));
-        $this->assertTrue($widget->propertyIsVisable('create_time'));
+        $this->assertFalse($widget->propertyIsVisible('id'));
+        $this->assertFalse($widget->propertyIsVisible('title'));
+        $this->assertTrue($widget->propertyIsVisible('create_time'));
 
-        $this->assertFalse($widget->propertyIsVisable('name', 'categories'));
-        $this->assertFalse($widget->propertyIsVisable('id', 'categories'));
-        $this->assertTrue($widget->propertyIsVisable('title', 'categories'));
+        $this->assertFalse($widget->propertyIsVisible('name', 'categories'));
+        $this->assertFalse($widget->propertyIsVisible('id', 'categories'));
+        $this->assertTrue($widget->propertyIsVisible('title', 'categories'));
     }
 
     /**
