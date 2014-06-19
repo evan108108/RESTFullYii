@@ -59,40 +59,36 @@ class ERestHelperScopes extends CActiveRecordBehavior
 		 */
 		public function orderBy($field, $dir = 'ASC') 
 		{
-				if (empty($field)) {
-						return $this->Owner;
-				}
+			if (empty($field)) {
+				return $this->Owner;
+			}
 
-				if (!is_array($orderListItems = CJSON::decode($field))) {
-						$this->Owner->getDbCriteria()->mergeWith([
-								'order' => $this->getSortSQL($field, $dir)
-						]);
-						return $this->Owner;
-				} else {
-						$orderByStr = "";
-						foreach ($orderListItems as $orderListItem) {
-								$alias = $this->Owner->getTableAlias(false, false);
-								$property = $orderListItem['property'];
-								$with = [];
-								if(strpos($property, '.')) {
-										$prop_parts = explode('.', $property);
-										$alias = $prop_parts[0];
-										$property = $prop_parts[1];
-										if(!isset($with[$alias])) {
-												$with[$alias] = [];
-												$with[$alias]['order'] = '';
-										}
-										$with[$alias]['order'] = (!empty($with[$alias]['order'])? ', ': '') . $this->getSortSQL($property, $orderListItem['direction'], $alias);
-								} else {
-										$orderByStr .= ((!empty($orderByStr)) ? ", " : "") . $this->getSortSQL($property, $orderListItem['direction'], $alias);
-								}
+			if (!is_array($orderListItems = CJSON::decode($field))) {
+				$this->Owner->getDbCriteria()->mergeWith([
+						'order' => $this->getSortSQL($field, $dir)
+				]);
+				return $this->Owner;
+			}
+			
+			$this->Owner->getDbCriteria()->mergeWith(
+				array_reduce($orderListItems, function($dbCriteria, $orderListItem){
+					$alias = $this->Owner->getTableAlias(false, false);
+					$property = $orderListItem['property'];
+					if(strpos($property, '.')) {
+						list($alias, $property) = explode('.', $property);
+						if(!isset($dbCriteria['with'][$alias])) {
+							$dbCriteria['with'][$alias] = [];
+							$dbCriteria['with'][$alias]['order'] = '';
 						}
-						$this->Owner->getDbCriteria()->mergeWith([
-								'order' => $orderByStr,
-								'with' => $with
-						]);
-						return $this->Owner;
-				}
+						$dbCriteria['with'][$alias]['order'] = (!empty($dbCriteria['with'][$alias]['order'])? ', ': '') . $this->getSortSQL($property, $orderListItem['direction'], $alias);							
+					} else {
+						$dbCriteria['order'] .= ((!empty($dbCriteria['order'])) ? ", " : "") . $this->getSortSQL($property, $orderListItem['direction'], $alias);
+					}
+					return $dbCriteria;
+				}, ['order'=>'', 'with'=>[]])
+			);
+			
+			return $this->Owner;
 		}
 
 		/**
@@ -107,59 +103,52 @@ class ERestHelperScopes extends CActiveRecordBehavior
 		public function filter($filter) 
 		{
 				if (empty($filter)) {
-						return $this->Owner;
-				}
-
-				$props = [];
+					return $this->Owner;
+				}	
 
 				if (!is_array($filter)) {
-						$filterItems = CJSON::decode($filter);
+					$filterItems = CJSON::decode($filter);
 				}
 				else {
-						$filterItems = $filter;
+					$filterItems = $filter;
 				}
 
-				$query = "";
-				$params = [];
-				$related_params = [];
-				$related_query = [];
-				foreach ($filterItems as $filterItem) {
+				list($query, $params, $related_params, $related_query) = array_values(
+					array_reduce($filterItems, function($f, $filterItem) {
 						if (!is_null($filterItem['property'])) {
-								$c = 0;
-								$prop = $filterItem['property'] . $c;
-								while (in_array($prop, $props)) {
-										$c++;
-										$prop = $filterItem['property'] . $c;
-								}
-								$props[] = $prop;
-								$value = $filterItem['value'];
-								$field = $filterItem['property'];
-								$cType = $this->getFilterCType($field);
 
-								$andor = "AND";
-								if (array_key_exists('andor', $filterItem)) {
-										if (strtolower($filterItem['andor']) == 'or') {
-												$andor = "OR";
-										}
+							$f['props'][] = $prop = call_user_func(function($inc) use($filterItem, $f) {
+								do { $prop = $filterItem['property'] . $inc++; } while (in_array($prop, $f['props']));
+								return $prop;
+							}, 0);
+							
+							list($value, $field, $cType) = [$filterItem['value'], $filterItem['property'], $this->getFilterCType($filterItem['property'])];
+							
+							$andor = call_user_func(function($default) use($filterItem) {
+								if ((array_key_exists('andor', $filterItem)) && (strtolower($filterItem['andor']) == 'or')) {
+									return "OR";
 								}
+								return $default;
+							}, "AND");
 
-								if(strpos($field, '.')===false) {
-										list($compare, $params) = $this->constructFilter($field, $prop, $value, $cType, $filterItem, $params);
-										$query .= (empty($query) ? "(" : " " . $andor . " ") . $this->getFilterAlias($field) . '.' . $field . $compare;
-								} else {
-										list($relation, $property) = explode('.', $field);
-										if(!isset($related_params[$relation])) {
-												$related_params[$relation] = [];
-										}
-										$prop = str_replace('.', '_', $prop);
-										list($compare, $related_params[$relation]) = $this->constructFilter($field, $prop, $value, $cType, $filterItem, $related_params[$relation]);
-										if(!isset($related_query[$relation])) {
-												$related_query[$relation] = '';
-										}
-										$related_query[$relation] .= (empty($related_query[$relation]) ? "(" : " " . $andor . " ") . $field . $compare;
+							if(strpos($field, '.')===false) {
+								list($compare, $f['params']) = $this->constructFilter($field, $prop, $value, $cType, $filterItem, $f['params']);
+								$f['query'] .= (empty($f['query']) ? "(" : " " . $andor . " ") . $this->getFilterAlias($field) . '.' . $field . $compare;
+							} else {
+								list($relation) = explode('.', $field);
+								if(!isset($f['related_params'][$relation])) {
+									$f['related_params'][$relation] = [];
 								}
+								list($compare, $f['related_params'][$relation]) = $this->constructFilter($field, str_replace('.', '_', $prop), $value, $cType, $filterItem, $f['related_params'][$relation]);
+								if(!isset($f['related_query'][$relation])) {
+									$f['related_query'][$relation] = '';
+								}
+								$f['related_query'][$relation] .= (empty($f['related_query'][$relation]) ? "(" : " " . $andor . " ") . $field . $compare;
+							}
 						}
-				}
+						return $f;
+					},['query'=>'', 'params'=>[], 'related_params'=>[], 'related_query'=>[], 'props'=>[]])
+				);
 
 				if (empty($query) && empty($related_query)) {
 						return $this->Owner;
@@ -169,27 +158,26 @@ class ERestHelperScopes extends CActiveRecordBehavior
 						$query .= ")";
 				}
 
-				$with = [];
-
-				foreach($related_query as $relation=>$val) {
-						$with[$relation] = [
-								'condition' => $related_query[$relation] . ')',
-								'params' => $related_params[$relation],
-								'joinType' => 'INNER JOIN',
-								'together'=>true,
-						];
-				}
+				$with = array_reduce(array_keys($related_query), function($with, $relation) use($related_query, $related_params) {
+					$with[$relation] = [
+						'condition' => $related_query[$relation] . ')',
+						'params' => $related_params[$relation],
+						'joinType' => 'INNER JOIN',
+						'together'=>true,
+					];
+					return $with;
+				},[]);
 
 				if(!empty($query)) {
-						$this->Owner->getDbCriteria()->mergeWith([
-								'condition' => $query, 'params' => $params
-						]);
+					$this->Owner->getDbCriteria()->mergeWith([
+							'condition' => $query, 'params' => $params
+					]);
 				}
 
 				if(count($with) > 0) {
-						$this->Owner->getDbCriteria()->mergeWith([
-								'with' => $with
-						]);
+					$this->Owner->getDbCriteria()->mergeWith([
+							'with' => $with
+					]);
 				}
 
 				return $this->Owner;
@@ -203,64 +191,74 @@ class ERestHelperScopes extends CActiveRecordBehavior
 		 * @param (String) (field) name of the field to apply filter to
 		 * @param (String) (prop) special unique name of the property to be used as a replacement param key
 		 * @param (String) (value) the value to use for filtering results
-		 * @param (String) (cType) the type of the filed (text, int, ect)
+		 * @param (String) (cType) the type of the field (text, int, ect)
 		 * @param (Array) (filterItem) the filter object
-		 * @param (Array) (params) Array of bind params for the query
+		 * @param (Array) (params) Array of "bind" params for the query
 		 *
 		 * @return (Array) returns both the compare statement and the params array
 		 */ 
 		private function constructFilter($field, $prop, $value, $cType, $filterItem, $params)
 		{
-				if (array_key_exists('operator', $filterItem) || is_array($value)) {
-						if (!array_key_exists('operator', $filterItem)) {
-								$operator = 'in';
-						} else {
-								$operator = strtolower($filterItem['operator']);
-						}
-						switch ($operator) {
-								case 'not in':
-								case 'in':
-										$paramsStr = '';
-										foreach ((array) $value as $index => $item) {
-												$paramsStr.= (empty($paramsStr)) ? '' : ', ';
-												$params[(":" . $prop . '_' . $index)] = $item;
-												$paramsStr.= (":" . $prop . '_' . $index);
-										}
-
-										$compare = " " . strtoupper($operator) . " ({$paramsStr})";
-										break;
-								case 'like':
-										$compare = " LIKE :" . $prop;
-										$params[(":" . $prop)] = '%' . $value . '%';
-										break;
-								case '=' :
-								case '<' :
-								case '<=':
-								case '>' :
-								case '>=':
-										$compare = " $operator :" . $prop;
-										$params[(":" . $prop)] = $value;
-										break;
-								case '!=':
-								case '<>':
-										$compare = " <> :" . $prop;
-										$params[(":" . $prop)] = $value;
-										break;
-								default :
-										$compare = " = :" . $prop;
-										$params[(":" . $prop)] = $value;
-										break;
-						}
+			if (array_key_exists('operator', $filterItem) || is_array($value)) {
+				if (!array_key_exists('operator', $filterItem)) {
+						$operator = 'in';
 				} else {
-						if ($cType == 'text' || $cType == 'string') {
-								$compare = " LIKE :" . $prop;
-								$params[(":" . $prop)] = '%' . $value . '%';
-						} else {
-								$compare = " = :" . $prop;
-								$params[(":" . $prop)] = $value;
-						}
+						$operator = strtolower($filterItem['operator']);
 				}
-				return [$compare, $params];
+				switch ($operator) {
+					case 'not in':
+					case 'in':
+						$paramsStr = '';
+						foreach ((array) $value as $index => $item) {
+							$paramsStr.= (empty($paramsStr)) ? '' : ', ';
+							$params[(":" . $prop . '_' . $index)] = $item;
+							$paramsStr.= (":" . $prop . '_' . $index);
+						}
+						$compare = " " . strtoupper($operator) . " ({$paramsStr})";
+						break;
+					case 'like':
+						$compare = " LIKE :" . $prop;
+						$params[(":" . $prop)] = '%' . $value . '%';
+						break;
+					case '=' :
+						if(is_null($value)) {
+							$value = Null;
+							$compare = " IS :" . $prop;
+							$params[(":" . $prop)] = $value;
+							break;
+						}
+					case '<' :
+					case '<=':
+					case '>' :
+					case '>=':
+						$compare = " $operator :" . $prop;
+						$params[(":" . $prop)] = $value;
+						break;
+					case '!=':
+					case '<>':
+						if(is_null($value)) {
+							$value = Null;
+							$compare = " IS NOT :" . $prop;
+						} else {
+							$compare = " <> :" . $prop;
+						}
+						$params[(":" . $prop)] = $value;
+						break;
+					default :
+						$compare = " = :" . $prop;
+						$params[(":" . $prop)] = $value;
+						break;
+				}
+			} else {
+				if ($cType == 'text' || $cType == 'string') {
+					$compare = " LIKE :" . $prop;
+					$params[(":" . $prop)] = '%' . $value . '%';
+				} else {
+					$compare = " = :" . $prop;
+					$params[(":" . $prop)] = $value;
+				}
+			}
+			return [$compare, $params];
 		}
 
 		/**

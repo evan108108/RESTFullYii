@@ -179,6 +179,41 @@ class ERestHelperScopesUnitTest extends ERestTestCase
 	/**
 	 * filter
 	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "="}]')
+	 */ 
+	public function testFilterEqualOperator()
+	{
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : 2, "operator": "="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id = :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => 2], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : NULL, "operator": "!="}]')
+	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : NULL, "operator": "="}]')
+	 */ 
+	public function testFilterNotEqualAndEqualOperatorWithNullValues()
+	{
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : NULL, "operator": "!="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id IS NOT :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => null], $result->getDbCriteria()->params);
+
+		$erhs = $this->getERestHelperScopes();
+		$result = $erhs->filter('[{"property": "id", "value" : NULL, "operator": "="}]');
+		$this->assertInstanceOf('Category', $result);
+		$this->assertEquals('(t.id IS :id0)', $result->getDbCriteria()->condition);
+		$this->assertArraysEqual([":id0" => null], $result->getDbCriteria()->params);
+	}
+
+	/**
+	 * filter
+	 *
 	 * tests ERestHelperScopes->filter('[{"property": "id", "value" : 2, "operator": "!="}]')
 	 */ 
 	public function testFilterMultiFilter()
