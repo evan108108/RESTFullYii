@@ -47,6 +47,21 @@ class ERestBaseAction extends CAction
 	}
 
 	/**
+	 * finalRender
+	 *
+	 * Wrapper for ERestBehavior finalRender
+	 * Provides an some boilerplate for all RESTFull Render events
+	 *
+	 * @param (Callable) ($func) Should return a JSON string or Array
+	 */
+	public function finalRender(Callable $func)
+	{
+		$this->controller->finalRender(
+			call_user_func_array($func, [$this->controller->emitRest(ERestEvent::MODEL_VISIBLE_PROPERTIES), $this->controller->emitRest(ERestEvent::MODEL_HIDDEN_PROPERTIES)])
+		);
+	}
+
+	/**
 	 * getModel
 	 *
 	 * Helper to retrieve the model of the current resource

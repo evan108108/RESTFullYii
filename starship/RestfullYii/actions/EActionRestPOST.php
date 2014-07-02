@@ -26,28 +26,29 @@ class EActionRestPOST extends ERestBaseAction
 	 */
 	public function run($id=null, $param1=null, $param2=null) 
 	{
-		$visibleProperties = $this->controller->emitRest(ERestEvent::MODEL_VISIBLE_PROPERTIES);
-		$hiddenProperties = $this->controller->emitRest(ERestEvent::MODEL_HIDDEN_PROPERTIES);
-		
-    switch ($this->getRequestActionType($id, $param1, $param2, 'post')) {
-			case 'RESOURCES':
-				$this->controller->emitRest(ERestEvent::REQ_POST_RESOURCE_RENDER, [$this->handlePost(), $this->getRelations(), $visibleProperties, $hiddenProperties]);
-				break;
-			case 'CUSTOM':
-				$this->controller->emitRest("req.post.$id.render", [$this->controller->emitRest(ERestEvent::REQ_DATA_READ), $param1, $param2]);
-				break;
-			case 'SUBRESOURCES':
-				throw new CHttpException('405', 'Method Not Allowed');
-				break;
-			case 'SUBRESOURCE':
-				throw new CHttpException('405', 'Method Not Allowed');
-				break;
-			case 'RESOURCE':
-				throw new CHttpException('405', 'Method Not Allowed');
-				break;
-			default:
-				throw new CHttpException(404, "Resource Not Found");
-		}
+		$this->finalRender(
+			function($visibleProperties, $hiddenProperties) use($id, $param1, $param2) {	
+				switch ($this->getRequestActionType($id, $param1, $param2, 'post')) {
+					case 'RESOURCES':
+						return $this->controller->emitRest(ERestEvent::REQ_POST_RESOURCE_RENDER, [$this->handlePost(), $this->getRelations(), $visibleProperties, $hiddenProperties]);
+						break;
+					case 'CUSTOM':
+						return $this->controller->emitRest("req.post.$id.render", [$this->controller->emitRest(ERestEvent::REQ_DATA_READ), $param1, $param2]);
+						break;
+					case 'SUBRESOURCES':
+						throw new CHttpException('405', 'Method Not Allowed');
+						break;
+					case 'SUBRESOURCE':
+						throw new CHttpException('405', 'Method Not Allowed');
+						break;
+					case 'RESOURCE':
+						throw new CHttpException('405', 'Method Not Allowed');
+						break;
+					default:
+						throw new CHttpException(404, "Resource Not Found");
+				}
+			}
+		);
 	}
 
 	/**
