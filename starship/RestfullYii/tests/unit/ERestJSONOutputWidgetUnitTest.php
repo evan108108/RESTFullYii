@@ -337,7 +337,13 @@ class ERestJSONOutputWidgetUnitTest extends ERestTestCase
 	 */
 	public function getWidget($config=[])
 	{
-		$widget = new ERestJSONOutputWidget();
+		$controller = new PostController('post');
+		$controller->attachBehaviors([
+			'ERestBehavior'=>'RestfullYii.behaviors.ERestBehavior'
+		]);
+		$controller->ERestInit();
+
+		$widget = new ERestJSONOutputWidget($controller);
 		$this->assertInstanceOf('ERestJSONOutputWidget', $widget);
 
 		foreach($config as $prop=>$value)
