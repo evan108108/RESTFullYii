@@ -50,6 +50,40 @@ class OverrideAttributesEventUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testGETResourceRequestPostOverrideAttributesWithArrayAttribute
+	 *
+	 * tests that a get request for a single resource
+	 * with new property model added durring model.post.override.attributes
+	 * returns the correct response
+	 */
+	public function testGETResourceRequestPostOverrideAttributesWithArrayAttribute()
+	{
+		$request = new ERestTestRequestHelper();
+
+		$request['config'] = [
+			'url'			=> 'http://api/post/6',
+			'type'		=> 'GET',
+			'data'		=> null,
+			'headers' => [
+				'X_REST_USERNAME' => 'admin@restuser',
+				'X_REST_PASSWORD' => 'admin@Access',
+			],
+		];
+
+		$request->addEvent(ERestEvent::POST_FILTER_MODEL_WITH_RELATIONS, function() {
+			return [];
+		});
+
+		$request->addEvent('model.post.override.attributes', function($model) {
+			return array_merge($model->attributes, ['title'=>[1,2,3,4],'another_prop'=>[5,6,7,8]]);
+		});
+
+		$request_response = $request->send();
+		$expected_response = '{"success":true,"message":"Record Found","data":{"totalCount":1,"post":{"id":"6","title":[1,2,3,4],"content":"content6","create_time":"2013-08-07 10:09:46","author_id":"6","another_prop":[5,6,7,8]}}}';
+		$this->assertJsonStringEqualsJsonString($request_response, $expected_response);
+	}
+
+	/**
 	 * testGETResourceRequestPostsOverrideAttributes
 	 *
 	 * tests that a get request for a single resource

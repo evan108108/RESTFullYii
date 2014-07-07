@@ -2,9 +2,9 @@
 Yii::import('RestfullYii.tests.ERestTestRequestHelper');
 
 /**
- * ETPUTPOSTDELETEPostFilterRenderEventTest
+ * GETPUTPOSTDELETEPostFilterRenderEventTest
  *
- * Tests GET request for a list of resources
+ * Tests req.post.filter.{get,put,post,delete}.{resouce,resources,subresource,subresources}.render events
  *
  * @category   PHP
  * @package    Starship
@@ -13,7 +13,7 @@ Yii::import('RestfullYii.tests.ERestTestRequestHelper');
  * @license    https://github.com/evan108108   OSS
  * @version    Release: 1.2.0
  */
-class ETPUTPOSTDELETEPostFilterRenderEventTest extends ERestTestCase
+class GETPUTPOSTDELETEPostFilterRenderEventTest extends ERestTestCase
 {
 	/**
 	 * testGETResourceRequestPostFilterRequest
@@ -191,6 +191,7 @@ class ETPUTPOSTDELETEPostFilterRenderEventTest extends ERestTestCase
 	 * testGETSubresourcePostCategoryPostFilterRequest
 	 *
 	 * tests that a get request for a single sub-resource
+	 * with new property added durring post filter
 	 * returns the correct response
 	 */
 	public function testGETSubresourcePostCategoryPostFilterRequest()
@@ -222,6 +223,7 @@ class ETPUTPOSTDELETEPostFilterRenderEventTest extends ERestTestCase
 	 * testGETSubresourcesPostCategoryPostFilterRequest
 	 *
 	 * tests that a get request for a single sub-resource
+	 * with new property added durring post filter
 	 * returns the correct response
 	 */
 	public function testGETSubresourcesPostCategoryPostFilterRequest()

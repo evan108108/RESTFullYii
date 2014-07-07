@@ -255,15 +255,20 @@ class ERestJSONOutputWidget extends CWidget {
 		 */
 		public function isBinary($property_type, $value)
 		{
-			if(strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+			try {
+				if(strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+					return false;
+				}
+				if(strpos($property_type, "binary") !== false) { //if we have a binary
+					return true;
+				}
+				if(strpos($property_type, "blob") !== false) { //if we have a binary blob
+					return true;
+				}
+			} catch(Exception $e) {
 				return false;
 			}
-			if(strpos($property_type, "binary") !== false) { //if we have a binary
-				return true;
-			}
-			if(strpos($property_type, "blob") !== false) { //if we have a binary blob
-				return true;
-			}
+			return false;
 		}
 		
 }
