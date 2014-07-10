@@ -256,7 +256,7 @@ class ERestJSONOutputWidget extends CWidget {
 		public function isBinary($property_type, $value)
 		{
 			try {
-				if(strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+				if(@strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
 					return false;
 				}
 				if(strpos($property_type, "binary") !== false) { //if we have a binary
@@ -270,6 +270,5 @@ class ERestJSONOutputWidget extends CWidget {
 			}
 			return false;
 		}
-		
+	
 }
-
