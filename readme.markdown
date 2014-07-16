@@ -720,6 +720,33 @@ class WorkController extends Controller
 
 ```
 
+##Overriding & Adding Default Model attributes
+We can change the attributes outputted by our model(s) in any given request. We can do this using the "model.YOUR\_MODEL\_NAME\_HERE.override.attributes" event. Lets say we have a model named "Work" and we would like to add the non-AR property "url" to our JSON output every time that model is referenced. 
+
+```php
+$this->onRest('model.work.override.attributes', function($model) {
+   return array_merge($model->attributes, ['url'=>"http://www.mysite.com/media/{$model->id}.jpg"]);
+});
+```
+
+* You could also use this same event to remove or override default AR attributes
+
+##Post Filtering Render Events
+It is possible to post filter the output of the "req.[get,put,post,delete].[resource, resources].render" events. This will allow you to completely change the output as you see fit. 
+
+```php
+$this->onRest('post.filter.req.get.resources.render', function($json) {
+   $j = CJSON::decode($json);
+   $j['data'] = array_map(function($work_data){
+      $work = Work::model();
+      $work->setAttributes($work_data);
+      $work_data['url'] = $work->url;
+      return $work_data;
+   }, $j['data'])
+   return $j;
+});
+```
+
 ##CORS Requests (Cross-Origin Resource Sharing)
 
 Making cross origin requests from Javascript is now possible with RESTFullYii! RESTFullYii has several CORS specific events that help making CORS requests easy.
@@ -792,6 +819,7 @@ $.ajax({
 
 
 
+
 ## Events
 List of all events and their default event handlers.
 
@@ -819,15 +847,15 @@ List of all events and their default event handlers.
 | [req.param.is.pk](#req.param.is.pk)   |   [Yes](#pre.filter.req.param.is.pk)  | [Yes](#post.filter.req.param.is.pk) |  Called when attempting to validate a resources primary key. The default is an integer. Return true to confirm Primary Key; False to deny primary key. |
 | [req.is.subresource](#req.is.subresource)   |   [Yes](#pre.filter.req.is.subresource)  | [Yes](#post.filter.req.is.subresource) |  Called when trying to determain if the request is for a subresource |
 | [req.data.read](#req.data.read)   |   [Yes](#pre.filter.req.data.read)  | [Yes](#post.filter.req.data.read) |  Called when reading data on POST & PUT requests |
-| [req.get.resource.render](#req.get.resource.render)   |   [Yes](#pre.filter.req.get.resource.render)  | No |  Called when a GET request for a single resource is to be rendered |
-| [req.get.resources.render](#req.get.resources.render)   |   [Yes](#pre.filter.req.get.resources.render)  | No |  Called when a GET request for when a list resources is to be rendered |
-| [req.put.resource.render](#req.put.resource.render)   |   [Yes](#pre.filter.req.put.resource.render)  | No |  Called when a PUT request for a single resource is to be rendered |
-| [req.post.resource.render](#req.post.resource.render)   |   [Yes](#pre.filter.req.post.resource.render)  | No |  Called when a POST request is to be rendered |
-| [req.delete.resource.render](#req.delete.resource.render)   |   [Yes](#pre.filter.req.delete.resource.render)  | No |  Called when a DELETE request is to be rendered |
-| [req.get.subresource.render](#req.get.subresource.render)   |   [Yes](#pre.filter.req.get.subresource.render)  | No |  Called when a GET request for a single sub-resource is to be rendered |
-| [req.get.subresources.render](#req.get.subresources.render)   |   [Yes](#pre.filter.req.get.subresources.render)  | No |  Called when a GET request for a list of sub-resources is to be rendered |
-| [req.put.subresource.render](#req.put.subresource.render)   |   [Yes](#pre.filter.req.put.subresource.render)  | No |  Called when a PUT request for a single sub-resource is to be rendered |
-| [req.delete.subresource.render](#req.delete.subresource.render)   |   [Yes](#pre.filter.req.delete.subresource.render)  | No |  Called when a DELETE request on a sub-resource is to be rendered |
+| [req.get.resource.render](#req.get.resource.render)   |   [Yes](#pre.filter.req.get.resource.render)  | [Yes](#post.filter.req.get.resource.render) |  Called when a GET request for a single resource is to be rendered |
+| [req.get.resources.render](#req.get.resources.render)   |   [Yes](#pre.filter.req.get.resources.render)  | [Yes](#post.filter.req.get.resource.render) |  Called when a GET request for when a list resources is to be rendered |
+| [req.put.resource.render](#req.put.resource.render)   |   [Yes](#pre.filter.req.put.resource.render)  | [Yes](#post.filter.req.put.resource.render) |  Called when a PUT request for a single resource is to be rendered |
+| [req.post.resource.render](#req.post.resource.render)   |   [Yes](#pre.filter.req.post.resource.render)  | [Yes](#post.filter.req.post.resource.render) |  Called when a POST request is to be rendered |
+| [req.delete.resource.render](#req.delete.resource.render)   |   [Yes](#pre.filter.req.delete.resource.render)  | [Yes](#post.filter.req.delete.resource.render) |  Called when a DELETE request is to be rendered |
+| [req.get.subresource.render](#req.get.subresource.render)   |   [Yes](#pre.filter.req.get.subresource.render)  | [Yes](#post.filter.req.get.subresource.render) |  Called when a GET request for a single sub-resource is to be rendered |
+| [req.get.subresources.render](#req.get.subresources.render)   |   [Yes](#pre.filter.req.get.subresources.render)  | [Yes](#post.filter.req.get.subresources.render) |  Called when a GET request for a list of sub-resources is to be rendered |
+| [req.put.subresource.render](#req.put.subresource.render)   |   [Yes](#pre.filter.req.put.subresource.render)  | [Yes](#post.filter.req.put.subresource.render) |  Called when a PUT request for a single sub-resource is to be rendered |
+| [req.delete.subresource.render](#req.delete.subresource.render)   |   [Yes](#pre.filter.req.delete.subresource.render)  | [Yes](#post.filter.req.delete.subresource.render) |  Called when a DELETE request on a sub-resource is to be rendered |
 | [req.render.json](#req.render.json)   |   [Yes](#pre.filter.req.render.json)  | No |   NOT CALLED INTERNALLY. The event exists to allow users the ability to easily render arbitrary JSON.|
 | [req.exception](#req.exception)   |   [Yes](#pre.filter.req.exception)  | No |  Error handler called when an Exception is thrown |
 | Model Events |
@@ -1564,6 +1592,16 @@ $this->onRest('pre.filter.req.get.resource.render', function($data, $model_name,
 });
 ```
 
+####<a name="post.filter.req.get.resource.render"/>post.filter.req.get.resource.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.get.resource.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
+
 
 
 
@@ -1603,6 +1641,15 @@ $this->onRest('pre.filter.req.get.resources.render', function($data, $model_name
 });
 ```
 
+####<a name="post.filter.req.get.resources.render"/>post.filter.req.get.resources.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.get.resources.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
@@ -1639,6 +1686,15 @@ $this->onRest('pre.filter.req.req.put.resource.render', function($model, $relati
 });
 ```
 
+####<a name="post.filter.req.put.resource.render"/>post.filter.req.put.resource.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.put.resource.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
@@ -1674,6 +1730,15 @@ $this->onRest('pre.filter.req.post.resource.render', function($model, $relations
 });
 ```
 
+####<a name="post.filter.req.post.resource.render"/>post.filter.req.post.resource.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.post.resource.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
@@ -1709,6 +1774,15 @@ $this->onRest('pre.filter.req.delete.resource.render', function($model, $visible
 });
 ```
 
+####<a name="post.filter.req.get.resource.render"/>post.filter.req.get.resource.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.get.resource.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
@@ -1740,9 +1814,9 @@ $this->onRest('req.get.subresource.render', function($model, $subresource_name, 
 });
 ```
 
-####<a name="pre.filter.req.get.subresource.render">pre.filter.req.get.subresource.render</a>
+####<a name="pre.filter.req.delete.subresource.render">pre.filter.req.delete.subresource.render</a>
 ```php
-$this->onRest('pre.filter.req.get.subresource.render', function($model, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
+$this->onRest('pre.filter.req.delete.subresource.render', function($model, $subresource_name, $count, $visibleProperties=[], $hiddenProperties=[]) {
 	return [$model, $subresource_name, $count, $visibleProperties, $hiddenProperties]; //Array [Object, String, Int, Array[String], Array[String]]
 });
 ```
@@ -1787,6 +1861,15 @@ $this->onRest('pre.filter.req.get.subresources.render', function($models, $subre
 ```
 
 
+####<a name="post.filter.req.get.subresources.render"/>post.filter.req.get.subresources.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.get.subresources.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
@@ -1820,6 +1903,16 @@ $this->onRest('req.put.subresource.render', function($model, $subresource_name, 
 ```php
 $this->onRest('pre.filter.req.put.subresource.render', function($model, $subresource_name, $subresource_id, $visibleProperties=[], $hiddenProperties=[]) {
 	return [$model, $subresource_name, $subresource_id, $visibleProperties, $hiddenProperties]; //Array [Object, String, Int, Array[String], Array[String]]
+});
+```
+
+####<a name="post.filter.req.put.subresources.render"/>post.filter.req.put.subresources.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.put.subresources.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
 });
 ```
 
@@ -1858,6 +1951,15 @@ $this->onRest('pre.filter.req.delete.subresource.render', function($model, $subr
 });
 ```
 
+####<a name="post.filter.req.delete.subresources.render"/>post.filter.req.delete.subresources.render</a>
+```php
+/*
+ * @param (JSON String) $json
+ */
+$this->onRest('post.filter.req.delete.subresources.render', function($json) {
+	return $json //Mixed[JSON Sting, ARRAY]
+});
+```
 
 
 
