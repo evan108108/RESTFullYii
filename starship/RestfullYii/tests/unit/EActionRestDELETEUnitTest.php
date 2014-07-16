@@ -75,6 +75,7 @@ class EActionRestDELETEUnitTest extends ERestTestCase
 		$result = $this->captureOB($this, function() {
 			$this->deleteAction->run(1, 'posts', 1);
 		});
+		
 		$this->assertJSONFormat($result);	
 		$result = CJSON::decode($result);
 		$this->assertEquals($result['success'], true);

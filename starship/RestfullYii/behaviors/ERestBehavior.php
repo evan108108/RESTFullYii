@@ -199,7 +199,7 @@ class ERestBehavior extends CBehavior
 		}
 		$errorCode = !isset($event->exception->statusCode)? 500: $event->exception->statusCode;
 		$this->setHttpStatus($errorCode, $message);
-		$this->emitRest(ERestEvent::REQ_EXCEPTION, [$errorCode, $message]);
+		$this->finalRender($this->emitRest(ERestEvent::REQ_EXCEPTION, [$errorCode, $message]));
 		$event->handled = true;
 	}
 
@@ -209,6 +209,7 @@ class ERestBehavior extends CBehavior
 	 * helper function for rendering json
 	 *
 	 * @param (Array) (params) list of params to send to the render
+	 * @return (String) (JSON) returns the JSON to be sent to the finalRender
 	 */ 
 	public function renderJSON($params)
 	{
@@ -217,9 +218,22 @@ class ERestBehavior extends CBehavior
 		} else {
 			$controller = $this;
 		}
+		
+		return $this->getController()->renderPartial('RestfullYii.views.api.JSONResult', $params, true);
+	}
+
+	/**
+	 * finalRender
+	 *
+	 * Renders all content
+	 *
+	 * @param (String,Array) (json) Can be a valid JSON string or Array
+	 */
+	public function finalRender($json)
+	{
 		$this->getController()->layout = 'RestfullYii.views.layouts.json';
-		$this->getController()->render('RestfullYii.views.api.output', $params);
-    }
+		$this->getController()->render('RestfullYii.views.api.output', ['JSON'=>$json]);
+	}
 
 	/**
 	 * getURIAndHTTPVerb

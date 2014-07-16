@@ -134,7 +134,7 @@ class ERestJSONOutputWidget extends CWidget {
 			return [];
 		}
 
-		$listOfModels = !is_array($model)? $listOfModels = [$model]: $listOfModels = $model;
+		$listOfModels = !is_array($model)? [$model]: $model;
 
 		$process_relations = function($relationName, $models) {
 			if(is_null($models)){
@@ -220,18 +220,27 @@ class ERestJSONOutputWidget extends CWidget {
 	 */
 		public function processAttributes($model, $relation=null)
 		{
-				$schema = $model->getTableSchema();
-				$model_as_array = [];
-				foreach($model->attributes as $property => $value) {
-					if (!$this->propertyIsVisible($property, $relation)) {
-							continue;
-					}
-					if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
-						$value =  bin2hex($value);
-					}
-					$model_as_array[$property] = $value;
+			$schema = $model->getTableSchema();
+			$model_as_array = [];
+
+			//Provides the ability to override a models AR attributes
+			$model_attributes = call_user_func_array(function($model, $event){ 
+				if($this->controller->eventExists($event)) {
+					return $this->controller->emitRest($event, $model);
 				}
-				return $model_as_array;
+				return $model->attributes;
+			}, [$model, 'model.' . strtolower(get_class($model)) . '.override.attributes']);
+
+			foreach($model_attributes as $property => $value) {
+				if (!$this->propertyIsVisible($property, $relation)) {
+						continue;
+				}
+				if(array_key_exists($property, $schema->columns) && $this->isBinary($schema->columns[$property]->dbType, $value)) {
+					$value =  bin2hex($value);
+				}
+				$model_as_array[$property] = $value;
+			}
+			return $model_as_array;
 		}
 
 		/**
@@ -246,16 +255,20 @@ class ERestJSONOutputWidget extends CWidget {
 		 */
 		public function isBinary($property_type, $value)
 		{
-			if(strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+			try {
+				if(@strlen($value) < 2) { // binarys with a length of 1 do not need to be converted to hex to render properly
+					return false;
+				}
+				if(strpos($property_type, "binary") !== false) { //if we have a binary
+					return true;
+				}
+				if(strpos($property_type, "blob") !== false) { //if we have a binary blob
+					return true;
+				}
+			} catch(Exception $e) {
 				return false;
 			}
-			if(strpos($property_type, "binary") !== false) { //if we have a binary
-				return true;
-			}
-			if(strpos($property_type, "blob") !== false) { //if we have a binary blob
-				return true;
-			}
+			return false;
 		}
-		
+	
 }
-

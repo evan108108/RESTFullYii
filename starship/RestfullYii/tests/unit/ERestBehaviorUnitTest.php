@@ -331,67 +331,90 @@ class ERestBehaviorUnitTest extends ERestTestCase
 		$erb = $this->getNewERestBehavior();
 		$erb->ERestInit();
 
-		$render_raw = $this->captureOB($erb, function() {
-			$this->renderJSON(['type'=>'raw', 'data'=>['test_param'=>'test_value']]);
-		});
+		$render_raw = $erb->renderJSON(['type'=>'raw', 'data'=>['test_param'=>'test_value']]);
+		
 		$this->assertJsonStringEqualsJsonString($render_raw, '{"test_param":"test_value"}');
 
-		$render_rest = $this->captureOB($erb, function() {
-			$this->renderJSON([
-				'type'				=> 'rest',
-				'success'			=> true,
-				'message'			=> "Record Found",
-				'totalCount'	=> 1,
-				'modelName'		=> 'Category',
-				'relations'		=> [],
-				'data'				=> Category::model()->findByPk(1),
-			]);
-		});
+		$render_rest = $erb->renderJSON([
+			'type'				=> 'rest',
+			'success'			=> true,
+			'message'			=> "Record Found",
+			'totalCount'	=> 1,
+			'modelName'		=> 'Category',
+			'relations'		=> [],
+			'data'				=> Category::model()->findByPk(1),
+		]);
 		$this->assertJsonStringEqualsJsonString($render_rest, '{"success":true,"message":"Record Found","data":{"totalCount":1,"category":{"id":"1","name":"cat1"}}}');
 		
-		$render_error = $this->captureOB($erb, function() {
-			$this->renderJSON([
-				'type'			=> 'error',
-				'success'		=> false,
-				'message'		=> 'TEST ERROR',
-				'errorCode' => 500,
-			]);
-		});
+		$render_error = $erb->renderJSON([
+			'type'			=> 'error',
+			'success'		=> false,
+			'message'		=> 'TEST ERROR',
+			'errorCode' => 500,
+		]);
 		$this->assertJsonStringEqualsJsonString($render_error, '{"success":false,"message":"TEST ERROR","data":{"errorCode":500,"message":"TEST ERROR"}}');
-    }
+	}
 
-    /**
-     * testGetUriAndHttpVerb
-     *
-     * tests ERestBehavior->getURIAndHTTPVerb()
-     * note: This is an incomplete test as it can only test the CLI implimentation
-     * Additionally since we are not entering via an action we have no HTTP VERB
-     */ 
-    public function testGetUriAndHttpVerb()
-    {
-        $erb = $this->getNewERestBehavior();
-        $erb->ERestInit();
+	/**
+	 * testFinalRender
+	 *
+	 * test ERestBehavior->finalRender()
+	 */
+	public function testFinalRender()
+	{
+		$erb = $this->getNewERestBehavior();
+		$erb->ERestInit();
 
-        $_GET['id'] = 1;
-        $_GET['param1'] = 'p1';
-        $_GET['param2'] = 'p2';
+		$data_array = ['one'=>1, 'two'=>2];
 
-        $this->assertArraysEqual(['/api/category/1/p1/p2', 'UNKOWN'], $erb->getURIAndHTTPVerb());
-    }
+		$render_array_rest = $this->captureOB($erb, function() use ($data_array) {
+			$this->finalRender($data_array);
+		});
 
-    /**
-     * getController
-     *
-     * tests ERestBehavior->getController()
-     */
-    public function testGetController()
-    {
-        $erb = $this->getNewERestBehavior();
-        $erb->ERestInit();
+		$this->assertJsonStringEqualsJsonString($render_array_rest, CJSON::encode($data_array));
 
-        $controller = $this->invokePrivateMethod($erb, 'getController', []);
-        $this->assertInstanceOf('CategoryController', $controller);
-    }
+
+		$data_json = CJSON::encode($data_array);
+
+		$render_json_rest = $this->captureOB($erb, function() use ($data_json) {
+			$this->finalRender($data_json);
+		});
+
+		$this->assertJsonStringEqualsJsonString($render_json_rest, $data_json);
+	}
+
+	/**
+	 * testGetUriAndHttpVerb
+	 *
+	 * tests ERestBehavior->getURIAndHTTPVerb()
+	 * note: This is an incomplete test as it can only test the CLI implimentation
+	 * Additionally since we are not entering via an action we have no HTTP VERB
+	 */
+		public function testGetUriAndHttpVerb()
+		{
+				$erb = $this->getNewERestBehavior();
+				$erb->ERestInit();
+
+				$_GET['id'] = 1;
+				$_GET['param1'] = 'p1';
+				$_GET['param2'] = 'p2';
+
+				$this->assertArraysEqual(['/api/category/1/p1/p2', 'UNKOWN'], $erb->getURIAndHTTPVerb());
+		}
+
+		/**
+		 * getController
+		 *
+		 * tests ERestBehavior->getController()
+		 */
+		public function testGetController()
+		{
+				$erb = $this->getNewERestBehavior();
+				$erb->ERestInit();
+
+				$controller = $this->invokePrivateMethod($erb, 'getController', []);
+				$this->assertInstanceOf('CategoryController', $controller);
+		}
 
 	/**
 	 * getNewERestBehavior

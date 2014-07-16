@@ -50,6 +50,24 @@ class ERestBaseActionUnitTest extends ERestTestCase
 	}
 
 	/**
+	 * testFinalRender
+	 *
+	 * Test for ERestBaseAction->finalRender()
+	 */
+	public function testFinalRender()
+	{
+		$data_json = CJSON::encode(['one'=>1, 'two'=>2]);
+
+		$result = $this->captureOB($this->baseAction, function() use ($data_json) {
+			$this->finalRender(function($v, $h) use($data_json) {
+				return $data_json;
+			});
+		});
+
+		$this->assertJsonStringEqualsJsonString($data_json, $result);
+	}
+
+	/**
 	 * testGetModel
 	 *
 	 * Test for ERestBaseAction->getModel()
