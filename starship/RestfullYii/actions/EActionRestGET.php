@@ -49,7 +49,7 @@ class EActionRestGET extends ERestBaseAction
 						break;
 					case 'RESOURCE':
 						return $this->controller->emitRest(ERestEvent::REQ_GET_RESOURCE_RENDER, [
-							$this->getModel($id), $this->getModelName(), $this->getRelations(), $this->getModelCount($id), $visibleProperties, $hiddenProperties
+							$this->getModel($id), $this->getModelName(), $this->getRelations(), 1, $visibleProperties, $hiddenProperties
 						]);
 						break;
 					default:
