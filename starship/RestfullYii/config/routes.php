@@ -46,7 +46,11 @@ return [
     ['<controller>/REST.OPTIONS', 'pattern'=>'api/<controller:\w+>/<id:\w*>/<param1:\w*>', 'verb'=>'OPTIONS'],
     ['<controller>/REST.OPTIONS', 'pattern'=>'api/<controller:\w+>/<id:\w*>/<param1:\w*>/<param2:\w*>', 'verb'=>'OPTIONS'],
 
-    
+	'<module:\w+>/<controller:\w+>/<id:\d+>'=>'<module>/<controller>/view',
+	'<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>'=>'<module>/<controller>/<action>',
     '<module:\w+>/<controller:\w+>/<action:\w+>'=>'<module>/<controller>/<action>',
+
+	'<controller:\w+>/<id:\d+>'=>'<controller>/view',
+	'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
     '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 ];
