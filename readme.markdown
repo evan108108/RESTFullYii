@@ -102,7 +102,7 @@ public function filters()
 			'accessControl', // perform access control for CRUD operations
 			array(
 				'RestfullYii.filters.ERestFilter + 
-			 	REST.GET, REST.PUT, REST.POST, REST.DELETE'
+			 	REST.GET, REST.PUT, REST.POST, REST.DELETE, REST.OPTIONS'
 			),
 		);
 }
@@ -123,7 +123,7 @@ public function actions()
 public function accessRules()
 {
 		return array(
-			array('allow', 'actions'=>array('REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE'),
+			array('allow', 'actions'=>array('REST.GET', 'REST.PUT', 'REST.POST', 'REST.DELETE', 'REST.OPTIONS'),
 			'users'=>array('*'),
 			),
 			array('deny',  // deny all users
