@@ -144,8 +144,8 @@ class ERestJSONOutputWidget extends CWidget {
 				return $this->processAttributes($models, $relationName);
 			}
 			$list = [];
-			foreach($models as $model) {
-				$list[] = $this->processAttributes($model, $relationName);
+			foreach($models as $index => $model) {
+				$list[$index] = $this->processAttributes($model, $relationName);
 			}
 			return $list;
 		};
