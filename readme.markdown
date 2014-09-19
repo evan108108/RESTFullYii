@@ -981,7 +981,7 @@ $this->onRest('req.event.logger', function($event, $category='application',$igno
  *
  * @return (Bool) true (default) to disable CWebLogRoute, false to allow
  */ 
-$this->onRest('req.auth.username', function(){
+$this->onRest('req.disable.cweblogroute', function(){
 	return true;
 });
 ```
