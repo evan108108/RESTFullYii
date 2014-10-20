@@ -80,7 +80,7 @@ class ERestHelperScopes extends CActiveRecordBehavior
 							$dbCriteria['with'][$alias] = [];
 							$dbCriteria['with'][$alias]['order'] = '';
 						}
-						$dbCriteria['with'][$alias]['order'] = (!empty($dbCriteria['with'][$alias]['order'])? ', ': '') . $this->getSortSQL($property, $orderListItem['direction'], $alias);							
+						$dbCriteria['with'][$alias]['order'] .= (!empty($dbCriteria['with'][$alias]['order'])? ', ': '') . $this->getSortSQL($property, $orderListItem['direction'], $alias);							
 					} else {
 						$dbCriteria['order'] .= ((!empty($dbCriteria['order'])) ? ", " : "") . $this->getSortSQL($property, $orderListItem['direction'], $alias);
 					}
