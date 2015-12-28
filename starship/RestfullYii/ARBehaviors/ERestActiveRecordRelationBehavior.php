@@ -115,23 +115,23 @@ class ERestActiveRecordRelationBehavior extends EActiveRecordRelationBehavior
 
 		foreach($model->metadata->relations as $key=>$value)
 		{
-			if( $model->hasRelated($key) ) {
-				if( array_key_exists(0, $model->{$key}) ) {
-					$relation_data = [];
-					foreach($model->{$key} as $index=>$attributes) {
-						if(!is_object($attributes)) {
-							$relation_data[$index] = $relation_helper($key, $attributes);
-						} else {
-							$relation_data[$index] = $attributes;
-						}
-					}
-					$model->{$key} = $relation_data;
-				} else if(is_array($model->{$key})){
-					if($model->$key != []) {
-						$model->$key = $relation_helper($key, $model->$key);
-					}
-				}
-			}
+            if ($model->hasRelated($key) && is_array($model->{$key})) {
+                if( array_key_exists(0, $model->{$key}) ) {
+                    $relation_data = [];
+                    foreach($model->{$key} as $index=>$attributes) {
+                        if (!is_object($attributes)) {
+                            $relation_data[$index] = $relation_helper(
+                                $key, $attributes
+                            );
+                        } else {
+                            $relation_data[$index] = $attributes;
+                        }
+                    }
+                    $model->{$key} = $relation_data;
+                } else if(is_array($model->{$key})){
+                    $model->$key = $relation_helper($key, $model->$key);
+                }
+            }
 		}
 		return $model;
 	}
